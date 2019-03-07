@@ -1,0 +1,7 @@
+{ pattern: ( (/$UNSDIG/)? (/$YEARDIG/)? (/$CENTDIG/)? (/$DECSDIG/)? (/y/)? (/$UNSDIG/)? ),
+  result: "UNIQUE_NER_TAG", action: (
+             :case {
+                    ($1 == NIL) => ( Annotate($0, myNER, "YEAR"), Annotate($0, myNERnormalized, Format("%d", Add(YEARS_MAP[$$2.text], CENTS_MAP[$$3.text]) ) ) ) ,
+                    :else =>  ( Annotate($0, myNER, "YEAR"), Annotate($0, myNERnormalized, Format("%d", Add(Multiply(YEARS_MAP[$$2.text],UNS_MAP[$$1.text]), CENTS_MAP[$$3.text]) ) ) ) 
+                 }
+				 )}

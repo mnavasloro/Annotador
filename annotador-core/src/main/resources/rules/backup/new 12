@@ -1,0 +1,29 @@
+
+{ ruleType:   "tokens",
+    pattern: ( /en/ /el/? /año/? ([{myNER:"myNUMBER"}]+)),
+	action: ( (Annotate($1, "myNER", "YEAR"), Annotate($1, "myNERnormalized", Format("%.0f", $1[3].myTValue)))),
+	stage : 5 }	
+	
+{ ruleType:   "tokens",
+    pattern: ( [{myNER:"myNUMBER"}] ),
+	action: ( Annotate($0, "myNERnormalized", Annotate($0, "myNERnormalized", Format("%.0f", $1[0].myTValue)))),
+	stage : 4 }	
+	
+#####################
+# Number + DGranularity
+#####################
+
+{ ruleType:   "tokens",
+  pattern: ( (/fin/|/fines/) /de/ /semana/ ),
+  action: ( Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP["finsemana"] ) ) ,
+  stage : 1  }
+  
+{ ruleType:   "tokens",
+  pattern: ( [(/$DGranularity/ & !{myNER:"DGRANULARITY"})] ),
+  action: ( Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP[$$1.text] ) ) ,
+  stage : 2  }
+
+{ ruleType:   "tokens",
+  pattern: ( ([{myNER:"myNUMBER"}]) ([{myNER:"DGRANULARITY"}]) ),
+  action: ( Annotate($0, "myNER", "DURATION"), Annotate($0, "myNERnormalized", $$1.myNERnormalized) )  ,
+  stage : 5  }

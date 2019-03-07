@@ -1,0 +1,3 @@
+
+#{ pattern: ( $MONTHS ),
+#  action: ( Annotate($0, ner, "DATEPRP"), Annotate($0, normalized, $$0.value ) ) }

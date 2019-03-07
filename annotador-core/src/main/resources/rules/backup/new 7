@@ -1,0 +1,28 @@
+{ pattern: ( (/$UNSDIG/) (/$YEARDIG/) ),
+  result: "UNIQUE_NER_TAG", action: ( Annotate($0, myNER, "NUML"), Annotate($0, myNERnormalized, Format("%d", Multiply(YEARS_MAP[$$2.text], UNS_MAP[$$1.text]) ) ) ) }
+  
+{ pattern: ( (/$YEARDIG/) ),
+  result: "UNIQUE_NER_TAG", action: ( Annotate($0, myNER, "NUML"), Annotate($0, myNERnormalized, Format("%d", YEARS_MAP[$$1.text] ) ) ) }
+  
+{ pattern: ( (/$CENTDIG/) ),
+  result: "UNIQUE_NER_TAG", action: ( Annotate($0, myNER, "NUML"), Annotate($0, myNERnormalized, Format("%d", CENTS_MAP[$$1.text] ) ) ) }
+  
+{ pattern: ( (/$SPECIALSDIG/) ),
+  result: "UNIQUE_NER_TAG", action: ( Annotate($0, myNER, "NUML"), Annotate($0, myNERnormalized, Format("%d", SPECIALS_MAP[$$1.text] ) ) ) }
+    
+{ pattern: ( (/$UNSDIG/) ),
+  result: "UNIQUE_NER_TAG", action: ( Annotate($0, myNER, "NUML"), Annotate($0, myNERnormalized, Format("%d", UNS_MAP[$$1.text] ) ) ) }
+  
+{ pattern: ( (/$DECSDIG/) ),
+  result: "UNIQUE_NER_TAG", action: ( Annotate($0, myNER, "NUML"), Annotate($0, myNERnormalized, Format("%d", DECS_MAP[$$1.text] ) ) ) }
+
+{ pattern: ( (/$DECSDIG/) /y/ (/$UNSDIG/) ),
+  result: "UNIQUE_NER_TAG", action: ( Annotate($0, myNER, "NUML"), Annotate($0, myNERnormalized, Format("%d", Add(DECS_MAP[$$1.text], UNS_MAP[$$2.text]) ) ) ) }
+
+  }
+  
+{ 
+	ruleType: "composite",
+    pattern: ( { myNER:/NUML/ } { myNER:/NUML/ } ),
+	result: "UNIQUE_NER_TAG", action: ( Annotate($0, myNER, "YEAR"), Annotate($0, myNERnormalized, Format("%d", Add($$1.value,$$2.value)) ) ) )
+}	

@@ -1,0 +1,5 @@
+
+"((?:(dos )?mil)( (?:ciento|doscientos|trescientos|cuatrocientos|quinientos|seiscientos|setecientos|ochocientos|novecientos))?( (((treinta|cuarenta|cincuenta|sesenta|setenta|ochenta|noventa)( y (?:uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve))?)|(diez|once|doce|trece|catorce|quince|dieciseis|diecisiete|dieciocho|diecinueve|veinte)|((?:veinti)?(?:uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve)))?))";
+
+
+    String yearLES = "((?:(dos )?mil)( (?:ciento|doscientos|trescientos|cuatrocientos|quinientos|seiscientos|setecientos|ochocientos|novecientos))?( (((treinta|cuarenta|cincuenta|sesenta|setenta|ochenta|noventa)( y (?:uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve))?)|(diez|once|doce|trece|catorce|quince|dieciseis|diecisiete|dieciocho|diecinueve|veinte)|((?:veinti)?(?:uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve)))?))";

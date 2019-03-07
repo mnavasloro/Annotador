@@ -1,0 +1,38 @@
+
+
+{ ruleType:   "tokens",
+    pattern: ( [{myNER:"NUMLYEAR"}] [{myNER:"NUMLCENT"}]? [{myNER:"NUMLCOMP"}|{myNER:"NUMLDEC"}|{myNER:"NUMLDIG"}|{myNER:"NUMLSPEC"}]*),
+	action: ( 	
+	:case {
+		($0[1] == NIL && $0[2] == NIL) => (Annotate($0, "myNER", "YEAR"), Annotate($0, "myNERnormalized", Format("%.0f", $0[0].myTValue  ) ) , Annotate($0, "myTValue", $0[0].myTValue ) ) ,
+		($0[1] == NIL) => (Annotate($0, "myNER", "NUMLYEAR"), Annotate($0, "myNERnormalized", Format("%.0f", Add($0[0].myTValue, $0[2].myTValue ) ) ) , Annotate($0, "myTValue", Add($0[0].myTValue, $0[2].myTValue ) ) ) ,
+		($0[2] == NIL) => (Annotate($0, "myNER", "NUMLYEAR"), Annotate($0, "myNERnormalized", Format("%.0f", Add($0[0].myTValue, $0[1].myTValue ) ) ), Annotate($0, "myTValue", Add($0[0].myTValue, $0[1].myTValue ) ) ) ,
+		:else => (Annotate($0, "myNER", "NUMLYEAR"), Annotate($0, "myNERnormalized", Format("%.0f", Add(Add($0[0].myTValue, $0[1].myTValue ), $0[2].myTValue ) ) ), Annotate($0, "myTValue", Add(Add($0[0].myTValue, $0[1].myTValue ), $0[2].myTValue ) ) )  
+		} 
+	),
+	stage : 3 }
+	
+	
+	
+	
+{ ruleType:   "tokens",
+    pattern: ( ( /$UNSDIG/? /$YEARDIG/ ) [{myNER:"NUMLCENT"}]? [{myNER:"NUMLCOMP"}|{myNER:"NUMLDEC"}|{myNER:"NUMLDIG"}|{myNER:"NUMLSPEC"}]*),
+	action: ( 	(Annotate($0, "myNER", "YEAR"), Annotate($0, "myNERnormalized", Format("%.0f", Add( 
+	:case {
+		($1[0] == NIL ) => $1[0].myTValue ,
+		:else => Multiply(UNS_MAP[$1[0].text],YEARS_MAP[$1[1].text])} , 8))))),
+	stage : 3 }
+	
+	
+	 
+  
+#{ pattern: ( $YEARDIG ),
+#  result: "UNIQUE_NER_TAG", action: ( Annotate($0, myNER, "YEARXXX"), Annotate($0, myNERnormalized, $$0.value) ) }
+  
+#{ pattern: ( (/$UNSDIG/)? (/$YEARDIG/)? (/$CENTDIG/)? (/$SPECIALSDIG/)? (/$DECSDIG/)? (/y/)? (/$UNSDIG/)? ),
+#  result: "UNIQUE_NER_TAG", action: (
+#             :case {
+#                    ($1 == NIL) => ( Annotate($0, myNER, "YEAR"), Annotate($0, myNERnormalized, Format("%d", Add(YEARS_MAP[$$2.text], CENTS_MAP[$$3.text]) ) ) ) ,
+#                    :else =>  ( Annotate($0, myNER, "YEAR"), Annotate($0, myNERnormalized, Format("%d", Add(Multiply(YEARS_MAP[$$2.text],UNS_MAP[$$1.text]), CENTS_MAP[$$3.text]) ) ) ) 
+#                 }
+#				 )}

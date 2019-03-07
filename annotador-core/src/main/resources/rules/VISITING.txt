@@ -1,0 +1,66 @@
+    /* SPANISH*/
+    
+-    String monthLES = "(?:[E|e]nero|[F|f]ebrero|[M|m]arzo|[A|a]bril|[M|m]ayo|[J|j]unio|[J|j]ulio|Agosto|[S|s]eptiembre|[O|o]ctubre|[N|n]oviembre|[D|d]iciembre)";
+-    String dayWeekLES = "(?:[l|L]unes|[M|m]artes|[M|m]i[é|e]rcoles|[J|j]ueves|[V|v]iernes|[S|s][á|a]bado|[D|d]omingo)";
+-    String dayMonthNES = "(?:01|02|03|04|05|06|07|08|09|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
+-    String monthNES = "(?:1|2|3|4|5|6|7|8|9|01|02|03|04|05|06|07|08|09|10|11|12)";
+	
+	
+	
+	
+-    String yearNES = "(?:[1|2]\\d\\d\\d)";
+-   String numberLES = "((?:(dos )?mil)( (?:ciento|doscientos|trescientos|cuatrocientos|quinientos|seiscientos|setecientos|ochocientos|novecientos))?( (((treinta|cuarenta|cincuenta|sesenta|setenta|ochenta|noventa)( y (?:uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve))?)|(diez|once|doce|trece|catorce|quince|dieciseis|diecisiete|dieciocho|diecinueve|veinte)|((?:veinti)?(?:uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve)))?))";
+-    String yearLES = "((?:(dos )?mil)( (?:ciento|doscientos|trescientos|cuatrocientos|quinientos|seiscientos|setecientos|ochocientos|novecientos))?( (((treinta|cuarenta|cincuenta|sesenta|setenta|ochenta|noventa)( y (?:uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve))?)|(diez|once|doce|trece|catorce|quince|dieciseis|diecisiete|dieciocho|diecinueve|veinte)|((?:veinti)?(?:uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve)))?))";
+-    String ordinalLES = "(?:[P|p]rimer(o|a)?|[S|s]egund(o|a)?|[T|t]ercer(o|a)?)";
+
+-    String DGranularityES = "(?:[D|d][í|i]a|[F|f]in de semana|semana|quincena|mes|bimestre|trimestre|semestre|año|d[é|e]cada|lustro|siglo)"; //season?
+-    String TGranularityES = "(?:segundo|minuto|hora)";
+-    String PDGranularityES = "(?:madrugada|mañana|tarde|tardenoche|noche)";
+-    String presRefES = "(?:ahora|ahora mismo|actualmente)";
+-    String pastRefES = "(?:(?<=[E|e]n )el pasado|[E|e]n (ese|el) (momento|instante)|[A|a]ntiguamente|[A|a]ntaño|[H|h]ace tiempo)";
+-    String divisorES = "[/|-]";
+-    String anchoredES = "([H|h]oy|[M|m]añana|[A|a]yer|[P|p]asado( mañana)?|[A|a]nteayer|[A|a]ntes de ayer)";
+-    String deictic2ES = "((?:[P|p]r[ó|o]ximo|[S|s]iguiente|[Ú|u|U|ú]ltim[o|a]|[A|a]nterior|[P|p]revi[o|a]|[P|p]osterior)(es|s)?)";
+¬    String deictic2DurES = "(?:[M|m]uch[a|o]s|[U|u]n par de|[U|u]n[o|a]s cuant[o|a]s|[A|a]lgun[a|o]s|([U|u]n[a|o]s )?[P|p]oc[a|o]s)";
+¬    String deictic1ES = "(?:[E|e]l|[L|l]a|[L|l]os|[L|l]as|[E|e]s[e|a]|[E|e]st[e|a]|[E|e]s[o|a]s|[E|e]st[o|a]s|[A|a]quell[o|a]s|[A|a]quel|[P|p]asad[o|a](s)?|[F|f]utur[o|a](s)?)";
+¬    //COMMENT
+¬	String deictic1DurES = "(?:[E|e]l|[L|l]a|[L|l]os|[L|l]as|[E|e]s[e|a]|[E|e]st[e|a]|[E|e]s[o|a]s|[E|e]st[o|a]s|[A|a]quell[o|a]s|[A|a]quel|[P|p]asad[o|a](s)?|[F|f]utur[o|a](s)?)";
+¬    String deictES = "(" + deictic1ES + "|" + deictic2ES + "|" + deictic1ES + " " + deictic2ES + ")";
+¬    String deictDurES = "(((en el transcurso de|durante) )?" + deictic1DurES + "|" + deictic2DurES + "|" + deictic1DurES + " " + deictic2DurES + ")";
+    
+    String randomNumberES = "\\d+";
+    
+    String GranularityES = "(" + DGranularityES + "|" + TGranularityES + "|" + PDGranularityES + ")";
+-    String periodES = "(?:cada|tod[o|a]s l[o|a]s) " + GranularityES;
+-    String periodAdvES = GranularityES+"mente";
+    
+//    String fullDateNumberEU = "(" + daymonthNES + divisor + monthNES + divisor + yearNES + ")";
+//    String fullDateNumberUSA = "(" + monthNES + divisor + daymonthNES + divisor + yearNES + ")";
+//    String fullDateNumberUSA2 = "(" + divisor + yearNES + monthNES + divisor + daymonthNES + ")";
+    
+    String longDateES = "(" + dayMonthNES + " de " + monthLES + "(?: (?:de )?" + yearNES + "))";
+    
+    String complexDGranularityES =  "\\b(((" + deictDurES + "|" + deictES + "|" + numberLES + "|" + ordinalLES + "|" + randomNumberES + ")[ |-])+" + DGranularityES + "s?|\\b" + DGranularityES + "\\b)";
+    String complexTGranularityES = "\\b(((" + deictDurES + "|" + deictES + "|" + numberLES + "|" + ordinalLES + "|" + randomNumberES + ")[ |-])+" + TGranularityES + "s?|\\b" + TGranularityES + "\\b)";
+    String complexPDGranularityES = "\\b(((" + deictDurES + "|" + deictES + "|" + numberLES + "|" + ordinalLES + "|" + randomNumberES + ")[ |-])+" + PDGranularityES + "s?|\\b" + PDGranularityES + "\\b)";
+    String complexdayWeekLES = "\\b(((" + deictDurES +  "|" + deictES + "|" + numberLES + "|" + ordinalLES + "|" + randomNumberES + ")[ |-])+" + dayWeekLES + "s?|\\b" + dayWeekLES + "\\b)";
+    
+    String complexGranularityES = "(" + complexDGranularityES + "|" + complexTGranularityES + "|" + complexPDGranularityES + "|" + complexdayWeekLES + ")";
+
+
+
+MODIFICADORES
+    
+    //MODS (faltan BEFORE, AFTER, ON OR BEFORE, ON OR AFTER)
+    String modApproxES = "(?:[S|s]obre( [el|la])?|[C|c]erca de(l)?|[E|e]n torno a(l)?|[A|a]proximadamente|[M|m][á|a]s o menos|[A|a]lrededor|[H|h]acia)";
+    String modLessThanES = "(?:(?:[E|e]n )?([M|m]enos (de|que|a)|[D|d]entro de (un|una) (periodo|lapso|intervalo|plazo|duraci[ó|o]n) (menor|inferior) (de|que|a)|[U|u](n|na) (periodo|lapso|intervalo|plazo|duraci[ó|o]n) menor que))";
+    String modEqualOrLessES = "(?:([E|e]n )?([N|n]o m[á|a]s (de|que|a)|[N|n]o mayor (de|que|a)|[N|n]o superior (de|que|a)|[N|n]o (despu[é|e]s|m[á|a]s tarde) (de|que|a)|[N|n]o en m[á|a]s (de|que|a)|[N|n]o en [U|u](n|na) (periodo|lapso|intervalo|plazo|duraci[ó|o]n) (superior|mayor|m[á|a]s larg[o|a]) (de|que|a)))";
+    String modMoreThanES = "(?:([E|e]n )?([M|m][á|a]s (de|que|a)|[M|m]ayor (de|que|a)|[U|u](n|na) (periodo|lapso|intervalo|plazo|duraci[ó|o]n) (superior|mayor|m[á|a]s larg[o|a]) (de|que|a)))";
+    String modEqualOrMoreES = "(?:([E|e]n )?([N|n]o menos (de|que|a)|[N|n]o menor (de|que|a)|[N|n]o inferior (de|que|a)|[N|n]o antes (de|que|a)|[N|n]o en menos (de|que|a)|[N|n]o en (un|una) (periodo|lapso|intervalo|plazo|duraci[ó|o]n) (menor|inferior) (de|que|a)))";
+    String modStartES = "(?:([T|t]emprano|([A|a]l )?(principio|inicio|comienzo))( de)?)";
+    String modMidES = "(?:([M|m]edi[o|a]|[M|m]itad( de)?|[M|m]ediados)( de)?)";
+    String modEndES = "(?:([F|f]in(al)?|[Ú|u|U|ú]ltim[o|a](s)? parte(s)?|[T|t]arde)( de)?)";
+    
+    String modES = "(?:(?:" + modApproxES + "|" + modLessThanES + "|" + modEqualOrLessES + "|" + modMoreThanES + "|" + modEqualOrMoreES + "|" + modStartES + "|" + modMidES + "|" + modEndES + ")( en)?( (el|la|los|las))?)";
+    
+    

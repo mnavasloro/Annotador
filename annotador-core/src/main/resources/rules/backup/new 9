@@ -1,0 +1,39 @@
+
+  
+{ pattern: ( (/$UNSDIG/) (/$YEARDIG/) ),
+  action: ( Annotate($0, myNER, "NUML"), Annotate($0, myNERnormalized, Format("%d", Multiply(YEARS_MAP[$$2.text], UNS_MAP[$$1.text]) ) ) ),
+  result: "NUML"  }
+  
+{ pattern: ( (/$YEARDIG/) ),
+  action: ( Annotate($0, myNER, "NUML"), Annotate($0, myNERnormalized, Format("%d", YEARS_MAP[$$1.text] ) ) ) ,
+  result: ("NUML"  }
+  
+{ pattern: ( (/$CENTDIG/) ),
+  action: ( Annotate($0, myNER, "NUML"), Annotate($0, myNERnormalized, Format("%d", CENTS_MAP[$$1.text] ) ) ) ,
+  result: "NUML"  }
+  
+{ pattern: ( (/$SPECIALSDIG/) ),
+  action: ( Annotate($0, myNER, "NUML"), Annotate($0, myNERnormalized, Format("%d", SPECIALS_MAP[$$1.text] ) ) ) ,
+  result: "NUML"  }
+    
+{ pattern: ( (/$UNSDIG/) ),
+  action: ( Annotate($0, myNER, "NUML"), Annotate($0, myNERnormalized, Format("%d", UNS_MAP[$$1.text] ) ) ) ,
+  result: "NUML"  }
+  
+{ pattern: ( (/$DECSDIG/) ),
+  action: ( Annotate($0, myNER, "NUML"), Annotate($0, myNERnormalized, Format("%d", DECS_MAP[$$1.text] ) ) ) ,
+  result: "NUML"  }
+
+{ pattern: ( (/$DECSDIG/) /y/ (/$UNSDIG/) ),
+  action: ( Annotate($0, myNER, "NUML"), Annotate($0, myNERnormalized, Format("%d", Add(DECS_MAP[$$1.text], UNS_MAP[$$2.text]) ) ) ) ,
+  result: "NUML"  }
+
+  }
+ 
+ENV.defaults["stage"] = 2
+
+{ 
+    pattern: ( [{ myNER:"NUML" }]),
+	action: ( Annotate($0, myT, "YEAR"), Annotate($0, myTnormalized, "this is a basic test" ) ) ),
+  result: "YEAR"  }
+	#Format("%d", Add($$1.value,$$2.value))
