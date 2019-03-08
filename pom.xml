@@ -13,7 +13,6 @@
     </parent>
 	
    
-    
     <modules>
 		<module>annotador-core</module>
 		<module>annotador-rest</module>
