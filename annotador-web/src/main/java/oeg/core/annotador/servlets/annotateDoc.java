@@ -1,6 +1,8 @@
 package oeg.core.annotador.servlets;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -64,24 +66,87 @@ public class annotateDoc extends HttpServlet {
      * @param txt to annotate
      * @param date anchor date provided
      * @return String with the javascript code for visualization
-     */
-    public static String parseAndTag(String txt, String date) {
+     */   
+    public static String parseAndTagBRAT(String txt, String date) {
 
         try {
             if (annotador == null) {
                 annotador = new Annotador(pathpos, pathlemma, pathrules, "ES"); // We innitialize the tagger in Spanish
-            }
-            if (date != null && !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) { // Is the date valid?
+            }   // We innitialize the tagger in Spanish
+            if (date != null && !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) // Is it valid?
+            {
                 date = null; // If not, we use no date (so anchor values will not be normalized)
             }
             Salida output = annotador.annotateBRAT(txt, date); // We annotate in BRAT format
             return output.txt + "\n\n" + output.format; // We return the javascript with the values to evaluate
-
         } catch (Exception ex) {
             System.err.print(ex.toString());
         }
         return "";
     }
+    
+    public static String parseAndTag(String txt, String date) {
+
+        try {
+            if (annotador == null) {
+                annotador = new Annotador(pathpos, pathlemma, pathrules, "ES"); // We innitialize the tagger in Spanish
+            }   // We innitialize the tagger in Spanish
+            if (date != null && !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) // Is it valid?
+            {
+                date = null; // If not, we use no date (so anchor values will not be normalized)
+            }
+            String output = annotador.annotate(txt, date); // We annotate in TIMEX format
+            System.out.println(output);
+            String out2 = createHighlights(output);
+            System.out.println(out2);
+            return out2; // We return the javascript with the values to evaluate
+        } catch (Exception ex) {
+            System.err.print(ex.toString());
+        }
+        return "";
+    }
+    
+    static public String createHighlights(String input2) {
+//        input2 = input2.replaceFirst(Pattern.quote("<?xml version=\"1.0\"?>\n" + "<!DOCTYPE TimeML SYSTEM \"TimeML.dtd\">\n" + "<TimeML>"), "");
+        input2 = input2.replaceFirst(Pattern.quote("</TimeML>"), "");
+        input2 = input2.replaceAll("</TIMEX3>", "</span>");
+
+        String pattern = "(<TIMEX3 ([^>]*)>)";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(input2);
+        StringBuffer sb = new StringBuffer();
+        while (m.find()) {
+            String color = "rgba(255, 165, 0, 0.5)";//"Orange";
+            String contetRegex = m.group(2);
+            contetRegex = contetRegex.replaceAll("\"", "");
+            contetRegex = contetRegex.replaceAll(" ", "\n");
+            if (contetRegex.contains("SET")) {
+                color = "rgba(135, 206, 235, 0.5)";//DodgerBlue";
+            } else if (contetRegex.contains("DURATION")) {
+                color = "hsla(9, 100%, 64%, 0.5)"; //Tomato
+            } else if (contetRegex.contains("TIME")) {
+                color = "rgba(102, 205, 170, 0.5)";//"MediumSeaGreen";
+            }
+
+            String aux2 = m.group(0);
+            aux2 = aux2.replace(">", "");
+
+            m.appendReplacement(sb, aux2.replaceFirst(Pattern.quote(aux2), "<span style=\"background-color:"
+                    + color + "\" title=\"" + contetRegex + "\">"));
+        }
+        m.appendTail(sb); // append the rest of the contents
+
+        return sb.toString();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     /**
      * Handles the HTTP <code>POST</code> method.
