@@ -809,6 +809,11 @@ td.label {
   padding: 0px;
     text-align: left; 
     font-size: 13px;
+	color: #777777;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.5em;
 }
 
 td.labelexpl {
@@ -821,6 +826,7 @@ td.labelexpl {
 
 td.legend {
   width: 10%;
+  text-align: -webkit-right;
 }
 
 #buttager {

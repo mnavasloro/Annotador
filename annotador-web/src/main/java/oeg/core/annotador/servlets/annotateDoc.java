@@ -1,6 +1,10 @@
 package oeg.core.annotador.servlets;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.ServletContext;
@@ -68,14 +72,16 @@ public class annotateDoc extends HttpServlet {
      * @return String with the javascript code for visualization
      */   
     public static String parseAndTagBRAT(String txt, String date) {
-
         try {
             if (annotador == null) {
                 annotador = new Annotador(pathpos, pathlemma, pathrules, "ES"); // We innitialize the tagger in Spanish
             }   // We innitialize the tagger in Spanish
             if (date != null && !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) // Is it valid?
             {
-                date = null; // If not, we use no date (so anchor values will not be normalized)
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                Date dct = Calendar.getInstance().getTime();
+                date = df.format(dct);
+//                date = null; // If not, we use no date (so anchor values will not be normalized)
             }
             Salida output = annotador.annotateBRAT(txt, date); // We annotate in BRAT format
             return output.txt + "\n\n" + output.format; // We return the javascript with the values to evaluate
