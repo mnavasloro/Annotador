@@ -3,21 +3,21 @@
 # Case insensitive pattern matching (see java.util.regex.Pattern flags)
 
 # Map variable names to annotation keys
- myNER = { type: "CLASS", value: "oeg.annotador.core.time.tictag.annotation.myNER$MyNamedEntityTagAnnotation" }
- myNERnormalized = { type: "CLASS", value: "oeg.annotador.core.time.tictag.annotation.myNER$MyNormalizedNamedEntityTagAnnotation" }
- myT = { type: "CLASS", value: "oeg.annotador.core.time.tictag.annotation.myNER$MyNamedEntityTagAnnotation" }
-# myTnormalized = { type: "CLASS", value: "oeg.annotador.core.time.tictag.annotation.myNER$MyNormalizedNamedEntityTagAnnotation" }
- myTType = { type: "CLASS", value: "oeg.annotador.core.time.tictag.annotation.temporal$MyTypeTemporalAnnotation" }
+ myNER = { type: "CLASS", value: "oeg.tagger.core.time.tictag.annotation.myNER$MyNamedEntityTagAnnotation" }
+ myNERnormalized = { type: "CLASS", value: "oeg.tagger.core.time.tictag.annotation.myNER$MyNormalizedNamedEntityTagAnnotation" }
+ myT = { type: "CLASS", value: "oeg.tagger.core.time.tictag.annotation.myNER$MyNamedEntityTagAnnotation" }
+# myTnormalized = { type: "CLASS", value: "oeg.tagger.core.time.tictag.annotation.myNER$MyNormalizedNamedEntityTagAnnotation" }
+ myTType = { type: "CLASS", value: "oeg.tagger.core.time.tictag.annotation.temporal$MyTypeTemporalAnnotation" }
  
-myTValue = { type: "CLASS", value: "oeg.annotador.core.time.tictag.annotation.temporal$MyValueAnnotation" }
+myTValue = { type: "CLASS", value: "oeg.tagger.core.time.tictag.annotation.temporal$MyValueAnnotation" }
 
-myRule = { type: "CLASS", value: "oeg.annotador.core.time.tictag.annotation.temporal$MyRuleAnnotation" }
+myRule = { type: "CLASS", value: "oeg.tagger.core.time.tictag.annotation.temporal$MyRuleAnnotation" }
 
- timexType = { type: "CLASS", value: "oeg.annotador.core.time.tictag.annotation.timex$Type" }
- timexValue = { type: "CLASS", value: "oeg.annotador.core.time.tictag.annotation.timex$Value" }
- timexFreq = { type: "CLASS", value: "oeg.annotador.core.time.tictag.annotation.timex$Freq" }
- timexQuant = { type: "CLASS", value: "oeg.annotador.core.time.tictag.annotation.timex$Quant" }
- myTimexAnnotation = { type: "CLASS", value: "oeg.annotador.core.time.tictag.annotation.timex$MyTimexAnnotation" }
+ timexType = { type: "CLASS", value: "oeg.tagger.core.time.tictag.annotation.timex$Type" }
+ timexValue = { type: "CLASS", value: "oeg.tagger.core.time.tictag.annotation.timex$Value" }
+ timexFreq = { type: "CLASS", value: "oeg.tagger.core.time.tictag.annotation.timex$Freq" }
+ timexQuant = { type: "CLASS", value: "oeg.tagger.core.time.tictag.annotation.timex$Quant" }
+ myTimexAnnotation = { type: "CLASS", value: "oeg.tagger.core.time.tictag.annotation.timex$MyTimexAnnotation" }
  
 
 

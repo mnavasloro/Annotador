@@ -5,7 +5,6 @@ esa persona hizo lo mismo en el pasado	 solo pasado no lo pilla bien... si no es
 ya lo veremos pasado o al siguiente	 solo pasado no lo pilla bien... si no es "en el pasado"
 ya lo veremos pasado	 solo pasado no lo pilla bien... si no es "en el pasado"
 ya lo veremos pasado mañana	 solo pasado no lo pilla bien... si no es "en el pasado"
-
  	 Varios
 en ese momento	 
 en el año mil	 
@@ -24,41 +23,33 @@ La sentencia se hizo publica unos cuantos días después.
 Esta mañana, aquella tarde, en la mañana del día 10, esa mañana, lo hizo de buena mañana. Pasado mañana vamos a comer, porque pasado es un gran día. Una vez haya pasado mañana.	 
 Mañana lo veremos, en la mañana del día 10, esa mañana, lo hizo de buena mañana. Pasado mañana vamos a comer, porque pasado es un gran día. Una vez haya pasado mañana.	 
 muchos días después, y además dos días y una semana después.	 
-
+	Otros
 Ayer comí patatas.	 
 El tres de abril de 1991.	 
-
  	 Problemas con segundos
 el segundo perro tardó dos segundos	 
-
  	 Meses
 en mayo me gusta ir con Abril al campo, sobre todo los jueves y los domingos...	
-
 Abril es un mes precioso.	Abril aqui no debería ser NP
-
 Abril es una persona maravillosa.	Abril aqui no debería NP, pero es...
-
+	Demostrativos
 el niño, este niño, esas personas, el pasado jueves, unos pocos días	 solo pasado no lo pilla bien... si no es "en el pasado"
 el futuro nos depara algo futuro igual que a su futuro hijo	 solo pasado no lo pilla bien... si no es "en el pasado"
 mañana comeré en la mañana, no la segunda mañana pero varias mañanas seguidas, pensando en el mañana, o en el día de mañana	 solo pasado no lo pilla bien... si no es "en el pasado"
-
+	Otros
 3 de abril	
 3 de abril de 1991	
 abril de 1991	
-
 por dos horas
 19/2/1991
-
 De 12 a 3.
-
 Entre las 12 y las 3.
-
+	Sucesiones
 Del 2 al 15 de agosto.
 De una a dos y de cinco a siete.
 El 2 y el 3 de abril.
 Los días 1, 2, 3 y 4 de marzo.
-
-
+	Horas
 Quedaron a la 1 pm.
 Quedaron a la 1pm.
 Quedaron a las 12.
@@ -67,7 +58,7 @@ de 12:15 a 3:50.
 Las 12h.
 Las 12 horas.
 A las 12h50.
-
+	Fechas
 19-2-1991
 19-2-1991
 19-2-91
@@ -81,7 +72,7 @@ A las 12h50.
 19/02/91
 19/42/1991
 50/2/1991
-
+	Duraciones
 seiscientos días
 unos 1991 días
 cuarenta y un días
@@ -97,27 +88,21 @@ las tres semanas
 2 días
 dos días
 por un año
-
+	Horas
 a las 12 de la tarde
 las 5 por la tarde
 las 12 de aquella nublada y bella tarde
 las 12 del mediodía
-
-
-as 2 y media de la tarde
+las 2 y media de la tarde
 son las 3.
 quedamos a las 3.
 las 3 dijeron lo mismo.
 las 3 personas.
-
 son las tres de la tarde.
-
 quedamos a las tres de la tarde.
 las tres dijeron lo mismo.
 las tres personas.
-
 son las quince de la tarde.
-
 las 2:20.
 las 2.20.
 las 2:20 de la tarde.
@@ -125,9 +110,8 @@ las 2 menos 5
 las 2 menos cinco
 las dos menos 5
 las dos menos cinco de la tarde
-
 son las dos de la tarde.
-
+	Fechas consecutivas
 el 1, el 2 y el 3 de enero.
 2, 3 y 20 de febrero de 2018
 el tres de octubre de 1991
@@ -136,7 +120,7 @@ el tres de octubre y el 2 de marzo
 martes 3 de octubre
 martes, 3 de octubre
 el lunes y el martes
-
+	Set
 cada lunes a las 10.
 se fueron a las 10.
 a las 10 se fueron.
@@ -147,61 +131,45 @@ el 3 de octubre
 en 2000 días
 en 2000 países
 en el año 2000.
-
+	Finde
 un fin de semana más.
 dos fines de semana
 un día cada dos fines de semana
 dos días cada semana
-
-
-
-
+	Relativos
 ayer fuimos a comprar
 antes de ayer fue mejor
 hoy comeré patatas
 a día de hoy es mejor no hacerlo
-
-
+	Otros
 el día uno del próximo mes
 el día uno
-
-
 dos años, 3 meses y un día
 tres meses
 durante una hora y 15 minutos
 10 minutos
 10 días
-
 más de una hora y además 1 hora
-
+	Fracciones
 tres horas y cuarto
 una hora y media
-
 tres días y cuarto
 tres días y medio
 dos días y tres cuartos
-
-
 tres horas y cuarto
 tres horas y media
 una hora y tres cuartos
-
-
 duró medio día
 esperaron 45 minutos y unos 3 cuartos de hora, más tres cuartos de hora
 3 cuartos de hora
 duró más de dos días
-
 a mitad de 2000
 Llegaron 2000 personas.
-
-
+	Indef
 varios meses, algunos meses, los meses, aquellos maravillosos meses, un par de meses, durante tres días
-
 varias horas
 varios días
 varios fines de semana
-
 este año
 ese año
 el año
@@ -216,20 +184,13 @@ de 12:15 a 3:50.
 Las 12h.
 Las 12 horas.
 A las 22:50.
-
+	Otros
 mensualmente
-
 dos días cada semana
-
 un día cada dos semanas
-
 Mañana vamos allí
-
 una o dos semanas
-
 entre un año y 2 meses, y dos años y 3 meses
-
-
 1 año, 6 meses y cuarenta y un días
-
 1 año, 6 meses y un día
+A los 2092 capítulos

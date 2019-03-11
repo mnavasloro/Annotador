@@ -4,8 +4,8 @@
 # Case insensitive pattern matching (see java.util.regex.Pattern flags)
 
 # Map variable names to annotation keys
-event = { type: "CLASS", value: "oeg.annotador.core.time.tictag.annotation.contractEvents$ContractEventTagAnnotation" }
-date = { type: "CLASS", value: "oeg.annotador.core.time.tictag.annotation.contractEvents$DateTagAnnotation" }
+event = { type: "CLASS", value: "oeg.tagger.core.time.tictag.annotation.contractEvents$ContractEventTagAnnotation" }
+date = { type: "CLASS", value: "oeg.tagger.core.time.tictag.annotation.contractEvents$DateTagAnnotation" }
  
  
 ner = { type: "CLASS", value: "edu.stanford.nlp.ling.CoreAnnotations$NamedEntityTagAnnotation" }

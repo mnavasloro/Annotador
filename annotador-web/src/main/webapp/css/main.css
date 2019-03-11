@@ -1319,7 +1319,7 @@ td.legend {
   display: inline-block;
   width: 90%;
   line-height: 40px;
-  border: none;
+  border: 1px solid #ccc;
   outline: none;
   background: #f9f9ff;
   padding: 0 20px;

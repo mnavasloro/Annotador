@@ -4,23 +4,23 @@
 # Case insensitive pattern matching (see java.util.regex.Pattern flags)
 
 # Map variable names to annotation keys
- myNER = { type: "CLASS", value: "oeg.annotador.core.time.annotation.myNER$MyNamedEntityTagAnnotation" }
- myNUM = { type: "CLASS", value: "oeg.annotador.core.time.annotation.myNER$MyNumTagAnnotation" }
- myNERnormalized = { type: "CLASS", value: "oeg.annotador.core.time.annotation.myNER$MyNormalizedNamedEntityTagAnnotation" }
- myT = { type: "CLASS", value: "oeg.annotador.core.time.annotation.myNER$MyNamedEntityTagAnnotation" }
-# myTnormalized = { type: "CLASS", value: "oeg.annotador.core.time.annotation.myNER$MyNormalizedNamedEntityTagAnnotation" }
- myTType = { type: "CLASS", value: "oeg.annotador.core.time.annotation.temporal$MyTypeTemporalAnnotation" }
+ myNER = { type: "CLASS", value: "oeg.tagger.core.time.annotation.myNER$MyNamedEntityTagAnnotation" }
+ myNUM = { type: "CLASS", value: "oeg.tagger.core.time.annotation.myNER$MyNumTagAnnotation" }
+ myNERnormalized = { type: "CLASS", value: "oeg.tagger.core.time.annotation.myNER$MyNormalizedNamedEntityTagAnnotation" }
+ myT = { type: "CLASS", value: "oeg.tagger.core.time.annotation.myNER$MyNamedEntityTagAnnotation" }
+# myTnormalized = { type: "CLASS", value: "oeg.tagger.core.time.annotation.myNER$MyNormalizedNamedEntityTagAnnotation" }
+ myTType = { type: "CLASS", value: "oeg.tagger.core.time.annotation.temporal$MyTypeTemporalAnnotation" }
  
-#myTValue = { type: "CLASS", value: "oeg.annotador.core.time.annotation.temporal$MyValueAnnotation" }
+#myTValue = { type: "CLASS", value: "oeg.tagger.core.time.annotation.temporal$MyValueAnnotation" }
 
-mySTValue = { type: "CLASS", value: "oeg.annotador.core.time.annotation.temporal$MyStringValueAnnotation" }
+mySTValue = { type: "CLASS", value: "oeg.tagger.core.time.annotation.temporal$MyStringValueAnnotation" }
 
-myRule = { type: "CLASS", value: "oeg.annotador.core.time.annotation.temporal$MyRuleAnnotation" }
+myRule = { type: "CLASS", value: "oeg.tagger.core.time.annotation.temporal$MyRuleAnnotation" }
 
- timexType = { type: "CLASS", value: "oeg.annotador.core.time.annotation.timex$Type" }
- timexValue = { type: "CLASS", value: "oeg.annotador.core.time.annotation.timex$Value" }
- timexFreq = { type: "CLASS", value: "oeg.annotador.core.time.annotation.timex$Freq" }
- timexQuant = { type: "CLASS", value: "oeg.annotador.core.time.annotation.timex$Quant" }
+ timexType = { type: "CLASS", value: "oeg.tagger.core.time.annotation.timex$Type" }
+ timexValue = { type: "CLASS", value: "oeg.tagger.core.time.annotation.timex$Value" }
+ timexFreq = { type: "CLASS", value: "oeg.tagger.core.time.annotation.timex$Freq" }
+ timexQuant = { type: "CLASS", value: "oeg.tagger.core.time.annotation.timex$Quant" }
  
 
 
@@ -32,45 +32,45 @@ tokens = { type: "CLASS", value: "edu.stanford.nlp.ling.CoreAnnotations$TokensAn
 
 # DATE
 
-myDateDay = { type: "CLASS", value: "oeg.annotador.core.time.annotation.date$MyDay" }
+myDateDay = { type: "CLASS", value: "oeg.tagger.core.time.annotation.date$MyDay" }
 
-myDateMonth = { type: "CLASS", value: "oeg.annotador.core.time.annotation.date$MyMonth" }
+myDateMonth = { type: "CLASS", value: "oeg.tagger.core.time.annotation.date$MyMonth" }
 
-myDateYear = { type: "CLASS", value: "oeg.annotador.core.time.annotation.date$MyYear" }
+myDateYear = { type: "CLASS", value: "oeg.tagger.core.time.annotation.date$MyYear" }
 
-myDateDayWeek = { type: "CLASS", value: "oeg.annotador.core.time.annotation.date$MyDayWeek" }
+myDateDayWeek = { type: "CLASS", value: "oeg.tagger.core.time.annotation.date$MyDayWeek" }
 
-myDateWeek = { type: "CLASS", value: "oeg.annotador.core.time.annotation.date$MyWeek" }
+myDateWeek = { type: "CLASS", value: "oeg.tagger.core.time.annotation.date$MyWeek" }
 
 
 # Duration
 
-myDurationWeek = { type: "CLASS", value: "oeg.annotador.core.time.annotation.duration$MyWeeks" }
+myDurationWeek = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyWeeks" }
 
-myDurationHour = { type: "CLASS", value: "oeg.annotador.core.time.annotation.duration$MyHours" }
+myDurationHour = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyHours" }
 
-myDurationDay = { type: "CLASS", value: "oeg.annotador.core.time.annotation.duration$MyDays" }
+myDurationDay = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyDays" }
 
-myDurationMinute = { type: "CLASS", value: "oeg.annotador.core.time.annotation.duration$MyMinutes" }
+myDurationMinute = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyMinutes" }
 
-myDurationSecond = { type: "CLASS", value: "oeg.annotador.core.time.annotation.duration$MySeconds" }
+myDurationSecond = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MySeconds" }
 
-myDurationMonth = { type: "CLASS", value: "oeg.annotador.core.time.annotation.duration$MyMonths" }
+myDurationMonth = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyMonths" }
 
-myDurationYear = { type: "CLASS", value: "oeg.annotador.core.time.annotation.duration$MyYears" }
+myDurationYear = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyYears" }
 
-myDurationDecade = { type: "CLASS", value: "oeg.annotador.core.time.annotation.duration$MyDecades" }
+myDurationDecade = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyDecades" }
 
-myDurationDayWeek = { type: "CLASS", value: "oeg.annotador.core.time.annotation.duration$MyDayWeeks" }
+myDurationDayWeek = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyDayWeeks" }
 
-myDurationWeekend = { type: "CLASS", value: "oeg.annotador.core.time.annotation.duration$MyWeekends" }
+myDurationWeekend = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyWeekends" }
 
-Period = { type: "CLASS", value: "oeg.annotador.core.time.annotation.duration$Period" }
-
-
+Period = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$Period" }
 
 
-mytokens = { type: "CLASS", value: "oeg.annotador.core.time.annotation.temporal$MyTokensAnnotation" } 	 	
+
+
+mytokens = { type: "CLASS", value: "oeg.tagger.core.time.annotation.temporal$MyTokensAnnotation" } 	 	
 
 #ENV.defaultResultAnnotationKey = ( type, value ) 
 ENV.defaultNestedResultsAnnotationKey = mytokens 
@@ -726,8 +726,8 @@ ENV.defaults["ruleType"] = "tokens"
 
 # eg: en el año mil cuarenta y dos
 { ruleType:   "tokens",
-    pattern: ( (?: [{lemma:"de"}] | [{lemma:"del"}] | [{lemma:"en"}] ) (?: [{lemma:"el"}]? [{lemma:"año"}]?) ([{myNUM:"myNUMBER"} && {mySTValue:/[12]\d\d\d/}]+ /[AaDd]\.?[Cc]\.?/?)),
-	action: ( (Annotate($1, "myRule", "Rule$EnElAñoMyNumber"), Annotate($1, "myNER", "YEAR")), Annotate($1, "myNERnormalized", $1[0].mySTValue), Annotate($1, "timexType", "DATE"), Annotate($1, "timexValue", $1[0].mySTValue)),
+    pattern: ( (?: [{lemma:"de"}] | [{lemma:"del"}] | [{lemma:"en"}] | [{lemma:"a"}] | [{lemma:"el"} & !{pos:/DA0.P0/}] | [{lemma:"para"}]) (?: [{lemma:"el"} & !{pos:/DA0.P0/}]? [{lemma:"año"}]?) ([{myNUM:"myNUMBER"} && {mySTValue:/[12]\d\d\d/}]+ /[AaDd]\.?[Cc]\.?/?)),
+	action: ( (Annotate($1, "myRule", "Rule$EnElAñoMyNumber"), Annotate($1, "myNER", "YEAR")), Annotate($1, "timexValue", $1[0].mySTValue), Annotate($1, "myNERnormalized", $1[0].mySTValue), Annotate($1, "timexType", "DATE")),
 	stage : 5 }	
 
 # It adds its value as a myNERnormalized String to any number written with words	
@@ -859,42 +859,42 @@ ENV.defaults["ruleType"] = "tokens"
 { ruleType:   "composite",
   pattern: ([{lemma:/$PeriodAdv/} && !{pos:/N.*/}]),
   action: ( Annotate($0, "myRule", "Rule$GranMente"), Annotate($0, "timexType", "SET"), Annotate($0, "timexValue", PERIODMENTE_MAP[$0[0].lemma]), Annotate($0, "myNERnormalized", "SET_MENTE") )  ,
-  result: ("SET", $0[1].timexValue, "", "", "Rule$GranMente"),
+  result: ("SET", $0[0].timexValue, "", "", "Rule$GranMente"),
   stage : 1  }
   
 # eg: Dos días cada 2 meses
 { ruleType:   "composite",
-  pattern: (([{timexType:"DURATION"}]+) ([{lemma:"cada"}]) ([{timexType:"DURATION"}]+)),
-  action: ( Annotate($0, "myRule", "Rule$XGranCadaXGran"), Annotate($0, "timexType", "SET"),  Annotate($0, "timexFreq", $0[1].timexValue), Annotate($0, "timexValue", $3[0].timexValue) )  ,
-  result: ("SET", $1[0].timexValue, $1[0].timexFreq, "", "Rule$XGranCadaXGran"),
-  stage : 7  }
+  pattern: ((?$times [{timexType:"DURATION"}]+) ([{lemma:"cada"}]) (?$gran [{timexType:"DURATION"}]+)),
+  action: ( Annotate($0, "myRule", "Rule$XGranCadaXGran"), Annotate($0, "timexType", "SET"),  Annotate($0, "timexFreq", $times[0].timexValue), Annotate($0, "timexValue", $gran[0].timexValue) )  ,
+  result: ("SET", $times[0].timexValue, $times[0].timexFreq, "", "Rule$XGranCadaXGran"),
+  stage : 17  }
   
 # eg: Dos días cada semana
 { ruleType:   "composite",
-  pattern: (([{timexType:"DURATION"}]+)  (?: [{lemma:"cada"}] | [{lemma:"al"}] | [{lemma:"a"}]) (?: [{lemma:"la"}])? ([{myNER:"DGRANULARITY"}]+)),
-  action: ( Annotate($0, "myRule", "Rule$XGranCadaGran"), Annotate($0, "timexType", "SET"),  Annotate($0, "timexFreq", $0[1].timexValue), Annotate($0, "timexValue", Concat(PERIOD_MAP[$2[0].myNERnormalized],"01",DGRANULARITY_UNIT_MAP[$2[0].myNERnormalized])), Annotate($0, "timexFreq", $1[0].timexValue) )  ,
-  result: ("SET", $1[0].timexValue, $0[1].timexFreq, "", "Rule$XGranCadaGran"),
-  stage : 5  }
+  pattern: ((?$times [{timexType:"DURATION"}]+)  (?: [{lemma:"cada"}] | [{lemma:"por"}] | [{lemma:"al"}] | [{lemma:"a"}]) (?: [{lemma:"la"}] | [{lemma:"el"}])? (?$gran [{myNER:"DGRANULARITY"}]+)),
+  action: ( Annotate($0, "myRule", "Rule$XGranCadaGran"), Annotate($0, "timexType", "SET"),  Annotate($0, "timexFreq", $times[0].timexValue), Annotate($0, "timexValue", Concat(PERIOD_MAP[$gran[0].myNERnormalized],"01",DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized])), Annotate($0, "timexFreq", $times[0].timexValue) )  ,
+  result: ("SET", $times[0].timexValue, $times[0].timexFreq, "", "Rule$XGranCadaGran"),
+  stage : 16  }
   
 # eg: (Dos veces) cada 2 meses
 { ruleType:   "composite",
-  pattern: (([{myNER:"TIMES"}]+)? ([{lemma:"cada"}]) ([{timexType:"DURATION"} & !{timexValue:/anchor.*/}]+)),
-  action: ( Annotate($0, "myRule", "Rule$XVezCadaXGran"), Annotate($0, "timexType", "SET"),  Annotate($0, "timexFreq", :case{ ($$1 != NIL) => $0[1].myNERnormalized, :else => NIL} ), Annotate($0, "timexValue", $3[0].timexValue) )  ,
-    result: ("SET", $1[0].timexValue, $0[1].timexFreq, "", "Rule$XVezCadaXGran"),
-  stage : 8  }
+  pattern: ((?$times [{myNER:"TIMES"}]+)? (?: [{lemma:"cada"}]) (?$gran [{timexType:"DURATION"} & !{timexValue:/anchor.*/}]+)),
+  action: ( Annotate($0, "myRule", "Rule$XVezCadaXGran"), Annotate($0, "timexType", "SET"),  Annotate($0, "timexFreq", :case{ ($$times != NIL) => $times[1].myNERnormalized, :else => ""} ), Annotate($0, "timexValue", $gran[0].timexValue) )  ,
+    result: ("SET", $0[1].timexValue, $0[1].timexFreq, "", "Rule$XVezCadaXGran"),
+  stage : 18  }
   
-# eg: (Dos veces) cada semana
+# eg: (Dos veces) cada/por semana
 { ruleType:   "composite",
-  pattern: (([{myNER:"TIMES"}]+)? (?: [{lemma:"cada"}] | [{lemma:"al"}] | [{lemma:"a"}]) (?: [{lemma:"la"}])? ([{myNER:"DGRANULARITY"} & !{timexValue:/anchor.*/}]+)),
-  action: ( Annotate($0, "myRule", "Rule$XVezCadaGran"), Annotate($0, "timexType", "SET"), Annotate($0, "timexFreq", :case{ ($$1 != NIL) => $0[1].myNERnormalized, :else => NIL} ) , Annotate($0, "timexValue", Concat(PERIOD_MAP[$2[0].myNERnormalized],"1",DGRANULARITY_UNIT_MAP[$2[0].myNERnormalized])) )  ,
-    result: ("SET", $1[0].timexValue, $0[1].timexFreq, "", "Rule$XVezCadaGran"),
-  stage : 8  }
+  pattern: ((?$times [{myNER:"TIMES"}]+)? (?: [{lemma:"cada"}] | [{lemma:"por"}] | [{lemma:"al"}] | [{lemma:"a"}]) (?: [{lemma:"la"}] | [{lemma:"el"}])? (?$gran [{myNER:"DGRANULARITY"} & !{timexValue:/anchor.*/}]+)),
+  action: ( Annotate($0, "myRule", "Rule$XVezCadaGran"), Annotate($0, "timexType", "SET"), Annotate($0, "timexFreq", :case{ ($$times  != NIL) => $0[1].myNERnormalized, :else => ""} ) , Annotate($0, "timexValue", Concat(PERIOD_MAP[$gran[0].myNERnormalized],"1",DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized])) )  ,
+    result: ("SET", $0[1].timexValue, $0[1].timexFreq, "", "Rule$XVezCadaGran"),
+  stage : 18  }
   
 # eg: Todas las semanas
 { ruleType:   "composite",
   pattern: (( [{lemma:"todo"} & {pos:/DI0.P0/}]) (?: [{pos:/DA0.P0/}]) ([{myNER:"DGRANULARITY"}]+)),
   action: ( Annotate($0, "myRule", "Rule$TodGran"), Annotate($0, "timexType", "SET"), Annotate($0, "timexValue", Concat(PERIOD_MAP[$2[0].myNERnormalized],"1",DGRANULARITY_UNIT_MAP[$2[0].myNERnormalized])) )  ,
-  stage : 8  }
+  stage : 18  }
 
   
 
@@ -1322,7 +1322,7 @@ priority: 3.0,
 { ruleType:   "composite",
   pattern: ( [{timexType:"SET"}]+  ),
   result: ( "SET", Concat($0[1].timexValue,""), :case{($0[0].timexFreq != NIL) => Concat($0[0].timexFreq, ""), :else => ""} , :case{($0[0].timexQuant != NIL) => Concat($0[0].timexQuant, ""), :else => ""}, $0[0].myRule ) ,
-  stage : 200  } 
+  stage : 199  } 
   
         # dateRefs
 { ruleType:   "composite",
@@ -1332,8 +1332,8 @@ priority: 3.0,
   
         # date en el año
 { ruleType:   "composite",
-  pattern: ( [{timexType:"DATE"} && {myRule:"Rule$EnElAñoMyNumber"}]+  ),
-  result: ( "DATE", Concat($0[1].timexValue,""), "", "", "Rule$EnElAñoMyNumber" ) ,
+  pattern: ( ([{timexType:"DATE"} && {myRule:"Rule$EnElAñoMyNumber"}]+)  ),
+  result: ( "DATE", Concat($1[0].timexValue,""), "", "", "Rule$EnElAñoMyNumber" ) ,
   stage : 200  } 
   
   
