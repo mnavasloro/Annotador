@@ -1,5 +1,9 @@
 package oeg.core.tagger.servlets;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import oeg.tagger.core.time.tictag.Annotador;
@@ -33,12 +37,17 @@ public class Main {
 
     public static String parseAndTag(String txt, String date) {
 
+        Date dct = null;
+        
+        
         try {
-            Annotador annotador = new Annotador("ES");   // We innitialize the tagger in Spanish
-            if (date != null && !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) // Is it valid?
-            {
-                date = null; // If not, we use no date (so anchor values will not be normalized)
+            if (date == null || date.isEmpty() || !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) {
+                dct = Calendar.getInstance().getTime();
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                date = df.format(dct);
             }
+            Annotador annotador = new Annotador("ES");   // We innitialize the tagger in Spanish
+
             String output = annotador.annotate(txt, date); // We annotate in BRAT format
             return createHighlights(output); // We return the javascript with the values to evaluate
         } catch (Exception ex) {

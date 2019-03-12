@@ -93,14 +93,18 @@ public class annotateDoc extends HttpServlet {
     
     public static String parseAndTag(String txt, String date) {
 
-        try {
+        Date dct = null;
+         try {
             if (annotador == null) {
                 annotador = new Annotador(pathpos, pathlemma, pathrules, "ES"); // We innitialize the tagger in Spanish
             }   // We innitialize the tagger in Spanish
-            if (date != null && !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) // Is it valid?
-            {
-                date = null; // If not, we use no date (so anchor values will not be normalized)
+            
+            if (date == null || date.isEmpty() || !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) {
+                dct = Calendar.getInstance().getTime();
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                date = df.format(dct);
             }
+            
             String output = annotador.annotate(txt, date); // We annotate in TIMEX format
             System.out.println(output);
             String out2 = createHighlights(output);
@@ -108,8 +112,8 @@ public class annotateDoc extends HttpServlet {
             return out2; // We return the javascript with the values to evaluate
         } catch (Exception ex) {
             System.err.print(ex.toString());
+            return "";
         }
-        return "";
     }
     
     static public String createHighlights(String input2) {

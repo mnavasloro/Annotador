@@ -44,25 +44,20 @@ public class AnnotationController {
     ) {
         System.out.println(format);
         Date dct = null;
+        String date = sdate;
         try {
-            if (sdate == null || sdate.isEmpty()) {
+            if (sdate == null || sdate.isEmpty() || !sdate.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) {
                 dct = Calendar.getInstance().getTime();
-            } else {
-                dct = new SimpleDateFormat("dd/MM/yyyy").parse(sdate);
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                date = df.format(dct);
             }
         } catch (Exception ex) {
-            dct = new Date();
+            date = null;
         }
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String date = df.format(dct);
+        
         String res = "";
         
         try{
-            if (!date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) // Is it valid?
-        {
-            date = null; // If not, we use no date (so anchor values will not be normalized)
-        }
-        
         if(lang.equalsIgnoreCase("es")){
             Annotador annotador = new Annotador("es");   // We innitialize the tagger in Spanish
             res = annotador.annotate(txt, date);

@@ -1318,7 +1318,6 @@ td.legend {
 .single-textarea {
   display: inline-block;
   width: 90%;
-  line-height: 40px;
   border: 1px solid #ccc;
   outline: none;
   background: #f9f9ff;
@@ -1329,6 +1328,7 @@ td.legend {
   margin-bottom: 5%;
   margin-right: 5%;
   margin-top: 5%;
+      padding: 0.6rem;
 }
 
 textarea.single-textarea {}
