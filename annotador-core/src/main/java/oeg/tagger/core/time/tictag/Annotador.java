@@ -79,38 +79,60 @@ public class Annotador {
 
     public void init() {
 
-        if (rules == null) {
-            rules = "../annotador-core/src/main/resources/rules/rulesES.txt";
-        }
+        if (lang.equalsIgnoreCase("ES")) {
+            if (rules == null) {
+                rules = "../annotador-core/src/main/resources/rules/rulesES.txt";
+            }
 
 //        out = new PrintWriter(System.out);
-        properties = StringUtils.argsToProperties(new String[]{"-props", "StanfordCoreNLP-spanish.properties"});
+            properties = StringUtils.argsToProperties(new String[]{"-props", "StanfordCoreNLP-spanish.properties"});
 
-        if (posModel == null) {
-            posModel = "../annotador-core/src/main/resources/ixa-pipes/morph-models-1.5.0/es/es-pos-perceptron-autodict01-ancora-2.0.bin";
-        }
-        if (lemmaModel == null) {
-            lemmaModel = "../annotador-core/src/main/resources/ixa-pipes/morph-models-1.5.0/es/es-lemma-perceptron-ancora-2.0.bin";
-        }
+            if (posModel == null) {
+                posModel = "../annotador-core/src/main/resources/ixa-pipes/morph-models-1.5.0/es/es-pos-perceptron-autodict01-ancora-2.0.bin";
+            }
+            if (lemmaModel == null) {
+                lemmaModel = "../annotador-core/src/main/resources/ixa-pipes/morph-models-1.5.0/es/es-lemma-perceptron-ancora-2.0.bin";
+            }
 
-        properties.setProperty("annotators", "tokenize,ssplit,spanish,readability,ner,tokensregexdemo");
+            properties.setProperty("annotators", "tokenize,ssplit,spanish,readability,ner,tokensregexdemo");
 //    properties.setProperty("ner.useSUTime", "false");
-        properties.setProperty("spanish.posModel", posModel);
-        properties.setProperty("spanish.lemmaModel", lemmaModel);
-        properties.setProperty("readability.language", "es");
+            properties.setProperty("spanish.posModel", posModel);
+            properties.setProperty("spanish.lemmaModel", lemmaModel);
+            properties.setProperty("readability.language", "es");
 
-        properties.setProperty("customAnnotatorClass.spanish", "oeg.tagger.core.time.aidCoreNLP.BasicAnnotator");
-        properties.setProperty("customAnnotatorClass.readability", "eu.fbk.dh.tint.readability.ReadabilityAnnotator");
+            properties.setProperty("customAnnotatorClass.spanish", "oeg.tagger.core.time.aidCoreNLP.BasicAnnotator");
+            properties.setProperty("customAnnotatorClass.readability", "eu.fbk.dh.tint.readability.ReadabilityAnnotator");
 
-        properties.setProperty("customAnnotatorClass.tokensregexdemo", "edu.stanford.nlp.pipeline.TokensRegexAnnotator");
-        properties.setProperty("tokensregexdemo.rules", rules);
-        properties.setProperty("tokenize.verbose", "false");
-        properties.setProperty("TokensRegexNERAnnotator.verbose", "false");
+            properties.setProperty("customAnnotatorClass.tokensregexdemo", "edu.stanford.nlp.pipeline.TokensRegexAnnotator");
+            properties.setProperty("tokensregexdemo.rules", rules);
+            properties.setProperty("tokenize.verbose", "false");
+            properties.setProperty("TokensRegexNERAnnotator.verbose", "false");
 //    properties.setProperty("regexner.verbose", "false");
-        try{
-            pipeline = new StanfordCoreNLP(properties);
         }
-        catch(Exception ex){
+        
+        else if (lang.equalsIgnoreCase("EN")) {
+            if (rules == null) {
+                rules = "../annotador-core/src/main/resources/rules/rulesEN.txt";
+            }
+
+//        out = new PrintWriter(System.out);
+//            properties = StringUtils.argsToProperties(new String[]{"-props", "StanfordCoreNLP-spanish.properties"});
+            properties = new Properties();
+
+            properties.setProperty("annotators", "tokenize, ssplit, pos, lemma,ner,tokensregexdemo");
+            properties.setProperty("ner.useSUTime", "false");
+            
+
+            properties.setProperty("customAnnotatorClass.tokensregexdemo", "edu.stanford.nlp.pipeline.TokensRegexAnnotator");
+            properties.setProperty("tokensregexdemo.rules", rules);
+            properties.setProperty("tokenize.verbose", "false");
+            properties.setProperty("TokensRegexNERAnnotator.verbose", "false");
+//    properties.setProperty("regexner.verbose", "false");
+        }
+
+        try {
+            pipeline = new StanfordCoreNLP(properties);
+        } catch (Exception ex) {
             System.out.println("Error: " + ex.toString());
         }
 
@@ -151,8 +173,8 @@ public class Annotador {
                     String freq = (String) a.get(2).get();
                     String rul = (String) a.get(4).get();
 
-                        System.out.println(typ + " | " + val+ " | "  + freq + " | " + rul);
-                    
+                    System.out.println(typ + " | " + val + " | " + freq + " | " + rul);
+
                     // TO DO: el get? poner los values!
                     numval++;
                     int ini = cm.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
@@ -252,7 +274,7 @@ public class Annotador {
                         val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
                     }
                     String addini = "<TIMEX3 tid=\"t" + numval + "\" type=\"" + typ + "\" value=\"" + val + "\">";
-                    if(!freq.isEmpty()){
+                    if (!freq.isEmpty()) {
                         addini = "<TIMEX3 tid=\"t" + numval + "\" type=\"" + typ + "\" value=\"" + val + "\" freq=\"" + freq + "\">";
                     }
                     String addfin = "</TIMEX3>";

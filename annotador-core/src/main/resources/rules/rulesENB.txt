@@ -1,0 +1,114 @@
+# DATES ENGLISH
+# Example to add "DATEPRP" as ner tag, and ISO code as the normalized tag for strings matching a color
+
+# Case insensitive pattern matching (see java.util.regex.Pattern flags)
+ENV.defaultStringPatternFlags = 2
+
+# Map variable names to annotation keys
+ myNER = { type: "CLASS", value: "oeg.tagger.core.time.tictag.myNER$MyNamedEntityTagAnnotation" }
+ myNERnormalized = { type: "CLASS", value: "oeg.tagger.core.time.tictag.myNER$MyNormalizedNamedEntityTagAnnotation" }
+
+ner = { type: "CLASS", value: "edu.stanford.nlp.ling.CoreAnnotations$NamedEntityTagAnnotation" }
+normalized = { type: "CLASS", value: "edu.stanford.nlp.ling.CoreAnnotations$NormalizedNamedEntityTagAnnotation" }
+tokens = { type: "CLASS", value: "edu.stanford.nlp.ling.CoreAnnotations$TokensAnnotation" }
+
+# Create OR pattern of
+#  regular expression over temporal expressions
+$MONTHS = (
+  /January/     => "01" |
+  /February/   => "02" |
+  /March/    => "03" |
+  [/April/ & !{ ner:/PERSON.*/ }]   => "04" | #TODO: Check this...
+  [/May/& !{ tag:/MD.*/ }]   => "05" |
+  /June/    => "06" |
+  /July/    => "07" |
+  /August/    => "08" |
+  /September/    => "08" |
+  /October/    => "10" |
+  /November/    => "11" |
+  /December/    => "12"
+)
+
+$WEEKL = (
+  /Monday/     => "01" |
+  /Tuesday/   => "02" |
+  /Wednesday/    => "03" |
+  /Thursday/     => "04" |
+  /Friday/   => "05" |
+  /Saturday/    => "06" |
+  /Sunday/    => "07"
+) 
+
+$DAYMONTHN = (
+  /01|1/ => "01" |
+  /02|2/   => "02" |
+  /03|3/    => "03" |
+  /04|4/     => "04" |
+  /05|5/   => "05" |
+  /06|6/    => "06" |  
+  /07|7/    => "07" |
+  /08|8/     => "08" |
+  /09|9/   => "09" |
+  /10/   => "10" |
+  /11/   => "11" |
+  /12/   => "12" |
+  /13/   => "13" |
+  /14/   => "14" |
+  /15/   => "15" |
+  /16/   => "16" |
+  /17/   => "17" |
+  /18/   => "18" |
+  /19/   => "19" |
+  /20/   => "20" |
+  /20/   => "20" |
+  /21/   => "21" |
+  /22/   => "22" |
+  /23/   => "23" |
+  /24/   => "24" |
+  /25/   => "25" |
+  /26/   => "26" |
+  /27/   => "27" |
+  /28/   => "28" |
+  /29/   => "29" |
+  /30/   => "30" |
+  /31/   => "31" 
+)
+
+$MONTHN = (
+  /01|1/ => "01" |
+  /02|2/   => "02" |
+  /03|3/    => "03" |
+  /04|4/     => "04" |
+  /05|5/   => "05" |
+  /06|6/    => "06" |  
+  /07|7/    => "07" |
+  /08|8/     => "08" |
+  /09|9/   => "09" |
+  /10/   => "10" |
+  /11/   => "11" |
+  /12/   => "12"
+)
+
+$YEARN = ( /[12]\d\d\d/ );
+
+# Define ruleType to be over tokens
+ENV.defaults["ruleType"] = "tokens"
+
+# Define rule that
+#  upon matching pattern defined by $Color
+#  annotate matched tokens ($0) with myNER="DATEPRP" and myNERnormalized=matched value ($$0.value)
+{ pattern:( $MONTHS ),
+  result: "UNIQUE_NER_TAG", action: ( Annotate($0, myNER, "MONTH"), Annotate($0, myNERnormalized, $$0.value ) ) }
+  
+  
+{ pattern: ( $WEEKL ),
+  result: "UNIQUE_NER_TAG", action: ( Annotate($0, myNER, "WEEKDAY"), Annotate($0, myNERnormalized, $$0.value ) ) }
+  
+{ pattern: ( $DAYMONTHN ),
+  result: "UNIQUE_NER_TAG", action: ( Annotate($0, myNER, "DAYMONTH"), Annotate($0, myNERnormalized, $$0.value ) ) }
+  
+{ pattern: ( $MONTHN ),
+  result: "UNIQUE_NER_TAG", action: ( Annotate($0, myNER, "MONTH"), Annotate($0, myNERnormalized, $$0.value ) ) }
+  
+{ pattern: ( $YEARN ),
+  result: "UNIQUE_NER_TAG", action: ( Annotate($0, myNER, "YEAR"), Annotate($0, myNERnormalized, $$0.text ) ) }
