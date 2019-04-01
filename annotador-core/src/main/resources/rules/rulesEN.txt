@@ -727,10 +727,24 @@ ENV.defaults["ruleType"] = "tokens"
   action: ( Annotate($0, "myRule", "Rule$FinDeSemana"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP["weekend"] ), Annotate($0, "myTType", "finsemana" ) ) ,
   stage : 1  }
 
+# eg: quarter of  
+{ ruleType:   "tokens",
+  pattern: ( ([{lemma:"three"} | {lemma:"3"}])? [{lemma:"quarter"} & !{myNER:"DGRANULARITY"}] [{lemma:"of"}] [{lemma:"a"}] [{lemma:"hour"}] ),
+  action: ( Annotate($0, "myRule", "Rule$QuarterGranularity") , Annotate($0, "myNERnormalized", :case{($$1 == NIL) => "PT15M", :else => "PT45M"}), Annotate($0, "timexValue", $0[0].myNERnormalized), Annotate($0, "myTType", "quarter" ), Annotate($0, "timexType", "DURATION") ) ,
+    result: ( "DURATION", Concat($0[1].timexValue,""), "", "", $0[0].myRule ) ,
+	stage : 1  }
+	
+{ ruleType:   "tokens",
+  pattern: ( [{lemma:"half"}] [{lemma:"a"}] [{lemma:"hour"}] ),
+  action: ( Annotate($0, "myRule", "Rule$halfHourGranularity") , Annotate($0, "myNERnormalized", "PT30M"), Annotate($0, "timexValue", $0[0].myNERnormalized), Annotate($0, "myTType", "half" ), Annotate($0, "timexType", "DURATION") ) ,
+    result: ( "DURATION", Concat($0[1].timexValue,""), "", "", $0[0].myRule ) ,
+	stage : 1  }
+  
+  
 # eg: meses, dia...  
 { ruleType:   "tokens",
-  pattern: ( [{lemma:/$DGranularity/} & !{myNER:"DGRANULARITY"}] ),
-  action: ( Annotate($0, "myRule", "Rule$Granularity"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP[$0[0].lemma] ), Annotate($0, "myTType", $$0.text ) ) ,
+  pattern: ( [{lemma:/$DGranularity/} & !{myNER:"DGRANULARITY"} & !{myRule:"Rule$QuarterGranularity"} ] ),
+  action: ( Annotate($0, "myRule", "Rule$Granularity"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP[$0[0].lemma] ), Annotate($0, "myTType", $$0.text ) ) , 
   stage : 2  }
 
 
@@ -1127,10 +1141,11 @@ result: ("TIME", Concat("T", :case{($2[0].timexValue == "AF") => PMHOUR_MAP[$1[0
 #  stage : 15  }
 
 # eg: media hora /cuarto de hora
- { ruleType:   "tokens",
-   pattern: ( (?$added [{lemma:"half"}] || [{lemma:"quarter"}] [{lemma:"of"}] || [{myNUM:"myNUMBER"} && {mySTValue:"03"}] [{lemma:"quarter"}] [{lemma:"of"} | {lemma:"a"}]) (?$granu [{myNER:"TGRANULARITY"}]+) ),
-      action: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$MediaHora"), Annotate($0, "timexValue", :case{($added[0].lemma == "medio") => HALF_DURATION_MAP[$granu[0].myNERnormalized], ($added[0].mySTValue == "03") => TQUARTER_DURATION_MAP[$granu[0].myNERnormalized], :else => QUARTER_DURATION_MAP[$granu[0].myNERnormalized]}), Annotate($0, DURATION_MAP[$granu[0].myNERnormalized], $granu[0].timexValue), Annotate($0, "Period", :case{($granu[0].myNERnormalized == "DAY") => PERIOD_MAP["HOUR"], :else => PERIOD_MAP[$granu[0].myNERnormalized]}) ) , 
-	  stage : 14  }
+#  { ruleType:   "tokens",
+#    pattern: ( (?$added [{lemma:"half"}] || [{lemma:"quarter"}] [{lemma:"of"}] || [{myNUM:"myNUMBER"} && {mySTValue:"03"}] [{lemma:"quarter"}] [{lemma:"of"}] [{lemma:"a"}]) (?$granu [{myNER:"TGRANULARITY"}]+) ),
+#       action: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$MediaHora"), Annotate($0, "timexValue", :case{($added[0].lemma == "medio") => HALF_DURATION_MAP[$granu[0].myNERnormalized], ($added[0].mySTValue == "03") => TQUARTER_DURATION_MAP[$granu[0].myNERnormalized], :else => QUARTER_DURATION_MAP[$granu[0].myNERnormalized]}), Annotate($0, DURATION_MAP[$granu[0].myNERnormalized], $granu[0].timexValue), Annotate($0, "Period", :case{($granu[0].myNERnormalized == "DAY") => PERIOD_MAP["HOUR"], :else => PERIOD_MAP[$granu[0].myNERnormalized]}) ) , 
+# 	  stage : 14  }
+	  
 
   
   
