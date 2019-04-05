@@ -1,0 +1,115 @@
+YEARS_MAP = {
+  "thousend": 1000
+}
+$YEARDIG = CreateRegex(Keys(YEARS_MAP))
+
+CENTS_MAP = {
+  "ciento": 100,
+  "doscientos": 200,
+  "trescientos": 300,
+  "cuatrocientos": 400,
+  "quinientos": 500,
+  "seiscientos": 600,
+  "setecientos": 700,
+  "ochocientos": 800,
+  "novecientos": 900,
+  "dosciento": 200,
+  "tresciento": 300,
+  "cuatrociento": 400,
+  "quiniento": 500,
+  "seisciento": 600,
+  "seteciento": 700,
+  "ochociento": 800,
+  "noveciento": 900
+}
+$CENTDIG = CreateRegex(Keys(CENTS_MAP))
+
+DECS_MAP = {
+  "diez": 10,
+  "veinte": 20,
+  "treinta": 30,
+  "cuarenta": 40,
+  "cincuenta": 50,
+  "sesenta": 60,
+  "setenta": 70,
+  "ochenta": 80,
+  "noventa": 90
+}
+$DECSDIG = CreateRegex(Keys(DECS_MAP))
+
+UNS_MAP = {
+  "un": 1,
+  "una": 1,
+  "uno": 1,
+  "dos": 2,
+  "tres": 3,
+  "cuatro": 4,
+  "cinco": 5,
+  "seis": 6,
+  "siete": 7,
+  "ocho": 8,
+  "nueve": 9
+}
+$UNSDIG = CreateRegex(Keys(UNS_MAP))
+
+SPECIALS_MAP = {
+  "once": 11,
+  "doce": 12,
+  "trece": 13,
+  "catorce": 14,
+  "quince": 15,
+  "dieciseis": 16,
+  "diecisiete": 17,
+  "dieciocho": 18,
+  "diecinueve": 19,
+  "veintiuno": 21,
+  "veintidos": 22,
+  "veintitres": 23,
+  "veinticuatro": 24,
+  "veinticinco": 25,
+  "veintiseis": 26,
+  "veintisiete": 27,
+  "veintiocho": 28,
+  "veintinueve": 29
+}
+
+$SPECIALSDIG = CreateRegex(Keys(SPECIALS_MAP))
+
+
+
+
+
+
+
+##########3
+
+
+# CHECK mirar que no se quede sola la y
+# eg: mil cuatrocientos dieciseis
+{ ruleType:   "tokens",
+    pattern: ( (?$yearunsdig [{lemma:/$UNSDIG/} & !{pos:/DI.*/}])? (?$yeardig [{lemma:/$YEARDIG/}])? (?$centdig [{lemma:/$CENTDIG/}])? (?$decsdig [{lemma:/$DECSDIG/}])? (?$specialsdig [{lemma:/$SPECIALSDIG/}])? ((?$gry [{lemma:"y"}]) (?$unsdig [{lemma:/$UNSDIG/}]))?),
+	action: ( :case{ ($0[0].lemma != "y") =>
+	
+	(Annotate($0, "myRule", "Rule$LONGNUMBER"), Annotate($0, "myNUM", "myNUMBER"), Annotate($0, "mySTValue", Format("%d", Add( 
+	:case { # We look at the Year digit
+		($$yearunsdig == NIL && $$yeardig == NIL) => 0,
+		($$yearunsdig == NIL && $$yeardig != NIL) => YEARS_MAP[$yeardig[0].lemma] ,		
+		($$yearunsdig != NIL && $$yeardig != NIL) => Multiply(UNS_MAP[$yearunsdig[0].lemma],YEARS_MAP[$yeardig[0].lemma]) ,		
+		:else => UNS_MAP[$yearunsdig[0].lemma]} , Add( #Special case, is a unit!
+		:case {  # We look at the Century digit
+			($$centdig == NIL ) => 0 ,
+			:else => CENTS_MAP[$centdig[0].lemma]}, Add(
+				:case { # We look at the Decade digit
+					($$decsdig == NIL && $$specialsdig == NIL) => 0 ,
+					($$decsdig == NIL && $$specialsdig != NIL) => SPECIALS_MAP[$specialsdig[0].lemma] ,
+					($$decsdig != NIL && $$specialsdig == NIL) => DECS_MAP[$decsdig[0].lemma] ,
+					:else => 0},  
+						:case {  # We look at the Unit digit
+							($$unsdig == NIL ) => 0 ,
+							:else => UNS_MAP[$unsdig[0].lemma]}
+				)
+			)
+		))
+	), Annotate($0, "myNERnormalized", :case{($0[0].mySTValue.length == 1) => Concat("0", $0[0].mySTValue), :else => $0[0].mySTValue})
+	 );}),
+	stage : 4 }

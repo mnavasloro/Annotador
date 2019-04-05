@@ -869,28 +869,29 @@ ENV.defaults["ruleType"] = "tokens"
 # eg: Dos días cada semana
 { ruleType:   "composite",
   pattern: ((?$times [{timexType:"DURATION"}]+)  (?: [{lemma:"every"}] | [{lemma:"each"}] | [{lemma:"per"}] | [{lemma:"a"} & !{timexType:"DURATION"}]) (?$gran [{myNER:"DGRANULARITY"}]+)),
-  action: ( Annotate($0, "myRule", "Rule$XGranCadaGran"), Annotate($0, "timexType", "SET"),  Annotate($0, "timexFreq", $times[0].timexValue), Annotate($0, "timexValue", Concat(PERIOD_MAP[$gran[0].myNERnormalized],"01",DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized])), Annotate($0, "timexFreq", $times[0].timexValue) )  ,
+  action: ( Annotate($0, "myRule", "Rule$XGranCadaGran"), Annotate($0, "timexType", "SET"),  Annotate($0, "timexFreq", $times[0].timexValue), Annotate($0, "timexValue", Concat(PERIOD_MAP[$gran[0].myNERnormalized],Format("%02d", DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized]),DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized])) )  ,
   result: ("SET", $times[0].timexValue, $times[0].timexFreq, "", "Rule$XGranCadaGran"),
   stage : 16  }
+  
   
 # eg: (Dos veces) cada 2 meses
 { ruleType:   "composite",
   pattern: ((?$times [{myNER:"TIMES"}]+)? (?: [{lemma:"every"}] | [{lemma:"each"}] | [{lemma:"per"}] | [{lemma:"a"} & !{timexType:"DURATION"}]) (?$gran [{timexType:"DURATION"} & !{timexValue:/anchor.*/}]+)),
-  action: ( Annotate($0, "myRule", "Rule$XVezCadaXGran"), Annotate($0, "timexType", "SET"),  Annotate($0, "timexFreq", :case{ ($$times != NIL) => $times[1].myNERnormalized, :else => ""} ), Annotate($0, "timexValue", $gran[0].timexValue) )  ,
+  action: ( Annotate($0, "myRule", "Rule$XVezCadaXGran"), Annotate($0, "timexType", "SET"),  Annotate($0, "timexFreq", :case{ ($$times != NIL) => $times[0].myNERnormalized, :else => ""} ), Annotate($0, "timexValue", $gran[0].timexValue) )  ,
     result: ("SET", $0[1].timexValue, $0[1].timexFreq, "", "Rule$XVezCadaXGran"),
   stage : 18  }
   
 # eg: (Dos veces) cada/por semana
 { ruleType:   "composite",
   pattern: ((?$times [{myNER:"TIMES"}]+)? (?: [{lemma:"every"}] | [{lemma:"each"}] | [{lemma:"per"}] | [{lemma:"a"} & !{timexType:"DURATION"}]) (?$gran [{myNER:"DGRANULARITY"} & !{timexValue:/anchor.*/}]+)),
-  action: ( Annotate($0, "myRule", "Rule$XVezCadaGran"), Annotate($0, "timexType", "SET"), Annotate($0, "timexFreq", :case{ ($$times  != NIL) => $0[1].myNERnormalized, :else => ""} ) , Annotate($0, "timexValue", Concat(PERIOD_MAP[$gran[0].myNERnormalized],"1",DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized])) )  ,
+  action: ( Annotate($0, "myRule", "Rule$XVezCadaGran"), Annotate($0, "timexType", "SET"), Annotate($0, "timexFreq", :case{ ($$times  != NIL) => $times[0].myNERnormalized, :else => ""} ) , Annotate($0, "timexValue", Concat(PERIOD_MAP[$gran[0].myNERnormalized],DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized],DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized])) )  ,
     result: ("SET", $0[1].timexValue, $0[1].timexFreq, "", "Rule$XVezCadaGran"),
   stage : 18  }
   
 # eg: Todas las semanas
 { ruleType:   "composite",
   pattern: (( [{lemma:"all"} | {lemma:"every"}]) ([{myNER:"DGRANULARITY"}]+)),
-  action: ( Annotate($0, "myRule", "Rule$TodGran"), Annotate($0, "timexType", "SET"), Annotate($0, "timexValue", Concat(PERIOD_MAP[$2[0].myNERnormalized],"1",DGRANULARITY_UNIT_MAP[$2[0].myNERnormalized])) )  ,
+  action: ( Annotate($0, "myRule", "Rule$TodGran"), Annotate($0, "timexType", "SET"), Annotate($0, "timexValue", Concat(PERIOD_MAP[$2[0].myNERnormalized],DGRANULARITY_AMOUNT_MAP[$2[0].myNERnormalized],DGRANULARITY_UNIT_MAP[$2[0].myNERnormalized])) )  ,
   stage : 18  }
 
   
@@ -1221,11 +1222,16 @@ result: ("TIME", Concat("T", :case{($2[0].timexValue == "AF") => PMHOUR_MAP[$1[0
     action: ( Annotate($gran, "myNERnormalized", "3_MONTH"), Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$quarter+half"), Annotate($0, "timexValue",  Concat(Multiply(DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized], $amoun[0].myTValue),DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized], :case{($plus != NIL) => :case{($added[0].lemma == "half") => HALF_DURATION_MAP[$gran[0].myNERnormalized], ($added[0].lemma == "quarter") => QUARTER_DURATION_MAP[$gran[0].myNERnormalized], :else => TQUARTER_DURATION_MAP[$gran[0].myNERnormalized]}, :else => ""})), Annotate($0, DURATION_MAP[$gran[0].myNERnormalized], $gran[0].timexValue), Annotate($0, "Period", PERIOD_MAP[$gran[0].myNERnormalized]) ) , 
   stage : 50  }
   
-  
+{ ruleType: "composite",
+priority: 2.0,
+  pattern: ( (?$month [{myNER:"MONTHS"}]) (?$day [{myNER:"DAYMONTH"} | {myNER:"MONTHN"} | ({myNUM:"myNUMBER"} & {mySTValue:/([1-2][0-9])|0?[1-9]|3[0-1]/})]) [{lemma:","}]? (?$year [{myNER:"YEAR"}])?) ,
+  action: ( Annotate($0, "myDateDay", $day[0].myNERnormalized), Annotate($0, "myDateMonth", $month[0].myNERnormalized), Annotate($0, "myDateYear", :case{ ($$year != NIL) => $year[0].myNERnormalized, :else => "XXXX"}), Annotate($0, "myRule", "Rule$DD_MM,YYYY") ), 
+  result: ( "DATE", Concat($0[0].myDateYear, "-", $0[0].myDateMonth, "-", $0[0].myDateDay), "", "", "Rule$DD_MM,YYYY")  ,
+  stage : 25  }  
    
 { ruleType: "composite",
 priority: 2.0,
-  pattern: ( (?: [{myNER:"WEEKDAY"}] /,/? [{lemma:"the"}]?)? [{lemma:"day"}]? ([{myNER:"DAYMONTH"} | {myNER:"MONTHN"} | ({myNUM:"myNUMBER"} & {mySTValue:/([1-2][0-9])|0?[1-9]|3[0-1]/})])? (?: [{lemma:"of"}])? [{lemma:"the"}]? [{lemma:"month"}]? [{lemma:"of"}]? ([{myNER:"MONTHS"}]) (?: [{lemma:"of"}]? [{lemma:"the"}]? /,/? [{lemma:"year"}]?)?  ([{myNER:"YEAR"}])?) ,
+  pattern: ( (?: [{myNER:"WEEKDAY"}] /,/? [{lemma:"on"}]?[{lemma:"the"}]?)? [{lemma:"day"}]? ([{myNER:"DAYMONTH"} | {myNER:"MONTHN"} | ({myNUM:"myNUMBER"} & {mySTValue:/([1-2][0-9])|0?[1-9]|3[0-1]/})])? (?: [{lemma:"of"}])? [{lemma:"of"}]? [{lemma:"the"}]? [{lemma:"month"}]? [{lemma:"of"}]? ([{myNER:"MONTHS"}]) (?: [{lemma:"of"}]? [{lemma:"the"}]? /,/? [{lemma:"year"}]?)?  ([{myNER:"YEAR"}])?) ,
   action: ( :case{ ($$1 != NIL || $$3 != NIL  ) => (Annotate($0, "myDateDay", :case{ ($$1 != NIL) => $1[0].myNERnormalized, :else => "XX"}), Annotate($0, "myDateMonth", :case{ ($$2 != NIL) => $2[0].myNERnormalized, :else => "XX"}),Annotate($0, "myDateYear", :case{ ($$3 != NIL) => $3[0].myNERnormalized, :else => "XXXX"}));} ), 
   result: ( "DATE", Concat(:case{ ($$3 != NIL) => $3[0].myNERnormalized, :else => "XXXX"}, "-", :case{ ($$2 != NIL) => $2[0].myNERnormalized, :else => "XX"}, "-", :case{ ($$1 != NIL) => $1[0].myNERnormalized, :else => "XX"}), "", "", "Rule$DDdeMMdeYYYY")  ,
   stage : 25  } 
