@@ -95,7 +95,7 @@ $MONTHS = (
   [{lemma:/[F|f]ebruary/}]   => 02 |
   [{lemma:/[M|m]arch/}]    => 03 |
   [{lemma:/[A|a]pril/} & !{ pos:/PROPN.*/ }]   => 04 | #TODO: Check this...
-  [{lemma:/[M|m]ay/}]   => 05 |
+  [{lemma:/[M|m]ay/} & !{pos:/((V.*)|(MD))/}]   => 05 |
   [{lemma:/[J|j]une/}]    => 06 |
   [{lemma:/[J|j]uly/} & !{ pos:/PROPN.*/ }]    => 07 | #TODO: Check this...
   [{lemma:/[A|a]ugust/}]    => 08 |
@@ -1307,9 +1307,9 @@ priority: 3.0,
   
 { ruleType: "composite",
  priority: 1.0,
-  pattern: ( (?$times [{timexType:"TIME"}]+) [{lemma:","}]? [{lemma:"at"} || {lemma:"of"} || {lemma:"in"} || {lemma:"during"}]? [{lemma:"the"}]? (?$dates [{timexType:"DATE"}]+)) ,
-  action: ( Annotate($0, "myRule", "Rule$TIME_DATE"), Annotate($0, "timexType", "TIME"), Annotate($0, "timexValue", Concat($dates[0].timexValue, "T", $times[0].timexValue)), Annotate($0, "myDateDay", $dates[0].myDateDay), Annotate($0, "myDateMonth", $dates[0].myDateMonth), Annotate($0, "myDateYear", $dates[0].myDateYear), :case{($times[0].myTimePartDay != NIL) => Annotate($0, "myTimePartDay", $times[0].myTimePartDay);}, :case{($times[0].myTimeMinute != NIL) => Annotate($0, "myTimeMinute", $times[0].myTimeMinute);}, :case{($times[0].myTimeHour != NIL) => Annotate($0, "myTimeHour", $times[0].myTimeHour);}), 
-  result: ( "TIME", Concat($dates[0].timexValue, "T", $times[0].timexValue), "", "", "Rule$TIME_DATE")  ,
+  pattern: ( (?$times [{timexType:"TIME"}]+) [{lemma:","}]? [{lemma:"at"} || {lemma:"of"} || {lemma:"on"} || {lemma:"in"} || {lemma:"during"}]? [{lemma:"the"}]? (?$dates [{timexType:"DATE"}]+)) ,
+  action: ( Annotate($0, "myRule", "Rule$TIME_DATE"), Annotate($0, "timexType", "TIME"), Annotate($0, "timexValue", Concat($dates[0].timexValue, "T",  $times[0].timexValue)), Annotate($0, "myDateDay", $dates[0].myDateDay), Annotate($0, "myDateMonth", $dates[0].myDateMonth), Annotate($0, "myDateYear", $dates[0].myDateYear), :case{($times[0].myTimePartDay != NIL) => Annotate($0, "myTimePartDay", $times[0].myTimePartDay);}, :case{($times[0].myTimeMinute != NIL) => Annotate($0, "myTimeMinute", $times[0].myTimeMinute);}, :case{($times[0].myTimeHour != NIL) => Annotate($0, "myTimeHour", $times[0].myTimeHour);}), 
+  result: ( "TIME", Concat($dates[0].timexValue,  "T", $times[0].timexValue), "", "", "Rule$TIME_DATE")  ,
   stage : 150  }  
   
 
