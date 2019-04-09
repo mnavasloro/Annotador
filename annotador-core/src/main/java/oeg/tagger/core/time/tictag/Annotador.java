@@ -76,6 +76,12 @@ public class Annotador {
         lang = language;
         init();
     }
+    
+    public Annotador(String rul, String language) {
+        rules = rul;
+        lang = language;
+        init();
+    }
 
     public void init() {
 
