@@ -276,8 +276,22 @@
     }
 };
 
-        xhttp.open('GET', 'annotate2' + "?inputText=" + encodeURIComponent($('#inputText').val()) + "&inputDate=" + encodeURIComponent($('#inputDate').val()), true);    
-        xhttp.send();
+              
+        // xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');//"application/x-www-form-urlencoded");
+        // xhttp.setRequestHeader('Content-length', 'params.length');
+        // xhttp.setRequestHeader('Connection', 'close');
+        
+
+        // xhttp.open('GET', 'annotate2' + "?inputText=" + encodeURIComponent($('#inputText').val()) + "&inputDate=" + encodeURIComponent($('#inputDate').val()), true);    
+        // xhttp.send();
+        
+        var params = "inputText=" + encodeURIComponent($('#inputText').val()) + "&inputDate=" + encodeURIComponent($('#inputDate').val());
+                
+        
+
+        xhttp.open('POST', 'annotate2', true); 
+		xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhttp.send(params);
     }
     catch(exception)
    {

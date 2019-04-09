@@ -22,7 +22,7 @@ import oeg.tagger.core.servlets.Salida;
  *
  * @author mnavas
  */
-public class annotateDoc extends HttpServlet {
+public class annotatePost extends HttpServlet {
 
     static Annotador annotador;
     static String pathpos;
@@ -30,7 +30,7 @@ public class annotateDoc extends HttpServlet {
     static String pathrules;
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * Processes requests for both HTTP <code>POST</code>
      * methods. Takes a text as an input. Offers the same text: a) either
      * removing the legal references b)
      *
@@ -58,7 +58,6 @@ public class annotateDoc extends HttpServlet {
         pathrules = context.getResource("/WEB-INF/classes/rules/rulesES.txt").getPath();
 
         // We call the tagger and return its output
-        System.out.println("----------\n" + input);
         String salida = parseAndTag(input, inputDate);
         response.setContentType("text/plain");
         response.getWriter().println(salida);
@@ -108,9 +107,7 @@ public class annotateDoc extends HttpServlet {
             
             String output = annotador.annotate(txt, date); // We annotate in TIMEX format
             System.out.println(output);
-            String out2 = createHighlights(output);
-            System.out.println(out2);
-            return out2; // We return the javascript with the values to evaluate
+            return output; // We return the javascript with the values to evaluate
         } catch (Exception ex) {
             System.err.print(ex.toString());
             return "";
@@ -164,7 +161,7 @@ public class annotateDoc extends HttpServlet {
     
 
     /**
-     * Handles the HTTP <code>POST</code> method.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response

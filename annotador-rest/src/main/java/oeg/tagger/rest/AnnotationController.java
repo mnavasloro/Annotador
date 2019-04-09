@@ -63,8 +63,10 @@ public class AnnotationController {
             res = annotador.annotate(txt, date);
         }
         else if(lang.equalsIgnoreCase("en")){
-            TicTag tt = new TicTag("EN");
-            res = tt.annotate(txt);
+            Annotador annotador = new Annotador("en");
+            res = annotador.annotate(txt, date);
+//            TicTag tt = new TicTag("EN");
+//            res = tt.annotate(txt);
         }
         else{
 //            logger.error("error in language; for now, just available ES and EN");
