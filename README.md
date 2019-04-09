@@ -1,4 +1,4 @@
-# Añotador: Temporal Taggins service for Spanish and English
+# Añotador: Temporal Tagging service for Spanish and English
 
 ## Demo
 Please visit the demo (just for Spanish) in http://annotador.oeg-upm.net/.
