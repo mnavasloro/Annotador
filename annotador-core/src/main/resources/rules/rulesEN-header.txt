@@ -1,0 +1,605 @@
+# DATES ENGLISH
+# Example to add "DATEPRP" as ner tag, and ISO code as the normalized tag for strings matching a color
+
+# Case insensitive pattern matching (see java.util.regex.Pattern flags)
+
+# Map variable names to annotation keys
+ myNER = { type: "CLASS", value: "oeg.tagger.core.time.annotation.myNER$MyNamedEntityTagAnnotation" }
+ myNUM = { type: "CLASS", value: "oeg.tagger.core.time.annotation.myNER$MyNumTagAnnotation" }
+ myNERnormalized = { type: "CLASS", value: "oeg.tagger.core.time.annotation.myNER$MyNormalizedNamedEntityTagAnnotation" }
+ myT = { type: "CLASS", value: "oeg.tagger.core.time.annotation.myNER$MyNamedEntityTagAnnotation" }
+# myTnormalized = { type: "CLASS", value: "oeg.tagger.core.time.annotation.myNER$MyNormalizedNamedEntityTagAnnotation" }
+ myTType = { type: "CLASS", value: "oeg.tagger.core.time.annotation.temporal$MyTypeTemporalAnnotation" }
+ 
+myTValue = { type: "CLASS", value: "oeg.tagger.core.time.annotation.temporal$MyValueAnnotation" }
+
+mySTValue = { type: "CLASS", value: "oeg.tagger.core.time.annotation.temporal$MyStringValueAnnotation" }
+
+myRule = { type: "CLASS", value: "oeg.tagger.core.time.annotation.temporal$MyRuleAnnotation" }
+
+ timexType = { type: "CLASS", value: "oeg.tagger.core.time.annotation.timex$Type" }
+ timexValue = { type: "CLASS", value: "oeg.tagger.core.time.annotation.timex$Value" }
+ timexFreq = { type: "CLASS", value: "oeg.tagger.core.time.annotation.timex$Freq" }
+ timexQuant = { type: "CLASS", value: "oeg.tagger.core.time.annotation.timex$Quant" }
+ 
+
+
+
+ner = { type: "CLASS", value: "edu.stanford.nlp.ling.CoreAnnotations$NamedEntityTagAnnotation" }
+normalized = { type: "CLASS", value: "edu.stanford.nlp.ling.CoreAnnotations$NormalizedNamedEntityTagAnnotation" }
+tokens = { type: "CLASS", value: "edu.stanford.nlp.ling.CoreAnnotations$TokensAnnotation" }
+
+# TIME
+
+myTimeHour = { type: "CLASS", value: "oeg.tagger.core.time.annotation.time$MyHour" }
+
+myTimeMinute = { type: "CLASS", value: "oeg.tagger.core.time.annotation.time$MyMinute" }
+
+myTimeSecond = { type: "CLASS", value: "oeg.tagger.core.time.annotation.time$MySecond" }
+
+myTimePartDay = { type: "CLASS", value: "oeg.tagger.core.time.annotation.time$MyPartDay" }
+
+# DATE
+
+myDateDay = { type: "CLASS", value: "oeg.tagger.core.time.annotation.date$MyDay" }
+
+myDateMonth = { type: "CLASS", value: "oeg.tagger.core.time.annotation.date$MyMonth" }
+
+myDateYear = { type: "CLASS", value: "oeg.tagger.core.time.annotation.date$MyYear" }
+
+myDateDayWeek = { type: "CLASS", value: "oeg.tagger.core.time.annotation.date$MyDayWeek" }
+
+myDateWeek = { type: "CLASS", value: "oeg.tagger.core.time.annotation.date$MyWeek" }
+
+
+# Duration
+
+myDurationWeek = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyWeeks" }
+
+myDurationHour = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyHours" }
+
+myDurationDay = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyDays" }
+
+myDurationMinute = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyMinutes" }
+
+myDurationSecond = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MySeconds" }
+
+myDurationMonth = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyMonths" }
+
+myDurationYear = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyYears" }
+
+myDurationDecade = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyDecades" }
+
+myDurationDayWeek = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyDayWeeks" }
+
+myDurationWeekend = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$MyWeekends" }
+
+Period = { type: "CLASS", value: "oeg.tagger.core.time.annotation.duration$Period" }
+
+
+
+
+mytokens = { type: "CLASS", value: "oeg.tagger.core.time.annotation.temporal$MyTokensAnnotation" } 	 	
+
+#ENV.defaultResultAnnotationKey = ( type, value ) 
+ENV.defaultNestedResultsAnnotationKey = mytokens 
+#ENV.defaults["stage.limitIters"] = 0
+
+ENV.defaultResultAnnotationKey = (timexType, timexValue, timexFreq, timexQuant, myRule)
+ENV.defaults["stage"] = 1
+
+# Create OR pattern of
+#  regular expression over temporal expressions
+$MONTHS = (
+  [{lemma:/[J|j]anuary/}]     => 01 |
+  [{lemma:/[F|f]ebruary/}]   => 02 |
+  [{lemma:/[M|m]arch/}]    => 03 |
+  [{lemma:/[A|a]pril/} & !{ pos:/PROPN.*/ }]   => 04 | #TODO: Check this...
+  [{lemma:/[M|m]ay/} & !{pos:/((V.*)|(MD))/}]   => 05 |
+  [{lemma:/[J|j]une/}]    => 06 |
+  [{lemma:/[J|j]uly/} & !{ pos:/PROPN.*/ }]    => 07 | #TODO: Check this...
+  [{lemma:/[A|a]ugust/}]    => 08 |
+  [{lemma:/[S|s]eptember/}]    => 09 |
+  [{lemma:/[O|o]ctober/}]    => 10 |
+  [{lemma:/[N|n]ovember/}]    => 11 |
+  [{lemma:/[D|d]ecember/}]    => 12
+)
+
+$WEEKL = (
+  [{lemma:/[M|m]onday/}]     => 01 |
+  [{lemma:/[T|t]uesday/}]   => 02 |
+  [{lemma:/[W|w]ednesday/}]    => 03 |
+  [{lemma:/[T|t]hursday/}]     => 04 |
+  [{lemma:/[F|f]riday/}]   => 05 |
+  [{lemma:/[S|s]aturday/}]    => 06 |
+  [{lemma:/[S|s]unday/} & !{ pos:/PROPN.*/ }]    => 07
+) 
+
+$DAYMONTHN = (
+  /01|1/ => 01 |
+  /02|2/   => 02 |
+  /03|3/    => 03 |
+  /04|4/     => 04 |
+  /05|5/   => 05 |
+  /06|6/    => 06 |  
+  /07|7/    => 07 |
+  /08|8/     => 08 |
+  /09|9/   => 09 |
+  /10/   => 10 |
+  /11/   => 11 |
+  /12/   => 12 |
+  /13/   => 13 |
+  /14/   => 14 |
+  /15/   => 15 |
+  /16/   => 16 |
+  /17/   => 17 |
+  /18/   => 18 |
+  /19/   => 19 |
+  /20/   => 20 |
+  /20/   => 20 |
+  /21/   => 21 |
+  /22/   => 22 |
+  /23/   => 23 |
+  /24/   => 24 |
+  /25/   => 25 |
+  /26/   => 26 |
+  /27/   => 27 |
+  /28/   => 28 |
+  /29/   => 29 |
+  /30/   => 30 |
+  /31/   => 31
+)
+
+$MONTHN = (
+  /01|1/ => 01 |
+  /02|2/   => 02 |
+  /03|3/    => 03 |
+  /04|4/     => 04 |
+  /05|5/   => 05 |
+  /06|6/    => 06 |  
+  /07|7/    => 07 |
+  /08|8/     => 08 |
+  /09|9/   => 09 |
+  /10/   => 10 |
+  /11/   => 11 |
+  /12/   => 12
+)
+
+$ORDINALS = (
+  [{lemma:/first/}] => 01 |
+  [{lemma:/second/}]   => 02 |
+  [{lemma:/third/}]    => 03 |
+  [{lemma:/forth/}]     => 04 |
+  [{lemma:/fifth/}]   => 05 |
+  [{lemma:/sixth/}]    => 06 |  
+  [{lemma:/seventh/}]    => 07 |
+  [{lemma:/eighth/}]     => 08 |
+  [{lemma:/ninth/}]   => 09 |
+  [{lemma:/tenth/}]   => 10 |
+  [{lemma:/eleventh/}]   => 11 |
+  [{lemma:/twelfth/}]   => 12 |
+  [{lemma:/thirteenth/}]   => 13 |
+  [{lemma:/fourteenth/}]   => 14 |
+  [{lemma:/fifteenth/}]   => 15 |
+  [{lemma:/sixteenth/}]    => 16 |  
+  [{lemma:/seventeenth/}]    => 17 |
+  [{lemma:/eighteenth/}]     => 18 |
+  [{lemma:/nineteenth/}]   => 19 |
+  [{lemma:/twentieth/}]   => 20 |
+  [{lemma:/twenty-first/}] => 21 |
+  [{lemma:/twenty-second/}]   => 22 |
+  [{lemma:/twenty-third/}]    => 23 |
+  [{lemma:/twenty-fourth/}]     => 24 |
+  [{lemma:/twenty-fifth/}]   => 25 |
+  [{lemma:/twenty-sixth/}]    => 26 |  
+  [{lemma:/twenty-seventh/}]    => 27 |
+  [{lemma:/twenty-eighth/}]     => 28 |
+  [{lemma:/twenty-ninth/}]   => 29 |
+  [{lemma:/thirtieth/}]   => 30 |
+  [{lemma:/thirty-first/}]   => 31
+)
+
+DGRANULARITY_MAP = {
+  "day" : "DAY",
+  "days" : "DAY",
+  "weekend"   : "WEEKEND",
+  "week"    : "WEEK",
+  "weeks"    : "WEEK",
+  "fornight"     : "FORNIGHT",
+  "fornights"     : "FORNIGHT",
+  "month"   : "MONTH",
+  "months"   : "MONTH",
+  "bimester"    : "2_MONTH",  
+  "bimesters"    : "2_MONTH",  
+  "trimester"    : "3_MONTH",
+  "trimesters"    : "3_MONTH",
+#  "quarter"     : "3_MONTH",
+#  "quarters"     : "3_MONTH",
+  "semester"   : "6_MONTH",
+  "semesters"   : "6_MONTH",
+  "year"   : "YEAR",
+  "lustrum"   : "5_YEAR",
+  "lustrums"   : "5_YEAR",
+  "decade"   : "10_YEAR",
+  "decades"   : "10_YEAR",
+  "century"   : "100_YEAR",
+  "centuries"   : "100_YEAR",
+  "millennium"   : "1000_YEAR"
+}
+$DGranularity = CreateRegex(Keys(DGRANULARITY_MAP))
+
+
+
+DURATION_MAP = {
+  "DAY" : "myDurationDay" ,
+  "WEEKEND"   : "myDurationWeekend" ,
+  "WEEK"    : "myDurationWeek" ,
+  "FORNIGHT"     : "myDurationWeek" ,
+  "MONTH"   : "myDurationMonth" ,
+  "2_MONTH"    : "myDurationMonth" ,  
+  "3_MONTH"    : "myDurationMonth" ,
+  "4_MONTH"     : "myDurationMonth" ,
+  "6_MONTH"   : "myDurationMonth" ,
+  "YEAR"   : "myDurationYear" ,
+  "5_YEAR"   : "myDurationYear" ,
+  "10_YEAR"   : "myDurationYear" ,
+  "100_YEAR"   : "myDurationDecade" ,
+  "1000_YEAR"   : "myDurationYear",
+  "HOUR"	: "myDurationHour",
+  "MINUTE"	: "myDurationMinute",
+  "SECOND"	: "myDurationSecond"
+}
+
+HALF_DURATION_MAP = {
+  "DAY" : "12H" ,
+  "WEEKEND"   : "01D" ,
+  "WEEK"    : "03D12H" ,
+  "FORNIGHT"     : "01W" ,
+  "MONTH"   : "02W" ,
+  "YEAR"   : "06M" ,
+  "5_YEAR"   : "02Y06M" ,
+  "10_YEAR"   : "05Y" ,
+  "100_YEAR"   : "50Y" ,
+  "1000_YEAR"   : "500Y",
+  "HOUR"	: "30M",
+  "MINUTE"	: "30S",
+  "SECOND"	: ""
+}
+
+QUARTER_DURATION_MAP = {
+  "DAY" : "06H" ,
+  "WEEKEND"   : "12H" ,
+  "WEEK"    : "01D18H" ,
+  "FORNIGHT"     : "03D12H" ,
+  "MONTH"   : "01W" ,
+  "YEAR"   : "03M" ,
+  "5_YEAR"   : "01Y06H" ,
+  "10_YEAR"   : "02Y06M" ,
+  "100_YEAR"   : "25Y" ,
+  "1000_YEAR"   : "250Y",
+  "HOUR"	: "15M",
+  "MINUTE"	: "15S",
+  "SECOND"	: ""
+}
+
+TQUARTER_DURATION_MAP = {
+  "DAY" : "18H" ,
+  "WEEKEND"   : "1D12H" ,
+  "WEEK"    : "04D06H" ,
+  "FORNIGHT"     : "01W03D12H" ,
+  "MONTH"   : "01W" ,
+  "YEAR"   : "03M" ,
+  "5_YEAR"   : "01Y06H" ,
+  "10_YEAR"   : "07Y06M" ,
+  "100_YEAR"   : "75Y" ,
+  "1000_YEAR"   : "750Y",
+  "HOUR"	: "45M",
+  "MINUTE"	: "45S",
+  "SECOND"	: ""
+}
+
+PERIODMENTE_MAP = {
+  "daily" : "P1D",
+  "weekly" : "P1W",
+  "monthly"   : "P1M",
+  "bimonthly"    : "P2M",
+  "quarterly"    : "P3M",
+  "semiannually"     : "P6M",
+  "annually"     : "P1Y",
+  "yearly"     : "P1Y",
+  "biannually"     : "P2Y",
+  "annual"     : "P1Y",
+  "biannual"     : "P2Y"
+}
+$PeriodAdv = CreateRegex(Keys(PERIODMENTE_MAP))
+
+HOURS_MENOS_MAP = {
+  "one": "12",
+  "two": "1",
+  "three": "2",
+  "four": "3",
+  "five": "4",
+  "six": "5",
+  "seven": "6",
+  "eigth": "7",
+  "nine": "8",
+  "ten": "9",
+  "eleven": "10",
+  "twelve": "11",
+  "1": "12",
+  "2": "1",
+  "3": "2",
+  "4": "3",
+  "5": "4",
+  "6": "5",
+  "7": "6",
+  "8": "7",
+  "9": "8",
+  "10": "9",
+  "11": "10",
+  "12": "11"
+}
+$Hoursmenosmap = CreateRegex(Keys(HOURS_MENOS_MAP))
+
+
+MINUTES_MENOS_MAP = {
+  "one": "59",
+  "two": "58",
+  "three": "57",
+  "four": "56",
+  "five": "55",
+  "six": "54",
+  "seven": "53",
+  "eigth": "52",
+  "nine": "51",
+  "ten": "50",
+  "eleven": "49",
+  "twelve": "48",
+  "thirteen": "47",
+  "fourteen": "46",
+  "fifteen": "45",
+  "sixteen": "44",
+  "seventeen": "43",
+  "eighteen": "42",
+  "nineteen": "41",
+  "twenty": "40",
+  "twenty-one": "39",
+  "twenty-two": "38",
+  "twenty-three": "37",
+  "twenty-four": "36",
+  "twenty-five": "35",
+  "twenty-six": "34",
+  "twenty-seven": "33",
+  "twenty-eight": "32",
+  "twenty-nine": "31",
+  "1": "59",
+  "2": "58",
+  "3": "57",
+  "4": "56",
+  "5": "55",
+  "6": "54",
+  "7": "53",
+  "8": "52",
+  "9": "51",
+  "10": "50",
+  "11": "49",
+  "12": "48",
+  "13": "47",
+  "14": "46",
+  "15": "45",
+  "16": "44",
+  "17": "43",
+  "18": "42",
+  "19": "41",
+  "20": "40",
+  "21": "39",
+  "22": "38",
+  "23": "37",
+  "24": "36",
+  "25": "35",
+  "26": "34",
+  "27": "33",
+  "28": "32",
+  "29": "31"
+}
+$Minutesmenosmap = CreateRegex(Keys(MINUTES_MENOS_MAP))
+
+
+HOURS_MAP = {
+  "one": "1",
+  "dos": "2",
+  "three": "3",
+  "four": "4",
+  "five": "5",
+  "six": "6",
+  "seven": "7",
+  "eight": "8",
+  "nine": "9",
+  "ten": "10",
+  "eleven": "11",
+  "twelve": "12",
+  "1": "1",
+  "2": "2",
+  "3": "3",
+  "4": "4",
+  "5": "5",
+  "6": "6",
+  "7": "7",
+  "8": "8",
+  "9": "9",
+  "10": "10",
+  "11": "11",
+  "12": "12"
+}
+$Hoursmap = CreateRegex(Keys(HOURS_MAP))
+
+PARTDAY_MAP = {
+  "morning" : "MO",
+  "noon" : "MI",
+  "midday" : "MI",
+  "afternoon"   : "AF",
+  "evening"    : "EV",
+  "dawn"    : "EV",
+  "night"    : "NI"
+}
+$PDGranularity = CreateRegex(Keys(PARTDAY_MAP))
+
+
+
+DGRANULARITY_UNIT_MAP = {
+  "DAY" : "D" ,
+  "WEEKEND"   : "WEEKEND" ,
+  "WEEK"    : "W" ,
+  "FORNIGHT"     : "D" ,
+  "MONTH"   : "M" ,
+  "2_MONTH"    : "M" ,  
+  "3_MONTH"    : "M" ,
+  "4_MONTH"     : "M" ,
+  "6_MONTH"   : "M" ,
+  "YEAR"   : "Y" ,
+  "5_YEAR"   : "Y" ,
+  "10_YEAR"   : "Y" ,
+  "100_YEAR"   : "Y" ,
+  "1000_YEAR"   : "Y"
+}
+
+DGRANULARITY_AMOUNT_MAP = {
+  "DAY" : 1 ,
+  "WEEKEND"   : 2 ,
+  "WEEK"    : 1 ,
+  "FORNIGHT"     : 15 ,
+  "MONTH"   : 1 ,
+  "YEAR"   : 1 ,
+  "2_MONTH"    : 2 ,  
+  "3_MONTH"    : 3 ,
+  "4_MONTH"     : 4 ,
+  "6_MONTH"   : 6 ,
+  "5_YEAR"   : 5 ,
+  "10_YEAR"   : 10 ,
+  "100_YEAR"   : 100  ,
+  "1000_YEAR"   : 1000 
+}
+
+
+
+PERIOD_MAP = {
+  "DAY" : "P" ,
+  "WEEKEND"   : "P" ,
+  "WEEK"    : "P" ,
+  "FORNIGHT"     : "P" ,
+  "MONTH"   : "P" ,
+  "2_MONTH"    : "P" ,  
+  "3_MONTH"    : "P" ,
+  "4_MONTH"     : "P" ,
+  "6_MONTH"   : "P" ,
+  "YEAR"   : "P" ,
+  "5_YEAR"   : "P" ,
+  "10_YEAR"   : "P" ,
+  "100_YEAR"   : "P" ,
+  "1000_YEAR"   : "P",
+  "SECOND"   : "PT",
+  "MINUTE"   : "PT",
+  "HOUR"   : "PT"
+}
+
+PMHOUR_MAP = {
+  "1" : "13" ,
+  "2"   : "14" ,
+  "3"    : "15" ,
+  "4"     : "16" ,
+  "5"   : "17" ,
+  "6"    : "18" ,  
+  "7"    : "19" ,
+  "8"     : "20" ,
+  "9"   : "21" ,
+  "10"   : "22" ,
+  "11"   : "23" ,
+  "12"   : "24" 
+}
+
+
+TGRANULARITY_MAP = {
+  "second" : "SECOND",
+  "seconds" : "SECOND",
+  "minute" : "MINUTE",
+  "minutes" : "MINUTE",
+  "hour"   : "HOUR",
+  "hours"   : "HOUR"
+}
+$TGranularity = CreateRegex(Keys(TGRANULARITY_MAP))
+
+TGRANULARITY_UNIT_MAP = {
+  "SECOND" : "S",
+  "MINUTE" : "M",
+  "HOUR"   : "H"
+}
+
+TGRANULARITY_AMOUNT_MAP = {  
+  "SECOND" : 1,
+  "MINUTE" : 1,
+  "HOUR"   : 1
+}
+
+$YEARN = ( /[12]\d\d\d/ );
+
+
+
+DECS_MAP = {
+  "ten": 10,
+  "twenty": 20,
+  "thirty": 30,
+  "forty": 40,
+  "fifty": 50,
+  "sixty": 60,
+  "seventy": 70,
+  "eighty": 80,
+  "ninety": 90
+}
+$DECSDIG = CreateRegex(Keys(DECS_MAP))
+
+UNS_MAP = {
+  "a": 1,
+  "one": 1,
+  "two": 2,
+  "three": 3,
+  "four": 4,
+  "five": 5,
+  "six": 6,
+  "seven": 7,
+  "eight": 8,
+  "nine": 9
+}
+$UNSDIG = CreateRegex(Keys(UNS_MAP))
+
+SPECIALS_MAP = {
+  "eleven": 11,
+  "twelve": 12,
+  "thirteen": 13,
+  "fourteen": 14,
+  "fifteen": 15,
+  "sixteen": 16,
+  "seventeen": 17,
+  "eighteen": 18,
+  "nineteen": 19
+}
+
+$SPECIALSDIG = CreateRegex(Keys(SPECIALS_MAP))
+
+$DEICTIC2 = (
+  /next/ => "+1" |
+  /following/   => "+1" |
+  /last/    => "-1" |
+  /former/    => "-1" |
+  /previous/     => "-1" |
+  /preceding/   => "-1" |
+  /later/    => "+1" |
+  /before/   => "-1" |
+  /after/    => "+1"
+)
+
+
+
+
+
+# Define ruleType to be over tokens
+ENV.defaults["ruleType"] = "tokens"
