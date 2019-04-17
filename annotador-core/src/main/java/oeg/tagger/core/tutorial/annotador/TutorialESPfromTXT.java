@@ -104,7 +104,8 @@ public class TutorialESPfromTXT {
                     String tnormalized = token.get(temporal.MyNormalizedTemporalAnnotation.class);
                     String myTeNormalized = token.get(temporal.MyTemporalAnnotation.class);
 //        System.out.println("dfgfg - " + token.get(temporal.MyValueAnnotation.class));
-                    String myTeValue = token.get(temporal.MyStringValueAnnotation.class);
+                    String mySTeValue = token.get(temporal.MyStringValueAnnotation.class);
+        Number myTeValue = token.get(temporal.MyValueAnnotation.class);
 //        Number myTeValue = token.get(temporal.MyValueAnnotation.class);
                     String myTeType = token.get(temporal.MyTypeTemporalAnnotation.class);
                     String rule = token.get(temporal.MyRuleAnnotation.class);
@@ -119,7 +120,7 @@ public class TutorialESPfromTXT {
 //        out.println("token: " + "word="+word + ", myNe=" + myNe + ", myNenormalized=" + myNeNormalized + "\t\t" + token.value());
 //        out.println("token: " + "TIMEX=(" + type + ", " + value + ") \t word=" +word + ",  \t lemma="+lemma + ",  \t pos=" + pos);
 //                    out.println("token: " + "TIMEX=(" + type + ", " + value + ", " + freq + ") \t word=" + word);
-                    out.println("token: " + "TIMEX=(" + type + ", " + value + ", " + freq + ", " + rule + ") \t word=" + word + ",  \t lemma=" + lemma + ",  \t pos=" + pos + ",  \t ne=" + ne + ",  \t normalized=" + normalized + ",  \t myNe=" + myNe + ",  \t myNum=" + myNum + ",  \t myNenormalized=" + myNeNormalized + "\t myT=" + tnormalized + "\t  myTnormalized=" + myTeNormalized + "\t  myTValue=" + myTeValue + "\t  myTType=" + myTeType);
+                    out.println("token: " + "TIMEX=(" + type + ", " + value + ", " + freq + ", " + rule + ") \t word=" + word + ",  \t lemma=" + lemma + ",  \t pos=" + pos + ",  \t ne=" + ne + ",  \t normalized=" + normalized + ",  \t myNe=" + myNe + ",  \t myNum=" + myNum + ",  \t myNenormalized=" + myNeNormalized + "\t myT=" + tnormalized + "\t  myTnormalized=" + myTeNormalized + "\t  myTValue=" + myTeValue + "\t  mySTValue=" + mySTeValue + "\t  myTType=" + myTeType);
                     out.println("\t " + "DUR=(" + duryear + ", " + durday + " - " + durper + ")");
                     out.println("\t " + "SET=(" + freq + ")");
 //        out.println("token: " + "word="+word + ", lemma="+lemma + ", pos=" + pos + ", ne=" + ne + ", normalized=" + normalized + ", myNe=" + myNe + ", myNenormalized=" + myNeNormalized);

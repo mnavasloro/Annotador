@@ -160,6 +160,8 @@ public class Annotador {
             // But you can see what is in it with other methods like toShorterString()
 //            out.println("The top level annotation");
             System.out.println(annotation.toShorterString());
+            
+            
             List<CoreMap> sentences = annotation.get(CoreAnnotations.SentencesAnnotation.class);
             for (CoreMap sentence : sentences) {
                 CoreMapExpressionExtractor<MatchedExpression> extractor = CoreMapExpressionExtractor
@@ -510,7 +512,11 @@ public class Annotador {
             List<FileTempEval3ES> list = mte3.lista;
             for (FileTempEval3ES f : list) {
                 String input = f.getTextInput();
-                String output = annotate(input, f.getDCTInput());
+                String input2 = input.replaceAll("\\r\\n", "\\\\n");
+                String output = annotate(input2, f.getDCTInput());
+                if(!input.equals(input2)){
+                    output = output.replaceAll("\\\\n", "\r\n");
+                }
                 f.writeOutputFile(output);
             }
         } catch (Exception ex) {
