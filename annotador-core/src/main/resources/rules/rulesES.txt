@@ -522,8 +522,8 @@ PMHOUR_MAP = {
   "12"   : "24" 
 }
 
-
 TGRANULARITY_MAP = {
+
   "segundo" : "SECOND",
   "segundos" : "SECOND",
   "minuto" : "MINUTE",
@@ -723,7 +723,7 @@ ENV.defaults["ruleType"] = "tokens"
 
 
 { ruleType:   "tokens",
-  pattern: ( [{lemma:/$UNSDIG/}  & !{word:/.*[Ss]/}] ),
+  pattern: ( [{lemma:/$UNSDIG/}  & !{word:/[Uu][Nn][Oo][Ss]/}] ),
   action: ( Annotate($0, "myRule", "Rule$LetterNumber"), Annotate($0, "myNER", "myNUMBER"), Annotate($0, "myNUM", "myNUMBER"), Annotate($0, "mySTValue", Format("%d", UNS_MAP[$0[0].lemma])), Annotate($0, "myTValue", UNS_MAP[$0[0].lemma]), Annotate($0, "myNERnormalized", Format("%02d", UNS_MAP[$0[0].lemma])) ) ,
   stage : 1  }  
 
