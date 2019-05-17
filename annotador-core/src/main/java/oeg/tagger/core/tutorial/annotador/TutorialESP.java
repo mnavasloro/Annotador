@@ -47,7 +47,8 @@ public class TutorialESP {
         properties.setProperty("tokensregexdemo.rules", rules);
         StanfordCoreNLP pipeline = new StanfordCoreNLP(properties);
 
-        String txt = "mensualmente";
+        String txt = "treinta de mayo de mil novecientos setenta y cuatro";
+//        String txt = "mensualmente";
 //        String txt = "a los 2029 capítulos";
 //        String txt = "viene a finales de 2019";
 //        String txt = "dos días a la semana";
@@ -124,9 +125,11 @@ public class TutorialESP {
                 String normalized = token.get(CoreAnnotations.NormalizedNamedEntityTagAnnotation.class);
                 String myNeNormalized = token.get(myNER.MyNormalizedNamedEntityTagAnnotation.class);
                 String tnormalized = token.get(temporal.MyNormalizedTemporalAnnotation.class);
+                String myNum = token.get(myNER.MyNumTagAnnotation.class);
                 String myTeNormalized = token.get(temporal.MyTemporalAnnotation.class);
 //        System.out.println("dfgfg - " + token.get(temporal.MyValueAnnotation.class));
                 Number myTeValue = token.get(temporal.MyValueAnnotation.class);
+                String mySValue = token.get(temporal.MyStringValueAnnotation.class);
                 String myTeType = token.get(temporal.MyTypeTemporalAnnotation.class);
                 String rule = token.get(temporal.MyRuleAnnotation.class);
 
@@ -135,7 +138,7 @@ public class TutorialESP {
                 String freq = token.get(timex.Freq.class);
 //        out.println("token: " + "word="+word + ", myNe=" + myNe + ", myNenormalized=" + myNeNormalized + "\t\t" + token.value());
 //        out.println("token: " + "TIMEX=(" + type + ", " + value + ") \t word=" +word + ",  \t lemma="+lemma + ",  \t pos=" + pos);
-                out.println("token: " + "TIMEX=(" + type + ", " + value + ", " + freq + ", " + rule + ") \t word=" + word + ",  \t lemma=" + lemma + ",  \t pos=" + pos + ",  \t ne=" + ne + ",  \t normalized=" + normalized + ",  \t myNe=" + myNe + ",  \t myNenormalized=" + myNeNormalized + "\t myT=" + tnormalized + "\t  myTnormalized=" + myTeNormalized + "\t  myTValue=" + myTeValue + "\t  myTType=" + myTeType);
+                out.println("token: " + "TIMEX=(" + type + ", " + value + ", " + freq + ", " + rule + ") \t word=" + word + ",  \t lemma=" + lemma + ",  \t pos=" + pos + ",  \t ne=" + ne + ",  \t normalized=" + normalized + ",  \t myNe=" + myNe + ",  \t myNenormalized=" + myNeNormalized + "\t myT=" + tnormalized + "\t  myTnormalized=" + myTeNormalized + "\t  myTValue=" + myTeValue + "\t  mySTValue=" + mySValue + "\t  myTType=" + myTeType + "\t  myNum=" + myNum);
 //        out.println("token: " + "word="+word + ", lemma="+lemma + ", pos=" + pos + ", ne=" + ne + ", normalized=" + normalized + ", myNe=" + myNe + ", myNenormalized=" + myNeNormalized);
 out.flush();
             }
