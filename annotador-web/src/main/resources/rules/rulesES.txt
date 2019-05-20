@@ -1295,9 +1295,17 @@ priority: 3.0,
 # Sucesion de duraciones
 { ruleType: "composite",
  priority: 1.0,
-  pattern: ( [{timexType:"DURATION"}]* ([{timexType:"DURATION"}]) (?: [{lemma:"y"}] | /,/) [{timexType:"DURATION"}]* ([{timexType:"DURATION"}]) ) ,
+  pattern: ( [{timexType:"DURATION"}]* ([{timexType:"DURATION"}]) (?: /,/) [{timexType:"DURATION"}]* ([{timexType:"DURATION"}]) ) ,
+  action: ( :case{(DURATION_MAP[$1[0].myNERnormalized] != DURATION_MAP[$2[0].myNERnormalized]) => (Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$1añoy2meses"), Annotate($0, DURATION_MAP[$1[0].myNERnormalized], $1[0].timexValue) , Annotate($0, DURATION_MAP[$2[0].myNERnormalized], $2[0].timexValue), Annotate($0, "Period", :case{($1[0].Period == "PT" || $2[0].Period == "PT") => "PT", :else => "P" })) ;}),
+  stage : 100  }
+  
+# Sucesion de duraciones
+{ ruleType: "composite",
+ priority: 1.0,
+  pattern: ( [{timexType:"DURATION"}]* ([{timexType:"DURATION"}]) (?: [{lemma:"y"}]) [{timexType:"DURATION"}]* ([{timexType:"DURATION"}]) ) ,
   action: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$1añoy2meses"), Annotate($0, DURATION_MAP[$1[0].myNERnormalized], $1[0].timexValue) , Annotate($0, DURATION_MAP[$2[0].myNERnormalized], $2[0].timexValue), Annotate($0, "Period", :case{($1[0].Period == "PT" || $2[0].Period == "PT") => "PT", :else => "P" }) ),
   stage : 100  }
+
   
 { ruleType: "composite",
  priority: 1.0,

@@ -147,6 +147,9 @@ public class Annotador {
     public String annotate(String input, String anchorDate) {
         Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-]?\\d+),(\\w+)\\)");
         try {
+//            String input2 = input.replaceAll("\\r\\n", "\\\\n");
+            
+//            String inp2 = input2;
             String inp2 = input;
             int offsetdelay = 0;
             int numval = 0;
@@ -295,6 +298,9 @@ public class Annotador {
 
                 }
             }
+//            if(!input.equals(input2)){
+//                inp2 = inp2.replaceAll("\\\\n", "\r\n");
+//            }
             return inp2;
 
         } catch (Exception ex) {

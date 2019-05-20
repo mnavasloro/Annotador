@@ -1,3 +1,51 @@
-<TIMEX3 tid="t1" type="DATE" value="1084-08-11">once de agosto de mil ochenta y cuatro</TIMEX3>	
+<TIMEX3 tid="t1" type="SET" value="P1M">mensualmente</TIMEX3>
 
-<TIMEX3 tid="t2" type="DATE" value="1972-05-31">treinta y uno de mayo de mil novecientos setenta y dos</TIMEX3>	
+<TIMEX3 tid="t2" type="SET" value="P01W" freq="2D">dos días cada semana</TIMEX3>
+
+<TIMEX3 tid="t3" type="SET" value="2W" freq="1D">un día cada dos semanas</TIMEX3>
+
+<TIMEX3 tid="t4" type="DATE" value="anchor(TODAY,+1,DAY)">Mañana</TIMEX3> vamos allí
+
+una o <TIMEX3 tid="t5" type="DURATION" value="P2W">dos semanas</TIMEX3>
+
+entre <TIMEX3 tid="t6" type="DURATION" value="P1Y2M">un año y 2 meses</TIMEX3>, y <TIMEX3 tid="t7" type="DURATION" value="P2Y3M">dos años y 3 meses</TIMEX3>
+
+
+<TIMEX3 tid="t8" type="DURATION" value="P1Y6M41D">1 año, 6 meses y cuarenta y un días</TIMEX3>
+
+<TIMEX3 tid="t9" type="DURATION" value="P1Y6M1D">1 año, 6 meses y un día</TIMEX3>
+
+no podía enfocarse el futuro de aquel país, como de hecho de ningún otro, haciendo tabla rasa de la herencia <TIMEX3 tid="t10" type="DATE" value="PAST_REF">del pasado</TIMEX3> y
+
+unos <TIMEX3 tid="t11" type="DURATION" value="P400Y">cuatrocientos años</TIMEX3>	
+
+unos <TIMEX3 tid="t12" type="DURATION" value="P400Y">4 siglos</TIMEX3> o unos <TIMEX3 tid="t13" type="DURATION" value="P400Y">cuatro siglos</TIMEX3>
+
+<TIMEX3 tid="t14" type="DATE" value="anchor(TODAY,+1,DAY)">mañana</TIMEX3> por <TIMEX3 tid="t15" type="TIME" value="MO">la mañana</TIMEX3>
+
+Es <TIMEX3 tid="t16" type="DATE" value="anchor(TODAY,+1,DAY)">mañana</TIMEX3> por <TIMEX3 tid="t17" type="TIME" value="MO">la mañana</TIMEX3>
+
+lo vemos <TIMEX3 tid="t18" type="DATE" value="anchor(TODAY,+1,DAY)">mañana</TIMEX3>
+
+mayores de <TIMEX3 tid="t19" type="DURATION" value="P56Y">56 años</TIMEX3>
+
+Y llegó con dignidad a los <TIMEX3 tid="t20" type="DURATION" value="P101Y">101 años</TIMEX3>.
+La hermosa y discreta anciana Isabel Bowes-Lyon, c
+
+
+<TIMEX3 tid="t21" type="DATE" value="1974-05-30">treinta de mayo de mil novecientos setenta y cuatro</TIMEX3>
+
+<TIMEX3 tid="t22" type="DATE" value="1084-08-11">once de agosto de mil ochenta y cuatro</TIMEX3>	
+
+<TIMEX3 tid="t23" type="DATE" value="1972-05-31">treinta y uno de mayo de mil novecientos setenta y dos</TIMEX3>	
+
+
+Dos. Para los menores de <TIMEX3 tid="t24" type="DURATION" value="P65Y">sesenta y cinco años</TIMEX3> y mayores de <TIMEX3 tid="t25" type="DURATION" value="P60Y">sesenta años</TIMEX3>, el ingreso se efectuará conforme a la cantidad que resulte de la aplicación de la siguiente escala:
+<TIMEX3 tid="t26" type="DURATION" value="P64Y">Sesenta y cuatro años</TIMEX3>, <TIMEX3 tid="t27" type="DURATION" value="P9Y">nueve años</TIMEX3> de cotización.
+<TIMEX3 tid="t28" type="DURATION" value="P63Y">Sesenta y tres años</TIMEX3>, <TIMEX3 tid="t29" type="DURATION" value="P8Y">ocho años</TIMEX3> de cotización.
+<TIMEX3 tid="t30" type="DURATION" value="P62Y">Sesenta y dos años</TIMEX3>, <TIMEX3 tid="t31" type="DURATION" value="P7Y">siete años</TIMEX3> de cotización.
+<TIMEX3 tid="t32" type="DURATION" value="P61Y">Sesenta y un años</TIMEX3>, <TIMEX3 tid="t33" type="DURATION" value="P6Y">seis años</TIMEX3> de cotización.
+<TIMEX3 tid="t34" type="DURATION" value="P60Y">Sesenta años</TIMEX3>, <TIMEX3 tid="t35" type="DURATION" value="P5Y">cinco años</TIMEX3> de cotización.
+Tres. Para los menores de <TIMEX3 tid="t36" type="DURATION" value="P60Y">sesenta años</TIMEX3> se ingresará el importe de las cuotas correspondientes a <TIMEX3 tid="t37" type="DURATION" value="P5Y">cinco años</TIMEX3> de cotización.
+Cuatro. El importe de las cuotas a ingresar, correspondiente a Ios números anteriores, será el resultado de aplicar a cada trabajador según su categoría profesional las bases y tipo vigentes en el ejercicio de <TIMEX3 tid="t38" type="DATE" value="1981">mil novecientos ochenta y uno</TIMEX3>, referidas éstas únicamente a las contingencias y situaciones protegidas, de acuerdo con lo que se establezca en las normas de aplicación y desarrollo del presente Real Decreto.
+Cinco. Se faculta al Ministerio de Trabajo, Sanidad y Seguridad Social p

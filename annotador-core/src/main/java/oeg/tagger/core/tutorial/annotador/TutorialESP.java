@@ -47,7 +47,15 @@ public class TutorialESP {
         properties.setProperty("tokensregexdemo.rules", rules);
         StanfordCoreNLP pipeline = new StanfordCoreNLP(properties);
 
-        String txt = "treinta de mayo de mil novecientos setenta y cuatro";
+        String txt = "Si tuvieran cumplidos sesenta y cinco años en la fecha de entrada en vigor del presente Real Decreto, el importe de las cuotas a ingresar deberá ser el equivalente a los diez años de cotización necesarios para que se reconozca el derecho a la pensión de jubilación.\n" +
+"Dos. Para los menores de sesenta y cinco años y mayores de sesenta años, el ingreso se efectuará conforme a la cantidad que resulte de la aplicación de la siguiente escala:\n" +
+"Sesenta y cuatro años, nueve años de cotización.\n" +
+"Sesenta y tres años, ocho años de cotización.\n" +
+"Sesenta y dos años, siete años de cotización.\n" +
+"Sesenta y un años, seis años de cotización.\n" +
+"Sesenta años, cinco años de cotización.\n" +
+"Tres. Para los menores de sesenta años se";
+//        String txt = "treinta de mayo de mil novecientos setenta y cuatro";
 //        String txt = "mensualmente";
 //        String txt = "a los 2029 capítulos";
 //        String txt = "viene a finales de 2019";
