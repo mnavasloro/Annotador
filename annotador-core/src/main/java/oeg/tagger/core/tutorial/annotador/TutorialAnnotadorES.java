@@ -18,12 +18,13 @@ public class TutorialAnnotadorES {
      * Annotation of the files (in Spanish, just training) from TempEval3
      */
     public static void main(String[] args) {
-        String txt = "mensualmente";
+        String txt = "Hace un año y dos meses.";
+//        String txt = "mensualmente";
 //        String txt = "una vez cada semana";
 //        String txt = "a los 2029 capítulos";
 //        String txt = "viene a finales de 2019";
         Annotador tt = new Annotador("ES");
-        String outp = tt.annotate(txt,null);
+        String outp = tt.annotate(txt,"2019-12-20");
         System.out.println(outp);
 
     }

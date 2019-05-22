@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -143,14 +144,40 @@ public class Annotador {
         }
 
     }
+    
+    public Map<String,String> parseDuration(String input) {
+        Map<String,String> durations = new HashMap<String,String>();
+        Pattern pAnchor = Pattern.compile("(\\d+)([a-zA-Z])");
+        
+        Matcher m = pAnchor.matcher(input);
+        while(m.find()){
+            String numb = m.group(1);
+            String unit = m.group(2);
+            if(unit.equalsIgnoreCase("M") && input.endsWith("T")){
+                durations.put("MIN", numb);
+            } else{
+                durations.put(unit, numb);
+            }
+        }
+//        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-]?\\d+),(\\w+)\\)");
+
+        return durations;
+    }
 
     public String annotate(String input, String anchorDate) {
-        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-]?\\d+),(\\w+)\\)");
+        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-]),([^\\)]+)\\)");
+//        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-]?\\d+),(\\w+)\\)");
         try {
-//            String input2 = input.replaceAll("\\r\\n", "\\\\n");
-            
-//            String inp2 = input2;
+																  
+			
+								   
             String inp2 = input;
+            int flagRN = 0;
+           
+                inp2 = inp2.replaceAll("\\r\\n", "\\\\n");
+            
+            
+                
             int offsetdelay = 0;
             int numval = 0;
             Annotation annotation = new Annotation(inp2);
@@ -209,81 +236,167 @@ public class Annotador {
 
                     // TODO: also, use the dependency parsing to find modifiers
                     // TODO: the ref can be other day...
-                    if (val.startsWith("anchor") && anchorDate != null) {
+                    
+                    if (val.startsWith("anchor") && anchorDate != null) {     
+                        DateTime dt = new DateTime(anchorDate);
+                        
                         Matcher m = pAnchor.matcher(val);
                         m.find();
                         String ref = m.group(1);
                         String plus = m.group(2);
-                        String gran = m.group(3);
-                        int plusI = Integer.valueOf(plus);
+                        String duration = m.group(3);
+                        
+                        Map<String,String> durations = new HashMap<String,String>();
+                        durations = parseDuration(duration);
+                        Set<String> durString = durations.keySet();
+                        for(String gran : durString){
+        
+                            int plusI = Integer.valueOf(durations.get(gran));
 
-                        // Needs to be more general, check if today, proceed otherwise if not
-                        DateTime dt = new DateTime(anchorDate);
-                        if (gran.equalsIgnoreCase("DAY")) {
-                            if (plusI > 0) {
-                                dt = dt.plusDays(plusI);
-                            } else {
-                                dt = dt.minusDays(plusI * -1);
-                            }
-                        } else if (gran.equalsIgnoreCase("MONTH")) {
-                            if (plusI > 0) {
-                                dt = dt.plusMonths(plusI);
-                            } else {
-                                dt = dt.minusMonths(plusI * -1);
-                            }
-                        } else if (gran.equalsIgnoreCase("YEAR")) {
-                            if (plusI > 0) {
-                                dt = dt.plusYears(plusI);
-                            } else {
-                                dt = dt.minusYears(plusI * -1);
-                            }
-                        } else if (gran.equalsIgnoreCase("10_YEAR")) {
-                            if (plusI > 0) {
-                                dt = dt.plusYears(plusI * 10);
-                            } else {
-                                dt = dt.minusYears(plusI * -10);
-                            }
-                        } else if (gran.equalsIgnoreCase("100_YEAR")) {
-                            if (plusI > 0) {
-                                dt = dt.plusYears(plusI * 100);
-                            } else {
-                                dt = dt.minusYears(plusI * -100);
-                            }
-                        } else if (gran.equalsIgnoreCase("1000_YEAR")) {
-                            if (plusI > 0) {
-                                dt = dt.plusYears(plusI * 1000);
-                            } else {
-                                dt = dt.minusYears(plusI * -1000);
-                            }
-                        } else if (gran.equalsIgnoreCase("WEEK")) {
-                            if (plusI > 0) {
-                                dt = dt.plusWeeks(plusI);
-                            } else {
-                                dt = dt.minusWeeks(plusI);
-                            }
-                        } else if (gran.equalsIgnoreCase("HOUR")) {
-                            if (plusI > 0) {
-                                dt = dt.plusHours(plusI);
-                            } else {
-                                dt = dt.minusHours(plusI * -1);
-                            }
-                        } else if (gran.equalsIgnoreCase("MINUTE")) {
-                            if (plusI > 0) {
-                                dt = dt.plusMinutes(plusI);
-                            } else {
-                                dt = dt.minusMinutes(plusI * -1);
-                            }
-                        } else if (gran.equalsIgnoreCase("SECOND")) {
-                            if (plusI > 0) {
-                                dt = dt.plusSeconds(plusI);
-                            } else {
-                                dt = dt.minusSeconds(plusI * -1);
-                            }
+                            // Needs to be more general, check if today, proceed otherwise if not
 
+                            if (gran.equalsIgnoreCase("D")) {
+                                if (plus.equalsIgnoreCase("+")) {
+                                    dt = dt.plusDays(plusI);
+                                } else {
+                                    dt = dt.minusDays(plusI);
+                                }
+                            } else if (gran.equalsIgnoreCase("M")) {
+                                if (plus.equalsIgnoreCase("+")) {
+                                    dt = dt.plusMonths(plusI);
+                                } else {
+                                    dt = dt.minusMonths(plusI);
+                                }
+                            } else if (gran.equalsIgnoreCase("Y")) {
+                                if (plus.equalsIgnoreCase("+")) {
+                                    dt = dt.plusYears(plusI);
+                                } else {
+                                    dt = dt.minusYears(plusI);
+                                }
+    //                        } else if (gran.equalsIgnoreCase("MIN")) {
+    //                            if (plusI > 0) {
+    //                                dt = dt.plusYears(plusI * 10);
+    //                            } else {
+    //                                dt = dt.minusYears(plusI * -10);
+    //                            }
+    //                        } else if (gran.equalsIgnoreCase("S")) {
+    //                            if (plusI > 0) {
+    //                                dt = dt.plusYears(plusI * 100);
+    //                            } else {
+    //                                dt = dt.minusYears(plusI * -100);
+    //                            }
+    //                        } else if (gran.equalsIgnoreCase("H")) {
+    //                            if (plusI > 0) {
+    //                                dt = dt.plusYears(plusI * 1000);
+    //                            } else {
+    //                                dt = dt.minusYears(plusI * -1000);
+    //                            }
+                            } else if (gran.equalsIgnoreCase("W")) {
+                                if (plus.equalsIgnoreCase("+")) {
+                                    dt = dt.plusWeeks(plusI);
+                                } else {
+                                    dt = dt.minusWeeks(plusI);
+                                }
+                            } else if (gran.equalsIgnoreCase("H")) {
+                                if (plus.equalsIgnoreCase("+")) {
+                                    dt = dt.plusHours(plusI);
+                                } else {
+                                    dt = dt.minusHours(plusI);
+                                }
+                            } else if (gran.equalsIgnoreCase("MIN")) {
+                                if (plus.equalsIgnoreCase("+")) {
+                                    dt = dt.plusMinutes(plusI);
+                                } else {
+                                    dt = dt.minusMinutes(plusI);
+                                }
+                            } else if (gran.equalsIgnoreCase("S")) {
+                                if (plus.equalsIgnoreCase("+")) {
+                                    dt = dt.plusSeconds(plusI);
+                                } else {
+                                    dt = dt.minusSeconds(plusI);
+                                }
+
+                            }
                         }
 
                         val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
                     }
+                    
+//                    if (val.startsWith("anchor") && anchorDate != null) {
+//                        Matcher m = pAnchor.matcher(val);
+//                        m.find();
+//                        String ref = m.group(1);
+//                        String plus = m.group(2);
+//                        String gran = m.group(3);
+//                        int plusI = Integer.valueOf(plus);
+//
+//                        // Needs to be more general, check if today, proceed otherwise if not
+//                        DateTime dt = new DateTime(anchorDate);
+//                        if (gran.equalsIgnoreCase("DAY")) {
+//                            if (plusI > 0) {
+//                                dt = dt.plusDays(plusI);
+//                            } else {
+//                                dt = dt.minusDays(plusI * -1);
+//                            }
+//                        } else if (gran.equalsIgnoreCase("MONTH")) {
+//                            if (plusI > 0) {
+//                                dt = dt.plusMonths(plusI);
+//                            } else {
+//                                dt = dt.minusMonths(plusI * -1);
+//                            }
+//                        } else if (gran.equalsIgnoreCase("YEAR")) {
+//                            if (plusI > 0) {
+//                                dt = dt.plusYears(plusI);
+//                            } else {
+//                                dt = dt.minusYears(plusI * -1);
+//                            }
+//                        } else if (gran.equalsIgnoreCase("10_YEAR")) {
+//                            if (plusI > 0) {
+//                                dt = dt.plusYears(plusI * 10);
+//                            } else {
+//                                dt = dt.minusYears(plusI * -10);
+//                            }
+//                        } else if (gran.equalsIgnoreCase("100_YEAR")) {
+//                            if (plusI > 0) {
+//                                dt = dt.plusYears(plusI * 100);
+//                            } else {
+//                                dt = dt.minusYears(plusI * -100);
+//                            }
+//                        } else if (gran.equalsIgnoreCase("1000_YEAR")) {
+//                            if (plusI > 0) {
+//                                dt = dt.plusYears(plusI * 1000);
+//                            } else {
+//                                dt = dt.minusYears(plusI * -1000);
+//                            }
+//                        } else if (gran.equalsIgnoreCase("WEEK")) {
+//                            if (plusI > 0) {
+//                                dt = dt.plusWeeks(plusI);
+//                            } else {
+//                                dt = dt.minusWeeks(plusI);
+//                            }
+//                        } else if (gran.equalsIgnoreCase("HOUR")) {
+//                            if (plusI > 0) {
+//                                dt = dt.plusHours(plusI);
+//                            } else {
+//                                dt = dt.minusHours(plusI * -1);
+//                            }
+//                        } else if (gran.equalsIgnoreCase("MINUTE")) {
+//                            if (plusI > 0) {
+//                                dt = dt.plusMinutes(plusI);
+//                            } else {
+//                                dt = dt.minusMinutes(plusI * -1);
+//                            }
+//                        } else if (gran.equalsIgnoreCase("SECOND")) {
+//                            if (plusI > 0) {
+//                                dt = dt.plusSeconds(plusI);
+//                            } else {
+//                                dt = dt.minusSeconds(plusI * -1);
+//                            }
+//
+//                        }
+//
+//                        val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
+//                    }
                     String addini = "<TIMEX3 tid=\"t" + numval + "\" type=\"" + typ + "\" value=\"" + val + "\">";
                     if (!freq.isEmpty()) {
                         addini = "<TIMEX3 tid=\"t" + numval + "\" type=\"" + typ + "\" value=\"" + val + "\" freq=\"" + freq + "\">";
@@ -298,8 +411,8 @@ public class Annotador {
 
                 }
             }
-//            if(!input.equals(input2)){
-//                inp2 = inp2.replaceAll("\\\\n", "\r\n");
+//            if(flagRN==1){
+                inp2 = inp2.replaceAll("\\\\n", "\r\n");
 //            }
             return inp2;
 
