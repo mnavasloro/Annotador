@@ -153,7 +153,7 @@ public class Annotador {
         while(m.find()){
             String numb = m.group(1);
             String unit = m.group(2);
-            if(unit.equalsIgnoreCase("M") && input.endsWith("T")){
+            if(unit.equalsIgnoreCase("M") && input.startsWith("PT")){
                 durations.put("MIN", numb);
             } else{
                 durations.put(unit, numb);

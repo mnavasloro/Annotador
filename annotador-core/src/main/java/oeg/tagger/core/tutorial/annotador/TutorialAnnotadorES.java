@@ -18,7 +18,8 @@ public class TutorialAnnotadorES {
      * Annotation of the files (in Spanish, just training) from TempEval3
      */
     public static void main(String[] args) {
-        String txt = "Hace un año y dos meses.";
+        String txt = "Hace 2 horas y media. En 10 días, 2 años y seis meses. Nos vemos dentro de 4 meses, pero 7 años, 2 meses y tres minutos antes.";
+//        String txt = "Hace un año y dos meses. Ayer fuimos al parque, hace dos siglos lo vimos.";
 //        String txt = "mensualmente";
 //        String txt = "una vez cada semana";
 //        String txt = "a los 2029 capítulos";
