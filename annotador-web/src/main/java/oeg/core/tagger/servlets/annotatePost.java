@@ -50,6 +50,7 @@ public class annotatePost extends HttpServlet {
         String input = request.getParameter("inputText");
         String inputDate = request.getParameter("inputDate");
         String aux = request.getParameter("lan");
+        String format = request.getParameter("format");
         System.out.println(aux);
         String lan;
         if(aux!=null && !aux.isEmpty() && aux.equalsIgnoreCase("EN")){
@@ -70,7 +71,12 @@ public class annotatePost extends HttpServlet {
         pathrulesEN = context.getResource("/WEB-INF/classes/rules/rulesEN.txt").getPath();
 
         // We call the tagger and return its output
-        String salida = parseAndTag(input, inputDate, lan);
+        String salida = "";
+        if(format!=null && !format.isEmpty() && format.equalsIgnoreCase("JSON")){
+            salida = parseAndTagJSON(input, inputDate, lan);
+        } else{
+            salida = parseAndTag(input, inputDate, lan);
+        }
         response.setContentType("text/plain");
         response.getWriter().println(salida);
 
@@ -141,6 +147,54 @@ public class annotatePost extends HttpServlet {
                }
 
                String output = annotadorEN.annotate(txt, date); // We annotate in TIMEX format
+               System.out.println(output);
+               return output; // We return the javascript with the values to evaluate
+           } catch (Exception ex) {
+               System.err.print(ex.toString());
+               return "";
+           }
+        }
+        return "";
+    }
+    
+    public static String parseAndTagJSON(String txt, String date, String lan) {
+        System.out.println("\n----------------\nLangage chosen: " + lan + " \n----------------");
+        Date dct = null;
+        if(lan.equalsIgnoreCase("ES")){
+            try {
+               System.out.println("\n----------------\nProceeding to Spanish \n----------------");
+               if (annotadorES == null) {
+                   annotadorES = new Annotador(pathpos, pathlemma, pathrules, lan); // We innitialize the tagger in Spanish
+               }   // We innitialize the tagger in Spanish
+
+               if (date == null || date.isEmpty() || !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) {
+                   dct = Calendar.getInstance().getTime();
+                   DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                   date = df.format(dct);
+               }
+
+               String output = annotadorES.annotateJSON(txt, date); // We annotate in TIMEX format
+               System.out.println(output);
+               return output; // We return the javascript with the values to evaluate
+           } catch (Exception ex) {
+               System.err.print(ex.toString());
+               return "";
+           }
+        }
+        else if(lan.equalsIgnoreCase("EN")){
+            try {
+                System.out.println("\n----------------\nProceeding to English \n----------------");
+               if (annotadorEN == null) {
+                   annotadorEN = new Annotador(pathrulesEN, lan); // We innitialize the tagger in English
+               }
+
+               if (date == null || date.isEmpty() || !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) {
+                   dct = Calendar.getInstance().getTime();
+                   DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                   date = df.format(dct);
+               }
+
+               String output = annotadorEN.annotateJSON(txt, date); // We annotate in TIMEX format
                System.out.println(output);
                return output; // We return the javascript with the values to evaluate
            } catch (Exception ex) {

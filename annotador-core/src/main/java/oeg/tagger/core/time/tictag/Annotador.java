@@ -31,6 +31,7 @@ import oeg.tagger.core.data.ManagerTempEval3;
 import oeg.tagger.core.data.ManagerTempEval3ES;
 import oeg.tagger.core.data.ManagerTimeBank;
 import oeg.tagger.core.servlets.Salida;
+import oeg.tagger.core.time.annotationHandler.TIMEX2JSON;
 import org.joda.time.DateTime;
 import org.slf4j.LoggerFactory;
 
@@ -168,9 +169,6 @@ public class Annotador {
         Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-]),([^\\)]+)\\)");
 //        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-]?\\d+),(\\w+)\\)");
         try {
-																  
-			
-								   
             String inp2 = input;
             int flagRN = 0;
            
@@ -322,81 +320,7 @@ public class Annotador {
                         val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
                     }
                     
-//                    if (val.startsWith("anchor") && anchorDate != null) {
-//                        Matcher m = pAnchor.matcher(val);
-//                        m.find();
-//                        String ref = m.group(1);
-//                        String plus = m.group(2);
-//                        String gran = m.group(3);
-//                        int plusI = Integer.valueOf(plus);
-//
-//                        // Needs to be more general, check if today, proceed otherwise if not
-//                        DateTime dt = new DateTime(anchorDate);
-//                        if (gran.equalsIgnoreCase("DAY")) {
-//                            if (plusI > 0) {
-//                                dt = dt.plusDays(plusI);
-//                            } else {
-//                                dt = dt.minusDays(plusI * -1);
-//                            }
-//                        } else if (gran.equalsIgnoreCase("MONTH")) {
-//                            if (plusI > 0) {
-//                                dt = dt.plusMonths(plusI);
-//                            } else {
-//                                dt = dt.minusMonths(plusI * -1);
-//                            }
-//                        } else if (gran.equalsIgnoreCase("YEAR")) {
-//                            if (plusI > 0) {
-//                                dt = dt.plusYears(plusI);
-//                            } else {
-//                                dt = dt.minusYears(plusI * -1);
-//                            }
-//                        } else if (gran.equalsIgnoreCase("10_YEAR")) {
-//                            if (plusI > 0) {
-//                                dt = dt.plusYears(plusI * 10);
-//                            } else {
-//                                dt = dt.minusYears(plusI * -10);
-//                            }
-//                        } else if (gran.equalsIgnoreCase("100_YEAR")) {
-//                            if (plusI > 0) {
-//                                dt = dt.plusYears(plusI * 100);
-//                            } else {
-//                                dt = dt.minusYears(plusI * -100);
-//                            }
-//                        } else if (gran.equalsIgnoreCase("1000_YEAR")) {
-//                            if (plusI > 0) {
-//                                dt = dt.plusYears(plusI * 1000);
-//                            } else {
-//                                dt = dt.minusYears(plusI * -1000);
-//                            }
-//                        } else if (gran.equalsIgnoreCase("WEEK")) {
-//                            if (plusI > 0) {
-//                                dt = dt.plusWeeks(plusI);
-//                            } else {
-//                                dt = dt.minusWeeks(plusI);
-//                            }
-//                        } else if (gran.equalsIgnoreCase("HOUR")) {
-//                            if (plusI > 0) {
-//                                dt = dt.plusHours(plusI);
-//                            } else {
-//                                dt = dt.minusHours(plusI * -1);
-//                            }
-//                        } else if (gran.equalsIgnoreCase("MINUTE")) {
-//                            if (plusI > 0) {
-//                                dt = dt.plusMinutes(plusI);
-//                            } else {
-//                                dt = dt.minusMinutes(plusI * -1);
-//                            }
-//                        } else if (gran.equalsIgnoreCase("SECOND")) {
-//                            if (plusI > 0) {
-//                                dt = dt.plusSeconds(plusI);
-//                            } else {
-//                                dt = dt.minusSeconds(plusI * -1);
-//                            }
-//
-//                        }
-//
-//                        val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
-//                    }
+
                     String addini = "<TIMEX3 tid=\"t" + numval + "\" type=\"" + typ + "\" value=\"" + val + "\">";
                     if (!freq.isEmpty()) {
                         addini = "<TIMEX3 tid=\"t" + numval + "\" type=\"" + typ + "\" value=\"" + val + "\" freq=\"" + freq + "\">";
@@ -422,6 +346,80 @@ public class Annotador {
         }
     }
 
+    public boolean evaluateTE3() {
+        try {
+            ManagerTempEval3 mte3 = new ManagerTempEval3();
+            List<FileTempEval3> list = mte3.lista;
+            for (FileTempEval3 f : list) {
+                String input = f.getTextInput();
+                String output = annotate(input, f.getDCTInput());
+                f.writeOutputFile(output);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean evaluateTE3ES() {
+        try {
+            ManagerTempEval3ES mte3 = new ManagerTempEval3ES();
+            List<FileTempEval3ES> list = mte3.lista;
+            for (FileTempEval3ES f : list) {
+                String input = f.getTextInput();
+                String input2 = input.replaceAll("\\r\\n", "\\\\n");
+                String output = annotate(input2, f.getDCTInput());
+                if(!input.equals(input2)){
+                    output = output.replaceAll("\\\\n", "\r\n");
+                }
+                f.writeOutputFile(output);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean evaluateTimeBank() {
+        try {
+            ManagerTimeBank mtb = new ManagerTimeBank();
+            List<FileTimeBank> list = mtb.lista;
+            for (FileTimeBank f : list) {
+                String input = f.getTextInput();
+                String output = annotate(input, f.getDCTInput());
+                f.writeOutputFile(output);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean writeFile(String input, String path) {
+        try {
+            FileOutputStream fos = new FileOutputStream(path);
+            OutputStreamWriter w = new OutputStreamWriter(fos, "UTF-8");
+            BufferedWriter bw = new BufferedWriter(w);
+            bw.write(input);
+            bw.flush();
+            bw.close();
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public String annotateJSON(String input, String anchorDate) {
+        
+        String out = annotate(input, anchorDate);
+        TIMEX2JSON t2j = new TIMEX2JSON();
+        return t2j.translateSentence(out);        
+    }
+    
+   /* DEPRECATED */ 
+    
+    
     // tb con anchordate
 //   public String annotateBRAT(String input, String anchorDate) {
     public Salida annotateBRAT(String input, String anchorDate) {
@@ -610,67 +608,4 @@ public class Annotador {
         }
     }
 
-    public boolean evaluateTE3() {
-        try {
-            ManagerTempEval3 mte3 = new ManagerTempEval3();
-            List<FileTempEval3> list = mte3.lista;
-            for (FileTempEval3 f : list) {
-                String input = f.getTextInput();
-                String output = annotate(input, f.getDCTInput());
-                f.writeOutputFile(output);
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
-    public boolean evaluateTE3ES() {
-        try {
-            ManagerTempEval3ES mte3 = new ManagerTempEval3ES();
-            List<FileTempEval3ES> list = mte3.lista;
-            for (FileTempEval3ES f : list) {
-                String input = f.getTextInput();
-                String input2 = input.replaceAll("\\r\\n", "\\\\n");
-                String output = annotate(input2, f.getDCTInput());
-                if(!input.equals(input2)){
-                    output = output.replaceAll("\\\\n", "\r\n");
-                }
-                f.writeOutputFile(output);
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
-    public boolean evaluateTimeBank() {
-        try {
-            ManagerTimeBank mtb = new ManagerTimeBank();
-            List<FileTimeBank> list = mtb.lista;
-            for (FileTimeBank f : list) {
-                String input = f.getTextInput();
-                String output = annotate(input, f.getDCTInput());
-                f.writeOutputFile(output);
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
-    public boolean writeFile(String input, String path) {
-        try {
-            FileOutputStream fos = new FileOutputStream(path);
-            OutputStreamWriter w = new OutputStreamWriter(fos, "UTF-8");
-            BufferedWriter bw = new BufferedWriter(w);
-            bw.write(input);
-            bw.flush();
-            bw.close();
-            return true;
-        } catch (Exception ex) {
-            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
 }
