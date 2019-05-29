@@ -24,9 +24,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import oeg.tagger.core.data.FileSoco;
 import oeg.tagger.core.data.FileTempEval3;
 import oeg.tagger.core.data.FileTempEval3ES;
 import oeg.tagger.core.data.FileTimeBank;
+import oeg.tagger.core.data.ManagerSoco;
 import oeg.tagger.core.data.ManagerTempEval3;
 import oeg.tagger.core.data.ManagerTempEval3ES;
 import oeg.tagger.core.data.ManagerTimeBank;
@@ -360,6 +362,23 @@ public class Annotador {
         }
         return false;
     }
+    
+    
+    public boolean evaluateSoco() {
+        try {
+            ManagerSoco mte3 = new ManagerSoco();
+            List<FileSoco> list = mte3.lista;
+            for (FileSoco f : list) {
+                String input = f.getTextInput();
+                String output = annotate(input, null);
+                f.writeOutputFile(output);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
 
     public boolean evaluateTE3ES() {
         try {
