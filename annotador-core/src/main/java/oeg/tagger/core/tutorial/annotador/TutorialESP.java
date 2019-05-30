@@ -57,7 +57,8 @@ public class TutorialESP {
 //"Tres. Para los menores de sesenta años se";
 //        String txt = "Hace una semana.";
 //String txt = "En 10 días, 2 años y seis meses nos v. Nos vemos dentro de 4 minutos, pero 7 años, 2 meses y tres días antes.";
-String txt  = "ya lo veremos pasado o al siguiente";
+String txt  = "en nombre del Institut professionnel des agents immobiliers (IPI), por Mes Y. Paquay y H. Nyssen, avocats";
+//String txt  = "ya lo veremos pasado o al siguiente";
 //        String txt = "treinta de mayo de mil novecientos setenta y cuatro";
 //        String txt = "mensualmente";
 //        String txt = "a los 2029 capítulos";
