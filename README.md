@@ -25,3 +25,4 @@ Other interesting commands to keep at hand:
 * docker ps (-a) -> to see the containers (with -a it shows also the ones down)
 * docker images -> to display the images
 * Measure-Command {docker build -t annotador . | Write-Host} -> to measure the execution time
+ 

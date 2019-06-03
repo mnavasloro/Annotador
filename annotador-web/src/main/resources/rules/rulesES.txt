@@ -91,28 +91,28 @@ ENV.defaults["stage"] = 1
 # Create OR pattern of
 #  regular expression over temporal expressions
 $MONTHS = (
-  [{lemma:/[E|e]nero/}]     => 01 |
-  [{lemma:/[F|f]ebrero/}]   => 02 |
-  [{lemma:/[M|m]arzo/}]    => 03 |
-  [{lemma:/[A|a]bril/} & !{ pos:/PROPN.*/ }]   => 04 | #TODO: Check this...
-  [{lemma:/[M|m]ayo/}]   => 05 |
-  [{lemma:/[J|j]unio/}]    => 06 |
-  [{lemma:/[J|j]ulio/} & !{ pos:/PROPN.*/ }]    => 07 | #TODO: Check this...
-  [{lemma:/[A|a]gosto/}]    => 08 |
-  [{lemma:/[S|s]eptiembre/}]    => 09 |
-  [{lemma:/[O|o]ctubre/}]    => 10 |
-  [{lemma:/[N|n]oviembre/}]    => 11 |
-  [{lemma:/[D|d]iciembre/}]    => 12
+  [{lemma:/[E|e]nero/} & !{ pos:/NP.*/ }]     => 01 |
+  [{lemma:/[F|f]ebrero/} & !{ pos:/NP.*/ }]   => 02 |
+  [{lemma:/[M|m]arzo/} & !{ pos:/NP.*/ }]    => 03 |
+  [{lemma:/[A|a]bril/} & !{ pos:/NP.*/ }]   => 04 | #TODO: Check this...
+  [{lemma:/[M|m]ayo/} & !{ pos:/NP.*/ }]   => 05 |
+  [{lemma:/[J|j]unio/} & !{ pos:/NP.*/ }]    => 06 |
+  [{lemma:/[J|j]ulio/} & !{ pos:/NP.*/ }]    => 07 | #TODO: Check this...
+  [{lemma:/[A|a]gosto/} & !{ pos:/NP.*/ }]    => 08 |
+  [{lemma:/[S|s]eptiembre/} & !{ pos:/NP.*/ }]    => 09 |
+  [{lemma:/[O|o]ctubre/} & !{ pos:/NP.*/ }]    => 10 |
+  [{lemma:/[N|n]oviembre/} & !{ pos:/NP.*/ }]    => 11 |
+  [{lemma:/[D|d]iciembre/} & !{ pos:/NP.*/ }]    => 12
 )
 
 $WEEKL = (
-  [{lemma:/[L|l]unes/}]     => 01 |
-  [{lemma:/[M|m]artes/}]   => 02 |
-  [{lemma:/[M|m]iércoles/}]    => 03 |
-  [{lemma:/[J|j]ueves/}]     => 04 |
-  [{lemma:/[V|v]iernes/}]   => 05 |
-  [{lemma:/[S|s]ábado/}]    => 06 |
-  [{lemma:/[D|d]omingo/} & !{ pos:/PROPN.*/ }]    => 07
+  [{lemma:/[L|l]unes/} & !{ pos:/NP.*/ }]     => 01 |
+  [{lemma:/[M|m]artes/} & !{ pos:/NP.*/ }]   => 02 |
+  [{lemma:/[M|m]iércoles/} & !{ pos:/NP.*/ }]    => 03 |
+  [{lemma:/[J|j]ueves/} & !{ pos:/NP.*/ }]     => 04 |
+  [{lemma:/[V|v]iernes/} & !{ pos:/NP.*/ }]   => 05 |
+  [{lemma:/[S|s]ábado/} & !{ pos:/NP.*/ }]    => 06 |
+  [{lemma:/[D|d]omingo/}  & !{ pos:/NP.*/ }]    => 07
 ) 
 
 $DAYMONTHN = (
@@ -773,7 +773,7 @@ ENV.defaults["ruleType"] = "tokens"
 
 # eg: meses, dia...  
 { ruleType:   "tokens",
-  pattern: ( [{lemma:/$DGranularity/} & !{myNER:"DGRANULARITY"}] ),
+  pattern: ( [{lemma:/$DGranularity/} & !{myNER:"DGRANULARITY"}  & !{ pos:/NP.*/ }] ),
   action: ( Annotate($0, "myRule", "Rule$Granularity"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP[$0[0].lemma] ), Annotate($0, "myTType", $$0.text ) ) ,
   stage : 2  }
 
@@ -1383,7 +1383,7 @@ priority: 3.0,
      # time
 { ruleType:   "composite",
   pattern: ( [{timexType:"TIME"}]+  ),
-  result: ( "TIME", Concat($0[1].timexValue,""), "", "", $0[0].myRule ) ,
+  result: ( "TIME", Concat($0[0].timexValue,""), "", "", $0[0].myRule ) ,
   stage : 500  } 
   
       # set
@@ -1395,7 +1395,7 @@ priority: 3.0,
         # dateRefs
 { ruleType:   "composite",
   pattern: ( [{timexType:"DATE"} && {timexValue:/.+_REF/}]+  ),
-  result: ( "DATE", Concat($0[1].timexValue,""), "", "", $0[0].myRule ) ,
+  result: ( "DATE", Concat($0[0].timexValue,""), "", "", $0[0].myRule ) ,
   stage : 500  } 
   
         # date en el año
