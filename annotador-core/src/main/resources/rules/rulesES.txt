@@ -1383,7 +1383,7 @@ priority: 3.0,
      # time
 { ruleType:   "composite",
   pattern: ( [{timexType:"TIME"}]+  ),
-  result: ( "TIME", Concat($0[1].timexValue,""), "", "", $0[0].myRule ) ,
+  result: ( "TIME", Concat($0[0].timexValue,""), "", "", $0[0].myRule ) ,
   stage : 500  } 
   
       # set
@@ -1395,7 +1395,7 @@ priority: 3.0,
         # dateRefs
 { ruleType:   "composite",
   pattern: ( [{timexType:"DATE"} && {timexValue:/.+_REF/}]+  ),
-  result: ( "DATE", Concat($0[1].timexValue,""), "", "", $0[0].myRule ) ,
+  result: ( "DATE", Concat($0[0].timexValue,""), "", "", $0[0].myRule ) ,
   stage : 500  } 
   
         # date en el año

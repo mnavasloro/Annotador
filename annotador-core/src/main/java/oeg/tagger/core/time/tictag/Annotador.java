@@ -384,7 +384,11 @@ public class Annotador {
         try {
             ManagerTempEval3ES mte3 = new ManagerTempEval3ES();
             List<FileTempEval3ES> list = mte3.lista;
+            int tot = list.size();
+            int i = 0;
             for (FileTempEval3ES f : list) {
+                i++;
+                System.out.println("--------> Doc num: " + i + "/" + tot);
                 String input = f.getTextInput();
                 String input2 = input.replaceAll("\\r\\n", "\\\\n");
                 String output = annotate(input2, f.getDCTInput());

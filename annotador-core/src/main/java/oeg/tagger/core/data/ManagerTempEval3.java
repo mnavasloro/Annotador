@@ -11,9 +11,10 @@ import java.util.List;
  */
 public class ManagerTempEval3 {
 
-    File cleanDocs = new File("../data/datasets/timeEval/tempeval3/test/test-clean/"); // Path to the folder with the input (clean) files
-    File testDocs = new File("../data/datasets/timeEval/tempeval3/test/test/"); // Path to the folder with the test files
-    File outDocs = new File("../data/datasets/timeEval/tempeval3/test/output/t/"); // Path to the folder to store the output files
+    String rootData = "C:/Users/mnavas/CODE/OLD_CODE/data";
+    File cleanDocs = new File(rootData + "/datasets/timeEval/tempeval3/test/test-clean/"); // Path to the folder with the input (clean) files
+    File testDocs = new File(rootData + "/datasets/timeEval/tempeval3/test/test/"); // Path to the folder with the test files
+    File outDocs = new File(rootData + "/datasets/timeEval/tempeval3/test/output/t/"); // Path to the folder to store the output files
 
     public List<FileTempEval3> lista = new ArrayList<FileTempEval3>();
 

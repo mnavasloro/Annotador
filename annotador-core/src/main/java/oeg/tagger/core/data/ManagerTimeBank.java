@@ -18,9 +18,10 @@ import org.apache.commons.io.FileUtils;
  */
 public class ManagerTimeBank {
 
-    File cleanDocs = new File("../data/datasets/timeEval/timebank/test-clean/"); // Path to the folder with the input (clean) files
-    File testDocs = new File("../data/datasets/timeEval/timebank/test/"); // Path to the folder with the test files
-    File outDocs = new File("../data/datasets/timeEval/timebank/output/t/"); // Path to the folder to store the output files
+    String rootData = "C:/Users/mnavas/CODE/OLD_CODE/data";
+    File cleanDocs = new File(rootData + "/datasets/timeEval/timebank/test-clean/"); // Path to the folder with the input (clean) files
+    File testDocs = new File(rootData + "/datasets/timeEval/timebank/test/"); // Path to the folder with the test files
+    File outDocs = new File(rootData + "/datasets/timeEval/timebank/output/t/"); // Path to the folder to store the output files
 
     public List<FileTimeBank> lista = new ArrayList<FileTimeBank>();
 
