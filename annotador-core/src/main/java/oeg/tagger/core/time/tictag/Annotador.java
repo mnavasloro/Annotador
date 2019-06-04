@@ -35,6 +35,8 @@ import oeg.tagger.core.data.ManagerTimeBank;
 import oeg.tagger.core.servlets.Salida;
 import oeg.tagger.core.time.annotationHandler.TIMEX2JSON;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -148,9 +150,33 @@ public class Annotador {
 
     }
     
+    
+    public DateTime getNextDayWeek(DateTime dt, int dayW) {
+        int current = dt.getDayOfWeek();
+        if (dayW <= current) {
+            dayW += 7;
+        }
+        DateTime next = dt.plusDays(dayW - current);
+//        next = next.plusWeeks(amount - 1);
+        return next;
+    }
+    
+    public DateTime getLastDayWeek(DateTime dt, int dayW) {
+        int current = dt.getDayOfWeek();
+        if (dayW < current) {
+            dayW = current - dayW;
+        } else{
+            dayW = 7 - dayW + current;
+        }
+        
+        DateTime next = dt.minusDays(dayW);
+//        next = next.minusWeeks(amount-1);
+        return next;
+    }
+    
     public Map<String,String> parseDuration(String input) {
         Map<String,String> durations = new HashMap<String,String>();
-        Pattern pAnchor = Pattern.compile("(\\d+)([a-zA-Z])");
+        Pattern pAnchor = Pattern.compile("(\\d+)([a-zA-Z]+)");
         
         Matcher m = pAnchor.matcher(input);
         while(m.find()){
@@ -168,7 +194,7 @@ public class Annotador {
     }
 
     public String annotate(String input, String anchorDate) {
-        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-]),([^\\)]+)\\)");
+        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-x]),([^\\)]+)\\)");
 //        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-]?\\d+),(\\w+)\\)");
         try {
             String inp2 = input;
@@ -247,8 +273,16 @@ public class Annotador {
                         String duration = m.group(3);
                         
                         Map<String,String> durations = new HashMap<String,String>();
-                        durations = parseDuration(duration);
+                        // If it is an anchor for a date (eg, "this month")
+                        if(plus.equalsIgnoreCase("x")){
+                            durations.put(duration, "0");
+                        }
+                        else{
+                            durations = parseDuration(duration);
+                        }
+                                              
                         Set<String> durString = durations.keySet();
+                        
                         for(String gran : durString){
         
                             int plusI = Integer.valueOf(durations.get(gran));
@@ -258,39 +292,27 @@ public class Annotador {
                             if (gran.equalsIgnoreCase("D")) {
                                 if (plus.equalsIgnoreCase("+")) {
                                     dt = dt.plusDays(plusI);
-                                } else {
+                                } else if (plus.equalsIgnoreCase("-")){
                                     dt = dt.minusDays(plusI);
+                                } else{
+                                    dt = new DateTime(anchorDate);
                                 }
                             } else if (gran.equalsIgnoreCase("M")) {
                                 if (plus.equalsIgnoreCase("+")) {
                                     dt = dt.plusMonths(plusI);
-                                } else {
-                                    dt = dt.minusMonths(plusI);
+                                } else if (plus.equalsIgnoreCase("-")){
+                                    dt.minusMonths(plusI);
+                                } else{
+                                    val =dt.toString("YYYY-MM");
                                 }
                             } else if (gran.equalsIgnoreCase("Y")) {
                                 if (plus.equalsIgnoreCase("+")) {
                                     dt = dt.plusYears(plusI);
-                                } else {
+                                } else if (plus.equalsIgnoreCase("-")){
                                     dt = dt.minusYears(plusI);
+                                } else{
+                                    val = dt.toString("YYYY");
                                 }
-    //                        } else if (gran.equalsIgnoreCase("MIN")) {
-    //                            if (plusI > 0) {
-    //                                dt = dt.plusYears(plusI * 10);
-    //                            } else {
-    //                                dt = dt.minusYears(plusI * -10);
-    //                            }
-    //                        } else if (gran.equalsIgnoreCase("S")) {
-    //                            if (plusI > 0) {
-    //                                dt = dt.plusYears(plusI * 100);
-    //                            } else {
-    //                                dt = dt.minusYears(plusI * -100);
-    //                            }
-    //                        } else if (gran.equalsIgnoreCase("H")) {
-    //                            if (plusI > 0) {
-    //                                dt = dt.plusYears(plusI * 1000);
-    //                            } else {
-    //                                dt = dt.minusYears(plusI * -1000);
-    //                            }
                             } else if (gran.equalsIgnoreCase("W")) {
                                 if (plus.equalsIgnoreCase("+")) {
                                     dt = dt.plusWeeks(plusI);
@@ -316,10 +338,19 @@ public class Annotador {
                                     dt = dt.minusSeconds(plusI);
                                 }
 
+                            } else if (gran.equalsIgnoreCase("DAYW")) {
+                                if (plus.equalsIgnoreCase("+")) {
+                                    dt = getNextDayWeek(dt, plusI);
+                                } else {
+                                    dt = getLastDayWeek(dt, plusI);
+                                }
+
                             }
                         }
 
-                        val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
+                        if(!plus.equalsIgnoreCase("x")){
+                            val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
+                        }
                     }
                     
 
