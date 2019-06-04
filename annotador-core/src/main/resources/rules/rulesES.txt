@@ -1254,6 +1254,7 @@ result: ("TIME", Concat("T", :case{($2[0].timexValue == "AF") => PMHOUR_MAP[$1[0
   
   
   
+  
 # eg: una hora
 #{ ruleType:   "tokens",
 #  pattern: ( ([{lemma:"uno"}]) ([{myNER:"TGRANULARITY"}]) ),
