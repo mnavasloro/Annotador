@@ -150,6 +150,25 @@ public class Annotador {
 
     }
     
+	    public DateTime getNextMonth(DateTime dt, int monthS) {
+        int current = dt.getMonthOfYear();
+        if (monthS <= current) {
+            monthS += 12;
+        }
+        DateTime next = dt.plusMonths(monthS - current);
+        return next;
+    }
+    
+    public DateTime getLastMonth(DateTime dt, int monthS) {
+        int current = dt.getMonthOfYear();
+        if (monthS < current) {
+            monthS = current - monthS;
+        } else{
+            monthS = 12 - monthS + current;
+        }        
+        DateTime next = dt.minusMonths(monthS);
+        return next;
+    }
     
     public DateTime getNextDayWeek(DateTime dt, int dayW) {
         int current = dt.getDayOfWeek();
@@ -157,7 +176,6 @@ public class Annotador {
             dayW += 7;
         }
         DateTime next = dt.plusDays(dayW - current);
-//        next = next.plusWeeks(amount - 1);
         return next;
     }
     
@@ -167,11 +185,65 @@ public class Annotador {
             dayW = current - dayW;
         } else{
             dayW = 7 - dayW + current;
-        }
-        
+        }        
         DateTime next = dt.minusDays(dayW);
-//        next = next.minusWeeks(amount-1);
         return next;
+    }
+    
+    
+    public String getNextDate(String dt, String refD) {
+            DateTime dtDT = new DateTime(dt);
+        if(refD.matches("\\d\\d\\d\\d-\\d\\d(-\\d\\d)?")){
+            return refD;            
+        } else if(refD.matches("XXXX-\\d\\d-\\d\\d")){
+            refD= refD.replaceAll("XXXX", dt.substring(0,4));
+            DateTime refDDT = new DateTime(refD);
+            if(refDDT.isAfter(dtDT)){
+                return refD;
+            }
+            else{
+               return  refDDT.plusYears(1).toString("YYYY-MM-dd");
+            }
+        } else if(refD.matches("XXXX-XX-\\d\\d")){
+            refD= refD.replaceAll("XXXX", dt.substring(0,4));
+            refD= refD.replaceAll("XX", dt.substring(5,7));
+            DateTime refDDT = new DateTime(refD);
+            if(refDDT.isAfter(dtDT)){
+                return refD;
+            }
+            else{
+               return refDDT.plusMonths(1).toString("YYYY-MM-dd");
+            }
+        } 
+        return refD;
+    }
+    
+    public String getLastDate(String dt, String refD) {
+        DateTime dtDT = new DateTime(dt);
+        if(refD.matches("\\d\\d\\d\\d-\\d\\d(-\\d\\d)?")){
+            return refD;            
+        } else if(refD.matches("XXXX-\\d\\d-\\d\\d")){
+            refD= refD.replaceAll("XXXX", dt.substring(0,4));
+            DateTime refDDT = new DateTime(refD);
+            if(refDDT.isBefore(dtDT)){
+                return refD;
+            }
+            else{
+               return  refDDT.minusYears(1).toString("YYYY-MM-dd");
+            }
+        } else if(refD.matches("XXXX-XX-\\d\\d")){
+            refD= refD.replaceAll("XXXX", dt.substring(0,4));
+            refD= refD.replaceAll("XX", dt.substring(5,7));
+            DateTime refDDT = new DateTime(refD);
+            if(refDDT.isBefore(dtDT)){
+                return refD;
+            }
+            else{
+               return refDDT.minusMonths(1).toString("YYYY-MM-dd");
+            }
+        } 
+        
+        return refD;
     }
     
     public Map<String,String> parseDuration(String input) {
@@ -262,8 +334,14 @@ public class Annotador {
 
                     // TODO: also, use the dependency parsing to find modifiers
                     // TODO: the ref can be other day...
-                    
-                    if (val.startsWith("anchor") && anchorDate != null) {     
+                    if (val.startsWith("Danchor(+,") && anchorDate != null) {                        
+                        String refDate = val.substring(10,val.length()-1);
+                        val = getNextDate(anchorDate,refDate);                        
+                    } else if (val.startsWith("Danchor(-,") && anchorDate != null) {                      
+                        String refDate = val.substring(10,val.length()-1);
+                        val = getLastDate(anchorDate,refDate);                        
+                    }
+                    else if (val.startsWith("anchor") && anchorDate != null) {     
                         DateTime dt = new DateTime(anchorDate);
                         
                         Matcher m = pAnchor.matcher(val);
@@ -344,7 +422,12 @@ public class Annotador {
                                 } else {
                                     dt = getLastDayWeek(dt, plusI);
                                 }
-
+                            } else if (gran.equalsIgnoreCase("MONTHS")) {
+                                if (plus.equalsIgnoreCase("+")) {
+                                    dt = getNextMonth(dt, plusI);
+                                } else {
+                                    dt = getLastMonth(dt, plusI);
+                                }
                             }
                         }
 

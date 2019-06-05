@@ -59,7 +59,13 @@ public class TutorialESP {
 //String txt = "En 10 días, 2 años y seis meses nos v. Nos vemos dentro de 4 minutos, pero 7 años, 2 meses y tres días antes.";
 //String txt = " \" algún mes, aquel bonito; largo aunque hermoso mes \"";
 //String txt = "esto fue la última semana.";
-        String txt = "  Entre 1987 y 1998, la industria se desplomó";
+//        String txt = "Actualmente es así.";
+// String txt = "se deshizo hoy en elogios de su rival del próximo sábado";
+String txt = "Nos vemos el próximo 21 de diciembre.";
+//String txt = "Nos vemos el próximo 3 de marzo.";
+//String txt = "esto fue el próximo mayo, hace tiempo.";
+// String txt = "tras el reciente fallecimiento de su primo lejano.";
+//        String txt = "  Entre 1939 y 1945 España estuvo en guerra.";
 //String txt = "Antes del fin al año.";
 //String txt  = "en nombre del Institut professionnel des agents immobiliers (IPI), por Mes Y. Paquay y H. Nyssen, avocats";
 //String txt  = "ya lo veremos pasado o al siguiente";
