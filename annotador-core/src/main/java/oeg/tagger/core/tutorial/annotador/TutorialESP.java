@@ -61,7 +61,8 @@ public class TutorialESP {
 //String txt = "esto fue la última semana.";
 //        String txt = "Actualmente es así.";
 // String txt = "se deshizo hoy en elogios de su rival del próximo sábado";
-String txt = "Nos vemos el próximo 21 de diciembre.";
+String txt = "Pero yo no lo he visto claro hasta el último minuto.";
+//String txt = "Nos vemos el próximo 21 de diciembre.";
 //String txt = "Nos vemos el próximo 3 de marzo.";
 //String txt = "esto fue el próximo mayo, hace tiempo.";
 // String txt = "tras el reciente fallecimiento de su primo lejano.";

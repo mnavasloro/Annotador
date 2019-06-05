@@ -24,7 +24,9 @@ public class TutorialAnnotadorES {
 //        String txt = "esto fue el próximo mayo, hace tiempo.";
 //String txt = "El pasado 2 de junio.";
 //String txt = "Nos vemos el próximo 3 de marzo.";
-String txt = "Nos vemos el pasado día 21 de diciembre.";
+//String txt = "Es una pasada.";
+String txt = "A PLANTILLA del cuerpo ha ido menguando desde 1997.";
+//String txt = "Nos vemos el pasado día 21 de diciembre.";
 //        String txt = " algún mes, aquel bonito, largo y hermoso año";
 //        String txt = "ya lo veremos pasado o al siguiente";
 //        String txt = "Hace 2 horas y media. En 10 días, 2 años y seis meses. Nos vemos dentro de 4 meses, pero 7 años, 2 meses y tres minutos antes.";
