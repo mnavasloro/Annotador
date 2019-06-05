@@ -29,7 +29,10 @@ public class TutorialAnnotadorES {
 //String txt = " le vistamos durante años ";
 //String txt = "cada día";
 //String txt = "Mayo y Junio.";
-String txt = "un día después.";//String txt = "el 2 de Mayo de 2020.";
+//String txt = "un día después.";
+//String txt = "el 2 de Mayo de 2020.";
+String txt = "participan del día 3 al 5";
+//String txt = "el 2 de Mayo de 2020.";
 //String txt = "ocurre durante la noche.";
 //String txt = "El día 1 y 2.";
 //String txt = "Los días 1, 2, 3 y 5 de abril.";
@@ -48,7 +51,7 @@ String txt = "un día después.";//String txt = "el 2 de Mayo de 2020.";
 //        String txt = "a los 2029 capítulos";
 //        String txt = "viene a finales de 2019";
         Annotador tt = new Annotador("ES");
-        String outp = tt.annotate(txt,"2002-02-02");
+        String outp = tt.annotate(txt,"2019-12-20");
         System.out.println(outp);
 
     }

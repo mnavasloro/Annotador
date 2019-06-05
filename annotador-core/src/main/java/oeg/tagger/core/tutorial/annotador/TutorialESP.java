@@ -66,7 +66,8 @@ public class TutorialESP {
 //String txt = " porque el Estado mantuvo durante años una ";
 //String txt = "cada día";
 //String txt = "ocurre durante la noche.";
-String txt = "El grupo británico se ha visto obligado a aplazar los conciertos que tenía programados para el próximo martes en Razzmatazz ( que se pospone al 25 de abril) y, un día después, en la Sala Multiusos de Zaragoza).";
+String txt = "participan del día 3 y el 5";
+//String txt = "El grupo británico se ha visto obligado a aplazar los conciertos que tenía programados para el próximo martes en Razzmatazz ( que se pospone al 25 de abril) y, un día después, en la Sala Multiusos de Zaragoza).";
 //String txt = "Mayo y Junio de 2020.";
 //String txt = "Los días 1, 2, 3 y 5 de abril.";
 //String txt = "Nos vemos el próximo 21 de diciembre.";

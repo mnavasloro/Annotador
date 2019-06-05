@@ -1412,7 +1412,7 @@ priority: 3.0,
   
   
 { ruleType: "tokens",
-  pattern: ( ((?$day0 [{myNER:"SPDAY"}]+) (?: [{lemma:"y"}] | /,/))+ [{lemma:"el"}]?  [{lemma:"día"}]? (?$day [{myNER:"DAYMONTH"} | {myNER:"MONTHN"} | ({myNUM:"myNUMBER"} & {mySTValue:/([1-2][0-9])|0?[1-9]|3[0-1]/})]+) ) ,
+  pattern: ( ((?$day0 [{myNER:"SPDAY"}]+) (?: /,/ | /y/ | /al/ | /hasta/))+ [{lemma:"el"}]?  [{lemma:"día"}]? (?$day [{myNER:"DAYMONTH"} | {myNER:"MONTHN"} | ({myNUM:"myNUMBER"} & {mySTValue:/([1-2][0-9])|0?[1-9]|3[0-1]/})]+) ) ,
   action: ( Annotate($day, "myRule", "Rule$eldia2y4"), Annotate($day, "timexType", "DATE"), Annotate($day, "myNER", "SPDAY"), Annotate($day, "myDateDay", Format("%02d", $day[0].myTValue)), Annotate($day, "timexValue", Concat("XXXX-XX-", Format("%02d", $day[0].myTValue))), Annotate($day0, "myRule", "Rule$eldia2y4"), Annotate($day0, "timexType", "DATE"), Annotate($day0, "myNER", "SPDAY")),
   stage : 101  }
   
