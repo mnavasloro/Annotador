@@ -61,7 +61,14 @@ public class TutorialESP {
 //String txt = "esto fue la última semana.";
 //        String txt = "Actualmente es así.";
 // String txt = "se deshizo hoy en elogios de su rival del próximo sábado";
-String txt = "Pero yo no lo he visto claro hasta el último minuto.";
+//String txt = "Pero yo no lo he visto claro hasta el último minuto.";
+//String txt = "El día 1 y el 2 de marzo.";
+//String txt = " porque el Estado mantuvo durante años una ";
+//String txt = "cada día";
+//String txt = "ocurre durante la noche.";
+String txt = "El grupo británico se ha visto obligado a aplazar los conciertos que tenía programados para el próximo martes en Razzmatazz ( que se pospone al 25 de abril) y, un día después, en la Sala Multiusos de Zaragoza).";
+//String txt = "Mayo y Junio de 2020.";
+//String txt = "Los días 1, 2, 3 y 5 de abril.";
 //String txt = "Nos vemos el próximo 21 de diciembre.";
 //String txt = "Nos vemos el próximo 3 de marzo.";
 //String txt = "esto fue el próximo mayo, hace tiempo.";

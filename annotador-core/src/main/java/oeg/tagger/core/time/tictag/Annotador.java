@@ -60,6 +60,11 @@ public class Annotador {
 
     String lang = "es";
 
+    String iniSP = "-03-20";
+    String iniSU = "-06-21";
+    String iniFA = "-09-22";
+    String iniWI = "-12-21";
+
     /**
      * Initializes a instance of the tagger
      *
@@ -82,7 +87,7 @@ public class Annotador {
         lang = language;
         init();
     }
-    
+
     public Annotador(String rul, String language) {
         rules = rul;
         lang = language;
@@ -120,9 +125,7 @@ public class Annotador {
             properties.setProperty("tokenize.verbose", "false");
             properties.setProperty("TokensRegexNERAnnotator.verbose", "false");
 //    properties.setProperty("regexner.verbose", "false");
-        }
-        
-        else if (lang.equalsIgnoreCase("EN")) {
+        } else if (lang.equalsIgnoreCase("EN")) {
             if (rules == null) {
                 rules = "../annotador-core/src/main/resources/rules/rulesEN.txt";
             }
@@ -133,7 +136,6 @@ public class Annotador {
 
             properties.setProperty("annotators", "tokenize, ssplit, pos, lemma,ner,tokensregexdemo");
             properties.setProperty("ner.useSUTime", "false");
-            
 
             properties.setProperty("customAnnotatorClass.tokensregexdemo", "edu.stanford.nlp.pipeline.TokensRegexAnnotator");
             properties.setProperty("tokensregexdemo.rules", rules);
@@ -149,8 +151,8 @@ public class Annotador {
         }
 
     }
-    
-	    public DateTime getNextMonth(DateTime dt, int monthS) {
+
+    public DateTime getNextMonth(DateTime dt, int monthS) {
         int current = dt.getMonthOfYear();
         if (monthS <= current) {
             monthS += 12;
@@ -158,18 +160,18 @@ public class Annotador {
         DateTime next = dt.plusMonths(monthS - current);
         return next;
     }
-    
+
     public DateTime getLastMonth(DateTime dt, int monthS) {
         int current = dt.getMonthOfYear();
         if (monthS < current) {
             monthS = current - monthS;
-        } else{
+        } else {
             monthS = 12 - monthS + current;
-        }        
+        }
         DateTime next = dt.minusMonths(monthS);
         return next;
     }
-    
+
     public DateTime getNextDayWeek(DateTime dt, int dayW) {
         int current = dt.getDayOfWeek();
         if (dayW <= current) {
@@ -178,85 +180,132 @@ public class Annotador {
         DateTime next = dt.plusDays(dayW - current);
         return next;
     }
-    
+
     public DateTime getLastDayWeek(DateTime dt, int dayW) {
         int current = dt.getDayOfWeek();
         if (dayW < current) {
             dayW = current - dayW;
-        } else{
+        } else {
             dayW = 7 - dayW + current;
-        }        
+        }
         DateTime next = dt.minusDays(dayW);
         return next;
     }
-    
-    
+
     public String getNextDate(String dt, String refD) {
-            DateTime dtDT = new DateTime(dt);
-        if(refD.matches("\\d\\d\\d\\d-\\d\\d(-\\d\\d)?")){
-            return refD;            
-        } else if(refD.matches("XXXX-\\d\\d-\\d\\d")){
-            refD= refD.replaceAll("XXXX", dt.substring(0,4));
+        DateTime dtDT = new DateTime(dt);
+        if (refD.matches("\\d\\d\\d\\d-\\d\\d(-\\d\\d)?")) {
+            return refD;
+        } else if (refD.matches("XXXX-\\d\\d-\\d\\d")) {
+            refD = refD.replaceAll("XXXX", dt.substring(0, 4));
             DateTime refDDT = new DateTime(refD);
-            if(refDDT.isAfter(dtDT)){
+            if (refDDT.isAfter(dtDT)) {
                 return refD;
+            } else {
+                return refDDT.plusYears(1).toString("YYYY-MM-dd");
             }
-            else{
-               return  refDDT.plusYears(1).toString("YYYY-MM-dd");
-            }
-        } else if(refD.matches("XXXX-XX-\\d\\d")){
-            refD= refD.replaceAll("XXXX", dt.substring(0,4));
-            refD= refD.replaceAll("XX", dt.substring(5,7));
+        } else if (refD.matches("XXXX-XX-\\d\\d")) {
+            refD = refD.replaceAll("XXXX", dt.substring(0, 4));
+            refD = refD.replaceAll("XX", dt.substring(5, 7));
             DateTime refDDT = new DateTime(refD);
-            if(refDDT.isAfter(dtDT)){
+            if (refDDT.isAfter(dtDT)) {
                 return refD;
+            } else {
+                return refDDT.plusMonths(1).toString("YYYY-MM-dd");
             }
-            else{
-               return refDDT.plusMonths(1).toString("YYYY-MM-dd");
-            }
-        } 
+        }
         return refD;
     }
-    
+
     public String getLastDate(String dt, String refD) {
         DateTime dtDT = new DateTime(dt);
-        if(refD.matches("\\d\\d\\d\\d-\\d\\d(-\\d\\d)?")){
-            return refD;            
-        } else if(refD.matches("XXXX-\\d\\d-\\d\\d")){
-            refD= refD.replaceAll("XXXX", dt.substring(0,4));
+        if (refD.matches("\\d\\d\\d\\d-\\d\\d(-\\d\\d)?")) {
+            return refD;
+        } else if (refD.matches("XXXX-\\d\\d-\\d\\d")) {
+            refD = refD.replaceAll("XXXX", dt.substring(0, 4));
             DateTime refDDT = new DateTime(refD);
-            if(refDDT.isBefore(dtDT)){
+            if (refDDT.isBefore(dtDT)) {
                 return refD;
+            } else {
+                return refDDT.minusYears(1).toString("YYYY-MM-dd");
             }
-            else{
-               return  refDDT.minusYears(1).toString("YYYY-MM-dd");
-            }
-        } else if(refD.matches("XXXX-XX-\\d\\d")){
-            refD= refD.replaceAll("XXXX", dt.substring(0,4));
-            refD= refD.replaceAll("XX", dt.substring(5,7));
+        } else if (refD.matches("XXXX-XX-\\d\\d")) {
+            refD = refD.replaceAll("XXXX", dt.substring(0, 4));
+            refD = refD.replaceAll("XX", dt.substring(5, 7));
             DateTime refDDT = new DateTime(refD);
-            if(refDDT.isBefore(dtDT)){
+            if (refDDT.isBefore(dtDT)) {
                 return refD;
+            } else {
+                return refDDT.minusMonths(1).toString("YYYY-MM-dd");
             }
-            else{
-               return refDDT.minusMonths(1).toString("YYYY-MM-dd");
-            }
-        } 
-        
+        }
+
         return refD;
     }
-    
-    public Map<String,String> parseDuration(String input) {
-        Map<String,String> durations = new HashMap<String,String>();
+
+    public String getNextSeason(String dt, String refD) {
+        if (refD.matches("\\d\\d\\d\\d-[A-Z][A-Z]")) {
+            return refD;
+        }
+        String year = dt.substring(0, 4);
+        String season = refD.substring(4, 7);
+        String seasondate = year;
+        DateTime dtDT = new DateTime(dt);
+        if (season.equalsIgnoreCase("-SU")) {
+            seasondate = seasondate + iniSU;
+        } else if (season.equalsIgnoreCase("-SP")) {
+            seasondate = seasondate + iniSP;
+        } else if (season.equalsIgnoreCase("-WI")) {
+            seasondate = seasondate + iniWI;
+        } else if (season.equalsIgnoreCase("-FA")) {
+            seasondate = seasondate + iniFA;
+        }
+        DateTime refDDT = new DateTime(seasondate);
+
+        if (refDDT.isAfter(dtDT)) {
+            return year + season;
+        } else {
+            return refDDT.plusYears(1).toString("YYYY") + season;
+        }
+    }
+
+    public String getLastSeason(String dt, String refD) {
+        if (refD.matches("\\d\\d\\d\\d-[A-Z][A-Z]")) {
+            return refD;
+        }
+        String year = dt.substring(0, 4);
+        String season = refD.substring(4, 7);
+        String seasondate = year;
+        DateTime dtDT = new DateTime(dt);
+        if (season.equalsIgnoreCase("-SU")) {
+            seasondate = seasondate + iniSU;
+        } else if (season.equalsIgnoreCase("-SP")) {
+            seasondate = seasondate + iniSP;
+        } else if (season.equalsIgnoreCase("-WI")) {
+            seasondate = seasondate + iniWI;
+        } else if (season.equalsIgnoreCase("-FA")) {
+            seasondate = seasondate + iniFA;
+        }
+        DateTime refDDT = new DateTime(seasondate);
+
+        if (refDDT.isBefore(dtDT)) {
+            return year + season;
+        } else {
+            return refDDT.minusYears(1).toString("YYYY") + season;
+        }
+    }
+
+    public Map<String, String> parseDuration(String input) {
+        Map<String, String> durations = new HashMap<String, String>();
         Pattern pAnchor = Pattern.compile("(\\d+)([a-zA-Z]+)");
-        
+
         Matcher m = pAnchor.matcher(input);
-        while(m.find()){
+        while (m.find()) {
             String numb = m.group(1);
             String unit = m.group(2);
-            if(unit.equalsIgnoreCase("M") && input.startsWith("PT")){
+            if (unit.equalsIgnoreCase("M") && input.startsWith("PT")) {
                 durations.put("MIN", numb);
-            } else{
+            } else {
                 durations.put(unit, numb);
             }
         }
@@ -271,11 +320,9 @@ public class Annotador {
         try {
             String inp2 = input;
             int flagRN = 0;
-           
-                inp2 = inp2.replaceAll("\\r\\n", "\\\\n");
-            
-            
-                
+
+            inp2 = inp2.replaceAll("\\r\\n", "\\\\n");
+
             int offsetdelay = 0;
             int numval = 0;
             Annotation annotation = new Annotation(inp2);
@@ -288,8 +335,7 @@ public class Annotador {
             // But you can see what is in it with other methods like toShorterString()
 //            out.println("The top level annotation");
             System.out.println(annotation.toShorterString());
-            
-            
+
             List<CoreMap> sentences = annotation.get(CoreAnnotations.SentencesAnnotation.class);
             for (CoreMap sentence : sentences) {
                 CoreMapExpressionExtractor<MatchedExpression> extractor = CoreMapExpressionExtractor
@@ -334,61 +380,64 @@ public class Annotador {
 
                     // TODO: also, use the dependency parsing to find modifiers
                     // TODO: the ref can be other day...
-                    if (val.startsWith("Danchor(+,") && anchorDate != null) {                        
-                        String refDate = val.substring(10,val.length()-1);
-                        val = getNextDate(anchorDate,refDate);                        
-                    } else if (val.startsWith("Danchor(-,") && anchorDate != null) {                      
-                        String refDate = val.substring(10,val.length()-1);
-                        val = getLastDate(anchorDate,refDate);                        
-                    }
-                    else if (val.startsWith("anchor") && anchorDate != null) {     
+                    if (val.startsWith("Danchor(+,") && anchorDate != null) {
+                        String refDate = val.substring(10, val.length() - 1);
+                        val = getNextDate(anchorDate, refDate);
+                    } else if (val.startsWith("Danchor(-,") && anchorDate != null) {
+                        String refDate = val.substring(10, val.length() - 1);
+                        val = getLastDate(anchorDate, refDate);
+                    } else if (val.startsWith("Sanchor(+,") && anchorDate != null) {
+                        String refDate = val.substring(10, val.length() - 1);
+                        val = getNextSeason(anchorDate, refDate);
+                    } else if (val.startsWith("Sanchor(-,") && anchorDate != null) {
+                        String refDate = val.substring(10, val.length() - 1);
+                        val = getLastSeason(anchorDate, refDate);
+                    } else if (val.startsWith("anchor") && anchorDate != null) {
                         DateTime dt = new DateTime(anchorDate);
-                        
+
                         Matcher m = pAnchor.matcher(val);
                         m.find();
                         String ref = m.group(1);
                         String plus = m.group(2);
                         String duration = m.group(3);
-                        
-                        Map<String,String> durations = new HashMap<String,String>();
+
+                        Map<String, String> durations = new HashMap<String, String>();
                         // If it is an anchor for a date (eg, "this month")
-                        if(plus.equalsIgnoreCase("x")){
+                        if (plus.equalsIgnoreCase("x")) {
                             durations.put(duration, "0");
-                        }
-                        else{
+                        } else {
                             durations = parseDuration(duration);
                         }
-                                              
+
                         Set<String> durString = durations.keySet();
-                        
-                        for(String gran : durString){
-        
+
+                        for (String gran : durString) {
+
                             int plusI = Integer.valueOf(durations.get(gran));
 
                             // Needs to be more general, check if today, proceed otherwise if not
-
                             if (gran.equalsIgnoreCase("D")) {
                                 if (plus.equalsIgnoreCase("+")) {
                                     dt = dt.plusDays(plusI);
-                                } else if (plus.equalsIgnoreCase("-")){
+                                } else if (plus.equalsIgnoreCase("-")) {
                                     dt = dt.minusDays(plusI);
-                                } else{
+                                } else {
                                     dt = new DateTime(anchorDate);
                                 }
                             } else if (gran.equalsIgnoreCase("M")) {
                                 if (plus.equalsIgnoreCase("+")) {
                                     dt = dt.plusMonths(plusI);
-                                } else if (plus.equalsIgnoreCase("-")){
+                                } else if (plus.equalsIgnoreCase("-")) {
                                     dt.minusMonths(plusI);
-                                } else{
-                                    val =dt.toString("YYYY-MM");
+                                } else {
+                                    val = dt.toString("YYYY-MM");
                                 }
                             } else if (gran.equalsIgnoreCase("Y")) {
                                 if (plus.equalsIgnoreCase("+")) {
                                     dt = dt.plusYears(plusI);
-                                } else if (plus.equalsIgnoreCase("-")){
+                                } else if (plus.equalsIgnoreCase("-")) {
                                     dt = dt.minusYears(plusI);
-                                } else{
+                                } else {
                                     val = dt.toString("YYYY");
                                 }
                             } else if (gran.equalsIgnoreCase("W")) {
@@ -431,11 +480,10 @@ public class Annotador {
                             }
                         }
 
-                        if(!plus.equalsIgnoreCase("x")){
+                        if (!plus.equalsIgnoreCase("x")) {
                             val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
                         }
                     }
-                    
 
                     String addini = "<TIMEX3 tid=\"t" + numval + "\" type=\"" + typ + "\" value=\"" + val + "\">";
                     if (!freq.isEmpty()) {
@@ -452,7 +500,7 @@ public class Annotador {
                 }
             }
 //            if(flagRN==1){
-                inp2 = inp2.replaceAll("\\\\n", "\r\n");
+            inp2 = inp2.replaceAll("\\\\n", "\r\n");
 //            }
             return inp2;
 
@@ -476,8 +524,7 @@ public class Annotador {
         }
         return false;
     }
-    
-    
+
     public boolean evaluateSoco() {
         try {
             ManagerSoco mte3 = new ManagerSoco();
@@ -492,7 +539,6 @@ public class Annotador {
         }
         return false;
     }
-    
 
     public boolean evaluateTE3ES() {
         try {
@@ -506,7 +552,7 @@ public class Annotador {
                 String input = f.getTextInput();
                 String input2 = input.replaceAll("\\r\\n", "\\\\n");
                 String output = annotate(input2, f.getDCTInput());
-                if(!input.equals(input2)){
+                if (!input.equals(input2)) {
                     output = output.replaceAll("\\\\n", "\r\n");
                 }
                 f.writeOutputFile(output);
@@ -546,17 +592,15 @@ public class Annotador {
         }
         return false;
     }
-    
+
     public String annotateJSON(String input, String anchorDate) {
-        
+
         String out = annotate(input, anchorDate);
         TIMEX2JSON t2j = new TIMEX2JSON();
-        return t2j.translateSentence(out);        
+        return t2j.translateSentence(out);
     }
-    
-   /* DEPRECATED */ 
-    
-    
+
+    /* DEPRECATED */
     // tb con anchordate
 //   public String annotateBRAT(String input, String anchorDate) {
     public Salida annotateBRAT(String input, String anchorDate) {
