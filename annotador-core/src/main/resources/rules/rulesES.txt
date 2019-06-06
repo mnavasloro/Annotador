@@ -1753,6 +1753,12 @@ priority: 3.0,
   pattern: ( ([{lemma:"y"} | {lemma:"a"} | {lemma:"hasta"}] ) [{lemma:"el"}]? [{lemma:"año"}]? (?$year2 [{myNER:"YEAR"}]+) ([!{pos:/(NC|AQ).*/}]) ),
   action: (  Annotate($year2, "myRule", "Rule$interval"), Annotate($year2, "myNER", "INTERVAL"), Annotate($year2, "timexType", "DATE"), Annotate($year2, "timexValue", $year2[0].timexValue)),
   stage : 5  }
+  
+  { ruleType:   "tokens",
+  pattern: (  (([{word:"los"} | {word:"aquellos"}]  [{pos:/AQ.*/} | {pos:/NCMP.*/}]* [{word:"años"}]) | ([{word:"la"}]? [{word:"década"}] [{word:"de"}] [{word:"los"}]?)) (?$dec [{myNUM:"myNUMBER"}]+) ),
+  action: ( Annotate($0, "myNER", "los60"), Annotate($0, "myRule", "Rule$los60"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", :case{($dec[0].myTValue > 2000) => Format("%d", Divide($dec[0].myTValue, 10)), :else => Concat("19",Format("%d", Divide($dec[0].myTValue, 10)))}) ), 
+  result: ( "DATE",:case{($dec[0].myTValue > 2000) => Format("%d", Divide($dec[0].myTValue, 10)), :else => Concat("19",Format("%d", Divide($dec[0].myTValue, 10)))}, "", "", "Rule$los60" ), 
+  stage : 5  }
 
 
   
