@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Properties;
+import oeg.tagger.core.time.annotation.duration;
 import oeg.tagger.core.time.annotation.myNER;
 import oeg.tagger.core.time.annotation.temporal;
 import oeg.tagger.core.time.annotation.timex;
@@ -66,7 +67,14 @@ public class TutorialESP {
 //String txt = " porque el Estado mantuvo durante años una ";
 //String txt = "cada día";
 //String txt = "ocurre durante la noche.";
-String txt = "participan del día 3 y el 5";
+//String txt = "Nos vimos el pasado día 19.";
+//String txt = "la década de los veinte.";
+String txt = "los locos años veinte.";
+
+//String txt = "nueva ronda comercial este año.";
+//String txt = " anoche fuimos a cenar.";
+//String txt = " dos años y tres meses y dos minutos.";
+//String txt = "participan del día 3 y el 5";
 //String txt = "El grupo británico se ha visto obligado a aplazar los conciertos que tenía programados para el próximo martes en Razzmatazz ( que se pospone al 25 de abril) y, un día después, en la Sala Multiusos de Zaragoza).";
 //String txt = "Mayo y Junio de 2020.";
 //String txt = "Los días 1, 2, 3 y 5 de abril.";
@@ -163,13 +171,14 @@ String txt = "participan del día 3 y el 5";
                 String mySValue = token.get(temporal.MyStringValueAnnotation.class);
                 String myTeType = token.get(temporal.MyTypeTemporalAnnotation.class);
                 String rule = token.get(temporal.MyRuleAnnotation.class);
+                String period = token.get(duration.Period.class);
 
                 String value = token.get(timex.Value.class);
                 String type = token.get(timex.Type.class);
                 String freq = token.get(timex.Freq.class);
 //        out.println("token: " + "word="+word + ", myNe=" + myNe + ", myNenormalized=" + myNeNormalized + "\t\t" + token.value());
 //        out.println("token: " + "TIMEX=(" + type + ", " + value + ") \t word=" +word + ",  \t lemma="+lemma + ",  \t pos=" + pos);
-                out.println("token: " + "TIMEX=(" + type + ", " + value + ", " + freq + ", " + rule + ") \t word=" + word + ",  \t lemma=" + lemma + ",  \t pos=" + pos + ",  \t ne=" + ne + ",  \t normalized=" + normalized + ",  \t myNe=" + myNe + ",  \t myNenormalized=" + myNeNormalized + "\t myT=" + tnormalized + "\t  myTnormalized=" + myTeNormalized + "\t  myTValue=" + myTeValue + "\t  mySTValue=" + mySValue + "\t  myTType=" + myTeType + "\t  myNum=" + myNum);
+                out.println("token: " + "TIMEX=(" + type + ", " + value + ", " + freq + ", " + rule + ") \t period=" + period + ",  \t word=" + word + ",  \t lemma=" + lemma + ",  \t pos=" + pos + ",  \t ne=" + ne + ",  \t normalized=" + normalized + ",  \t myNe=" + myNe + ",  \t myNenormalized=" + myNeNormalized + "\t myT=" + tnormalized + "\t  myTnormalized=" + myTeNormalized + "\t  myTValue=" + myTeValue + "\t  mySTValue=" + mySValue + "\t  myTType=" + myTeType + "\t  myNum=" + myNum);
 //        out.println("token: " + "word="+word + ", lemma="+lemma + ", pos=" + pos + ", ne=" + ne + ", normalized=" + normalized + ", myNe=" + myNe + ", myNenormalized=" + myNeNormalized);
 out.flush();
             }

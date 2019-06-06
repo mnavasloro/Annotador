@@ -295,19 +295,16 @@ public class Annotador {
         }
     }
 
-    public Map<String, String> parseDuration(String input) {
-        Map<String, String> durations = new HashMap<String, String>();
-        Pattern pAnchor = Pattern.compile("(\\d+)([a-zA-Z]+)");
-
+    public LinkedHashMap<String, String> parseDuration(String input) {
+        LinkedHashMap<String, String> durations = new LinkedHashMap<String, String>();
+        Pattern pAnchor = Pattern.compile("(\\d+|X)([a-zA-Z]+)");
+        
         Matcher m = pAnchor.matcher(input);
         while (m.find()) {
             String numb = m.group(1);
             String unit = m.group(2);
-            if (unit.equalsIgnoreCase("M") && input.startsWith("PT")) {
-                durations.put("MIN", numb);
-            } else {
-                durations.put(unit, numb);
-            }
+            durations.put(unit, numb);
+            
         }
 //        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-]?\\d+),(\\w+)\\)");
 
@@ -401,7 +398,7 @@ public class Annotador {
                         String plus = m.group(2);
                         String duration = m.group(3);
 
-                        Map<String, String> durations = new HashMap<String, String>();
+                        LinkedHashMap<String, String> durations = new LinkedHashMap<String, String>();
                         // If it is an anchor for a date (eg, "this month")
                         if (plus.equalsIgnoreCase("x")) {
                             durations.put(duration, "0");
@@ -428,7 +425,7 @@ public class Annotador {
                                 if (plus.equalsIgnoreCase("+")) {
                                     dt = dt.plusMonths(plusI);
                                 } else if (plus.equalsIgnoreCase("-")) {
-                                    dt.minusMonths(plusI);
+                                    dt = dt.minusMonths(plusI);
                                 } else {
                                     val = dt.toString("YYYY-MM");
                                 }
@@ -443,8 +440,10 @@ public class Annotador {
                             } else if (gran.equalsIgnoreCase("W")) {
                                 if (plus.equalsIgnoreCase("+")) {
                                     dt = dt.plusWeeks(plusI);
-                                } else {
+                                } else if (plus.equalsIgnoreCase("-")) {
                                     dt = dt.minusWeeks(plusI);
+                                } else {
+                                    val = dt.toString("YYYY") + "-W" + dt.getWeekOfWeekyear();
                                 }
                             } else if (gran.equalsIgnoreCase("H")) {
                                 if (plus.equalsIgnoreCase("+")) {
@@ -483,6 +482,31 @@ public class Annotador {
                         if (!plus.equalsIgnoreCase("x")) {
                             val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
                         }
+                    }
+                    
+                    if((typ.equalsIgnoreCase("DURATION") || typ.equalsIgnoreCase("SET"))){
+                        LinkedHashMap<String, String> auxVal = parseDuration(val);
+                        String auxfin = "P";
+                        int flagT = 0;
+                        int mins = 0;
+                        Set<String> durString = auxVal.keySet();
+                        for (String gran : durString) {
+                            if(gran.equalsIgnoreCase("H") && flagT == 0){
+                                flagT=1;
+                                auxfin = auxfin + "T" + auxVal.get(gran) + gran;
+                            } else if(gran.equalsIgnoreCase("MIN") && flagT == 0){
+                                flagT=1;
+                                auxfin = auxfin + "T" + auxVal.get(gran) + "M";
+                            } else if(gran.equalsIgnoreCase("S") && flagT == 0){
+                                flagT=1;
+                                auxfin = auxfin + "T" + auxVal.get(gran) + gran;
+                            } else{
+                                auxfin = auxfin + auxVal.get(gran) + gran;
+                            }
+                        }
+                        val = auxfin;
+                        val = val.replaceFirst("MIN", "M");
+
                     }
 
                     String addini = "<TIMEX3 tid=\"t" + numval + "\" type=\"" + typ + "\" value=\"" + val + "\">";

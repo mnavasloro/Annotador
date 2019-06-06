@@ -270,7 +270,7 @@ HALF_DURATION_MAP = {
   "10_YEAR"   : "05Y" ,
   "100_YEAR"   : "50Y" ,
   "1000_YEAR"   : "500Y",
-  "HOUR"	: "30M",
+  "HOUR"	: "30MIN",
   "MINUTE"	: "30S",
   "SECOND"	: ""
 }
@@ -286,7 +286,7 @@ QUARTER_DURATION_MAP = {
   "10_YEAR"   : "02Y06M" ,
   "100_YEAR"   : "25Y" ,
   "1000_YEAR"   : "250Y",
-  "HOUR"	: "15M",
+  "HOUR"	: "15MIN",
   "MINUTE"	: "15S",
   "SECOND"	: ""
 }
@@ -302,7 +302,7 @@ TQUARTER_DURATION_MAP = {
   "10_YEAR"   : "07Y06M" ,
   "100_YEAR"   : "75Y" ,
   "1000_YEAR"   : "750Y",
-  "HOUR"	: "45M",
+  "HOUR"	: "45MIN",
   "MINUTE"	: "45S",
   "SECOND"	: ""
 }
@@ -543,7 +543,7 @@ $TGranularity = CreateRegex(Keys(TGRANULARITY_MAP))
 
 TGRANULARITY_UNIT_MAP = {
   "SECOND" : "S",
-  "MINUTE" : "M",
+  "MINUTE" : "MIN",
   "HOUR"   : "H"
 }
 
@@ -791,23 +791,23 @@ ENV.defaults["ruleType"] = "tokens"
 # eg: fin de semana / fines de semana
 { ruleType:   "tokens",
   pattern: ( ([{lemma:"fin"} & {pos:/.*S.*/}]) [{lemma:"de"}] [{lemma:"semana"}] ),
-  action: ( Annotate($0, "myRule", "Rule$FinDeSemana"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP["finsemana"] ), Annotate($0, "myTType", "finsemana" ), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue", Concat("P1",DGRANULARITY_UNIT_MAP[DGRANULARITY_MAP["finsemana"]])) ) ,
+  action: ( Annotate($0, "myRule", "Rule$FinDeSemana"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP["finsemana"] ), Annotate($0, "myTType", "finsemana" ), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue", Concat("1",DGRANULARITY_UNIT_MAP[DGRANULARITY_MAP["finsemana"]])), Annotate($0, "Period", PERIOD_MAP["WEEKEND"]) ) ,
   stage : 1  }
   
 { ruleType:   "tokens",
   pattern: ( ([{lemma:"fin"} & {pos:/.*P.*/}]) [{lemma:"de"}] [{lemma:"semana"}] ),
-  action: ( Annotate($0, "myRule", "Rule$FinDeSemana"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP["finsemana"] ), Annotate($0, "myTType", "finsemana" ), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue", Concat("PX",DGRANULARITY_UNIT_MAP[DGRANULARITY_MAP["finsemana"]])) ) ,
+  action: ( Annotate($0, "myRule", "Rule$FinDeSemana"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP["finsemana"] ), Annotate($0, "myTType", "finsemana" ), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue", Concat("X",DGRANULARITY_UNIT_MAP[DGRANULARITY_MAP["finsemana"]])), Annotate($0, "Period", PERIOD_MAP["WEEKEND"]) ) ,
   stage : 1  }
 
 # eg: meses, dia...  
 { ruleType:   "tokens",
   pattern: ( [{lemma:/$DGranularity/} & !{myNER:"DGRANULARITY"}  & !{ pos:/NP.*/ } & {pos:/.*P.*/}] ),
-  action: ( Annotate($0, "myRule", "Rule$Granularity"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP[$0[0].lemma] ), Annotate($0, "myTType", $$0.text ), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue", Concat("PX",DGRANULARITY_UNIT_MAP[DGRANULARITY_MAP[$0[0].lemma]]))  ) ,
+  action: ( Annotate($0, "myRule", "Rule$Granularity"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP[$0[0].lemma] ), Annotate($0, "myTType", $$0.text ), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue", Concat("X",DGRANULARITY_UNIT_MAP[DGRANULARITY_MAP[$0[0].lemma]])), Annotate($0, "Period", PERIOD_MAP[DGRANULARITY_MAP[$0[0].lemma]])  ) ,
   stage : 2  }
   
 { ruleType:   "tokens",
   pattern: ( [{lemma:/$DGranularity/} & !{myNER:"DGRANULARITY"}  & !{ pos:/NP.*/ } & {pos:/.*S.*/}] ),
-  action: ( Annotate($0, "myRule", "Rule$Granularity"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP[$0[0].lemma] ), Annotate($0, "myTType", $$0.text ), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue", Concat("P1",DGRANULARITY_UNIT_MAP[DGRANULARITY_MAP[$0[0].lemma]]))  ) ,
+  action: ( Annotate($0, "myRule", "Rule$Granularity"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP[$0[0].lemma] ), Annotate($0, "myTType", $$0.text ), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue", Concat("1",DGRANULARITY_UNIT_MAP[DGRANULARITY_MAP[$0[0].lemma]])), Annotate($0, "Period", PERIOD_MAP[DGRANULARITY_MAP[$0[0].lemma]])  ) ,
   stage : 2  }
 
 
@@ -834,14 +834,14 @@ ENV.defaults["ruleType"] = "tokens"
   
 
 { ruleType:   "tokens",
-  pattern: (([{lemma:"anteanoche"}] | [{lemma:"antes"}] [{lemma:"de"}] [{lemma:"anoche"}])),
-  action: ( Annotate($0, "myRule", "Rule$antesdeanoche"), Annotate($0, "timexType", "TIME"), Annotate($0, "timexValue", "anchor(TODAY,-,2DP)TNI"), Annotate($0, "myTimePartDay", "TNI") )  ,
-  stage : 1  }
+  pattern: (([{lemma:"anteanoche"}] | ([{lemma:"antes"}] [{lemma:"de"}] [{lemma:"anoche"}]))),
+  result: ("TIME", "anchor(TODAY,-,2D)TNI", "", "", "Rule$antesdeanoche"),
+  stage : 1000  }
   
 { ruleType:   "tokens",
   pattern: ([{lemma:"anoche"}]),
-  action: ( Annotate($0, "myRule", "Rule$anoche"), Annotate($0, "timexType", "TIME"), Annotate($0, "timexValue", "anchor(TODAY,+,1DP)TNI"), Annotate($0, "myTimePartDay", "TNI") )  ,
-  stage : 1  }
+  result: ("TIME", "anchor(TODAY,-,1D)TNI", "", "", "Rule$antesdeanoche"),
+  stage : 1000  }
 
   
 #####################
@@ -852,25 +852,25 @@ ENV.defaults["ruleType"] = "tokens"
 # eg: Pasado mañana / pasado
 { ruleType:   "tokens",
   pattern: ((?:[!{pos:/D.*/}]) (([{lemma:"pasado"}] [{lemma:"mañana"}]) | ([{lemma:"pasado"} & !{pos:/V.*/} & !{pos:/A.*/} & !{timexValue:"PAST_REF"}])) (?:[!{pos:/NC.*/}]){0}),
-  action: ( Annotate($0, "myRule", "Rule$PasadoMañana"), Annotate($1, "timexType", "DATE"), Annotate($1, "timexValue", "anchor(TODAY,+,2DP)"), Annotate($1, "myNERnormalized", "PASADO_MAÑANA") )  ,
+  action: ( Annotate($0, "myRule", "Rule$PasadoMañana"), Annotate($1, "timexType", "DATE"), Annotate($1, "timexValue", "anchor(TODAY,+,2D)"), Annotate($1, "myNERnormalized", "PASADO_MAÑANA") )  ,
   stage : 3  }
 
 # eg: mañana
 { ruleType:   "tokens",
   pattern: ([{lemma:"mañana"} & {pos:/RG.*/}]),
-  action: ( Annotate($0, "myRule", "Rule$Mañana"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,+,1DP)"), Annotate($0, "myNERnormalized", "MAÑANA") )  ,
+  action: ( Annotate($0, "myRule", "Rule$Mañana"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,+,1D)"), Annotate($0, "myNERnormalized", "MAÑANA") )  ,
   stage : 2  }
   
   # Falla con verbo delante:
   { ruleType:   "tokens",
   pattern: ([!{pos:/D.*/}] ([{lemma:"mañana"}])),
-  action: ( Annotate($0, "myRule", "Rule$MañanaNoDet"), Annotate($1, "timexType", "DATE"), Annotate($1, "timexValue", "anchor(TODAY,+,1DP)"), Annotate($1, "myNERnormalized", "MAÑANA") )  ,
+  action: ( Annotate($0, "myRule", "Rule$MañanaNoDet"), Annotate($1, "timexType", "DATE"), Annotate($1, "timexValue", "anchor(TODAY,+,1D)"), Annotate($1, "myNERnormalized", "MAÑANA") )  ,
   stage : 2  }
   
 # eg: hoy
 { ruleType:   "tokens",
   pattern: (([{lemma:"a"}] [{lemma:"día"}] [{lemma:"de"}])? [{lemma:"hoy"}]),
-  action: ( Annotate($0, "myRule", "Rule$Hoy"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,+,0DP)"), Annotate($0, "myNERnormalized", "HOY") )  ,
+  action: ( Annotate($0, "myRule", "Rule$Hoy"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,+,0D)"), Annotate($0, "myNERnormalized", "HOY") )  ,
   stage : 2  }
 
   
@@ -879,13 +879,13 @@ ENV.defaults["ruleType"] = "tokens"
 # eg: References to the present
 { ruleType:   "tokens",
   pattern: ([{lemma:"anteayer"}] | ([{lemma:"antes"}] [{lemma:"de"}] [{lemma:"ayer"}])),
-  action: ( Annotate($0, "myRule", "Rule$Anteayer"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,-,2DP)"), Annotate($0, "myNERnormalized", "ANTEAYER") )  ,
+  action: ( Annotate($0, "myRule", "Rule$Anteayer"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,-,2D)"), Annotate($0, "myNERnormalized", "ANTEAYER") )  ,
   stage : 2  }  
 
 # eg: References to the present
 { ruleType:   "tokens",
   pattern: ([{lemma:"el"}]{0} [{lemma:"ayer"}]),
-  action: ( Annotate($0, "myRule", "Rule$ElAyer"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,-,1DP)"), Annotate($0, "myNERnormalized", "AYER") )  ,
+  action: ( Annotate($0, "myRule", "Rule$ElAyer"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,-,1D)"), Annotate($0, "myNERnormalized", "AYER") )  ,
   stage : 2  }  
 
   
@@ -920,29 +920,29 @@ ENV.defaults["ruleType"] = "tokens"
 # eg: Dos días cada 2 meses
 { ruleType:   "composite",
   pattern: ((?$times [{timexType:"DURATION"}]+) ([{lemma:"cada"}]) (?$gran [{timexType:"DURATION"}]+)),
-  action: ( Annotate($0, "myRule", "Rule$XGranCadaXGran"), Annotate($0, "timexType", "SET"),  Annotate($0, "timexFreq", $times[0].timexValue), Annotate($0, "timexValue", $gran[0].timexValue) )  ,
-  result: ("SET", $gran[0].timexValue, $times[0].timexValue, "", "Rule$XGranCadaXGran"),
+  action: ( Annotate($0, "myRule", "Rule$XGranCadaXGran"), Annotate($0, "timexType", "SET"),  Annotate($0, "timexFreq", $times[0].timexValue), Annotate($0, "timexValue", Concat($gran[0].myNERnormalized,$gran[0].timexValue)) )  ,
+  #result: ("SET", Concat($gran[0].Period, $gran[0].timexValue), $times[0].timexValue, "", "Rule$XGranCadaXGran"),
   stage : 17  }
   
 # eg: Dos días cada semana
 { ruleType:   "composite",
   pattern: ((?$times [{timexType:"DURATION"}]+)  (?: [{lemma:"cada"}] | [{lemma:"por"}] | [{lemma:"al"}] | [{lemma:"a"}]) (?:[{lemma:"el"}])? (?$gran [{myNER:"DGRANULARITY"}]+)),
-  action: ( Annotate($0, "myRule", "Rule$XGranCadaGran"), Annotate($0, "timexType", "SET"),  Annotate($0, "timexFreq", $times[0].timexValue), Annotate($0, "timexValue", Concat(PERIOD_MAP[$gran[0].myNERnormalized], Format("%02d", DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized]),DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized])) )  ,
-  result: ("SET", Concat(PERIOD_MAP[$gran[0].myNERnormalized], Format("%02d", DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized]),DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized]), $times[0].timexValue, "", "Rule$XGranCadaGran"),
+  action: ( Annotate($0, "myRule", "Rule$XGranCadaGran"), Annotate($0, "timexType", "SET"),  Annotate($0, "timexFreq", $times[0].timexValue), Annotate($0, "timexValue", Concat($gran[0].Period, Format("%02d", DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized]),DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized])) )  ,
+  #result: ("SET", Concat($gran[0].Period, Format("%02d", DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized]),DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized]), $times[0].timexValue, "", "Rule$XGranCadaGran"),
   stage : 16  }
   
 # eg: (Dos veces) cada 2 meses
 { ruleType:   "composite",
   pattern: ((?$times [{myNER:"TIMES"}]+)? (?: [{lemma:"cada"}]) (?$gran [{timexType:"DURATION"} & !{timexValue:/anchor.*/}]+)),
-  action: ( Annotate($0, "myRule", "Rule$XVezCadaXGran"), Annotate($0, "timexType", "SET"),  Annotate($0, "timexFreq", :case{ ($$times != NIL) => $times[1].myNERnormalized, :else => ""} ), Annotate($0, "timexValue", $gran[0].timexValue) )  ,
-    result: ("SET", $gran[0].timexValue, :case{ ($$times != NIL) => $times[1].myNERnormalized, :else => ""}, "", "Rule$XVezCadaXGran"),
+  action: ( Annotate($0, "myRule", "Rule$XVezCadaXGran"), Annotate($0, "timexType", "SET"),  Annotate($0, "timexFreq", :case{ ($$times != NIL) => $times[1].myNERnormalized, :else => ""} ), Annotate($0, "timexValue", Concat($gran[0].Period,$gran[0].timexValue)) )  ,
+    #result: ("SET", Concat($gran[0].Period,$gran[0].timexValue), :case{ ($$times != NIL) => $times[1].myNERnormalized, :else => ""}, "", "Rule$XVezCadaXGran"),
   stage : 18  }
   
 # eg: (Dos veces) cada/por semana
 { ruleType:   "composite",
   pattern: ((?$times [{myNER:"TIMES"}]+)? (?: [{lemma:"cada"}] | [{lemma:"por"}] | [{lemma:"al"}] | [{lemma:"a"}]) (?: [{lemma:"el"}])? (?$gran [{myNER:"DGRANULARITY"} & !{timexValue:/anchor.*/}]+)),
   action: ( Annotate($0, "myRule", "Rule$XVezCadaGran"), Annotate($0, "timexType", "SET"), Annotate($0, "timexFreq", :case{ ($$times  != NIL) => $times[1].myNERnormalized, :else => ""} ) , Annotate($0, "timexValue", Concat(PERIOD_MAP[$gran[0].myNERnormalized],DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized],DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized])) )  ,
-    result: ("SET", Concat(PERIOD_MAP[$gran[0].myNERnormalized],DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized],DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized]), :case{ ($$times  != NIL) => $times[1].myNERnormalized, :else => ""}, "", "Rule$XVezCadaGran"),
+    #result: ("SET", Concat(PERIOD_MAP[$gran[0].myNERnormalized],DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized],DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized]), :case{ ($$times  != NIL) => $times[1].myNERnormalized, :else => ""}, "", "Rule$XVezCadaGran"),
   stage : 18  }
   
 # eg: Todas las semanas
@@ -1004,7 +1004,7 @@ ENV.defaults["ruleType"] = "tokens"
 # eg: mañana
 { ruleType:   "tokens",
   pattern: ([{lemma:"mañana"} & {pos:/NCS.*/}]), #Femenine for distinction with "el mañana" (unnecessary)
-  action: ( Annotate($0, "myRule", "Rule$Mañ"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,+,1DP)"), Annotate($0, "myNERnormalized", "MAÑANA") )  ,
+  action: ( Annotate($0, "myRule", "Rule$Mañ"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,+,1D)"), Annotate($0, "myNERnormalized", "MAÑANA") )  ,
   stage : 2  }
 
   
@@ -1185,13 +1185,13 @@ result: ("TIME", Concat("T", :case{($2[0].timexValue == "AF") => PMHOUR_MAP[$1[0
 # eg: dos horas
 { ruleType:   "tokens",
   pattern: ( ([{myNUM:"myNUMBER"}]+) (?$gran [{myNER:"TGRANULARITY"}]) (?$plus [{lemma:"y"}] (?$added [{lemma:"medio"}] || [{word:/cuarto|CUARTO/}] || [{myNUM:"myNUMBER"} && {mySTValue:"03"}] [{lemma:"cuarto"}]))? ),
-  action: ( Annotate($0, "myRule", "Rule$NUMTGranularity"), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue",  Concat($1[0].mySTValue, TGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized], :case{($plus != NIL) => :case{($added[0].lemma == "medio") => HALF_DURATION_MAP[$gran[0].myNERnormalized], ($added[0].lemma == "cuarto") => QUARTER_DURATION_MAP[$gran[0].myNERnormalized], :else => TQUARTER_DURATION_MAP[$gran[0].myNERnormalized]}, :else => ""})), Annotate($0, DURATION_MAP[$gran[0].myNERnormalized], $gran[0].timexValue), Annotate($0, "Period", PERIOD_MAP[$gran[0].myNERnormalized]) ) , 
+  action: ( Annotate($0, "myRule", "Rule$NUMTGranularity"), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue",  Concat($1[0].mySTValue, TGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized], :case{($plus != NIL) => :case{($added[0].lemma == "medio") => HALF_DURATION_MAP[$gran[0].myNERnormalized], ($added[0].lemma == "cuarto") => QUARTER_DURATION_MAP[$gran[0].myNERnormalized], :else => TQUARTER_DURATION_MAP[$gran[0].myNERnormalized]}, :else => ""})), Annotate($0, DURATION_MAP[$gran[0].myNERnormalized], $gran[0].timexValue), Annotate($0, "Period", $gran[0].Period) ) , 
   stage : 15  }
   
  # eg: varias/algunas horas
 { ruleType:   "tokens",
   pattern: (  [{pos:/D[A|D]0.*/} | {pos:/SPCM.*/}]? ([{myNER:"INDEF"}]+) ([{myNER:"TGRANULARITY"}]) ),
-  action: ( Annotate($0, "myRule", "Rule$INDEFTGranularity"), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue",  Concat("X", TGRANULARITY_UNIT_MAP[$2[0].myNERnormalized])), Annotate($0, DURATION_MAP[$2[0].myNERnormalized], $2[0].timexValue), Annotate($0, "Period", PERIOD_MAP[$2[0].myNERnormalized]) ) , 
+  action: ( Annotate($0, "myRule", "Rule$INDEFTGranularity"), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue",  Concat("X", TGRANULARITY_UNIT_MAP[$2[0].myNERnormalized])), Annotate($0, DURATION_MAP[$2[0].myNERnormalized], $2[0].timexValue), Annotate($0, "Period", $2[0].Period) ) , 
   stage : 15  }
   
  # eg: las próximas horas/decadas (indef)
@@ -1204,8 +1204,8 @@ result: ("TIME", Concat("T", :case{($2[0].timexValue == "AF") => PMHOUR_MAP[$1[0
   #### este (TODO: igual para WEEKDAY?)
 
 { ruleType:   "tokens",
-  pattern: ( (?$total (?$rel [{pos:/D[A|D]0.S0/} | {pos:/SPCMS/}])? [{pos:/D.+S.+/} | {pos:/AQ.+S.+/} | {pos:"FC"} | {pos:"CC"}]* (?$gran [{myNER:"DGRANULARITY"}]+)) [!{myNER:"DAYMONTH"} & !{myNER:"MONTHN"} & !{myNUM:"myNUMBER"}]),
-  action: ( :case{($$rel != NIL) => (Annotate($total, "myRule", "Rule$este"), Annotate($total, "timexType", "DATE"), Annotate($total, "timexValue", Concat("anchor(TODAY,x,", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")"))), :else => (Annotate($total, "myRule", "Rule$gran"), Annotate($total, "timexType", "DURATION"), Annotate($total, "timexValue", Concat(PERIOD_MAP[$gran[0].myNERnormalized], "1",DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized])))}   
+  pattern: ( (?$total (?$rel [{pos:/D[A|D]0.S0/} | {pos:/SPCMS/}] [{pos:/D.+S.+/} | {pos:/AQ.+S.+/} | {pos:"FC"} | {pos:"CC"}]*)? (?$gran [{myNER:"DGRANULARITY"}]+)) [!{myNER:"DAYMONTH"} & !{myNER:"MONTHN"} & !{myNUM:"myNUMBER"}]),
+  action: ( :case{($$rel != NIL) => (Annotate($total, "myRule", "Rule$este"), Annotate($total, "timexType", "DATE"), Annotate($total, "timexValue", Concat("anchor(TODAY,x,", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")")), Annotate($total, "Period", $gran[0].Period)), :else => (Annotate($total, "myRule", "Rule$gran"), Annotate($total, "timexType", "DURATION"), Annotate($total, "timexValue", Concat("1",DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized])), Annotate($total, "Period", $gran[0].Period))}   
    )  ,
   stage : 14  }
   
@@ -1255,22 +1255,22 @@ result: ("TIME", Concat("T", :case{($2[0].timexValue == "AF") => PMHOUR_MAP[$1[0
   # eg: la próxima semana
 { ruleType:   "tokens",
   pattern: (  [{pos:/D[A|D]0.S0/} | {pos:/SPCMS/}]? ([{myNER:"FUT_REF_Adj"} & {pos:/A...S.*/}]+) (?$gran [{myNER:/DGRANULARITY/}]+) ),
-  action: ( Annotate($0, "myRule", "Rule$proximoGranularity"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,+,1", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],PERIOD_MAP[$gran[0].myNERnormalized],")")) ) , 
+  action: ( Annotate($0, "myRule", "Rule$proximoGranularity"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,+,1", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")")) ) , 
   stage : 15  }
   
   { ruleType:   "tokens",
   pattern: ( [{pos:/D[A|D]0.S0/} | {pos:/SPCMS/}]? ([{myNER:"PAS_REF_Adj"} & {pos:/A...S.*/}]+) (?$gran [{myNER:/DGRANULARITY/}]+) ),
-  action: ( Annotate($0, "myRule", "Rule$anteriorGranularity"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,-,1", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],PERIOD_MAP[$gran[0].myNERnormalized],")")) ) , 
+  action: ( Annotate($0, "myRule", "Rule$anteriorGranularity"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,-,1", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")")) ) , 
   stage : 15  }
   
   { ruleType:   "tokens",
   pattern: ( [{pos:/D[A|D]0.S0/} | {pos:/SPCMS/}]? (?$gran [{myNER:/DGRANULARITY/}]+) ([{myNER:"FUT_REF_Adj"} & {pos:/A...S.*/}]+) ),
-  action: ( Annotate($0, "myRule", "Rule$proximoGranularity"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,+,1", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],PERIOD_MAP[$gran[0].myNERnormalized],")")) ) , 
+  action: ( Annotate($0, "myRule", "Rule$proximoGranularity"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,+,1", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")")) ) , 
   stage : 15  }
   
   { ruleType:   "tokens",
   pattern: ( [{pos:/D[A|D]0.S0/} | {pos:/SPCMS/}]? (?$gran [{myNER:/DGRANULARITY/}]+) ([{myNER:"PAS_REF_Adj"} & {pos:/A...S.*/}]+) ),
-  action: ( Annotate($0, "myRule", "Rule$anteriorGranularity"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,-,1", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],PERIOD_MAP[$gran[0].myNERnormalized],")")) ) , 
+  action: ( Annotate($0, "myRule", "Rule$anteriorGranularity"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,-,1", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")")) ) , 
   stage : 15  }
   
   
@@ -1338,7 +1338,7 @@ result: ("TIME", Concat("T", :case{($2[0].timexValue == "AF") => PMHOUR_MAP[$1[0
 # eg: media hora /cuarto de hora
  { ruleType:   "tokens",
    pattern: ( (?$added [{lemma:"medio"}] || [{lemma:"cuarto"}] [{lemma:"de"}] || [{myNUM:"myNUMBER"} && {mySTValue:"03"}] [{lemma:"cuarto"}] [{lemma:"de"}]) (?$granu [{myNER:"TGRANULARITY"}]+) ),
-      action: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$MediaHora"), Annotate($0, "timexValue", :case{($added[0].lemma == "medio") => HALF_DURATION_MAP[$granu[0].myNERnormalized], ($added[0].mySTValue == "03") => TQUARTER_DURATION_MAP[$granu[0].myNERnormalized], :else => QUARTER_DURATION_MAP[$granu[0].myNERnormalized]}), Annotate($0, DURATION_MAP[$granu[0].myNERnormalized], $granu[0].timexValue), Annotate($0, "Period", :case{($granu[0].myNERnormalized == "DAY") => PERIOD_MAP["HOUR"], :else => PERIOD_MAP[$granu[0].myNERnormalized]}) ) , 
+      action: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$MediaHora"), Annotate($0, "timexValue", :case{($added[0].lemma == "medio") => HALF_DURATION_MAP[$granu[0].myNERnormalized], ($added[0].mySTValue == "03") => TQUARTER_DURATION_MAP[$granu[0].myNERnormalized], :else => QUARTER_DURATION_MAP[$granu[0].myNERnormalized]}), Annotate($0, DURATION_MAP[$granu[0].myNERnormalized], $granu[0].timexValue), Annotate($0, "Period", :case{($granu[0].myNERnormalized == "DAY") => PERIOD_MAP["HOUR"], :else => $granu[0].Period}) ) , 
 	  stage : 14  }
 
   
@@ -1350,18 +1350,18 @@ result: ("TIME", Concat("T", :case{($2[0].timexValue == "AF") => PMHOUR_MAP[$1[0
   # eg: dos dias
 { ruleType:   "tokens",
   pattern: ( ([{myNUM:"myNUMBER"}]+)  (?$gran [{myNER:"DGRANULARITY"}]+) (?$plus [{lemma:"y"}] (?$added [{lemma:"medio"}] | [{lemma:"cuarto"}] | [{myNUM:"myNUMBER"} && {mySTValue:"03"}] [{lemma:"cuarto"}]))? ),
-    action: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$DosDias"), Annotate($0, "timexValue",  Concat(Multiply(DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized], $1[0].myTValue), DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],  :case{($plus != NIL) => :case{($added[0].lemma == "medio") => HALF_DURATION_MAP[$gran[0].myNERnormalized], ($added[0].lemma == "cuarto") => QUARTER_DURATION_MAP[$gran[0].myNERnormalized], :else => TQUARTER_DURATION_MAP[$gran[0].myNERnormalized]}, :else => ""})), Annotate($0, DURATION_MAP[$gran[0].myNERnormalized], $gran[0].timexValue), Annotate($0, "Period", PERIOD_MAP[$gran[0].myNERnormalized]) ) , 
+    action: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$DosDias"), Annotate($0, "timexValue",  Concat(Multiply(DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized], $1[0].myTValue), DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],  :case{($plus != NIL) => :case{($added[0].lemma == "medio") => HALF_DURATION_MAP[$gran[0].myNERnormalized], ($added[0].lemma == "cuarto") => QUARTER_DURATION_MAP[$gran[0].myNERnormalized], :else => TQUARTER_DURATION_MAP[$gran[0].myNERnormalized]}, :else => ""})), Annotate($0, DURATION_MAP[$gran[0].myNERnormalized], $gran[0].timexValue), Annotate($0, "Period", $gran[0].Period) ) , 
   stage : 15  }
  
  { ruleType:   "tokens",
   pattern: ( [{pos:/D[A|D]0.*/} | {pos:/SPCM.*/}]? ([{myNER:"INDEF"}]+) ([{myNER:"DGRANULARITY"}]+) ),
-  action: ( Annotate($0, "myRule", "Rule$INDEFDGranularity"), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue",  Concat("X", DGRANULARITY_UNIT_MAP[$2[0].myNERnormalized])), Annotate($0, DURATION_MAP[$2[0].myNERnormalized], $2[0].timexValue), Annotate($0, "Period", PERIOD_MAP[$2[0].myNERnormalized]) ) , 
+  action: ( Annotate($0, "myRule", "Rule$INDEFDGranularity"), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue",  Concat("X", DGRANULARITY_UNIT_MAP[$2[0].myNERnormalized])), Annotate($0, DURATION_MAP[$2[0].myNERnormalized], $2[0].timexValue), Annotate($0, "Period", $2[0].Period) ) , 
   stage : 15  }
  
 # eg: medio dia /cuarto de año
  { ruleType:   "tokens",
    pattern: ( (?$added [{lemma:"medio"}] || [{lemma:"cuarto"}] [{lemma:"de"}] || [{myNUM:"myNUMBER"} && {mySTValue:"03"}] [{word:/cuartos|CUARTOS/}] /de/) (?$granu [{myNER:"DGRANULARITY"}]+) ),
-      action: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$MedioDia"), Annotate($0, "timexValue", :case{($added[0].lemma == "medio") => HALF_DURATION_MAP[$granu[0].myNERnormalized], ($added[0].mySTValue == "03") => TQUARTER_DURATION_MAP[$granu[0].myNERnormalized], :else => QUARTER_DURATION_MAP[$granu[0].myNERnormalized]}), Annotate($0, DURATION_MAP[$granu[0].myNERnormalized], $granu[0].timexValue), Annotate($0, "Period", PERIOD_MAP[$granu[0].myNERnormalized]) ) , 
+      action: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$MedioDia"), Annotate($0, "timexValue", :case{($added[0].lemma == "medio") => HALF_DURATION_MAP[$granu[0].myNERnormalized], ($added[0].mySTValue == "03") => TQUARTER_DURATION_MAP[$granu[0].myNERnormalized], :else => QUARTER_DURATION_MAP[$granu[0].myNERnormalized]}), Annotate($0, DURATION_MAP[$granu[0].myNERnormalized], $granu[0].timexValue), Annotate($0, "Period", $granu[0].Period) ) , 
 	  stage : 14  }
   
 # eg: dos veces
@@ -1398,8 +1398,7 @@ priority: 2.0,
 matchedExpressionGroup: 1,
 priority: 3.0,
   pattern: ( (?$total (?: (?: [{lemma:"en"}]?  [{lemma:"el"}] [{lemma:"año"}]?) | (?: [{lemma:"en"} | {lemma:"año"}]))  (?$year [{myNER:"YEAR"}]+) (?:[!{pos:/NC.*/}])) ) ,
-  action: ( Annotate($0, "myDateYear", :case{ ($$year != NIL) => $year[0].myNERnormalized, :else => "XXXX"}) ),
-  result: ( "DATE", $year[0].myNERnormalized,  "", "", "Rule$EnElAñoYYYY")  ,
+  action: ( Annotate($total, "myDateYear", :case{ ($$year != NIL) => $year[0].myNERnormalized, :else => "XXXX"}) ),
   stage : 200  }  
 
 # cuidado con el entre
@@ -1464,7 +1463,7 @@ priority: 3.0,
 { ruleType: "composite",
  priority: 1.0,
   pattern: ( ([{myRule:"Rule$1añoy2meses"}]+) ) ,
-  action: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$1añoy2meses"), Annotate($0, "timexValue", Concat($0[0].Period, :case {($0[1].myDurationDecade == NIL ) => "" , :else => $0[1].myDurationDecade}, :case {($0[1].myDurationYear == NIL ) => "" , :else => $0[1].myDurationYear}, :case {($0[1].myDurationMonth == NIL ) => "" , :else => $0[1].myDurationMonth}, :case {($0[1].myDurationWeek == NIL ) => "" , :else => $0[1].myDurationWeek}, :case {($0[1].myDurationWeekend == NIL ) => "" , :else => $0[1].myDurationWeekend}, :case {($0[1].myDurationDay == NIL ) => "" , :else => $0[1].myDurationDay}, :case {($0[1].myDurationHour == NIL ) => "" , :else => $0[1].myDurationHour}, :case {($0[1].myDurationMinute == NIL ) => "" , :else => $0[1].myDurationMinute}, :case {($0[1].myDurationSecond == NIL ) => "" , :else => $0[1].myDurationSecond})) ),
+  action: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$1añoy2meses"), Annotate($0, "timexValue", Concat("", :case {($0[1].myDurationDecade == NIL ) => "" , :else => $0[1].myDurationDecade}, :case {($0[1].myDurationYear == NIL ) => "" , :else => $0[1].myDurationYear}, :case {($0[1].myDurationMonth == NIL ) => "" , :else => $0[1].myDurationMonth}, :case {($0[1].myDurationWeek == NIL ) => "" , :else => $0[1].myDurationWeek}, :case {($0[1].myDurationWeekend == NIL ) => "" , :else => $0[1].myDurationWeekend}, :case {($0[1].myDurationDay == NIL ) => "" , :else => $0[1].myDurationDay}, :case {($0[1].myDurationHour == NIL ) => "" , :else => $0[1].myDurationHour}, :case {($0[1].myDurationMinute == NIL ) => "" , :else => $0[1].myDurationMinute}, :case {($0[1].myDurationSecond == NIL ) => "" , :else => $0[1].myDurationSecond})) ),
   #result: ( "DURATION", Concat($0[0].Period, :case {($0[1].myDurationDecade == NIL ) => "" , :else => $0[1].myDurationDecade}, :case {($0[1].myDurationYear == NIL ) => "" , :else => $0[1].myDurationYear}, :case {($0[1].myDurationMonth == NIL ) => "" , :else => $0[1].myDurationMonth}, :case {($0[1].myDurationWeek == NIL ) => "" , :else => $0[1].myDurationWeek}, :case {($0[1].myDurationWeekend == NIL ) => "" , :else => $0[1].myDurationWeekend}, :case {($0[1].myDurationDay == NIL ) => "" , :else => $0[1].myDurationDay}, :case {($0[1].myDurationHour == NIL ) => "" , :else => $0[1].myDurationHour}, :case {($0[1].myDurationMinute == NIL ) => "" , :else => $0[1].myDurationMinute}, :case {($0[1].myDurationSecond == NIL ) => "" , :else => $0[1].myDurationSecond}), "", "", "Rule$1añoy2meses")  ,
   stage : 199  }
   
@@ -1598,7 +1597,7 @@ priority: 3.0,
    # duration
  { ruleType:   "composite",
    pattern: ( [{timexType:"DURATION"}]+  ),
-   result: ( "DURATION", Concat($0[0].timexValue), "", "", $0[0].myRule ) ,
+   result: ( "DURATION", Concat("", $0[0].timexValue), "", "", $0[0].myRule ) ,
    stage : 500  } 
   
      # time
@@ -1624,6 +1623,15 @@ priority: 3.0,
   pattern: ( ([{timexType:"DATE"} && {myRule:"Rule$EnElAñoMyNumber"}]+)  ),
   result: ( "DATE", Concat($1[0].timexValue,""), "", "", "Rule$EnElAñoMyNumber" ) ,
   stage : 200  }   
+
+  
+        # date en el año
+{ ruleType:   "composite",
+  pattern: ( ([{timexType:"DATE"} && {myRule:"Rule$EnElAñoYYYY"}]+)  ),
+  result: ( "DATE", Concat($1[0].timexValue,""), "", "", "Rule$EnElAñoYYYY" ) ,
+  stage : 200  }   
+  
+  
   
         # date el dia
 { ruleType:   "composite",
@@ -1632,9 +1640,9 @@ priority: 3.0,
   stage : 200  }  
 
   
-          # date el dia
+          # date el dia (first ones are in case of adjectives...)
 { ruleType:   "composite",
-  pattern: ( ([{timexType:"DATE"} && {myRule:"Rule$eldia2"}]+)  ),
+  pattern: ( [{timexType:"DATE"}]* ([{timexType:"DATE"} && {myRule:"Rule$eldia2"}]+)  ),
   result: ( "DATE", Concat($1[0].timexValue,""), "", "", "Rule$eldia2" ) ,
   stage : 200  }  
   

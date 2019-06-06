@@ -31,7 +31,16 @@ public class TutorialAnnotadorES {
 //String txt = "Mayo y Junio.";
 //String txt = "un día después.";
 //String txt = "el 2 de Mayo de 2020.";
-String txt = "participan del día 3 al 5";
+//String txt = "cada dos años y tres meses y doce minutos.";    
+//String txt = "algunos años.";
+//String txt = "estuvo allí dos años, tres meses, cuatro semanas.";
+String txt = "los locos años veinte.";
+//String txt = "la década de los veinte.";
+//String txt = "nueva ronda comercial esta semana.";
+//String txt = " demandaron a Microsoft en 1998 presentaron.";
+//String txt = " anoche fuimos a cenar.";
+//String txt = "Son dos años y tres meses y dos minutos.";
+//String txt = "participan del día 3 al 5";
 //String txt = "el 2 de Mayo de 2020.";
 //String txt = "ocurre durante la noche.";
 //String txt = "El día 1 y 2.";
