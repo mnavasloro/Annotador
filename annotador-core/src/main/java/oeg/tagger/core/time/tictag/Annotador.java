@@ -312,7 +312,7 @@ public class Annotador {
     }
 
     public String annotate(String input, String anchorDate) {
-        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-x]),([^\\)]+)\\)");
+        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),(.),([^\\)]+)\\)");
 //        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-]?\\d+),(\\w+)\\)");
         try {
             String inp2 = input;
@@ -467,8 +467,16 @@ public class Annotador {
                             } else if (gran.equalsIgnoreCase("DAYW")) {
                                 if (plus.equalsIgnoreCase("+")) {
                                     dt = getNextDayWeek(dt, plusI);
-                                } else {
+                                } else if (plus.equalsIgnoreCase("-")) {
                                     dt = getLastDayWeek(dt, plusI);
+                                } else if (plus.equalsIgnoreCase("z")) {
+                                    int current = dt.getDayOfWeek();
+                                    if (plusI <= current) {
+                                        dt = dt.minusDays(current - plusI);
+                                    }
+                                    else{
+                                        dt = dt.plusDays(plusI - current);
+                                    }
                                 }
                             } else if (gran.equalsIgnoreCase("MONTHS")) {
                                 if (plus.equalsIgnoreCase("+")) {
