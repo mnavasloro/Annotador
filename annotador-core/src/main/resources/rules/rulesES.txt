@@ -1187,13 +1187,13 @@ result: ("TIME", Concat("T", :case{($2[0].timexValue == "AF") => PMHOUR_MAP[$1[0
 # eg: dos horas
 { ruleType:   "tokens",
   pattern: ( ([{myNUM:"myNUMBER"}]+) (?$gran [{myNER:"TGRANULARITY"}]) (?$plus [{lemma:"y"}] (?$added [{lemma:"medio"}] || [{word:/cuarto|CUARTO/}] || [{myNUM:"myNUMBER"} && {mySTValue:"03"}] [{lemma:"cuarto"}]))? ),
-  action: ( Annotate($0, "myRule", "Rule$NUMTGranularity"), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue",  Concat($1[0].mySTValue, TGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized], :case{($plus != NIL) => :case{($added[0].lemma == "medio") => HALF_DURATION_MAP[$gran[0].myNERnormalized], ($added[0].lemma == "cuarto") => QUARTER_DURATION_MAP[$gran[0].myNERnormalized], :else => TQUARTER_DURATION_MAP[$gran[0].myNERnormalized]}, :else => ""})), Annotate($0, DURATION_MAP[$gran[0].myNERnormalized], $gran[0].timexValue), Annotate($0, "Period", $gran[0].Period) ) , 
+  action: ( Annotate($0, "myRule", "Rule$NUMTGranularity"), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue",  Concat($1[0].mySTValue, TGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized], :case{($plus != NIL) => :case{($added[0].lemma == "medio") => HALF_DURATION_MAP[$gran[0].myNERnormalized], ($added[0].lemma == "cuarto") => QUARTER_DURATION_MAP[$gran[0].myNERnormalized], :else => TQUARTER_DURATION_MAP[$gran[0].myNERnormalized]}, :else => ""})), Annotate($0, DURATION_MAP[$gran[0].myNERnormalized], $gran[0].timexValue), Annotate($0, "Period", "PT") ) , 
   stage : 15  }
   
  # eg: varias/algunas horas
 { ruleType:   "tokens",
   pattern: (  [{pos:/D[A|D]0.*/} | {pos:/SPCM.*/}]? ([{myNER:"INDEF"}]+) ([{myNER:"TGRANULARITY"}]) ),
-  action: ( Annotate($0, "myRule", "Rule$INDEFTGranularity"), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue",  Concat("X", TGRANULARITY_UNIT_MAP[$2[0].myNERnormalized])), Annotate($0, DURATION_MAP[$2[0].myNERnormalized], $2[0].timexValue), Annotate($0, "Period", $2[0].Period) ) , 
+  action: ( Annotate($0, "myRule", "Rule$INDEFTGranularity"), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue",  Concat("X", TGRANULARITY_UNIT_MAP[$2[0].myNERnormalized])), Annotate($0, DURATION_MAP[$2[0].myNERnormalized], $2[0].timexValue), Annotate($0, "Period", "PT") ) , 
   stage : 15  }
   
  # eg: las próximas horas/decadas (indef)
@@ -1431,9 +1431,15 @@ priority: 3.0,
   
   #TODO: deberia ser intervalo  
 { ruleType: "tokens",
-  pattern: ( (?: [{lemma:"el"}]?  [{lemma:"día"}]? [{myNER:"DAYMONTH"} | {myNER:"MONTHN"} | ({myNUM:"myNUMBER"} & {mySTValue:/([1-2][0-9])|0?[1-9]|3[0-1]/})]+ (?: /,/ | /y/ | /al/ | /hasta/))+  [{lemma:"el"}]? ([{myNER:"DAYMONTH"} | {myNER:"MONTHN"} | ({myNUM:"myNUMBER"} & {mySTValue:/([1-2][0-9])|0?[1-9]|3[0-1]/})]) ) ,
+  pattern: ( (?: [{lemma:"el"}]?  [{lemma:"día"}]? [{myNER:"DAYMONTH"} | {myNER:"MONTHN"} | ({myNUM:"myNUMBER"} & {mySTValue:/([1-2][0-9])|0?[1-9]|3[0-1]/})]+ (?: /,/ | /y/ | /al/ | /hasta/ | /a/))+  [{lemma:"el"}]? ([{myNER:"DAYMONTH"} | {myNER:"MONTHN"} | ({myNUM:"myNUMBER"} & {mySTValue:/([1-2][0-9])|0?[1-9]|3[0-1]/} & !{timexType:"DURATION"})]) ) ,
   action: ( Annotate($0, "myRule", "Rule$el2yel3deoctubre"), Annotate($0, "myDateMonth", $1[0].myDateMonth), Annotate($0, "timexType", "DATE"), Annotate($0, "myDateYear", $1[0].myDateYear)),
   stage : 100  }
+  
+  #TODO: deberia ser intervalo  
+{ ruleType: "tokens",
+  pattern: ( (?$new [{myNER:"DAYMONTH"} | {myNER:"MONTHN"} | ({myNUM:"myNUMBER"} & {mySTValue:/([1-2][0-9])|0?[1-9]|3[0-1]/})]+) (?: /,/ | /y/ | /al/ | /hasta/ | /a/)+  ( [{myNER:"DAYMONTH"} | {myNER:"MONTHN"} | ({myNUM:"myNUMBER"} & {mySTValue:/([1-2][0-9])|0?[1-9]|3[0-1]/} & {timexType:"DURATION"})]+ (?$old [{timexType:"DURATION"}]+)) ) ,
+  action: ( Annotate($new, "myRule", "Rule$de2a3dur"), Annotate($new, "timexValue", Concat($old[0].Period, $new[0].mySTValue, :case{($old[0].Period == "PT") => TGRANULARITY_UNIT_MAP[$old[0].myNERnormalized], :else => DGRANULARITY_UNIT_MAP[$old[0].myNERnormalized]})), Annotate($new, "timexType", "DURATION"), Annotate($new, "Period", $old[0].Period)),
+  stage : 100  }  
 
 { ruleType: "composite",
  matchedExpressionGroup: 1,
@@ -1696,9 +1702,15 @@ priority: 3.0,
 
   # adj actual
 { ruleType:   "tokens",
-  pattern: ( [{pos:/AQ.*/} && {lemma:/actual|presente/} && !{timexValue:/.*/}]+  ),
+  pattern: ( ([{pos:/AQ.*/} && {lemma:/actual/} && !{timexValue:/.*/}]+)  ),
   result: ( "DATE", "PRESENT_REF", "", "", "Rule$AdjActual" ) ,
   stage : 700  }  
+  
+    # adj presente
+ #{ ruleType:   "tokens",
+  # pattern: ( ([{pos:/AQ.*/} && {lemma:/presente/} && !{timexValue:/.*/}]+) [{pos:/AQ.*/ | }] ),
+  # result: ( "DATE", "PRESENT_REF", "", "", "Rule$AdjPresente" ) ,
+  # stage : 699  }  
   
   
     # adv proximamente

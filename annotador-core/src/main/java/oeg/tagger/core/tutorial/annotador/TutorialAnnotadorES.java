@@ -34,7 +34,8 @@ public class TutorialAnnotadorES {
 //String txt = "cada dos años y tres meses y doce minutos.";    
 //String txt = "algunos años.";
 //String txt = "estuvo allí dos años, tres meses, cuatro semanas.";
-String txt = "el déficit se puede reducir este mismo año 2000 al 0,5 % del PIB, todo un récord.";
+String txt = "ampliación de ocho a doce horas del periodo de re";
+//String txt = "el déficit se puede reducir este mismo año 2000 al 0,5 % del PIB, todo un récord.";
 //String txt = "Y aquí, mientras esperamos el derbi del Lunes.";
 //String txt = "Meses excitantes.";
 //String txt = "los locos años veinte.";
