@@ -69,7 +69,8 @@ public class TutorialAnnotadorES {
 //String txt = "Los ministros de Defensa de la Unión Europea ( UE) celebrarán el próximo lunes en Bruselas una conferencia de \" generación de fuerzas \", en la que cada socio comunicará formalmente la aportación de su país a la Fuerza militar europea, que contará con más de 60.000 soldados.\n" +
 //"El mismo día por la tarde,";
 //String txt = "fue condenado hace varios días";
-String txt = "hasta finales del pasado mayo .";
+String txt = " tuvo carácter musical y se cerró, por la noche, c .";
+//String txt = "hasta finales del pasado mayo .";
 //        String txt = "Al cumplirse hoy la segunda jornada de la protesta";
 //        String txt = "madrileños aseguró que el siglo XXI será el siglo de la ciencia y la tecnología";
         Annotador tt = new Annotador("ES");
