@@ -71,7 +71,12 @@ public class TutorialESP {
 //String txt = "la década de los veinte.";
 //String txt = "los locos años veinte.";
 //String txt = "el déficit se puede reducir este mismo año 2000 al 0,5 % del PIB, todo un récord.";
-String txt = "ampliación de ocho a doce horas";
+//String txt = "ampliación de ocho a doce horas";
+//        String txt = "hace dos lustros";
+//        String txt = "madrileños aseguró que el siglo 21  ";
+//String txt = "fue condenado ese mismo día del señor";
+String txt = "fue condenado hace varios días";
+
 
 //String txt = "nueva ronda comercial este año.";
 //String txt = " anoche fuimos a cenar.";

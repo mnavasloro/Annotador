@@ -313,6 +313,8 @@ public class Annotador {
 
     public String annotate(String input, String anchorDate) {
         Pattern pAnchor = Pattern.compile("anchor\\((\\w+),(.),([^\\)]+)\\)");
+        String lastfullDATE = anchorDate; // Where we keep the last full date, in case we have to normalize
+        String lastDATE = anchorDate; // Where we keep the last date, in case we have to normalize
 //        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-]?\\d+),(\\w+)\\)");
         try {
             String inp2 = input;
@@ -419,7 +421,8 @@ public class Annotador {
                                 } else if (plus.equalsIgnoreCase("-")) {
                                     dt = dt.minusDays(plusI);
                                 } else {
-                                    dt = new DateTime(anchorDate);
+                                    dt = new DateTime(lastfullDATE);
+                                    val = dt.toString("YYYY-MM-dd");
                                 }
                             } else if (gran.equalsIgnoreCase("M")) {
                                 if (plus.equalsIgnoreCase("+")) {
@@ -517,6 +520,12 @@ public class Annotador {
 
                     }
 
+                    if(typ.equalsIgnoreCase("DATE") && typ.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d")){
+                        lastfullDATE = val;
+                    }
+                    if(typ.equalsIgnoreCase("DATE")){
+                        lastDATE = val;
+                    }
                     String addini = "<TIMEX3 tid=\"t" + numval + "\" type=\"" + typ + "\" value=\"" + val + "\">";
                     if (!freq.isEmpty()) {
                         addini = "<TIMEX3 tid=\"t" + numval + "\" type=\"" + typ + "\" value=\"" + val + "\" freq=\"" + freq + "\">";
