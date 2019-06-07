@@ -453,8 +453,8 @@ $Hoursmap = CreateRegex(Keys(HOURS_MAP))
 
 PARTDAY_MAP = {
   "mañana" : "MO",
-  "madrugada" : "TMO",
-  "mediodía" : "TMI",
+  "madrugada" : "MO",
+  "mediodía" : "MI",
   "tarde"   : "AF",
   "tardenoche"    : "EV",
   "noche"    : "NI"
@@ -943,6 +943,7 @@ ENV.defaults["ruleType"] = "tokens"
 { ruleType:   "tokens",
   pattern: ((?:[{pos:/D.*/} | {lemma:/al/} | {lemma:/del/} | {pos:/AQ.*/}]) ([{lemma:"madrugada"} | {lemma:"mañana"}  | {lemma:"tarde"} | {lemma:"tardenoche"} | {lemma:"mediodía"} | {lemma:"noche"} & {pos:/NC.*/} & !{timexValue:/.+/}])),
   action: ( Annotate($0, "myRule", "Rule$PARTDAY"), Annotate($0, "timexType", "TIME"), Annotate($0, "timexValue", PARTDAY_MAP[$1[0].lemma]), Annotate($0, "myNERnormalized", "PARTDAY"), Annotate($0, "myTimePartDay", $0[0].timexValue)  )  ,
+  result: ("TIME", Concat("anchor(TODAY,x,D)T",PARTDAY_MAP[$1[0].lemma]));
   stage : 4  }
   
   
@@ -1367,22 +1368,22 @@ result: ("DATE", $num[0].mySTValue, "", "", "Rule$esteAño")  ,
   
     { ruleType:   "tokens",
   pattern: ( [{pos:/D[A|D]0.S0/} | {pos:/SPCMS/}]? ([{myNER:"PAS_REF_Adj"} & {pos:/A...S.*/}]+) (?$gran [{myNER:"MONTHS"}]+) ),
-  action: ( Annotate($0, "myRule", "Rule$anteriorMonthS"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,-,", $gran[0].mySTValue,"MONTHS)")) ) , 
+  action: ( Annotate($0, "myRule", "Rule$anteriorMonthS"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("DWanchor(-,", $gran[0].mySTValue,"MONTHS)")) ) , 
   stage : 15  }
   
   { ruleType:   "tokens",
   pattern: ( [{pos:/D[A|D]0.S0/} | {pos:/SPCMS/}]? ([{myNER:"FUT_REF_Adj"} & {pos:/A...S.*/}]+) (?$gran [{myNER:"MONTHS"}]+) ),
-  action: ( Annotate($0, "myRule", "Rule$proximoMonthS"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,+,", $gran[0].mySTValue,"MONTHS)")) ) , 
+  action: ( Annotate($0, "myRule", "Rule$proximoMonthS"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("DWanchor(+,", $gran[0].mySTValue,"MONTHS)")) ) , 
   stage : 15  }
   
       { ruleType:   "tokens",
   pattern: (  [{pos:/D[A|D]0.S0/} | {pos:/SPCMS/}]? (?$gran [{myNER:"MONTHS"}]+) ([{myNER:"PAS_REF_Adj"} & {pos:/A...S.*/}]+)),
-  action: ( Annotate($0, "myRule", "Rule$anteriorMonthS"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,-,", $gran[0].mySTValue,"MONTHS)")) ) , 
+  action: ( Annotate($0, "myRule", "Rule$anteriorMonthS"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("DWanchor(-,", $gran[0].mySTValue,"MONTHS)")) ) , 
   stage : 15  }
   
   { ruleType:   "tokens",
   pattern: ( [{pos:/D[A|D]0.S0/} | {pos:/SPCMS/}]? (?$gran [{myNER:"MONTHS"}]+) ([{myNER:"FUT_REF_Adj"} & {pos:/A...S.*/}]+) ),
-  action: ( Annotate($0, "myRule", "Rule$MonthSproximo"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,+,", $gran[0].mySTValue,"MONTHS)")) ) , 
+  action: ( Annotate($0, "myRule", "Rule$MonthSproximo"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("DWanchor(+,", $gran[0].mySTValue,"MONTHS)")) ) , 
   stage : 15  }
   
   

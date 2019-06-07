@@ -192,6 +192,34 @@ public class Annotador {
         return next;
     }
 
+    public String getNextMonthS(DateTime dt, String monthSS) {
+        int current = dt.getMonthOfYear();
+        String a = monthSS.replaceAll("MONTHS", "");
+        int monthS = Integer.valueOf(a);
+        String next;
+        if (monthS <= current) {
+            next = (dt.getYear() + 1) + "-" + String.format("%02d", monthS);
+        } else {
+            next = dt.getYear() + "-" + String.format("%02d", monthS);
+        }
+        return next;
+    }
+
+    public String getLastMonthS(DateTime dt, String monthSS) {
+        int current = dt.getMonthOfYear();
+        String a = monthSS.replaceAll("MONTHS", "");
+        int monthS = Integer.valueOf(a);
+        String next;
+        if (monthS >= current) {
+            next = (dt.getYear() + 1) + "-" + String.format("%02d", monthS);
+        } else {
+            next = dt.getYear() + "-" + String.format("%02d", monthS);
+        }
+        return next;
+    }
+    
+    
+    
     public String getNextDate(String dt, String refD) {
         DateTime dtDT = new DateTime(dt);
         if (refD.matches("\\d\\d\\d\\d-\\d\\d(-\\d\\d)?")) {
@@ -391,6 +419,12 @@ public class Annotador {
                     } else if (val.startsWith("Sanchor(-,") && anchorDate != null) {
                         String refDate = val.substring(10, val.length() - 1);
                         val = getLastSeason(anchorDate, refDate);
+                    } else if (val.startsWith("DWanchor(+,") && anchorDate != null) {
+                        String refDate = val.substring(11, val.length() - 1);
+                        val = getNextMonthS(new DateTime(anchorDate), refDate);
+                    } else if (val.startsWith("DWanchor(-,") && anchorDate != null) {
+                        String refDate = val.substring(11, val.length() - 1);
+                        val = getLastMonthS(new DateTime(anchorDate), refDate);
                     } else if (val.startsWith("anchor") && anchorDate != null) {
                         DateTime dt = new DateTime(anchorDate);
 
@@ -422,7 +456,8 @@ public class Annotador {
                                     dt = dt.minusDays(plusI);
                                 } else {
                                     dt = new DateTime(lastfullDATE);
-                                    val = dt.toString("YYYY-MM-dd");
+                                        val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
+                                    
                                 }
                             } else if (gran.equalsIgnoreCase("M")) {
                                 if (plus.equalsIgnoreCase("+")) {
@@ -493,6 +528,9 @@ public class Annotador {
                         if (!plus.equalsIgnoreCase("x")) {
                             val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
                         }
+                        else{
+                            
+                        }
                     }
                     
                     if((typ.equalsIgnoreCase("DURATION") || typ.equalsIgnoreCase("SET"))){
@@ -520,7 +558,7 @@ public class Annotador {
 
                     }
 
-                    if(typ.equalsIgnoreCase("DATE") && typ.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d")){
+                    if(typ.equalsIgnoreCase("DATE") && val.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d")){
                         lastfullDATE = val;
                     }
                     if(typ.equalsIgnoreCase("DATE")){
