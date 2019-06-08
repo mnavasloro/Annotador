@@ -1753,8 +1753,9 @@ priority: 3.0,
   stage : 700  }   
 
 
+# he quitado "antiguo"
 { ruleType:   "tokens",
-  pattern: ( [!{word:"una"}] ([{pos:/AQ.*/} && {lemma:/reciente|pasado|antiguo/} && !{timexValue:/.*/}]+)   ),
+  pattern: ( [!{word:"una"}] ([{pos:/AQ.*/} && {lemma:/reciente|pasado/} && !{timexValue:/.*/}]+)   ),
   action: ( Annotate($1, "myRule", "Rule$PastRef"), Annotate($1, "timexType", "DATE"), Annotate($1, "timexValue", "PAST_REF") )  ,
   stage : 699  } 
   

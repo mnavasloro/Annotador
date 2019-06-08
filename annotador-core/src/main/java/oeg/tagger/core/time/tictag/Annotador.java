@@ -525,7 +525,10 @@ public class Annotador {
                             }
                         }
 
-                        if (!plus.equalsIgnoreCase("x")) {
+                        if(val.matches("anchor\\([A-Z]+,.,.*(\\d+)W\\)")){
+                            val = dt.getYear() + "-W" + dt.getWeekOfWeekyear();
+                        }
+                        else if (!plus.equalsIgnoreCase("x")) {
                             val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
                         }
                         else{
