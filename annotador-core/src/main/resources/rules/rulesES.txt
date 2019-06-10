@@ -210,8 +210,8 @@ $ORDINALS = (
 DGRANULARITY_MAP = {
   "día" : "DAY",
   "días" : "DAY",
-  "jornada" : "DAY",
-  "jornadas" : "DAY",
+#  "jornada" : "DAY",
+#  "jornadas" : "DAY",
   "finsemana"   : "WEEKEND",
   "semana"    : "WEEK",
   "semanas"    : "WEEK",
