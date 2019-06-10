@@ -77,7 +77,11 @@ public class TutorialESP {
 //String txt = "fue condenado ese mismo día del señor";
 //String txt = "la primera vuelta y que hace una semana.";
 //String txt = " giro de última hora.";
-String txt = "En el año dos mil.";
+//String txt = "Este siglo XXXI.";
+//String txt = "El siglo primero.";
+//String txt = "El siglo segundo AC.";
+String txt = "El 3 de marzo de 2019.";
+//String txt = "En el año dos mil.";
 //String txt = " la desconfianza de cientos de miles de rumanos.";
 //String txt = "fue condenado hace varios días";
 

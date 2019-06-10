@@ -475,6 +475,22 @@ public class Annotador {
                                 } else {
                                     val = dt.toString("YYYY");
                                 }
+                            } else if (gran.equalsIgnoreCase("CENT")) {
+                                if (plus.equalsIgnoreCase("+")) {
+                                    dt = dt.plusYears(plusI*100);
+                                } else if (plus.equalsIgnoreCase("-")) {
+                                    dt = dt.minusYears(plusI*100);
+                                } else {
+                                    val = (dt.plusYears(100)).toString("YYYY");
+                                    if(val.length()==4){
+                                        val = val.substring(0, 2);
+                                    } else if(val.length()==3){
+                                        val = "0" + val.substring(0, 1);
+                                    }
+                                    else{
+                                        val = "00";
+                                    }
+                                }
                             } else if (gran.equalsIgnoreCase("W")) {
                                 if (plus.equalsIgnoreCase("+")) {
                                     dt = dt.plusWeeks(plusI);

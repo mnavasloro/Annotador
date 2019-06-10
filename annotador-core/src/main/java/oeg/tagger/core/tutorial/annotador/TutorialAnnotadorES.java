@@ -69,7 +69,10 @@ public class TutorialAnnotadorES {
 //String txt = "Los ministros de Defensa de la Unión Europea ( UE) celebrarán el próximo lunes en Bruselas una conferencia de \" generación de fuerzas \", en la que cada socio comunicará formalmente la aportación de su país a la Fuerza militar europea, que contará con más de 60.000 soldados.\n" +
 //"El mismo día por la tarde,";
 //String txt = "fue condenado hace varios días";
-String txt = "En el año mil novecientos cuarenta y ocho.";
+//String txt = "que \" el siglo XXI será el siglo de la ciencia y la tecnología .";
+String txt = "el 3 de octubre de 1932 antes de cristo.";
+//String txt = "Este siglo.";
+//String txt = "En el año mil novecientos cuarenta y ocho.";
 //String txt = " giro de última hora.";
 //String txt = " la desconfianza de cientos de miles de rumanos.";
 //String txt = "la primera vuelta y que hace una semana.";
