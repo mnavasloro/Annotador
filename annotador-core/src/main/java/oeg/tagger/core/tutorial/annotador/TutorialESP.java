@@ -75,7 +75,8 @@ public class TutorialESP {
 //        String txt = "hace dos lustros";
 //        String txt = "madrileños aseguró que el siglo 21  ";
 //String txt = "fue condenado ese mismo día del señor";
-String txt = "la primera vuelta y que hace una semana.";
+//String txt = "la primera vuelta y que hace una semana.";
+String txt = " la desconfianza de cientos de miles de rumanos.";
 //String txt = "fue condenado hace varios días";
 
 

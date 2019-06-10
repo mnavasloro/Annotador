@@ -721,7 +721,7 @@ ENV.defaults["ruleType"] = "tokens"
 # CHECK mirar que no se quede sola la y
 # eg: mil cuatrocientos dieciseis
 { ruleType:   "tokens",
-    pattern: ( (?$yearunsdig [{lemma:/$UNSDIG/} & !{pos:/DI.*/}])? (?$yeardig [{lemma:/$YEARDIG/}])? (?$centdig [{lemma:/$CENTDIG/}])? (?$decsdig [{lemma:/$DECSDIG/}])? (?$specialsdig [{lemma:/$SPECIALSDIG/}])? ((?$gry [{lemma:"y"}]) (?$unsdig [{lemma:/$UNSDIG/} & !{word:/[Uu][Nn][Oo][Ss]/}]))?),
+    pattern: ( (?$yearunsdig [{lemma:/$UNSDIG/} & !{pos:/DI.*/}])? (?$yeardig [{lemma:/$YEARDIG/} && {pos:/.+S.+/}])? (?$centdig [{lemma:/$CENTDIG/}])? (?$decsdig [{lemma:/$DECSDIG/}])? (?$specialsdig [{lemma:/$SPECIALSDIG/}])? ((?$gry [{lemma:"y"}]) (?$unsdig [{lemma:/$UNSDIG/} & !{word:/[Uu][Nn][Oo][Ss]/}]))?),
 	action: ( :case{ ($0[0].lemma != "y") =>
 	
 	(Annotate($0, "myRule", "Rule$LONGNUMBER"), Annotate($0, "myNUM", "myNUMBER"), Annotate($0, "myTValue", Add( 
