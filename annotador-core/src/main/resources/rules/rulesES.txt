@@ -721,7 +721,7 @@ ENV.defaults["ruleType"] = "tokens"
 # CHECK mirar que no se quede sola la y
 # eg: mil cuatrocientos dieciseis
 { ruleType:   "tokens",
-    pattern: ( (?$yearunsdig [{lemma:/$UNSDIG/} & !{pos:/DI.*/}])? (?$yeardig [{lemma:/$YEARDIG/} && {pos:/.+S.+/}])? (?$centdig [{lemma:/$CENTDIG/}])? (?$decsdig [{lemma:/$DECSDIG/}])? (?$specialsdig [{lemma:/$SPECIALSDIG/}])? ((?$gry [{lemma:"y"}]) (?$unsdig [{lemma:/$UNSDIG/} & !{word:/[Uu][Nn][Oo][Ss]/}]))?),
+    pattern: ( (?$yearunsdig [{lemma:/$UNSDIG/} & !{pos:/DI.*/}])? (?$yeardig [{lemma:/$YEARDIG/} && !{word:"miles"}])? (?$centdig [{lemma:/$CENTDIG/}])? (?$decsdig [{lemma:/$DECSDIG/}])? (?$specialsdig [{lemma:/$SPECIALSDIG/}])? ((?$gry [{lemma:"y"}]) (?$unsdig [{lemma:/$UNSDIG/} & !{word:/[Uu][Nn][Oo][Ss]/}]))?),
 	action: ( :case{ ($0[0].lemma != "y") =>
 	
 	(Annotate($0, "myRule", "Rule$LONGNUMBER"), Annotate($0, "myNUM", "myNUMBER"), Annotate($0, "myTValue", Add( 
@@ -1854,6 +1854,14 @@ priority: 3.0,
   action: ( Annotate($0, "myNER", "los60"), Annotate($0, "myRule", "Rule$los60"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", :case{($dec[0].myTValue > 2000) => Format("%d", Divide($dec[0].myTValue, 10)), :else => Concat("19",Format("%d", Divide($dec[0].myTValue, 10)))}) ), 
   result: ( "DATE",:case{($dec[0].myTValue > 2000) => Format("%d", Divide($dec[0].myTValue, 10)), :else => Concat("19",Format("%d", Divide($dec[0].myTValue, 10)))}, "", "", "Rule$los60" ), 
   stage : 5  }
+
+
+############ FILTER RULES
+
+#{ ruleType: "filter",
+#  pattern: ([{word:"última"}] [{word:"hora"}]),
+#  stage : 5000  }
+
 
 
   

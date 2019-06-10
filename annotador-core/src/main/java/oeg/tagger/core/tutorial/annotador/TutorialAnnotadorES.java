@@ -69,7 +69,9 @@ public class TutorialAnnotadorES {
 //String txt = "Los ministros de Defensa de la Unión Europea ( UE) celebrarán el próximo lunes en Bruselas una conferencia de \" generación de fuerzas \", en la que cada socio comunicará formalmente la aportación de su país a la Fuerza militar europea, que contará con más de 60.000 soldados.\n" +
 //"El mismo día por la tarde,";
 //String txt = "fue condenado hace varios días";
-String txt = " la desconfianza de cientos de miles de rumanos.";
+String txt = "En el año mil novecientos cuarenta y ocho.";
+//String txt = " giro de última hora.";
+//String txt = " la desconfianza de cientos de miles de rumanos.";
 //String txt = "la primera vuelta y que hace una semana.";
 //String txt = " tuvo carácter musical y se cerró, por la noche, c .";
 //String txt = "hasta finales del pasado mayo .";
