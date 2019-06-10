@@ -7,6 +7,7 @@
 	<link rel="shortcut icon" href="img/añotador-logo2.jpg">
 	<!-- Author Meta -->
 	<meta name="author" content="María Navas">
+	<meta name="contibutor" content="Víctor Rodríguez-Doncel">
 	<!-- Meta Description -->
 	<meta name="description" content="">
 	<!-- Meta Keyword -->
@@ -27,6 +28,9 @@
 		<link rel="stylesheet" href="css/magnific-popup.css">
 		<link rel="stylesheet" href="css/bootstrap.css">
 		<link rel="stylesheet" href="css/main.css">
+                
+                
+
 	</head>
 	<body>
 		<div class="main-wrapper-first">
@@ -172,8 +176,14 @@
 						<div class="row no-gutters">
 							<div class="col-lg-3 col-md-6" style="text-align: right; margin-top: 5%" >
 								<h4>Step 1</h4>
-									<p>Please introduce the text to annotate (in Spanish)</p>
-									
+									<p>Please introduce the text to annotate (in Spanish) or choose an example below</p>
+                                                                        <div style="float: right;">
+                                                                        <select id="sample2json" onchange="samplejson()">
+                                                                            <option>sample000.txt</option>
+                                                                            <option>sample001.txt</option>
+                                                                        </select>
+                                                                        </div>
+				
 							</div>
 								<div class="col-lg-9 col-md-6" >
 									<div class="mt-10">
@@ -535,5 +545,25 @@
 		<script src="js/jquery.nice-select.min.js"></script>
 		<script src="js/jquery.magnific-popup.min.js"></script>
 		<script src="js/main.js"></script>
+                
+                <script type="text/javascript">
+                                // Loads a file with a sample into the textarea for the user to standard texts
+                                function samplejson()
+                                {
+                                    var v = document.getElementById("sample2json");
+                                    var archivo = v.options[v.selectedIndex].text;
+                                    console.log(archivo);
+                                    var client = new XMLHttpRequest();
+                                    client.open('GET', 'samples/' + archivo);
+                                    client.onreadystatechange = function () {
+//                                        alert(client.responseText);
+                                        document.getElementById('inputText').value = client.responseText;
+                                    }
+                                    client.send();
+                                }
+                    </script>
+                
+                
+                
 	</body>
 </html>
