@@ -113,7 +113,7 @@ h1, h2, h3, h4, h5, h6 {
 
 p {
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 0.2rem;
 }
 
 abbr[title],
@@ -650,8 +650,6 @@ pre code {
 
 .no-gutters > .col,
 .no-gutters > [class*="col-"] {
-  padding-right: 0;
-  padding-left: 0;
   padding-bottom: 10px;
 }
 
@@ -667,6 +665,7 @@ pre code {
   padding-right: 15px;
   padding-left: 15px;
 }
+
 
 .col {
   flex-basis: 0;
@@ -788,7 +787,13 @@ pre code {
   order: 12;
 }
 
-@media (min-width: 576px) {
+@media (max-width: 63rem) {
+	.tablea{
+		display: none;
+	}
+	.tableb{
+		display: inline-block;
+	}
   .col-sm {
     flex-basis: 0;
     flex-grow: 1;
@@ -808,8 +813,12 @@ pre code {
     max-width: 16.66667%;
   }
   .col-sm-3 {
-    flex: 0 0 25%;
-    max-width: 25%;
+    flex: 0 0 100%;
+    max-width: 100%;
+	text-align: center;
+	padding-bottom: 0%;
+	padding-left: 5%;
+	padding-right: 5%;
   }
   .col-sm-4 {
     flex: 0 0 33.33333%;
@@ -820,8 +829,13 @@ pre code {
     max-width: 41.66667%;
   }
   .col-sm-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
+    flex: 0 0 100%;
+    max-width: 100%;
+	text-align: center;
+	padding-bottom: 0%;
+	padding-top: 5%;
+	padding-left: 5%;
+	padding-right: 5%;
   }
   .col-sm-7 {
     flex: 0 0 58.33333%;
@@ -885,7 +899,13 @@ pre code {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 63rem) {
+	.tablea{
+		display: none;
+	}
+	.tableb{
+		display: inline-block;
+	}
   .col-md {
     flex-basis: 0;
     flex-grow: 1;
@@ -905,20 +925,38 @@ pre code {
     max-width: 16.66667%;
   }
   .col-md-3 {
-    flex: 0 0 25%;
-    max-width: 25%;
+    flex: 0 0 50%;
+    max-width: 50%;
+	padding-bottom: 1rem;
+	padding-top: 1rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
   }
   .col-md-4 {
-    flex: 0 0 33.33333%;
-    max-width: 33.33333%;
+    flex: 0 0 50%;
+    max-width: 50%;
+	text-align: center;
+	padding-bottom: 1rem;
+	padding-top: 1rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
   }
   .col-md-5 {
-    flex: 0 0 41.66667%;
-    max-width: 41.66667%;
+    flex: 0 0 50%;
+    max-width: 50%;
+	padding-bottom: 1rem;
+	padding-top: 1rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
   }
   .col-md-6 {
     flex: 0 0 50%;
     max-width: 50%;
+	text-align: right;
+	padding-bottom: 1rem;
+	padding-top: 1rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
   }
   .col-md-7 {
     flex: 0 0 58.33333%;
@@ -943,6 +981,10 @@ pre code {
   .col-md-12 {
     flex: 0 0 100%;
     max-width: 100%;
+	padding-bottom: 1rem;
+	padding-top: 1rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
   }
   .order-md-1 {
     order: 1;
@@ -982,7 +1024,13 @@ pre code {
   }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 63rem) {
+	.tablea{
+		display: inline-block;
+	}
+	.tableb{
+		display: none;
+	}
   .col-lg {
     flex-basis: 0;
     flex-grow: 1;
@@ -1000,14 +1048,26 @@ pre code {
   .col-lg-2 {
     flex: 0 0 16.66667%;
     max-width: 16.66667%;
+	padding-bottom: 1rem;
+	padding-top: 5%;
+	padding-left: 1rem;
+	padding-right: 1rem;
   }
   .col-lg-3 {
     flex: 0 0 25%;
     max-width: 25%;
+	padding-bottom: 1rem;
+	padding-top: 5%;
+	padding-left: 1rem;
+	padding-right: 1rem;
   }
   .col-lg-4 {
     flex: 0 0 33.33333%;
     max-width: 33.33333%;
+	padding-bottom: 1rem;
+	padding-top: 5%;
+	padding-left: 1rem;
+	padding-right: 1rem;
   }
   .col-lg-5 {
     flex: 0 0 41.66667%;
@@ -1026,8 +1086,9 @@ pre code {
     max-width: 66.66667%;
   }
   .col-lg-9 {
-    flex: 0 0 75%;
+    flex: 0 0 100%;
     max-width: 75%;
+	padding-top: 5%;
   }
   .col-lg-10 {
     flex: 0 0 83.33333%;

@@ -228,6 +228,11 @@ DGRANULARITY_MAP = {
   "semestre"   : "6_MONTH",
   "semestres"   : "6_MONTH",
   "año"   : "YEAR",
+  "años"   : "YEAR",
+  "bienio"    : "2_YEAR",
+  "bienios"    : "2_YEAR",
+  "trienio"    : "3_YEAR",
+  "trienios"    : "3_YEAR",
   "lustro"   : "5_YEAR",
   "lustros"   : "5_YEAR",
   "decada"   : "10_YEAR",
@@ -254,6 +259,8 @@ DURATION_MAP = {
   "4_MONTH"     : "myDurationMonth" ,
   "6_MONTH"   : "myDurationMonth" ,
   "YEAR"   : "myDurationYear" ,
+  "2_YEAR"   : "myDurationYear" ,
+  "3_YEAR"   : "myDurationYear" ,
   "5_YEAR"   : "myDurationYear" ,
   "10_YEAR"   : "myDurationYear" ,
   "100_YEAR"   : "myDurationDecade" ,
@@ -269,7 +276,13 @@ HALF_DURATION_MAP = {
   "WEEK"    : "03D12H" ,
   "FORNIGHT"     : "01W" ,
   "MONTH"   : "02W" ,
+  "2_MONTH"	: "01M",
+  "3_MONTH"	: "01M02W",
+  "4_MONTH"	: "02M",
+  "6_MONTH"	: "03M",
   "YEAR"   : "06M" ,
+  "2_YEAR"   : "01Y" ,
+  "3_YEAR"   : "01Y06M" ,
   "5_YEAR"   : "02Y06M" ,
   "10_YEAR"   : "05Y" ,
   "100_YEAR"   : "50Y" ,
@@ -285,14 +298,20 @@ QUARTER_DURATION_MAP = {
   "WEEK"    : "01D18H" ,
   "FORNIGHT"     : "03D12H" ,
   "MONTH"   : "01W" ,
+  "2_MONTH"	: "02W",
+  "3_MONTH"	: "03W",
+  "4_MONTH"	: "01M",
+  "6_MONTH"	: "01M02W",
   "YEAR"   : "03M" ,
+  "2_YEAR"   : "06M" ,
+  "3_YEAR"   : "09M" ,
   "5_YEAR"   : "01Y06H" ,
   "10_YEAR"   : "02Y06M" ,
   "100_YEAR"   : "25Y" ,
   "1000_YEAR"   : "250Y",
   "HOUR"	: "15MIN",
   "MINUTE"	: "15S",
-  "SECOND"	: ""
+  "SECOND"	: "XS"
 }
 
 TQUARTER_DURATION_MAP = {
@@ -308,7 +327,7 @@ TQUARTER_DURATION_MAP = {
   "1000_YEAR"   : "750Y",
   "HOUR"	: "45MIN",
   "MINUTE"	: "45S",
-  "SECOND"	: ""
+  "SECOND"	: "XS"
 }
 
 PERIODMENTE_MAP = {
@@ -474,6 +493,8 @@ DGRANULARITY_UNIT_MAP = {
   "4_MONTH"     : "M" ,
   "6_MONTH"   : "M" ,
   "YEAR"   : "Y" ,
+  "2_YEAR"   : "Y" ,
+  "3_YEAR"   : "Y" ,
   "5_YEAR"   : "Y" ,
   "10_YEAR"   : "Y" ,
   "100_YEAR"   : "Y" ,
@@ -491,6 +512,8 @@ DGRANULARITY_AMOUNT_MAP = {
   "3_MONTH"    : 3 ,
   "4_MONTH"     : 4 ,
   "6_MONTH"   : 6 ,
+  "2_YEAR"   : 2 ,
+  "3_YEAR"   : 3 ,
   "5_YEAR"   : 5 ,
   "10_YEAR"   : 10 ,
   "100_YEAR"   : 100  ,
@@ -849,7 +872,7 @@ ENV.defaults["ruleType"] = "tokens"
   
 { ruleType:   "tokens",
   pattern: ( [{lemma:/$DGranularity/} & !{myNER:"DGRANULARITY"}  & !{ pos:/NP.*/ } & {pos:/.*S.*/}] ),
-  action: ( Annotate($0, "myRule", "Rule$Granularity"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP[$0[0].lemma] ), Annotate($0, "myTType", $$0.text ), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue", Concat("1",DGRANULARITY_UNIT_MAP[DGRANULARITY_MAP[$0[0].lemma]])), Annotate($0, "Period", PERIOD_MAP[DGRANULARITY_MAP[$0[0].lemma]])  ) ,
+  action: ( Annotate($0, "myRule", "Rule$Granularity"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP[$0[0].lemma] ), Annotate($0, "myTType", $$0.text ), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue", Concat(DGRANULARITY_AMOUNT_MAP[DGRANULARITY_MAP[$0[0].lemma]],DGRANULARITY_UNIT_MAP[DGRANULARITY_MAP[$0[0].lemma]])), Annotate($0, "Period", PERIOD_MAP[DGRANULARITY_MAP[$0[0].lemma]])  ) ,
   stage : 2  }
 
 
@@ -1876,6 +1899,16 @@ priority: 3.0,
   pattern: ([{myRule:"Rule$PresentRefAHORA"}]),
   result: ( "DATE", "PRESENT_REF", "", "", "Rule$PresentRefAHORA" ) ,
   stage : 701  }
+  
+    { ruleType:   "tokens",
+  pattern: ((?$total [{timexValue:"anchor(TODAY,+,0D)"}]+ /,/ (?$ref [{timexType:"DATE"} & !{word:/,/}]+)) (?:/,/ [!{timexType:"DATE"}])),
+  action: ( Annotate($total, "myRule", "Rule$hoy,date"), Annotate($total, "timexType", "DATE"), Annotate($total, "timexValue", "anchor(TODAY,+,0D)") )  ,
+  stage : 1000  }
+  
+      { ruleType:   "tokens",
+  pattern: ([{myRule:"Rule$hoy,date"}]+),
+  result: ( "DATE", "anchor(TODAY,+,0D)", "", "", "Rule$hoy,date" ) ,
+  stage : 1001  }
   
   
 

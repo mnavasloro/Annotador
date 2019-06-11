@@ -77,7 +77,7 @@
 							<div class="section-title text-center">
 								<h2>Welcome to</h2>
 								
-						<a href="index.html"><img src="img/añotador-banner-tecla-azul-notrans.png" width="700px" height="150px" alt=""></a>
+						<a href="index.html"><img src="img/añotador-banner-tecla-azul-notrans.png" style="max-width:85%;height: auto;" alt=""></a>
 								<h4>Annotation of Temporal Expressions for the Spanish Language</h4>		
 <br />								
 								<p>What kind of Temporal Expressions do we annotate?</p>
@@ -174,10 +174,10 @@
 					</div-->
 					<div class="single-remark"   style="background: whitesmoke; ">
 						<div class="row no-gutters">
-							<div class="col-lg-3 col-md-6" style="text-align: right; margin-top: 5%" >
+							<div class="col-lg-3 col-md-6 col-sm-6">
 								<h4>Step 1</h4>
 									<p>Please introduce the text to annotate (in Spanish) or choose an example below</p>
-                                                                        <div style="float: right;">
+                                                                        <div style="margin: auto;">
                                                                         <select id="sample2json" onchange="samplejson()">
                                                                             <option>sample000.txt</option>
                                                                             <option>sample001.txt</option>
@@ -185,7 +185,7 @@
                                                                         </div>
 				
 							</div>
-								<div class="col-lg-9 col-md-6" >
+								<div class="col-lg-9 col-md-5 col-sm-6">
 									<div class="mt-10">
 											<textarea class="single-textarea" name="inputText" id="inputText" placeholder="Hoy es 3 de octubre" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hoy es 3 de octubre'" required></textarea>
 									</div>
@@ -195,24 +195,24 @@
 					
 					<div class="single-remark"   style="background: whitesmoke; ">
 						<div class="row no-gutters">
-							<div class="col-lg-3 col-md-6" style="text-align: right; margin-top: 5%" >
+							<div class="col-lg-3 col-md-6 col-sm-6">
 								<h4>Step 2</h4>
 									<p>Please introduce the anchor date. All the relative dates (eg, "Tomorrow") will be normalized regarding it. If blank or wrong, today's date will be taken as anchor date.</p>
 									
 							</div>
-								<div class="col-lg-3 col-md-6"  style="margin-top: 5%">
+								<div class="col-lg-3 col-md-3 col-sm-3">
 									<div class="mt-10">
 											<input class="single-textarea" type="text" name="inputDate" id="inputDate" placeholder="YYYY-MM-DD" style="height: 60px; width: 140px;" onfocus="this.placeholder = ''" onblur="this.placeholder = 'YYYY-MM-DD'">
 									</div>
 
 								</div>
 								
-							<div class="col-lg-2 col-md-6" style="text-align: right; margin-top: 5%" >
+							<div class="col-lg-2 col-md-6 col-sm-6">
 								<h4>Step 3</h4>
 									<p>Run Añotador and check results below!</p>
 									
 							</div>
-								<div class="col-lg-4 col-md-6"  style="vertical-align: middle; margin-top: 5%; text-align: center">
+								<div class="col-lg-4 col-md-4 col-sm-3"  style="vertical-align: middle;">
 									<div class="button-group-area mt-10">
 										<button class="genric-btn info-border radius"  onclick="start()" >Run</button>
 									</div>
@@ -227,10 +227,10 @@
 						<div class="col-lg-12 col-md-6" style="text-align: center; margin-top: 7px;" >								
 									<h1>Result</h1>
 							</div>	
-							<div class="col-lg-3 col-md-6" style="text-align: right; padding: 7px;" >								
+							<div class="col-lg-3 col-md-6 col-sm-6" >								
 									<h4>More Info</h4>
 									<p>Go on each tag to check further information on the annotation. Each color corresponds to a type of temporal expression:</p>
-								<div style="max: 50%;
+								<div class="tablea" style="max: 50%;
   margin-left: 5%; text-align: right;"><table id="table-legend">
 <tr>
 <td class="legend">
@@ -260,9 +260,27 @@
     </table></td>
 </tr>
 </table></div>
+                                                                        
+                                                                        <div class="tableb" style="max: 50%;
+  margin-left: 5%; text-align: right;"><table id="table-legend">
+<tr>
+<td class="legend">
+    <table> <tr>
+        <td class="label">DATE</td>
+        <td class="color" id="colordate"</td>
+        <td class="label">TIME</td>
+	<td class="color" id="colortime"></td>
+        <td class="label">SET</td>
+	<td class="color" id="colorset"></td>
+	<td class="label">DURATION</td>
+        <td class="color" id="colorduration"></td>
+        </tr>
+    </table></td>
+</tr>
+</table></div>
 							</div>
 							<div class="col-lg-9 col-md-6">
-								<div id="embedding" class='testDiv' style="background: white; display: inline-block;    min-height: 18em;"></div>
+								<div id="embedding" class='testDiv' style="text-align: left; background: white; display: inline-block;    min-height: 18em;"></div>
 <!--div id="embedding-live-example"  style="display:none;"></div-->
 
 							</div>
@@ -510,7 +528,7 @@
 							<div class="logo">
 								<a href="index.html"><img src="img/añotador-banner-tecla-azul-noshadow.png" width="115px" height="24px" alt=""></a>
 							</div>
-							<div class="copy-right-text">Copyright &copy; 2019  |  All rights of the design of the web are reserved to <a href="#">Dinomuz inc.</a> Website template designed by <a href="https://colorlib.com" target="_blank">Colorlib</a></div>
+							<div class="copy-right-text">Copyright &copy; 2019  |  <div style="font-size:8px;">All rights of the design of the web are reserved to <a href="#">Dinomuz inc.</a> Website template designed by <a href="https://colorlib.com" target="_blank">Colorlib</a></div></div>
 							<!--div class="footer-social">
 								<a href="#"><i class="fa fa-facebook"></i></a>
 								<a href="#"><i class="fa fa-twitter"></i></a>

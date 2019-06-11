@@ -71,7 +71,11 @@ public class TutorialAnnotadorES {
 //String txt = "fue condenado hace varios días";
 //String txt = "que \" el siglo XXI será el siglo de la ciencia y la tecnología .";
 //String txt = "El primer trimestre del año";
-String txt = "Surgida en plena campaña para las elecciones municipales del próximo domingo, ";
+//String txt = "Surgida en plena campaña para las elecciones municipales del próximo domingo, ";
+//String txt = "Durante el cuatrimestre primero ocurrió ";
+String txt = "En un bienio";
+//String txt = "Hoy, lunes, se armó la marimorena";
+//String txt = "Hoy, 3 de marzo de 1991, se armó la marimorena";
 //String txt = "el 20 antes de cristo.";
 //String txt = "el 3 de octubre de 1932 antes de cristo.";
 //String txt = "Este siglo.";
