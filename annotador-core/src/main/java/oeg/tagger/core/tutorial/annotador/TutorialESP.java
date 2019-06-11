@@ -80,7 +80,9 @@ public class TutorialESP {
 //String txt = "Este siglo XXXI.";
 //String txt = "El siglo primero.";
 //String txt = "El siglo segundo AC.";
-String txt = "El 3 de marzo de 2019.";
+//String txt = "el milenio I. Luego ya no";
+String txt = "El primer trimestre del año";
+//String txt = "El 3 de marzo de 2019.";
 //String txt = "En el año dos mil.";
 //String txt = " la desconfianza de cientos de miles de rumanos.";
 //String txt = "fue condenado hace varios días";

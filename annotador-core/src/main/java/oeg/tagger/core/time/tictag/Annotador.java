@@ -518,7 +518,7 @@ public class Annotador {
                                     dt = dt.minusSeconds(plusI);
                                 }
 
-                            } else if (gran.equalsIgnoreCase("DAYW")) {
+                            }  else if (gran.equalsIgnoreCase("DAYW")) {
                                 if (plus.equalsIgnoreCase("+")) {
                                     dt = getNextDayWeek(dt, plusI);
                                 } else if (plus.equalsIgnoreCase("-")) {
@@ -531,6 +531,10 @@ public class Annotador {
                                     else{
                                         dt = dt.plusDays(plusI - current);
                                     }
+                                }
+                            } else if (gran.startsWith("Q")) {
+                                 if (plus.equalsIgnoreCase("x")) {
+                                    val = dt.toString("YYYY") + "-" + gran;
                                 }
                             } else if (gran.equalsIgnoreCase("MONTHS")) {
                                 if (plus.equalsIgnoreCase("+")) {

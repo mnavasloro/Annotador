@@ -70,7 +70,10 @@ public class TutorialAnnotadorES {
 //"El mismo día por la tarde,";
 //String txt = "fue condenado hace varios días";
 //String txt = "que \" el siglo XXI será el siglo de la ciencia y la tecnología .";
-String txt = "el 3 de octubre de 1932 antes de cristo.";
+//String txt = "El primer trimestre del año";
+String txt = "Surgida en plena campaña para las elecciones municipales del próximo domingo, ";
+//String txt = "el 20 antes de cristo.";
+//String txt = "el 3 de octubre de 1932 antes de cristo.";
 //String txt = "Este siglo.";
 //String txt = "En el año mil novecientos cuarenta y ocho.";
 //String txt = " giro de última hora.";
