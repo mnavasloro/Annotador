@@ -81,7 +81,9 @@ public class TutorialESP {
 //String txt = "El siglo primero.";
 //String txt = "El siglo segundo AC.";
 //String txt = "el milenio I. Luego ya no";
-String txt = "Hoy, 3 de marzo de 1991";
+
+//String txt = "Lo hacían dos veces a la semana y 3 veces al mes.";
+String txt = "ya lo veremos pasado mañana.";
 //String txt = "El primer trimestre del año";
 //String txt = "El 3 de marzo de 2019.";
 //String txt = "En el año dos mil.";

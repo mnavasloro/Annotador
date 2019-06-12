@@ -126,6 +126,7 @@ public class annotateDoc extends HttpServlet {
 //        input2 = input2.replaceFirst(Pattern.quote("<?xml version=\"1.0\"?>\n" + "<!DOCTYPE TimeML SYSTEM \"TimeML.dtd\">\n" + "<TimeML>"), "");
         input2 = input2.replaceFirst(Pattern.quote("</TimeML>"), "");
         input2 = input2.replaceAll("</TIMEX3>", "</span>");
+        input2 = input2.replaceAll("\\r?\\n", "<br>");
 
         String pattern = "(<TIMEX3 ([^>]*)>)";
         Pattern r = Pattern.compile(pattern);
@@ -155,8 +156,10 @@ public class annotateDoc extends HttpServlet {
                     + color + "\" title=\"" + contetRegex + "\">"));
         }
         m.appendTail(sb); // append the rest of the contents
+        
+        String saux = sb.toString();
 
-        return sb.toString();
+        return saux;
     }
     
     

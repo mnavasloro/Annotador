@@ -975,12 +975,18 @@ pre code {
     max-width: 83.33333%;
   }
   .col-md-11 {
-    flex: 0 0 91.66667%;
-    max-width: 91.66667%;
+    flex: 0 0 100%;
+    max-width: 100%;
+	text-align: right;
+	padding-bottom: 1rem;
+	padding-top: 1rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
   }
   .col-md-12 {
     flex: 0 0 100%;
     max-width: 100%;
+	text-align: center;
 	padding-bottom: 1rem;
 	padding-top: 1rem;
 	padding-left: 1rem;
