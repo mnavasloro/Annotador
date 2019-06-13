@@ -217,9 +217,7 @@ public class Annotador {
         }
         return next;
     }
-    
-    
-    
+
     public String getNextDate(String dt, String refD) {
         DateTime dtDT = new DateTime(dt);
         if (refD.matches("\\d\\d\\d\\d-\\d\\d(-\\d\\d)?")) {
@@ -326,13 +324,13 @@ public class Annotador {
     public LinkedHashMap<String, String> parseDuration(String input) {
         LinkedHashMap<String, String> durations = new LinkedHashMap<String, String>();
         Pattern pAnchor = Pattern.compile("(\\d+|X)([a-zA-Z]+)");
-        
+
         Matcher m = pAnchor.matcher(input);
         while (m.find()) {
             String numb = m.group(1);
             String unit = m.group(2);
             durations.put(unit, numb);
-            
+
         }
 //        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-]?\\d+),(\\w+)\\)");
 
@@ -456,8 +454,8 @@ public class Annotador {
                                     dt = dt.minusDays(plusI);
                                 } else {
                                     dt = new DateTime(lastfullDATE);
-                                        val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
-                                    
+                                    val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
+
                                 }
                             } else if (gran.equalsIgnoreCase("M")) {
                                 if (plus.equalsIgnoreCase("+")) {
@@ -477,17 +475,16 @@ public class Annotador {
                                 }
                             } else if (gran.equalsIgnoreCase("CENT")) {
                                 if (plus.equalsIgnoreCase("+")) {
-                                    dt = dt.plusYears(plusI*100);
+                                    dt = dt.plusYears(plusI * 100);
                                 } else if (plus.equalsIgnoreCase("-")) {
-                                    dt = dt.minusYears(plusI*100);
+                                    dt = dt.minusYears(plusI * 100);
                                 } else {
                                     val = (dt.plusYears(100)).toString("YYYY");
-                                    if(val.length()==4){
+                                    if (val.length() == 4) {
                                         val = val.substring(0, 2);
-                                    } else if(val.length()==3){
+                                    } else if (val.length() == 3) {
                                         val = "0" + val.substring(0, 1);
-                                    }
-                                    else{
+                                    } else {
                                         val = "00";
                                     }
                                 }
@@ -518,7 +515,7 @@ public class Annotador {
                                     dt = dt.minusSeconds(plusI);
                                 }
 
-                            }  else if (gran.equalsIgnoreCase("DAYW")) {
+                            } else if (gran.equalsIgnoreCase("DAYW")) {
                                 if (plus.equalsIgnoreCase("+")) {
                                     dt = getNextDayWeek(dt, plusI);
                                 } else if (plus.equalsIgnoreCase("-")) {
@@ -527,76 +524,60 @@ public class Annotador {
                                     int current = dt.getDayOfWeek();
                                     if (plusI <= current) {
                                         dt = dt.minusDays(current - plusI);
-                                    }
-                                    else{
+                                    } else {
                                         dt = dt.plusDays(plusI - current);
                                     }
                                 }
                             } else if (gran.startsWith("Q")) {
-                                 if (plus.equalsIgnoreCase("x")) {
+                                if (plus.equalsIgnoreCase("x") && plus.matches("Q\\d+")) {
                                     val = dt.toString("YYYY") + "-" + gran;
-                                } else if (plus.equalsIgnoreCase("+")) {                                    
-                                    dt = dt.plusMonths(3*plusI);
-                                    if(dt.getMonthOfYear()<4){
+                                } else {
+                                    if (plus.equalsIgnoreCase("+")) {
+                                        dt = dt.plusMonths(3 * plusI);
+                                    } else if (plus.equalsIgnoreCase("-")) {
+                                        dt = dt.minusMonths(3 * plusI);
+                                    }
+                                    if (dt.getMonthOfYear() < 4) {
                                         val = dt.toString("YYYY") + "-Q1";
-                                    } else if(dt.getMonthOfYear()<7){
+                                    } else if (dt.getMonthOfYear() < 7) {
                                         val = dt.toString("YYYY") + "-Q2";
-                                    } else if(dt.getMonthOfYear()<10){
+                                    } else if (dt.getMonthOfYear() < 10) {
                                         val = dt.toString("YYYY") + "-Q3";
-                                    } else{
-                                        val = dt.toString("YYYY") + "-Q4";                                        
-                                    }                                    
-                                } else if (plus.equalsIgnoreCase("-")) {
-                                    dt = dt.minusMonths(3*plusI);
-                                    if(dt.getMonthOfYear()<4){
-                                        val = dt.toString("YYYY") + "-Q1";
-                                    } else if(dt.getMonthOfYear()<7){
-                                        val = dt.toString("YYYY") + "-Q2";
-                                    } else if(dt.getMonthOfYear()<10){
-                                        val = dt.toString("YYYY") + "-Q3";
-                                    } else{
-                                        val = dt.toString("YYYY") + "-Q4";                                        
+                                    } else {
+                                        val = dt.toString("YYYY") + "-Q4";
                                     }
                                 }
                             } else if (gran.startsWith("HALF")) {
-                                 if (plus.equalsIgnoreCase("x")) {
+                                if (plus.equalsIgnoreCase("x") && plus.matches("HALF\\d+")) {
                                     val = dt.toString("YYYY") + "-" + gran.replaceFirst("ALF", "");
-                                } else if (plus.equalsIgnoreCase("+")) {                                    
-                                    dt = dt.plusMonths(6*plusI);
-                                    if(dt.getMonthOfYear()<7){
+                                } else {
+                                    if (plus.equalsIgnoreCase("+")) {
+                                        dt = dt.plusMonths(6 * plusI);
+                                    } else if (plus.equalsIgnoreCase("-")) {
+                                        dt = dt.minusMonths(6 * plusI);
+                                    }
+                                    if (dt.getMonthOfYear() < 7) {
                                         val = dt.toString("YYYY") + "-H1";
-                                    } else{
-                                        val = dt.toString("YYYY") + "-H2";                                        
-                                    }                                    
-                                } else if (plus.equalsIgnoreCase("-")) {
-                                    dt = dt.minusMonths(6*plusI);
-                                    if(dt.getMonthOfYear()<7){
-                                        val = dt.toString("YYYY") + "-H1";
-                                    } else{
-                                        val = dt.toString("YYYY") + "-H2";                                        
+                                    } else {
+                                        val = dt.toString("YYYY") + "-H2";
                                     }
                                 }
                             } else if (gran.startsWith("T")) {
-                                 if (plus.equalsIgnoreCase("x")) {
+                                if (plus.equalsIgnoreCase("x") && plus.matches("T\\d+")) {
                                     val = dt.toString("YYYY") + "-" + gran;
-                                } else if (plus.equalsIgnoreCase("+")) {                                    
-                                    dt = dt.plusMonths(4*plusI);
-                                    if(dt.getMonthOfYear()<5){
+                                } else {
+                                    if (plus.equalsIgnoreCase("+")) {
+                                        dt = dt.plusMonths(4 * plusI);
+                                    } else if (plus.equalsIgnoreCase("-")) {
+                                        dt = dt.minusMonths(4 * plusI);
+                                    }
+                                    if (dt.getMonthOfYear() < 5) {
                                         val = dt.toString("YYYY") + "-T1";
-                                    } else if(dt.getMonthOfYear()<9){
+                                    } else if (dt.getMonthOfYear() < 9) {
                                         val = dt.toString("YYYY") + "-T2";
-                                    }else{
-                                        val = dt.toString("YYYY") + "-T3";                                        
-                                    }                                    
-                                } else if (plus.equalsIgnoreCase("-")) {
-                                    dt = dt.minusMonths(4*plusI);
-                                    if(dt.getMonthOfYear()<5){
-                                        val = dt.toString("YYYY") + "-T1";
-                                    } else if(dt.getMonthOfYear()<9){
-                                        val = dt.toString("YYYY") + "-T2";
-                                    }else{
-                                        val = dt.toString("YYYY") + "-T3";                                        
-                                    } 
+                                    } else {
+                                        val = dt.toString("YYYY") + "-T3";
+                                    }
                                 }
                             } else if (gran.equalsIgnoreCase("MONTHS")) {
                                 if (plus.equalsIgnoreCase("+")) {
@@ -607,39 +588,36 @@ public class Annotador {
                             }
                         }
 
-                        if(val.matches("anchor\\([A-Z]+,.,.*(\\d+)W\\)")){
+                        if (val.matches("anchor\\([A-Z]+,.,.*(\\d+)W\\)")) {
                             val = dt.getYear() + "-W" + dt.getWeekOfWeekyear();
-                        }
-                        else if(val.matches("\\d{0,4}-[H|T|Q]\\d")){
-                        }
-                        else if (!plus.equalsIgnoreCase("x")) {
+                        } else if (val.matches("\\d{0,4}-[H|T|Q]\\d")) {
+                        } else if (!plus.equalsIgnoreCase("x")) {
                             val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
-                        }
-                        else{
-                            
+                        } else {
+
                         }
                     }
-                    
-                    if((typ.equalsIgnoreCase("DURATION") || typ.equalsIgnoreCase("SET"))){
+
+                    if ((typ.equalsIgnoreCase("DURATION") || typ.equalsIgnoreCase("SET"))) {
                         LinkedHashMap<String, String> auxVal = parseDuration(val);
                         String auxfin = "P";
                         int flagT = 0;
                         int mins = 0;
                         Set<String> durString = auxVal.keySet();
                         for (String gran : durString) {
-                            if(gran.equalsIgnoreCase("H") && flagT == 0){
-                                flagT=1;
+                            if (gran.equalsIgnoreCase("H") && flagT == 0) {
+                                flagT = 1;
                                 auxfin = auxfin + "T" + auxVal.get(gran) + gran;
-                            } else if(gran.equalsIgnoreCase("MIN") && flagT == 0){
-                                flagT=1;
+                            } else if (gran.equalsIgnoreCase("MIN") && flagT == 0) {
+                                flagT = 1;
                                 auxfin = auxfin + "T" + auxVal.get(gran) + "M";
-                            } else if(gran.equalsIgnoreCase("HALF")){
-                                flagT=1;
+                            } else if (gran.equalsIgnoreCase("HALF")) {
+                                flagT = 1;
                                 auxfin = auxfin + auxVal.get(gran) + "H";
-                            } else if(gran.equalsIgnoreCase("S") && flagT == 0){
-                                flagT=1;
+                            } else if (gran.equalsIgnoreCase("S") && flagT == 0) {
+                                flagT = 1;
                                 auxfin = auxfin + "T" + auxVal.get(gran) + gran;
-                            } else{
+                            } else {
                                 auxfin = auxfin + auxVal.get(gran) + gran;
                             }
                         }
@@ -649,10 +627,10 @@ public class Annotador {
 
                     }
 
-                    if(typ.equalsIgnoreCase("DATE") && val.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d")){
+                    if (typ.equalsIgnoreCase("DATE") && val.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d")) {
                         lastfullDATE = val;
                     }
-                    if(typ.equalsIgnoreCase("DATE")){
+                    if (typ.equalsIgnoreCase("DATE")) {
                         lastDATE = val;
                     }
                     String addini = "<TIMEX3 tid=\"t" + numval + "\" type=\"" + typ + "\" value=\"" + val + "\">";

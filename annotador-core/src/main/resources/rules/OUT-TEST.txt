@@ -12,7 +12,7 @@ en <TIMEX3 tid="t1" type="DATE" value="1000">el año mil</TIMEX3>.
 <TIMEX3 tid="t1" type="DATE" value="1991-06-10">El 10 de Junio de 1991</TIMEX3>.
 <TIMEX3 tid="t1" type="DATE" value="2019-WXX-02">Martes</TIMEX3>. <TIMEX3 tid="t2" type="DATE" value="2019-06">Junio</TIMEX3>.
 <TIMEX3 tid="t1" type="SET" value="P1W">Todas las semanas</TIMEX3>.
-<TIMEX3 tid="t1" type="SET" value="P2M">Cada dos meses</TIMEX3>. <TIMEX3 tid="t2" type="SET" value="P1M">Cada mes</TIMEX3>. Lo hacían <TIMEX3 tid="t3" type="SET" value="P022M" freq="2D">dos días cada dos meses</TIMEX3>.
+<TIMEX3 tid="t1" type="SET" value="P2M">Cada dos meses</TIMEX3>. <TIMEX3 tid="t2" type="SET" value="P1M">Cada mes</TIMEX3>. Lo hacían <TIMEX3 tid="t3" type="SET" value="P2M" freq="2D">dos días cada dos meses</TIMEX3>.
 Lo hacían <TIMEX3 tid="t1" type="SET" value="P1W" freq="1X">una vez cada semana</TIMEX3>.
 Lo hacían <TIMEX3 tid="t1" type="SET" value="P1W" freq="03X">tres veces a la semana</TIMEX3>.
 Lo hacían <TIMEX3 tid="t1" type="SET" value="P1D" freq="03X">tres veces al día</TIMEX3>.
@@ -65,7 +65,7 @@ por <TIMEX3 tid="t1" type="DURATION" value="P1Y">un año</TIMEX3>.
 <TIMEX3 tid="t1" type="DATE" value="2019-12-16">el lunes</TIMEX3> y <TIMEX3 tid="t2" type="DATE" value="2019-12-17">el martes</TIMEX3>.
 <TIMEX3 tid="t1" type="DURATION" value="P1WE">un fin de semana</TIMEX3> más.
 <TIMEX3 tid="t1" type="DURATION" value="P2WE">dos fines de semana</TIMEX3>.
-<TIMEX3 tid="t1" type="SET" value="P022WE" freq="1D">un día cada dos fines de semana</TIMEX3>.
+<TIMEX3 tid="t1" type="SET" value="P2WE" freq="1D">un día cada dos fines de semana</TIMEX3>.
 <TIMEX3 tid="t1" type="SET" value="P01W" freq="2D">dos días cada semana</TIMEX3>.
 <TIMEX3 tid="t1" type="DURATION" value="PT3H45M">tres horas y cuarto</TIMEX3>.
 <TIMEX3 tid="t1" type="DURATION" value="PT1H30M">una hora y media</TIMEX3>.
@@ -89,28 +89,28 @@ de <TIMEX3 tid="t1" type="TIME" value="T12:15">12:15</TIMEX3> a <TIMEX3 tid="t2"
 Las <TIMEX3 tid="t1" type="TIME" value="T12:00">12h</TIMEX3>.
 Las <TIMEX3 tid="t1" type="DURATION" value="PT12H">12 horas</TIMEX3>.
 A las <TIMEX3 tid="t1" type="TIME" value="T12:50">12h50</TIMEX3>.
-<TIMEX3 tid="t1" type="TIME" value="Tnull:00">a las 12 de la tarde</TIMEX3>.
-<TIMEX3 tid="t1" type="TIME" value="Tnull:00TAF">las 5 por la tarde</TIMEX3>.
-<TIMEX3 tid="t1" type="TIME" value="Tnull:00TAF">las 12 de aquella nublada y bella tarde</TIMEX3>.
-<TIMEX3 tid="t1" type="TIME" value="Tnull:00TMI">las 12 del mediodía</TIMEX3>.
+<TIMEX3 tid="t1" type="TIME" value="T12:00">a las 12 de la tarde</TIMEX3>.
+<TIMEX3 tid="t1" type="TIME" value="T5:00TAFTT5:00TAF">las 5 por la tarde</TIMEX3>.
+<TIMEX3 tid="t1" type="TIME" value="T12:00TAFTT12:00TAF">las 12 de aquella nublada y bella tarde</TIMEX3>.
+<TIMEX3 tid="t1" type="TIME" value="T12:00TMITT12:00TMI">las 12 del mediodía</TIMEX3>.
 <TIMEX3 tid="t1" type="TIME" value="T2:00">las 2</TIMEX3> y media de <TIMEX3 tid="t2" type="TIME" value="2019-12-20TAF">la tarde</TIMEX3>.
 son <TIMEX3 tid="t1" type="TIME" value="T3:00">las 3</TIMEX3>.
 quedamos <TIMEX3 tid="t1" type="TIME" value="T3:00">a las 3</TIMEX3>.
 <TIMEX3 tid="t1" type="TIME" value="T3:00">las 3</TIMEX3> dijeron lo mismo.
 las 3 personas.
-son <TIMEX3 tid="t1" type="TIME" value="Tnull:00TAF">las tres de la tarde</TIMEX3>.
-quedamos <TIMEX3 tid="t1" type="TIME" value="Tnull:00">a las tres de la tarde</TIMEX3>.
+son <TIMEX3 tid="t1" type="TIME" value="T3:00TAFTT3:00TAF">las tres de la tarde</TIMEX3>.
+quedamos <TIMEX3 tid="t1" type="TIME" value="T3:00">a las tres de la tarde</TIMEX3>.
 las tres dijeron lo mismo.
 las tres personas.
 son las quince de <TIMEX3 tid="t1" type="TIME" value="2019-12-20TAF">la tarde</TIMEX3>.
 las <TIMEX3 tid="t1" type="TIME" value="T2:20">2:20</TIMEX3>.
 las <TIMEX3 tid="t1" type="TIME" value="T2:20">2.20</TIMEX3>.
-<TIMEX3 tid="t1" type="TIME" value="T2:20TAF">las 2:20 de la tarde</TIMEX3>.
+<TIMEX3 tid="t1" type="TIME" value="T2:20TAFTT2:20TAF">las 2:20 de la tarde</TIMEX3>.
 <TIMEX3 tid="t1" type="TIME" value="T1:55">las 2 menos 5</TIMEX3>.
 <TIMEX3 tid="t1" type="TIME" value="T1:55">las 2 menos cinco</TIMEX3>.
 <TIMEX3 tid="t1" type="TIME" value="T1:55">las dos menos 5</TIMEX3>.
-<TIMEX3 tid="t1" type="TIME" value="T1:55TAF">las dos menos cinco de la tarde</TIMEX3>.
-son <TIMEX3 tid="t1" type="TIME" value="Tnull:00TAF">las dos de la tarde</TIMEX3>.
+<TIMEX3 tid="t1" type="TIME" value="T1:55TAFTT1:55TAF">las dos menos cinco de la tarde</TIMEX3>.
+son <TIMEX3 tid="t1" type="TIME" value="T2:00TAFTT2:00TAF">las dos de la tarde</TIMEX3>.
 <TIMEX3 tid="t1" type="DURATION" value="PXM">varios meses</TIMEX3>, <TIMEX3 tid="t2" type="DURATION" value="PXM">algunos meses</TIMEX3>, los <TIMEX3 tid="t3" type="DURATION" value="PXM">meses</TIMEX3>, aquellos maravillosos <TIMEX3 tid="t4" type="DURATION" value="PXM">meses</TIMEX3>, un par de <TIMEX3 tid="t5" type="DURATION" value="PXM">meses</TIMEX3>, durante <TIMEX3 tid="t6" type="DURATION" value="P3D">tres días</TIMEX3>.
 <TIMEX3 tid="t1" type="DURATION" value="PTXH">varias horas</TIMEX3>.
 <TIMEX3 tid="t1" type="DURATION" value="PXD">varios días</TIMEX3>.
@@ -119,8 +119,8 @@ son <TIMEX3 tid="t1" type="TIME" value="Tnull:00TAF">las dos de la tarde</TIMEX3
 <TIMEX3 tid="t1" type="DATE" value="2019">ese año</TIMEX3>.
 <TIMEX3 tid="t1" type="DATE" value="2019">el año</TIMEX3>.
 todo <TIMEX3 tid="t1" type="DATE" value="2019">el año</TIMEX3>.
-las <TIMEX3 tid="t1" type="DATE" value="FUTURE_REF">próximas</TIMEX3> horas, <TIMEX3 tid="t2" type="DATE" value="2019">el año siguiente</TIMEX3>.
-el mes <TIMEX3 tid="t1" type="DATE" value="2019-12-22">pasado</TIMEX3>, <TIMEX3 tid="t2" type="DATE" value="2019">el pasado año</TIMEX3>.
+las <TIMEX3 tid="t1" type="DATE" value="FUTURE_REF">próximas</TIMEX3> horas, <TIMEX3 tid="t2" type="DATE" value="2020-12-20">el año siguiente</TIMEX3>.
+el mes <TIMEX3 tid="t1" type="DATE" value="2019-12-22">pasado</TIMEX3>, <TIMEX3 tid="t2" type="DATE" value="2018-12-20">el pasado año</TIMEX3>.
 Quedaron a la <TIMEX3 tid="t1" type="TIME" value="T13:00">1 pm.</TIMEX3>
 Quedaron a la <TIMEX3 tid="t1" type="TIME" value="T13:00">1pm</TIMEX3>.
 Quedaron <TIMEX3 tid="t1" type="TIME" value="T12:00">a las 12</TIMEX3>.
@@ -138,7 +138,7 @@ por <TIMEX3 tid="t1" type="DURATION" value="PT2H">dos horas</TIMEX3>.
 <TIMEX3 tid="t1" type="DATE" value="1991-02-19">19/02/1991</TIMEX3>.
 De 12 a 3.
 Entre <TIMEX3 tid="t1" type="TIME" value="T12:00">las 12</TIMEX3> y <TIMEX3 tid="t2" type="TIME" value="T3:00">las 3</TIMEX3>.
-<TIMEX3 tid="t1" type="DATE" value="2019-12-01">el día uno</TIMEX3> <TIMEX3 tid="t2" type="DATE" value="2019-12">del próximo mes</TIMEX3>.
+<TIMEX3 tid="t1" type="DATE" value="2019-12-01">el día uno</TIMEX3> <TIMEX3 tid="t2" type="DATE" value="2020-01-20">del próximo mes</TIMEX3>.
 <TIMEX3 tid="t1" type="DATE" value="2019-12-01">el día uno</TIMEX3>.
 <TIMEX3 tid="t1" type="DURATION" value="P2Y3M1D">dos años, 3 meses y un día</TIMEX3>.
 <TIMEX3 tid="t1" type="DURATION" value="P3M">tres meses</TIMEX3>.
@@ -148,7 +148,7 @@ durante <TIMEX3 tid="t1" type="DURATION" value="PT1H15M">una hora y 15 minutos</
 más de <TIMEX3 tid="t1" type="DURATION" value="PT1H">una hora</TIMEX3> y además <TIMEX3 tid="t2" type="DURATION" value="PT1H">1 hora</TIMEX3>.
 <TIMEX3 tid="t1" type="SET" value="P1M">mensualmente</TIMEX3>.
 <TIMEX3 tid="t1" type="SET" value="P01W" freq="2D">dos días cada semana</TIMEX3>.
-<TIMEX3 tid="t1" type="SET" value="P022W" freq="1D">un día cada dos semanas</TIMEX3>.
+<TIMEX3 tid="t1" type="SET" value="P2W" freq="1D">un día cada dos semanas</TIMEX3>.
 <TIMEX3 tid="t1" type="DATE" value="2019-12-21">Mañana</TIMEX3> vamos allí.
 una o <TIMEX3 tid="t1" type="DURATION" value="P2W">dos semanas</TIMEX3>.
 entre <TIMEX3 tid="t1" type="DURATION" value="P1Y2M">un año y 2 meses</TIMEX3>, y <TIMEX3 tid="t2" type="DURATION" value="P2Y3M">dos años y 3 meses</TIMEX3>.
@@ -178,7 +178,7 @@ Nos vemos <TIMEX3 tid="t1" type="DATE" value="2019-12-20">dentro de 4 minutos</T
 <TIMEX3 tid="t1" type="DATE" value="2019-W50">Hace una semana</TIMEX3>.
 <TIMEX3 tid="t1" type="DATE" value="2022-06-30">En 10 días, 2 años y seis meses</TIMEX3>.
 Algún <TIMEX3 tid="t1" type="DURATION" value="P1M">mes</TIMEX3>, aquel bonito; largo aunque hermoso <TIMEX3 tid="t2" type="DURATION" value="P1M">mes</TIMEX3>.
-esto fue <TIMEX3 tid="t1" type="DATE" value="2019-W50">la última</TIMEX3> <TIMEX3 tid="t2" type="DURATION" value="P1W">semana</TIMEX3>.
+esto fue <TIMEX3 tid="t1" type="DATE" value="2019-W50">la última semana</TIMEX3>.
 <TIMEX3 tid="t1" type="DATE" value="PRESENT_REF">Actualmente</TIMEX3> es así.
 se deshizo <TIMEX3 tid="t1" type="DATE" value="2019-12-20">hoy</TIMEX3> en elogios de su rival <TIMEX3 tid="t2" type="DATE" value="2019-12-21">del próximo sábado</TIMEX3>.
 Pero yo no lo he visto claro hasta <TIMEX3 tid="t1" type="DURATION" value="PT1M">el último minuto</TIMEX3>.
@@ -201,7 +201,7 @@ giro de <TIMEX3 tid="t1" type="DURATION" value="PT1H">última hora</TIMEX3>.
 <TIMEX3 tid="t1" type="DATE" value="BC01">El siglo segundo AC</TIMEX3>.
 <TIMEX3 tid="t1" type="DATE" value="0">el milenio I.</TIMEX3> Luego ya no.
 <TIMEX3 tid="t1" type="DATE" value="2019-12-20">Hoy</TIMEX3>, <TIMEX3 tid="t2" type="DATE" value="1991-03-03">3 de marzo de 1991</TIMEX3>.
-<TIMEX3 tid="t1" type="DATE" value="2019-Q1">El primer trimestre</TIMEX3> del <TIMEX3 tid="t2" type="DURATION" value="P1Y">año</TIMEX3>.
+<TIMEX3 tid="t1" type="DATE" value="2019-Q4">El primer trimestre del año</TIMEX3>.
 <TIMEX3 tid="t1" type="DATE" value="2019-03-03">El 3 de marzo de 2019</TIMEX3>.
 En <TIMEX3 tid="t1" type="DATE" value="2000">el año dos mil</TIMEX3>.
 la desconfianza de cientos de miles de rumanos.
@@ -280,9 +280,9 @@ Se celebrará <TIMEX3 tid="t1" type="DATE" value="2019-12-23">el próximo lunes<
 <TIMEX3 tid="t1" type="DATE" value="2019-12-20">El mismo día</TIMEX3> por <TIMEX3 tid="t2" type="TIME" value="2019-12-20TAF">la tarde</TIMEX3>,.
 fue condenado hace <TIMEX3 tid="t1" type="DURATION" value="PXD">varios días</TIMEX3>.
 que <TIMEX3 tid="t1" type="DATE" value="20">el siglo XXI</TIMEX3> será <TIMEX3 tid="t2" type="DATE" value="21">el siglo</TIMEX3> de la ciencia y la tecnología .
-<TIMEX3 tid="t1" type="DATE" value="2019-Q1">El primer trimestre</TIMEX3> del <TIMEX3 tid="t2" type="DURATION" value="P1Y">año</TIMEX3>.
+<TIMEX3 tid="t1" type="DATE" value="2019-Q4">El primer trimestre del año</TIMEX3>.
 Surgida en plena campaña para las elecciones municipales <TIMEX3 tid="t1" type="DATE" value="2019-12-22">del próximo domingo</TIMEX3>, .
-Durante <TIMEX3 tid="t1" type="DATE" value="2019-12">el cuatrimestre</TIMEX3> primero ocurrió .
+Durante <TIMEX3 tid="t1" type="DATE" value="2019-T3">el cuatrimestre</TIMEX3> primero ocurrió .
 <TIMEX3 tid="t1" type="DATE" value="2021-12-20">En un bienio</TIMEX3>.
 <TIMEX3 tid="t1" type="DATE" value="2019-12-20">Hoy, lunes</TIMEX3>, se armó la marimorena.
 <TIMEX3 tid="t1" type="DATE" value="2019-12-20">Hoy, 3 de marzo de 1991</TIMEX3>, se armó la marimorena.
