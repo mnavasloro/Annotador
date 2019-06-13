@@ -535,6 +535,68 @@ public class Annotador {
                             } else if (gran.startsWith("Q")) {
                                  if (plus.equalsIgnoreCase("x")) {
                                     val = dt.toString("YYYY") + "-" + gran;
+                                } else if (plus.equalsIgnoreCase("+")) {                                    
+                                    dt = dt.plusMonths(3*plusI);
+                                    if(dt.getMonthOfYear()<4){
+                                        val = dt.toString("YYYY") + "-Q1";
+                                    } else if(dt.getMonthOfYear()<7){
+                                        val = dt.toString("YYYY") + "-Q2";
+                                    } else if(dt.getMonthOfYear()<10){
+                                        val = dt.toString("YYYY") + "-Q3";
+                                    } else{
+                                        val = dt.toString("YYYY") + "-Q4";                                        
+                                    }                                    
+                                } else if (plus.equalsIgnoreCase("-")) {
+                                    dt = dt.minusMonths(3*plusI);
+                                    if(dt.getMonthOfYear()<4){
+                                        val = dt.toString("YYYY") + "-Q1";
+                                    } else if(dt.getMonthOfYear()<7){
+                                        val = dt.toString("YYYY") + "-Q2";
+                                    } else if(dt.getMonthOfYear()<10){
+                                        val = dt.toString("YYYY") + "-Q3";
+                                    } else{
+                                        val = dt.toString("YYYY") + "-Q4";                                        
+                                    }
+                                }
+                            } else if (gran.startsWith("HALF")) {
+                                 if (plus.equalsIgnoreCase("x")) {
+                                    val = dt.toString("YYYY") + "-" + gran.replaceFirst("ALF", "");
+                                } else if (plus.equalsIgnoreCase("+")) {                                    
+                                    dt = dt.plusMonths(6*plusI);
+                                    if(dt.getMonthOfYear()<7){
+                                        val = dt.toString("YYYY") + "-H1";
+                                    } else{
+                                        val = dt.toString("YYYY") + "-H2";                                        
+                                    }                                    
+                                } else if (plus.equalsIgnoreCase("-")) {
+                                    dt = dt.minusMonths(6*plusI);
+                                    if(dt.getMonthOfYear()<7){
+                                        val = dt.toString("YYYY") + "-H1";
+                                    } else{
+                                        val = dt.toString("YYYY") + "-H2";                                        
+                                    }
+                                }
+                            } else if (gran.startsWith("T")) {
+                                 if (plus.equalsIgnoreCase("x")) {
+                                    val = dt.toString("YYYY") + "-" + gran;
+                                } else if (plus.equalsIgnoreCase("+")) {                                    
+                                    dt = dt.plusMonths(4*plusI);
+                                    if(dt.getMonthOfYear()<5){
+                                        val = dt.toString("YYYY") + "-T1";
+                                    } else if(dt.getMonthOfYear()<9){
+                                        val = dt.toString("YYYY") + "-T2";
+                                    }else{
+                                        val = dt.toString("YYYY") + "-T3";                                        
+                                    }                                    
+                                } else if (plus.equalsIgnoreCase("-")) {
+                                    dt = dt.minusMonths(4*plusI);
+                                    if(dt.getMonthOfYear()<5){
+                                        val = dt.toString("YYYY") + "-T1";
+                                    } else if(dt.getMonthOfYear()<9){
+                                        val = dt.toString("YYYY") + "-T2";
+                                    }else{
+                                        val = dt.toString("YYYY") + "-T3";                                        
+                                    } 
                                 }
                             } else if (gran.equalsIgnoreCase("MONTHS")) {
                                 if (plus.equalsIgnoreCase("+")) {
@@ -547,6 +609,8 @@ public class Annotador {
 
                         if(val.matches("anchor\\([A-Z]+,.,.*(\\d+)W\\)")){
                             val = dt.getYear() + "-W" + dt.getWeekOfWeekyear();
+                        }
+                        else if(val.matches("\\d{0,4}-[H|T|Q]\\d")){
                         }
                         else if (!plus.equalsIgnoreCase("x")) {
                             val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
@@ -569,6 +633,9 @@ public class Annotador {
                             } else if(gran.equalsIgnoreCase("MIN") && flagT == 0){
                                 flagT=1;
                                 auxfin = auxfin + "T" + auxVal.get(gran) + "M";
+                            } else if(gran.equalsIgnoreCase("HALF")){
+                                flagT=1;
+                                auxfin = auxfin + auxVal.get(gran) + "H";
                             } else if(gran.equalsIgnoreCase("S") && flagT == 0){
                                 flagT=1;
                                 auxfin = auxfin + "T" + auxVal.get(gran) + gran;
@@ -578,6 +645,7 @@ public class Annotador {
                         }
                         val = auxfin;
                         val = val.replaceFirst("MIN", "M");
+                        val = val.replaceFirst("HALF", "H");
 
                     }
 

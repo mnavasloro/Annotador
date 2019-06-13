@@ -73,8 +73,8 @@ public class TutorialAnnotadorES {
 //String txt = "El primer trimestre del año";
 //String txt = "Surgida en plena campaña para las elecciones municipales del próximo domingo, ";
 //String txt = "Durante el cuatrimestre primero ocurrió ";
-String txt = "ya lo veremos en la mañana.";
-//String txt = "se fueron a las 10.";
+
+String txt = "el último semestre. ";//String txt = "se fueron a las 10.";
 //String txt = "En un bienio";
 //String txt = "Hoy, lunes, se armó la marimorena";
 //String txt = "Hoy, 3 de marzo de 1991, se armó la marimorena";
