@@ -83,8 +83,9 @@ public class TutorialESP {
 //String txt = "el milenio I. Luego ya no";
 
 //String txt = "Lo hacían dos veces a la semana y 3 veces al mes.";
-String txt = "El próximo mes. ";//String txt = "se fueron a las 10.";
+//String txt = "El próximo mes. ";//String txt = "se fueron a las 10.";
 
+String txt = "octubre, noviembre y diciembre del año 2018. ";//String txt = "se fueron a las 10.";
 //String txt = "El primer trimestre del año";
 //String txt = "El 3 de marzo de 2019.";
 //String txt = "En el año dos mil.";

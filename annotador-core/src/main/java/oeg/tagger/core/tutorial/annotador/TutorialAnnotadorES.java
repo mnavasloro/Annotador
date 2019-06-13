@@ -74,7 +74,7 @@ public class TutorialAnnotadorES {
 //String txt = "Surgida en plena campaña para las elecciones municipales del próximo domingo, ";
 //String txt = "Durante el cuatrimestre primero ocurrió ";
 
-String txt = "El mes próximo. ";//String txt = "se fueron a las 10.";
+String txt = "Al cumplirse hoy la segunda jornada de la protesta.. ";//String txt = "se fueron a las 10.";
 //String txt = "Durante el cuatrimestre primero ocurrió. ";//String txt = "se fueron a las 10.";
 //String txt = "En un bienio";
 //String txt = "Hoy, lunes, se armó la marimorena";

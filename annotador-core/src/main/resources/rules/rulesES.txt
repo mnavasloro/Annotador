@@ -1393,10 +1393,16 @@ result: ("DATE", Concat(:case{($$AC != NIL) => "BC", :else => ""},$num[0].myNERn
   stage : 20  } 
   
   { ruleType:   "tokens",
-  pattern: ( (?$rel [{pos:/D[A|D]0.S0/} | {pos:/SPCMS/}] [{pos:/D.+S.+/} | {pos:/AQ.+S.+/} | {pos:"FC"} | {pos:"CC"}]*)? (?$gran [{word:"año"} & !{pos:/.+P.+/}]+) (?$num [{myNUM:"myNUMBER"}]+) (?$AC ([{word:/[A|a]\.?[C|c]\.?/}] | ([{lemma:"antes"}] [{lemma:"de"}] [{lemma:/[C|c]risto/}])))? (?$dc ([{word:/[D|d]\.?[C|c]\.?/}] | ([{lemma:"después"}] [{lemma:"de"}] [{lemma:/[C|c]risto/}])))?),
-  action: ( Annotate($0, "myRule", "Rule$esteaño2000"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", Concat(:case{($$AC != NIL) => "BC", :else => ""}, $num[0].mySTValue)), Annotate($0, "Period", $gran[0].Period)),
+  pattern: ( (?$rel [{pos:/D[A|D]0.S0/}] [{pos:/D.+S.+/} | {pos:/AQ.+S.+/} | {pos:"FC"} | {pos:"CC"}]*)? (?$gran [{word:"año"} & !{pos:/.+P.+/}]+) (?$num [{myNUM:"myNUMBER"} & !{myRule:/Rule\$DDdeMMdeYYYY(Com)?/}]+) (?$AC ([{word:/[A|a]\.?[C|c]\.?/}] | ([{lemma:"antes"}] [{lemma:"de"}] [{lemma:/[C|c]risto/}])))? (?$dc ([{word:/[D|d]\.?[C|c]\.?/}] | ([{lemma:"después"}] [{lemma:"de"}] [{lemma:/[C|c]risto/}])))?),
+  action: ( Annotate($0, "myRule", "Rule$esteaño2000"), Annotate($0, "timexType", "DATE"), Annotate($0, "myNER", "YEAR"), Annotate($0, "timexValue", Concat(:case{($$AC != NIL) => "BC", :else => ""}, $num[0].mySTValue)), Annotate($0, "Period", $gran[0].Period)),
 result: ("DATE", Concat(:case{($$AC != NIL) => "BC", :else => ""},$num[0].mySTValue), "", "", "Rule$esteaño2000")  ,
-  stage : 20  }
+  stage : 200  }
+  
+    { ruleType:   "tokens",
+  pattern: ( [!{timexType:"DATE"}] (?$total (?$rel [{pos:/SPCMS/}] [{pos:/D.+S.+/} | {pos:/AQ.+S.+/} | {pos:"FC"} | {pos:"CC"}]*)? (?$gran [{word:"año"} & !{pos:/.+P.+/}]+) (?$num [{myNUM:"myNUMBER"} & !{myRule:/Rule\$DDdeMMdeYYYY(Com)?/}]+) (?$AC ([{word:/[A|a]\.?[C|c]\.?/}] | ([{lemma:"antes"}] [{lemma:"de"}] [{lemma:/[C|c]risto/}])))? (?$dc ([{word:/[D|d]\.?[C|c]\.?/}] | ([{lemma:"después"}] [{lemma:"de"}] [{lemma:/[C|c]risto/}])))?)),
+  action: ( Annotate($total, "myRule", "Rule$esteaño2000bis"), Annotate($0, "myNER", "YEAR"), Annotate($total, "timexType", "DATE"), Annotate($total, "timexValue", Concat(:case{($$AC != NIL) => "BC", :else => ""}, $num[0].mySTValue)), Annotate($total, "Period", $gran[0].Period)),
+result: ("DATE", Concat(:case{($$AC != NIL) => "BC", :else => ""},$num[0].mySTValue), "", "", "Rule$esteaño2000bis")  ,
+  stage : 200  }
   
   
   { ruleType:   "tokens",
@@ -1778,7 +1784,7 @@ priority: 3.0,
   
 # Month isolated
 { ruleType:   "composite",
-  pattern: ( [{myNER:"MONTHS"} && !{myRule:/Rule$DDdeMMdeYYYY(Com)?/}]+  ),
+  pattern: ( [{myNER:"MONTHS"} && !{myRule:/Rule\$DDdeMMdeYYYY(Com)?/}]+  ),
   result: ( "DATE", Concat($0[0].timexValue,""), "", "", "Rule$MONTHS" ) ,
   stage : 500  } 
   
@@ -1988,7 +1994,7 @@ priority: 3.0,
   stage : 5  }
   
   { ruleType:   "tokens",
-  pattern: (  (([{word:"los"} | {word:"aquellos"}]  [{pos:/AQ.*/} | {pos:/NCMP.*/}]* [{word:"años"}]) | ([{word:"la"}]? [{word:"década"}] [{word:"de"}] [{word:"los"}]?)) (?$dec [{myNUM:"myNUMBER"}]+) ),
+  pattern: (  (([{word:/[L|l][O|o][S|s]/} | {word:/[A|a][Q|q][U|u][E|e][L|l][L|l][O|o][S|s]/}]  [{pos:/AQ.*/} | {pos:/NCMP.*/}]* [{word:/[A|a][Ñ|ñ][O|o][S|s]/}]) | ([{word:/[L|l][A|a]/}]? [{lemma:"década"}] [{lemma:"de"}] [{word:/[L|l][O|o][S|s]/}]?)) (?$dec [{myNUM:"myNUMBER"}]+) ),
   action: ( Annotate($0, "myNER", "los60"), Annotate($0, "myRule", "Rule$los60"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", :case{($dec[0].myTValue > 2000) => Format("%d", Divide($dec[0].myTValue, 10)), :else => Concat("19",Format("%d", Divide($dec[0].myTValue, 10)))}) ), 
   result: ( "DATE",:case{($dec[0].myTValue > 2000) => Format("%d", Divide($dec[0].myTValue, 10)), :else => Concat("19",Format("%d", Divide($dec[0].myTValue, 10)))}, "", "", "Rule$los60" ), 
   stage : 5  }
