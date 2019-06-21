@@ -2000,12 +2000,12 @@ priority: 3.0,
   stage : 1001  }
   
   { ruleType:   "tokens",
-  pattern: ([{myNER:"FUT_REF_Adj"} | {myNER:"PAST_REF_Adj"}]+ ([{timexType:"DURATION"}]+)),
+  pattern: ([{lemma:"el"} | {lemma:"este"} | {lemma:"ese"}]? [{myNER:"FUT_REF_Adj"} | {myNER:"PAST_REF_Adj"} | {pos:/A.*/}]+ ([{timexType:"DURATION"}]+)),
   result: ( "DURATION", $1[0].timexValue, "", "", "Rule$ProxDuration" ) ,
   stage : 1001  }
   
     { ruleType:   "tokens",
-  pattern: (([{timexType:"DURATION"}]+) [{myNER:"FUT_REF_Adj"} | {myNER:"PAST_REF_Adj"}]+ ),
+  pattern: ([{lemma:"el"} | {lemma:"este"} | {lemma:"ese"}]? ([{timexType:"DURATION"}]+) [{myNER:"FUT_REF_Adj"} | {myNER:"PAST_REF_Adj"}]+ ),
   result: ( "DURATION", $1[0].timexValue, "", "", "Rule$ProxDuration" ) ,
   stage : 1001  }
   
