@@ -122,6 +122,33 @@
         </dependency>
         
         <dependency>
+    <groupId>com.mashape.unirest</groupId>
+    <artifactId>unirest-java</artifactId>
+    <version>1.4.9</version>
+</dependency>
+
+<dependency>
+  <groupId>org.apache.httpcomponents</groupId>
+  <artifactId>httpclient</artifactId>
+  <version>4.3.6</version>
+</dependency>
+<dependency>
+  <groupId>org.apache.httpcomponents</groupId>
+  <artifactId>httpasyncclient</artifactId>
+  <version>4.0.2</version>
+</dependency>
+<dependency>
+  <groupId>org.apache.httpcomponents</groupId>
+  <artifactId>httpmime</artifactId>
+  <version>4.3.6</version>
+</dependency>
+<dependency>
+  <groupId>org.json</groupId>
+  <artifactId>json</artifactId>
+  <version>20140107</version>
+</dependency>
+        
+        <dependency>
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
             <version>3.9.1</version>
@@ -155,6 +182,12 @@
         <artifactId>poi</artifactId>
         <version>3.11-beta2</version>
     </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4.9</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     
     

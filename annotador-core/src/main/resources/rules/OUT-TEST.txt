@@ -26,7 +26,7 @@ La sentencia se hizo publica <TIMEX3 tid="t1" type="DURATION" value="PXD">unos c
 <TIMEX3 tid="t1" type="DURATION" value="PXD">Muchos días</TIMEX3> después, y además <TIMEX3 tid="t2" type="DURATION" value="P1W2D">dos días y una semana</TIMEX3> después.
 El niño, este niño, esas personas, <TIMEX3 tid="t1" type="DATE" value="2019-12-19">el pasado jueves</TIMEX3>, <TIMEX3 tid="t2" type="DURATION" value="PXD">unos pocos días</TIMEX3>.
 El futuro nos depara algo <TIMEX3 tid="t1" type="DATE" value="FUTURE_REF">futuro</TIMEX3>, igual que a su <TIMEX3 tid="t2" type="DATE" value="FUTURE_REF">futuro</TIMEX3> hijo.
-<TIMEX3 tid="t1" type="DATE" value="2019-12-21">Mañana</TIMEX3> comeré en <TIMEX3 tid="t2" type="TIME" value="2019-12-21TMO">la mañana</TIMEX3>; no la segunda <TIMEX3 tid="t3" type="DATE" value="2019-12-21">mañana</TIMEX3>, pero <TIMEX3 tid="t4" type="TIME" value="2019-12-21TMO">varias mañanas</TIMEX3> seguidas, pensando en <TIMEX3 tid="t5" type="TIME" value="2019-12-21TMO">el mañana</TIMEX3>, o en <TIMEX3 tid="t6" type="DATE" value="2019-12-21">el día</TIMEX3> <TIMEX3 tid="t7" type="DATE" value="FUTURE_REF">de</TIMEX3> <TIMEX3 tid="t8" type="DATE" value="2019-12-21">mañana</TIMEX3>.
+<TIMEX3 tid="t1" type="DATE" value="2019-12-21">Mañana</TIMEX3> comeré en <TIMEX3 tid="t2" type="TIME" value="2019-12-21TMO">la mañana</TIMEX3>; no la segunda <TIMEX3 tid="t3" type="DATE" value="2019-12-21">mañana</TIMEX3>, pero <TIMEX3 tid="t4" type="TIME" value="2019-12-21TMO">varias mañanas</TIMEX3> seguidas, pensando en <TIMEX3 tid="t5" type="TIME" value="2019-12-21TMO">el mañana</TIMEX3>, o en <TIMEX3 tid="t6" type="DATE" value="FUTURE_REF">el día de mañana</TIMEX3>.
 Duró <TIMEX3 tid="t1" type="DURATION" value="P600D">seiscientos días</TIMEX3>.
 Unos <TIMEX3 tid="t1" type="DURATION" value="P">1991 días</TIMEX3>.
 Estuvieron desaparecidos <TIMEX3 tid="t1" type="DURATION" value="P41D">cuarenta y un días</TIMEX3>.
@@ -71,8 +71,8 @@ Octubre, <TIMEX3 tid="t1" type="DATE" value="2018-11">noviembre</TIMEX3> y <TIME
 <TIMEX3 tid="t1" type="DURATION" value="PT3H30M">Tres horas y media</TIMEX3>.
 <TIMEX3 tid="t1" type="DURATION" value="PT1H">Una hora</TIMEX3> y tres cuartos.
 Duró <TIMEX3 tid="t1" type="DURATION" value="PT12H">medio día</TIMEX3>.
-Esperaron <TIMEX3 tid="t1" type="DURATION" value="PT45M">45 minutos</TIMEX3> y unos 3 <TIMEX3 tid="t2" type="DURATION" value="PT15M">cuartos de hora</TIMEX3>, más tres <TIMEX3 tid="t3" type="DURATION" value="PT15M">cuartos de hora</TIMEX3>.
-3 <TIMEX3 tid="t1" type="DURATION" value="PT15M">cuartos de hora</TIMEX3>.
+Esperaron <TIMEX3 tid="t1" type="DURATION" value="PT45M">45 minutos</TIMEX3> y unos <TIMEX3 tid="t2" type="DURATION" value="PT45M">3 cuartos de hora</TIMEX3>, más <TIMEX3 tid="t3" type="DURATION" value="PT45M">tres cuartos de hora</TIMEX3>.
+<TIMEX3 tid="t1" type="DURATION" value="PT45M">3 cuartos de hora</TIMEX3>.
 Duró más de <TIMEX3 tid="t1" type="DURATION" value="P2D">dos días</TIMEX3>.
 A mitad de <TIMEX3 tid="t1" type="DATE" value="2000">2000</TIMEX3>.
 Llegaron 2000 personas.
@@ -173,8 +173,8 @@ El Estado mantuvo durante <TIMEX3 tid="t1" type="DURATION" value="PXY">años</TI
 Se derrochan litros de agua <TIMEX3 tid="t1" type="SET" value="P1D">cada día</TIMEX3>.
 Ocurre durante <TIMEX3 tid="t1" type="TIME" value="2019-12-20TNI">la noche</TIMEX3>.
 Nos vimos <TIMEX3 tid="t1" type="DATE" value="2019-12-19">el pasado día 19</TIMEX3>.
-La <TIMEX3 tid="t1" type="DATE" value="192">década de los veinte</TIMEX3>.
-Los locos <TIMEX3 tid="t1" type="DURATION" value="PXY">años</TIMEX3> veinte.
+<TIMEX3 tid="t1" type="DATE" value="192">La década de los veinte</TIMEX3>.
+<TIMEX3 tid="t1" type="DATE" value="192">Los locos años veinte</TIMEX3>.
 Ocurrió <TIMEX3 tid="t1" type="DATE" value="2000">este mismo año 2000</TIMEX3>.
 Durará de <TIMEX3 tid="t1" type="DURATION" value="P3D">3</TIMEX3> a <TIMEX3 tid="t2" type="DURATION" value="P5D">cinco días</TIMEX3>.
 <TIMEX3 tid="t1" type="DATE" value="2009-12-20">Hace dos lustros</TIMEX3>.
@@ -267,7 +267,7 @@ Cerraron por <TIMEX3 tid="t1" type="TIME" value="2019-12-20TNI">la noche</TIMEX3
 Hasta finales del <TIMEX3 tid="t1" type="DATE" value="2019-12-22">pasado</TIMEX3> <TIMEX3 tid="t2" type="DATE" value="2019-05">mayo</TIMEX3> .
 Al cumplirse <TIMEX3 tid="t1" type="DATE" value="2019-12-20">hoy</TIMEX3> la segunda jornada de la protesta.
 Durante <TIMEX3 tid="t1" type="DATE" value="2019-Q4">el tercer trimestre</TIMEX3>.
-<TIMEX3 tid="t1" type="DATE" value="2019-H1">El semestre pasado</TIMEX3> saqué peores notas.
+El <TIMEX3 tid="t1" type="DURATION" value="P1H">semestre</TIMEX3> <TIMEX3 tid="t2" type="DATE" value="2019-12-22">pasado</TIMEX3> saqué peores notas.
 <TIMEX3 tid="t1" type="DATE" value="2019-T1">Hace dos cuatrimestres</TIMEX3> de eso.
 <TIMEX3 tid="t1" type="DATE" value="2019-Q4">Este trimestre</TIMEX3>.
 En <TIMEX3 tid="t1" type="DATE" value="BC998">el 999 AC</TIMEX3>
@@ -276,7 +276,7 @@ En <TIMEX3 tid="t1" type="DATE" value="BC998">el 999 AC</TIMEX3>
 <TIMEX3 tid="t1" type="DATE" value="19">El XX d.C.</TIMEX3>
 En <TIMEX3 tid="t1" type="DATE" value="19">el siglo 20</TIMEX3>.
 Durante <TIMEX3 tid="t1" type="DATE" value="192">los locos años 20</TIMEX3>.
-Los <TIMEX3 tid="t1" type="DURATION" value="PXY">años</TIMEX3> setenta fueron convulsos.
+<TIMEX3 tid="t1" type="DATE" value="197">Los años setenta</TIMEX3> fueron convulsos.
 <TIMEX3 tid="t1" type="DATE" value="2019-12-20">Hoy</TIMEX3> se cumple el tercer <TIMEX3 tid="t2" type="DURATION" value="P1D">día</TIMEX3>.
 Estuvo así durante <TIMEX3 tid="t1" type="DURATION" value="P2Y3M1D">dos años, tres meses y un día</TIMEX3>.
 <TIMEX3 tid="t1" type="SET" value="P23Y" freq="02X">Dos veces cada 23 años</TIMEX3>
@@ -286,7 +286,7 @@ Son un par de <TIMEX3 tid="t1" type="DURATION" value="PXD">días</TIMEX3>
 Aún no he empezado a trabajar en el articulo que tengo que preparar para <TIMEX3 tid="t1" type="DATE" value="2019-12-16">el lunes</TIMEX3>. El plazo de vencimiento está a la vuelta de la esquina. 
 Mandé el borrador a principios de la <TIMEX3 tid="t1" type="DATE" value="2019-SP">primavera</TIMEX3>. Debería haber depositado la tesis a finales del <TIMEX3 tid="t2" type="DATE" value="2019-SU">verano</TIMEX3>. 
 Llevo <TIMEX3 tid="t1" type="DURATION" value="PT2H">dos horas</TIMEX3> con este formulario.
-Tenemos un plazo de vencimiento interno a mediados de la <TIMEX3 tid="t1" type="DURATION" value="P1W">semana</TIMEX3> que viene, el plazo oficial acaba <TIMEX3 tid="t2" type="DATE" value="2019-06-10">el 10 de junio,</TIMEX3> pero queremos dejar <TIMEX3 tid="t3" type="DURATION" value="PXD">unos días</TIMEX3> de margen para revisar todo el contenido.
+Tenemos un plazo de vencimiento interno a mediados de <TIMEX3 tid="t1" type="DATE" value="2019-W52">la semana que viene</TIMEX3>, el plazo oficial acaba <TIMEX3 tid="t2" type="DATE" value="2019-06-10">el 10 de junio,</TIMEX3> pero queremos dejar <TIMEX3 tid="t3" type="DURATION" value="PXD">unos días</TIMEX3> de margen para revisar todo el contenido.
 <TIMEX3 tid="t1" type="DATE" value="PAST_REF">Últimamente</TIMEX3> no estamos poniendo mucho el aire acondicionado pero ya va viniendo el calor
 Él tiene 25 primaveras
 Hasta el 40 de <TIMEX3 tid="t1" type="DATE" value="2019-05">mayo</TIMEX3> no te quites el sayo

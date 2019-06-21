@@ -340,6 +340,7 @@ public class Annotador {
     public String annotate(String input, String anchorDate) {
         Pattern pAnchor = Pattern.compile("anchor\\((\\w+),(.),([^\\)]+)\\)");
         String lastfullDATE = anchorDate; // Where we keep the last full date, in case we have to normalize
+        String backupAnchor = anchorDate;
         String lastDATE = anchorDate; // Where we keep the last date, in case we have to normalize
 //        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-]?\\d+),(\\w+)\\)");
         try {
@@ -363,6 +364,8 @@ public class Annotador {
 
             List<CoreMap> sentences = annotation.get(CoreAnnotations.SentencesAnnotation.class);
             for (CoreMap sentence : sentences) {
+                lastfullDATE = backupAnchor;
+                lastDATE = backupAnchor;
                 CoreMapExpressionExtractor<MatchedExpression> extractor = CoreMapExpressionExtractor
                         .createExtractorFromFiles(TokenSequencePattern.getNewEnv(), rules);
                 List<MatchedExpression> matchedExpressions = extractor.extractExpressions(sentence);
@@ -389,12 +392,12 @@ public class Annotador {
 //        out.println(matched.getText() + " - " + matched.getCharOffsets());
 
                     // To adapt to TE3 format - news mode
-                    if (val.startsWith("XXXX-XX") && anchorDate != null) {
+                    if (typ.equalsIgnoreCase("DATE") && val.startsWith("XXXX-XX") && anchorDate != null) {
                         DateTime dt = new DateTime(anchorDate);
                         int month = dt.getMonthOfYear();
                         int year = dt.getYear();
                         val = year + "-" + String.format("%02d", month) + val.substring(7, val.length());
-                    } else if (val.startsWith("XXXX") && anchorDate != null) {
+                    } else if (typ.equalsIgnoreCase("DATE") && val.startsWith("XXXX") && anchorDate != null) {
                         DateTime dt = new DateTime(anchorDate);
                         int year = dt.getYear();
                         val = year + val.substring(4, val.length());
@@ -463,6 +466,7 @@ public class Annotador {
                                 } else if (plus.equalsIgnoreCase("-")) {
                                     dt = dt.minusMonths(plusI);
                                 } else {
+                                    dt = new DateTime(lastfullDATE);
                                     val = dt.toString("YYYY-MM");
                                 }
                             } else if (gran.equalsIgnoreCase("Y")) {
@@ -471,6 +475,7 @@ public class Annotador {
                                 } else if (plus.equalsIgnoreCase("-")) {
                                     dt = dt.minusYears(plusI);
                                 } else {
+                                    dt = new DateTime(lastfullDATE);
                                     val = dt.toString("YYYY");
                                 }
                             } else if (gran.equalsIgnoreCase("CENT")) {
