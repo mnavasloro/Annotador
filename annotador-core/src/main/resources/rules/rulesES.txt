@@ -1706,6 +1706,14 @@ priority: 3.0,
 #  annotate: ( Annotate($0, "timexType", "DATE"), Annotate($0, "myRule", "Rule$haceDUR"), Annotate($0, "timexValue", Concat("anchor(TODAY,", "-,", $1[0].timexValue,")")) ),
 #  result: ( "DATE", Concat("anchor(TODAY,", "-,", $1[0].timexValue,")"), "", "", "Rule$haceDUR")  ,
 #  stage : 200  }  
+
+  # TODO: Mañana hará dos años
+{ ruleType: "composite",
+ priority: 1.0,
+  pattern: ( [{lemma:/hacer/}] ([{timexType:"DURATION"} & !{timexValue:/.*X.*/}]+) ) ,
+  annotate: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$haceDUR"), Annotate($0, "timexValue", $1[0].timexValue) ),
+  result: ( "DURATION", $1[0].timexValue, "", "", "Rule$haceDUR")  ,
+  stage : 200  }  
    
   
 #TODO: maybe better "last date" instead of TODAY as ref
@@ -1807,8 +1815,13 @@ priority: 3.0,
   
 # Month isolated
 { ruleType:   "composite",
-  pattern: ( [{myNER:"MONTHS"} && !{myRule:/Rule\$DDdeMMdeYYYY(Com)?/}]+  ),
+  pattern: ( [{myNER:"MONTHS"} && !{myRule:/Rule\$DDdeMMdeYYYY(Com)?/} && !{myRule:"Rule$anteriorMonthS"} &&  !{myRule:"Rule$proximoMonthS"}]+  ),
   result: ( "DATE", Concat($0[0].timexValue,""), "", "", "Rule$MONTHS" ) ,
+  stage : 500  } 
+  
+{ ruleType:   "tokens",
+  pattern: ( [{myRule:"Rule$anteriorMonthS"} |  {myRule:"Rule$proximoMonthS"}]+  ),
+  result: ( "DATE", $0[0].timexValue, "", "", $0[0].myRule ) ,
   stage : 500  } 
   
   

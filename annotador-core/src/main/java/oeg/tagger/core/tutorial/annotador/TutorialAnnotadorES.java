@@ -74,7 +74,7 @@ public class TutorialAnnotadorES {
 //String txt = "Surgida en plena campaña para las elecciones municipales del próximo domingo, ";
 //String txt = "Durante el cuatrimestre primero ocurrió ";
 
-String txt = "En la última media hora , Madrid cambió su tendencia";//String txt = "se fueron a las 10.";
+String txt = " como preveía un tratado firmado en junio pasado , informa ";//String txt = "se fueron a las 10.";
 //String txt = "durante los próximos 4 años jugará";//String txt = "se fueron a las 10.";
 //String txt = "los días 15 y 16 de marzo del 2001.";//String txt = "se fueron a las 10.";
 //String txt = "El 4 de julio, por la mañana hizo bueno, pero por la tarde hizo malo.";//String txt = "se fueron a las 10.";

@@ -85,7 +85,7 @@ public class TutorialESP {
 //String txt = "Lo hacían dos veces a la semana y 3 veces al mes.";
 //String txt = "El próximo mes. ";//String txt = "se fueron a las 10.";
 
-String txt = "En la última media hora , Madrid cambió su tendencia";//String txt = "se fueron a las 10.";
+String txt = " como preveía un tratado firmado en junio pasado , informa ";//String txt = "se fueron a las 10.";
 //String txt = "El 3 de marzo de 2019.";
 //String txt = "En el año dos mil.";
 //String txt = " la desconfianza de cientos de miles de rumanos.";
