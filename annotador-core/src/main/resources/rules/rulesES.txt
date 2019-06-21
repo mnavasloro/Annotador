@@ -2013,14 +2013,10 @@ priority: 3.0,
   stage : 1001  }
   
   { ruleType:   "tokens",
-  pattern: ([{lemma:"el"} | {lemma:"este"} | {lemma:"ese"}]? [{myNER:"FUT_REF_Adj"} | {myNER:"PAST_REF_Adj"} | {pos:/A.*/}]+ ([{timexType:"DURATION"}]+)),
+  pattern: ([{lemma:"el"} | {lemma:"este"} | {lemma:"ese"}]? [{myNER:"FUT_REF_Adj"} | {myNER:"PAST_REF_Adj"} | {pos:/A.*/} | {pos:/D.*/}]? ([{timexType:"DURATION"}]+) [{myNER:"FUT_REF_Adj"} | {myNER:"PAST_REF_Adj"} | {pos:/A.*/}]?),
   result: ( "DURATION", $1[0].timexValue, "", "", "Rule$ProxDuration" ) ,
   stage : 1001  }
-  
-    { ruleType:   "tokens",
-  pattern: ([{lemma:"el"} | {lemma:"este"} | {lemma:"ese"}]? ([{timexType:"DURATION"}]+) [{myNER:"FUT_REF_Adj"} | {myNER:"PAST_REF_Adj"}]+ ),
-  result: ( "DURATION", $1[0].timexValue, "", "", "Rule$ProxDuration" ) ,
-  stage : 1001  }
+
   
   
   
