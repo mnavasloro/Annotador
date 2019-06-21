@@ -874,7 +874,7 @@ ENV.defaults["ruleType"] = "tokens"
   stage : 2  }
   
 { ruleType:   "tokens",
-  pattern: ( [{lemma:/$DGranularity/} & !{myNER:"DGRANULARITY"}  & !{ pos:/NP.*/ } & {pos:/.*S.*/}] ),
+  pattern: ( [{lemma:/$DGranularity/} & !{myNER:"DGRANULARITY"}  & !{ pos:/NP.*/ } & {pos:/(.*S.*)|W/}] ),
 #    pattern: ( [{lemma:/$DGranularity/} & !{myNER:"DGRANULARITY"}  & !{ pos:/NP.*/ } & !{pos:/.*P.*/}] ),
 
   action: ( Annotate($0, "myRule", "Rule$Granularity"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP[$0[0].lemma] ), Annotate($0, "myTType", $$0.text ), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue", Concat(DGRANULARITY_AMOUNT_MAP[DGRANULARITY_MAP[$0[0].lemma]],DGRANULARITY_UNIT_MAP[DGRANULARITY_MAP[$0[0].lemma]])), Annotate($0, "Period", PERIOD_MAP[DGRANULARITY_MAP[$0[0].lemma]])  ) ,

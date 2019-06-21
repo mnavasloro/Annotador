@@ -42,8 +42,8 @@ public class TutorialAnnotadorTempEval2 {
             for (File f : listF){
                 try {
                     String txt = FileUtils.readFileToString(f, "UTF-8");
-                    System.out.println("\n************************");
-                    System.out.println(txt + "\n");
+//                    System.out.println("\n************************");
+//                    System.out.println(txt + "\n");
                     Matcher mText = pText.matcher(f.getName());
                     String date = "2019-12-20";
                     if (mText.find()) {
@@ -52,7 +52,7 @@ public class TutorialAnnotadorTempEval2 {
                     
                     String outp = tt.annotate(txt,date);
 //                    String outp = tt.annotateJSON(txt,date);
-                    System.out.println(outp);
+//                    System.out.println(outp);
                     
                     total = total + outp;
                     
