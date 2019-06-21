@@ -897,9 +897,10 @@ ENV.defaults["ruleType"] = "tokens"
   stage : 1  }
   
 # eg: References to the future (TODO: habria que meter "en unos + granularidad", ¿horas como?)
+# quito ([{lemma:"en"}] /los|LOS/ /próximos|PRÓXIMOS/ /años|AÑOS/)
 { ruleType:   "tokens",
   action: ( Annotate($0, "myRule", "Rule$FutureRef"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "FUTURE_REF") )  ,
-  pattern: (([{lemma:"en"} | {lemma:"ser"}] [{lemma:"el"}] [{lemma:"futuro"}] (?:[!{pos:/NC.*/}]){0}) | ([{lemma:"el"}] ([{lemma:"día"}] [{lemma:"de"}])? [{lemma:"mañana"}]) | ([{lemma:"próximamente"}]) | ([{lemma:"en"}] /unos|UNOS/ [{lemma:"año"}]) | ([{lemma:"dentro"}] [{lemma:"de"}] /unos|UNOS/ /años|AÑOS/) | ([{lemma:"en"}] /los|LOS/ /próximos|PRÓXIMOS/ /años|AÑOS/) | ([{lemma:"en"}] /los|LOS/ /años|AÑOS/ /venideros|VENIDEROS/) | ([{lemma:"en"}] /los|LOS/ /años|AÑOS/ [{lemma:"que"}] /están|ESTÁN/ [{lemma:"por"}] [{lemma:"venir"}])),
+  pattern: (([{lemma:"en"} | {lemma:"ser"}] [{lemma:"el"}] [{lemma:"futuro"}] (?:[!{pos:/NC.*/}]){0}) | ([{lemma:"el"}] ([{lemma:"día"}] [{lemma:"de"}])? [{lemma:"mañana"}]) | ([{lemma:"próximamente"}]) | ([{lemma:"en"}] /unos|UNOS/ [{lemma:"año"}]) | ([{lemma:"dentro"}] [{lemma:"de"}] /unos|UNOS/ /años|AÑOS/)  | ([{lemma:"en"}] /los|LOS/ /años|AÑOS/ /venideros|VENIDEROS/) | ([{lemma:"en"}] /los|LOS/ /años|AÑOS/ [{lemma:"que"}] /están|ESTÁN/ [{lemma:"por"}] [{lemma:"venir"}])),
   result: ( "DATE", "FUTURE_REF", "", "","Rule$FutureRef"),
   stage : 1000  }
   
@@ -1717,19 +1718,20 @@ priority: 3.0,
    
   
 #TODO: maybe better "last date" instead of TODAY as ref
-{ ruleType: "composite",
- priority: 1.0,
-  pattern: ( ([{timexType:"DURATION"} & !{timexValue:/.*X.*/}]+) [{lemma:/antes/}] ) ,
-  annotate: ( Annotate($0, "timexType", "DATE"), Annotate($0, "myRule", "Rule$haceDUR"), Annotate($0, "timexValue", Concat("anchor(TODAY,", "-,", $1[0].timexValue,")")) ),
-  result: ( "DATE", Concat("anchor(TODAY,", "-,", $1[0].timexValue,")"), "", "", "Rule$haceDUR")  ,
-  stage : 200  }  
+# quitado para tempeval2
+# { ruleType: "composite",
+#  priority: 1.0,
+#   pattern: ( ([{timexType:"DURATION"} & !{timexValue:/.*X.*/}]+) [{lemma:/antes/}] ) ,
+#   annotate: ( Annotate($0, "timexType", "DATE"), Annotate($0, "myRule", "Rule$haceDUR"), Annotate($0, "timexValue", Concat("anchor(TODAY,", "-,", $1[0].timexValue,")")) ),
+#   result: ( "DATE", Concat("anchor(TODAY,", "-,", $1[0].timexValue,")"), "", "", "Rule$haceDUR")  ,
+#   stage : 200  }  
   
-{ ruleType: "composite",
- priority: 1.0,
-  pattern: ( [{lemma:/dentro/}] [{lemma:/de/}] ([{timexType:"DURATION"} & !{timexValue:/.*X.*/}]+) ) ,
-  annotate: ( Annotate($0, "timexType", "DATE"), Annotate($0, "myRule", "Rule$enDUR"), Annotate($0, "timexValue", Concat("anchor(TODAY,", "+,", $1[0].timexValue,")")) ),
-  result: ( "DATE", Concat("anchor(TODAY,", "+,", $1[0].timexValue,")"), "", "", "Rule$enDUR")  ,
-  stage : 200  }  
+# { ruleType: "composite",
+#  priority: 1.0,
+#   pattern: ( [{lemma:/dentro/}] [{lemma:/de/}] ([{timexType:"DURATION"} & !{timexValue:/.*X.*/}]+) ) ,
+#   annotate: ( Annotate($0, "timexType", "DATE"), Annotate($0, "myRule", "Rule$enDUR"), Annotate($0, "timexValue", Concat("anchor(TODAY,", "+,", $1[0].timexValue,")")) ),
+#   result: ( "DATE", Concat("anchor(TODAY,", "+,", $1[0].timexValue,")"), "", "", "Rule$enDUR")  ,
+#   stage : 200  }  
   
 #{ ruleType: "composite",
 # priority: 1.0,
@@ -1987,7 +1989,7 @@ priority: 3.0,
   
 # eg: References to the present
 { ruleType:   "tokens",
-  pattern: (([{lemma:"en"}] [{lemma:"el"}] [{lemma:"presente"}]) | ([{lemma:"en"}]? [{lemma:"el"}] [{lemma:"actualidad"}]) | ([{lemma:"ahora"}] [{lemma:"mismo"}]) | ([{lemma:"hoy"}] [{lemma:"en"}] [{lemma:"día"}]) | ([{lemma:"a"}] [{lemma:"día"}] [{lemma:"de"}] [{lemma:"hoy"}])),
+  pattern: (([{lemma:"en"}] [{lemma:"el"}] [{lemma:"presente"}]) | ([{lemma:"el"}] [{lemma:"actualidad"}]) | ([{lemma:"ahora"}] [{lemma:"mismo"}]) | ([{lemma:"hoy"}] [{lemma:"en"}] [{lemma:"día"}]) | ([{lemma:"a"}] [{lemma:"día"}] [{lemma:"de"}] [{lemma:"hoy"}])),
   action: ( Annotate($0, "myRule", "Rule$PresentRef"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "PRESENT_REF") )  ,
   result: ( "DATE", "PRESENT_REF", "", "", "Rule$PresentRef" ) ,
   stage : 700  }
@@ -2003,7 +2005,7 @@ priority: 3.0,
   stage : 701  }
   
     { ruleType:   "tokens",
-  pattern: ((?$total (?$ref2 [{timexValue:"anchor(TODAY,+,0D)"} | {timexValue:"anchor(TODAY,+,1D)"} | {timexValue:"anchor(TODAY,-,1D)"}]+) /,/ (?$ref [{timexType:"DATE"}]+))),# (?:[{pos:"FP"} | {pos:"FC"} | {word:";"}] [!{timexType:"DATE"}])),
+  pattern: ((?$total (?$ref2 [{timexValue:"anchor(TODAY,+,0D)"} | {timexValue:"anchor(TODAY,+,1D)"} | {timexValue:"anchor(TODAY,-,1D)"}]+) /,/? (?$ref [{timexType:"DATE"}]+))),# (?:[{pos:"FP"} | {pos:"FC"} | {word:";"}] [!{timexType:"DATE"}])),
   action: ( Annotate($total, "myRule", "Rule$hoy,date"), Annotate($total, "timexType", "DATE"), Annotate($total, "timexValue", $ref2[0].timexValue) )  ,
   stage : 1000  }
   
