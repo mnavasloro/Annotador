@@ -1691,12 +1691,12 @@ priority: 3.0,
 ####### Anchor
   
   # TODO: Mañana hará dos años
-{ ruleType: "composite",
- priority: 1.0,
-  pattern: ( [{lemma:/hacer/}] ([{timexType:"DURATION"} & !{timexValue:/.*X.*/}]+) ) ,
-  annotate: ( Annotate($0, "timexType", "DATE"), Annotate($0, "myRule", "Rule$haceDUR"), Annotate($0, "timexValue", Concat("anchor(TODAY,", "-,", $1[0].timexValue,")")) ),
-  result: ( "DATE", Concat("anchor(TODAY,", "-,", $1[0].timexValue,")"), "", "", "Rule$haceDUR")  ,
-  stage : 200  }  
+#{ ruleType: "composite",
+# priority: 1.0,
+#  pattern: ( [{lemma:/hacer/}] ([{timexType:"DURATION"} & !{timexValue:/.*X.*/}]+) ) ,
+#  annotate: ( Annotate($0, "timexType", "DATE"), Annotate($0, "myRule", "Rule$haceDUR"), Annotate($0, "timexValue", Concat("anchor(TODAY,", "-,", $1[0].timexValue,")")) ),
+#  result: ( "DATE", Concat("anchor(TODAY,", "-,", $1[0].timexValue,")"), "", "", "Rule$haceDUR")  ,
+#  stage : 200  }  
    
   
 #TODO: maybe better "last date" instead of TODAY as ref

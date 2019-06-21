@@ -499,7 +499,7 @@ public class Annotador {
                                 } else if (plus.equalsIgnoreCase("-")) {
                                     dt = dt.minusWeeks(plusI);
                                 } else {
-                                    val = dt.toString("YYYY") + "-W" + dt.getWeekOfWeekyear();
+                                    val = dt.toString("YYYY") + "-W" + String.format("%02d",dt.getWeekOfWeekyear());
                                 }
                             } else if (gran.equalsIgnoreCase("H")) {
                                 if (plus.equalsIgnoreCase("+")) {
@@ -594,7 +594,7 @@ public class Annotador {
                         }
 
                         if (val.matches("anchor\\([A-Z]+,.,.*(\\d+)W\\)")) {
-                            val = dt.getYear() + "-W" + dt.getWeekOfWeekyear();
+                            val = dt.getYear() + "-W" + String.format("%02d",dt.getWeekOfWeekyear());
                         } else if (val.matches("\\d{0,4}-[H|T|Q]\\d")) {
                         } else if (!plus.equalsIgnoreCase("x")) {
                             val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
