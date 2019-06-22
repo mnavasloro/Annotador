@@ -644,8 +644,11 @@ public class Annotador {
                     }
                     String addfin = "</TIMEX3>";
 
+                    
                     String toAdd = addini + text + addfin;
-
+                    if(text.endsWith(",")){
+                        toAdd = addini + text.substring(0, text.length()-1) + addfin + ",";
+                    }
                     inp2 = inp2.substring(0, ini + offsetdelay) + toAdd + inp2.substring(ini + text.length() + offsetdelay);
 
                     offsetdelay = offsetdelay + toAdd.length() - text.length();
