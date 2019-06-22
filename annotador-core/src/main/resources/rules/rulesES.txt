@@ -1969,9 +1969,9 @@ priority: 3.0,
   result: ( "DATE", "FUTURE_REF", "", "", "Rule$AdjProximo" ) ,
   stage : 700  }   
 
-  # adj recientemente
+  # adj recientemente (quitamos previamente)
 { ruleType:   "tokens",
-  pattern: ( [{pos:/RG.*/} && {lemma:/recientemente|antiguamente|antaño|[ú|u]ltimamente|previamente/} && !{timexValue:/.*/}]+  ),
+  pattern: ( [{pos:/RG.*/} && {lemma:/recientemente|antiguamente|antaño|[ú|u]ltimamente/} && !{timexValue:/.*/}]+  ),
   result: ( "DATE", "PAST_REF", "", "", "Rule$AdjReciente" ) ,
   stage : 700  }
 
