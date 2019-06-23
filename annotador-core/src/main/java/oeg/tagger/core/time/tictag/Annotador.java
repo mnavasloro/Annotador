@@ -650,9 +650,23 @@ public class Annotador {
 
                     
                     String toAdd = addini + text + addfin;
-                    if(text.endsWith(",")){
-                        toAdd = addini + text.substring(0, text.length()-1) + addfin + ",";
+                    if(text.endsWith(" ,")){
+                        toAdd = addini + text.substring(0, text.length()-2) + addfin + " ,";
                     }
+                    else if(text.endsWith(",")){
+                        toAdd = addini + text.substring(0, text.length()-1) + addfin + ",";
+                    } else if(text.endsWith(" .")){
+                        toAdd = addini + text.substring(0, text.length()-2) + addfin + " .";
+                    }
+                    else if(text.endsWith(".")){
+                        toAdd = addini + text.substring(0, text.length()-1) + addfin + ".";
+                    } else if(text.endsWith(" ;")){
+                        toAdd = addini + text.substring(0, text.length()-2) + addfin + " ;";
+                    }
+                    else if(text.endsWith(";")){
+                        toAdd = addini + text.substring(0, text.length()-1) + addfin + ";";
+                    }
+                    
                     inp2 = inp2.substring(0, ini + offsetdelay) + toAdd + inp2.substring(ini + text.length() + offsetdelay);
 
                     offsetdelay = offsetdelay + toAdd.length() - text.length();

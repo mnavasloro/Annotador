@@ -2123,7 +2123,7 @@ matchWithResults: TRUE,
 
 ## MODS
 { ruleType:   "tokens",
-  pattern: ( [{lemma:"a"} | {lemma:"al"}]? (?$total ([{lemma:/final(es)?/} | {lemma:/fin/}] [{lemma:/del?/}]) |  ([{lemma:"el"}]? [{lemma:/principio(s)?/} | {lemma:/comienzo(s)?/} | {lemma:/comenzar/}] [{lemma:/del?/}]) |  ([{lemma:"el"}]? [{lemma:/mediadio(s)?/} | {lemma:/mitad/}] [{lemma:/del?/}]) |  ( [{lemma:/m[á|a]s/} | {lemma:/menos/}] [{lemma:/del?/}]) |  ( [{lemma:/al?/}] [{lemma:/menos/}])) ),
+  pattern: ( [{lemma:"a"} | {lemma:"al"} | {lemma:/del?/} | {lemma:"el"}]? (?$total ([{lemma:/final(es)?/} | {lemma:/fin/}] [{lemma:/del?/}]) |  ([{lemma:"el"}]? [{lemma:/principio(s)?/} | {lemma:/comienzo(s)?/} | {lemma:/comenzar/}] [{lemma:/del?/}]) |  ([{lemma:"el"}]? [{lemma:/mediadio(s)?/} | {lemma:/mitad/}] [{lemma:/del?/}]) |  ( [{lemma:/m[á|a]s/} | {lemma:/menos/}] [{lemma:/del?/}]) |  ( [{lemma:/al?/}] [{lemma:/menos/}])) ),
 action: (Annotate($total, "myNER", "MOD"), Annotate($total, "myRule", "Rule$mod")),
   stage : 1  }
   
