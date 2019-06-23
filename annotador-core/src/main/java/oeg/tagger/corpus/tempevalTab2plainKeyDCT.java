@@ -80,11 +80,11 @@ public class tempevalTab2plainKeyDCT {
                     text = "<?xml version=\"1.0\" ?>\n" +
 "<TimeML xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd\">\n" +
 "\n" +
-"<DCT><TIMEX3 tid=\"t0\" timexType=\"DATE\" timexValue=\"" + date + "\" type=\"DATE\" value=\"" + date + "\" temporalFunction=\"false\" functionInDocument=\"CREATION_TIME\"></TIMEX3></DCT>" +
+"\n" +
 "\n" +
 "<TEXT>" + text + "</TEXT>\n" +
-"\n" +
-"\n" +
+
+
 "</TimeML>";
                     FileOutputStream fos1 = new FileOutputStream(foutput + currentFile.replaceFirst("\\.txt", "\\.xml"));
                     OutputStreamWriter w = new OutputStreamWriter(fos1, "UTF-8");
@@ -134,11 +134,9 @@ public class tempevalTab2plainKeyDCT {
                     text = "<?xml version=\"1.0\" ?>\n" +
 "<TimeML xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd\">\n" +
 "\n" +
-"<DCT><TIMEX3 tid=\"t0\" timexType=\"DATE\" timexValue=\"" + date + "\" type=\"DATE\" value=\"" + date + "\" temporalFunction=\"false\" functionInDocument=\"CREATION_TIME\"></TIMEX3></DCT>" +
+"\n" +                            
 "\n" +
 "<TEXT>" + text + "</TEXT>\n" +
-"\n" +
-"\n" +
 "</TimeML>";
                     FileOutputStream fos1 = new FileOutputStream(foutput + currentFile.replaceFirst("\\.txt", "\\.xml"));
                     OutputStreamWriter w = new OutputStreamWriter(fos1, "UTF-8");
