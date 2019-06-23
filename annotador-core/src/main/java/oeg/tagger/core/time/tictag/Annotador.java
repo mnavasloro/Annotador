@@ -595,6 +595,10 @@ public class Annotador {
 
                         if (val.matches("anchor\\([A-Z]+,.,.*(\\d+)W\\)")) {
                             val = dt.getYear() + "-W" + String.format("%02d",dt.getWeekOfWeekyear());
+                        } else if (val.matches("anchor\\([A-Z]+,.,.*(\\d+)Y\\)")) {
+                            val = dt.toString("YYYY");
+                        } else if (val.matches("anchor\\([A-Z]+,.,.*(\\d+)M\\)")) {
+                            val = dt.toString("YYYY-MM");
                         } else if (val.matches("\\d{0,4}-[H|T|Q]\\d")) {
                         } else if (!plus.equalsIgnoreCase("x")) {
                             val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
