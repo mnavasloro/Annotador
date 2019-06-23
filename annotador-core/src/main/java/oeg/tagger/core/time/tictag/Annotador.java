@@ -323,7 +323,7 @@ public class Annotador {
 
     public LinkedHashMap<String, String> parseDuration(String input) {
         LinkedHashMap<String, String> durations = new LinkedHashMap<String, String>();
-        Pattern pAnchor = Pattern.compile("(\\d+|X)([a-zA-Z]+)");
+        Pattern pAnchor = Pattern.compile("(\\d*\\.?\\d+|X)([a-zA-Z]+)");
 
         Matcher m = pAnchor.matcher(input);
         while (m.find()) {
