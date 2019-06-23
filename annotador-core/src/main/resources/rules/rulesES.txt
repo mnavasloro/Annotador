@@ -1038,8 +1038,9 @@ ENV.defaults["ruleType"] = "tokens"
 { ruleType:   "tokens",
   pattern: ((?:[{pos:/D.*/} | {lemma:/al/} | {lemma:/del/} | {pos:/AQ.*/}]) ([{lemma:"madrugada"} | {lemma:"mañana"}  | {lemma:"tarde"} | {lemma:"tardenoche"} | {lemma:"mediodía"} | {lemma:"noche"} & {pos:/NC.*/} & !{timexValue:/.+/}])),
   action: ( Annotate($0, "myRule", "Rule$PARTDAY"), Annotate($0, "timexType", "TIME"), Annotate($0, "timexValue", PARTDAY_MAP[$1[0].lemma]), Annotate($0, "myNERnormalized", "PARTDAY"), Annotate($0, "myTimePartDay", $0[0].timexValue)  )  ,
-  result: ("TIME", Concat("anchor(TODAY,x,D)T",PARTDAY_MAP[$1[0].lemma]), "", "", "Rule$PARTDAY");
+  result: ("TIME", Concat("anchor(TODAY,x,D)T",PARTDAY_MAP[$1[0].lemma]), "", "", "Rule$PARTDAY"),
   stage : 4  }
+
   
   
   
@@ -2171,7 +2172,7 @@ matchWithResults: TRUE,
 
 ## MODS
 { ruleType:   "tokens",
-  pattern: ( [{lemma:"a"} | {lemma:"al"} | {lemma:/del?/} | {lemma:"el"}]? (?$total ([{lemma:"casi"} | {lemma:"alrededor"} | {lemma:"apenas"} | {lemma:"aproximadamente"}] [{lemma:"de"}]?)? (([{lemma:/final(es)?/} | {lemma:/fin/}] [{lemma:/del?/}]) |  ([{lemma:"el"}]? [{lemma:/principio(s)?/} | {lemma:/comienzo(s)?/} | {lemma:/comenzar/}] [{lemma:/del?/}]) |  ([{lemma:"el"}]? [{lemma:/mediadio(s)?/} | {lemma:/mitad/}] [{lemma:/del?/}]) |  ( [{lemma:/m[á|a]s/} | {lemma:/menos/}] [{lemma:/del?/}]) |  ( [{lemma:/al?/}] [{lemma:/menos/}]) |  ( [{lemma:"todo"}]))) ),
+  pattern: ( [{lemma:"a"} | {lemma:"al"} | {lemma:/del?/} | {lemma:"el"}]? (?$total (([{lemma:"casi"} | {lemma:"alrededor"} | {lemma:"apenas"} | {lemma:"aproximadamente"}] [{lemma:"de"}]?)? [{pos:/D.*/}]* (([{lemma:/final(es)?/} | {lemma:/fin/}]) [{lemma:/del?/}]) |  ([{lemma:"el"}]? [{lemma:/principio(s)?/} | {lemma:/comienzo(s)?/} | {lemma:/comenzar/}] [{lemma:/del?/}]) |  ([{lemma:"el"}]? [{lemma:/mediadio(s)?/} | {lemma:/mitad/}] [{lemma:/del?/}]) |  ( [{lemma:/m[á|a]s/} | {lemma:/menos/}] [{lemma:/del?/}]) |  ( [{lemma:/al?/}] [{lemma:/menos/}]) |  ( [{lemma:"todo"}])) [{pos:/D.*/}]*) ),
 action: (Annotate($total, "myNER", "MOD"), Annotate($total, "myRule", "Rule$mod")),
   stage : 1  }
   

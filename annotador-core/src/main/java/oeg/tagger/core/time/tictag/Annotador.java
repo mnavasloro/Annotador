@@ -646,7 +646,10 @@ public class Annotador {
                         int mins = 0;
                         Set<String> durString = auxVal.keySet();
                         for (String gran : durString) {
-                            if (gran.equalsIgnoreCase("H") && flagT == 0) {
+                            if ((gran.equalsIgnoreCase("AF") || gran.equalsIgnoreCase("MO") || gran.equalsIgnoreCase("MI") || gran.equalsIgnoreCase("EV") || gran.equalsIgnoreCase("NI")) && flagT == 0) {
+                                flagT = 1;
+                                auxfin = auxfin + "T" + auxVal.get(gran) + gran;
+                            } else if (gran.equalsIgnoreCase("H") && flagT == 0) {
                                 flagT = 1;
                                 auxfin = auxfin + "T" + auxVal.get(gran) + gran;
                             } else if (gran.equalsIgnoreCase("MIN") && flagT == 0) {
