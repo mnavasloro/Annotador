@@ -758,6 +758,12 @@ ENV.defaults["ruleType"] = "tokens"
 # 	stage : 1 }
 
 { ruleType:   "tokens",
+    pattern: ( [{lemma:/uno?/}]? [{lemma:"par"}] [{lemma:"de"}]  ) ,
+	action: ( Annotate($0, "myRule", "Rule$parNumber"), Annotate($0, "myNUM", "myNUMBER"), Annotate($0, "mySTValue", "2"), Annotate($0, "myTValue", 2), Annotate($0, "myNERnormalized", "2") ),
+	stage : 5 }
+
+
+{ ruleType:   "tokens",
     pattern: ( (/\d+/) ) ,
 	action: ( Annotate($0, "myRule", "Rule$DNumber"), Annotate($0, "myNUM", "myNUMBER"), Annotate($0, "mySTValue", $1[0].lemma), Annotate($0, "myTValue", { type: "NUMBER", value: $1[0].lemma }), Annotate($0, "myNERnormalized", :case{($1[0].lemma.length == 1) => Concat("0", $1[0].lemma), :else => $1[0].lemma}) ),
 	stage : 1 }
@@ -2126,6 +2132,31 @@ matchWithResults: TRUE,
   pattern: ( [{word:/[E|e]stos/}] [{word:"días"}]),
   result: ( "DATE","PRESENT_REF", "", "", "Rule$estosdias" ),
   stage : 5  }
+  
+{ ruleType:   "tokens",
+  pattern: ( [{pos:/D.*S.*/} | {pos:/A.*S.*/} ]+ [{lemma:"rato"} | {lemma:"ratito"} | {lemma:"ratitín"} | {lemma:"ratete"} | {lemma:"ratejo"}] [{pos:/A.*S.*/} ]*),
+  result: ( "DURATION","XMIN", "", "", "Rule$unrato" ),
+  stage : 5  }  
+
+{ ruleType:   "tokens",
+  pattern: ( [{lemma:"el"}] [{pos:/A.*S.*/} ]* [{lemma:"momento"}] [{pos:/A.*S.*/} ]*),
+  result: ( "DATE","PRESENT_REF", "", "", "Rule$elmomento" ),
+  stage : 5  }  
+
+  
+#{ ruleType:   "tokens",
+#  pattern: ( [{pos:/D.*S.*/} | {pos:/A.*S.*/} ]+ [{lemma:"momento"}] [{pos:/A.*S.*/} ]*),
+#  result: ( "DURATION","XH", "", "", "Rule$unmomento" ),
+#  stage : 5  }
+    
+#{ ruleType:   "tokens",
+#  pattern: ( [{pos:/D.*S.*/} | {pos:/A.*S.*/} ]+ [{lemma:"momentito"} | {lemma:"momentín"}] [{pos:/A.*S.*/} ]*),
+#  result: ( "DURATION","XMIN", "", "", "Rule$unmomento" ),
+#  stage : 5  }
+  
+
+  
+
 
 ## MODS
 { ruleType:   "tokens",
