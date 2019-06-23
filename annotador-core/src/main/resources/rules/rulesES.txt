@@ -1747,7 +1747,7 @@ priority: 3.0,
   # TODO: Mañana hará dos años
 { ruleType: "composite",
  priority: 1.0,
-  pattern: ( [{lemma:/hacer/}] [{pos:"RG"}]? ([{timexType:"DURATION"}]+) ) ,
+  pattern: ( [{lemma:/hacer/} | {lemma:/quedar/} | {lemma:/pasar/} | {lemma:/faltar/}] [{pos:"RG"}]? ([{timexType:"DURATION"}]+) ) ,
   annotate: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$haceDUR"), Annotate($0, "timexValue", $1[0].timexValue) ),
   result: ( "DURATION", $1[0].timexValue, "", "", "Rule$haceDUR")  ,
   stage : 200  }  
@@ -1759,7 +1759,14 @@ matchWithResults: TRUE,
    pattern: ( /(\d\d\d\d)[-|\/](\d\d\d\d)/ ) ,
    annotate: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$yyyy-yyyy"), Annotate($0, "timexValue", Concat(Subtract({ type: "NUMBER", value: $$0.matchResults[0].word.group(2)},{ type: "NUMBER", value: $$0.matchResults[0].word.group(1) }),"Y")) ),
    result: ( "DURATION", Concat(Subtract({ type: "NUMBER", value: $$0.matchResults[0].word.group(2)},{ type: "NUMBER", value: $$0.matchResults[0].word.group(1) }),"Y"), "", "", "Rule$yyyy-yyyy")  ,
-   stage : 200  }  
+   stage : 200  } 
+
+ { ruleType: "tokens", 
+matchWithResults: TRUE,
+   pattern: ( /\d?\d?(\d\d)[-|\/](\d\d)/ ) ,
+   annotate: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$yyyy-yyyy"), Annotate($0, "timexValue", "1Y") ),
+   result: ( "DURATION", Concat(Subtract({ type: "NUMBER", value: $$0.matchResults[0].word.group(2)},{ type: "NUMBER", value: $$0.matchResults[0].word.group(1) }),"Y"), "", "", "Rule$yyyy-yyyy")  ,
+   stage : 200  }     
 
   
 #TODO: maybe better "last date" instead of TODAY as ref
@@ -2049,7 +2056,17 @@ matchWithResults: TRUE,
   
 # eg: References to the present
 { ruleType:   "tokens",
-  pattern: (([{lemma:"en"}] [{lemma:"el"}] [{lemma:"presente"}]) | ([{lemma:"el"}] [{lemma:"actualidad"}]) | ([{lemma:"ahora"}] [{lemma:"mismo"}]) | ([{lemma:"hoy"}] [{lemma:"en"}] [{lemma:"día"}]) | ([{lemma:"a"}] [{lemma:"día"}] [{lemma:"de"}] [{lemma:"hoy"}])),
+  pattern: ([{lemma:"en"}] (?$total ( [{word:/[E|e][L|l]/}] [{lemma:"presente"}]) | ([{lemma:"el"}] [{lemma:"actualidad"}]))),
+  action: ( Annotate($total, "myRule", "Rule$EnPresentRef"), Annotate($total, "timexType", "DATE"), Annotate($total, "timexValue", "PRESENT_REF") )  ,
+  stage : 700  }
+  
+{ ruleType:   "tokens",
+  pattern: ([{myRule:"Rule$EnPresentRef"}]+),
+  result: ( "DATE", "PRESENT_REF", "", "", "Rule$EnPresentRef" ) ,
+  stage : 700  }
+  
+  { ruleType:   "tokens",
+  pattern: (([{lemma:"ahora"}] [{lemma:"mismo"}]) | ([{lemma:"hoy"}] [{lemma:"en"}] [{lemma:"día"}]) | ([{lemma:"a"}] [{lemma:"día"}] [{lemma:"de"}] [{lemma:"hoy"}])),
   action: ( Annotate($0, "myRule", "Rule$PresentRef"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "PRESENT_REF") )  ,
   result: ( "DATE", "PRESENT_REF", "", "", "Rule$PresentRef" ) ,
   stage : 700  }
@@ -2154,9 +2171,34 @@ matchWithResults: TRUE,
 
 ## MODS
 { ruleType:   "tokens",
-  pattern: ( [{lemma:"a"} | {lemma:"al"} | {lemma:/del?/} | {lemma:"el"}]? (?$total ([{lemma:/final(es)?/} | {lemma:/fin/}] [{lemma:/del?/}]) |  ([{lemma:"el"}]? [{lemma:/principio(s)?/} | {lemma:/comienzo(s)?/} | {lemma:/comenzar/}] [{lemma:/del?/}]) |  ([{lemma:"el"}]? [{lemma:/mediadio(s)?/} | {lemma:/mitad/}] [{lemma:/del?/}]) |  ( [{lemma:/m[á|a]s/} | {lemma:/menos/}] [{lemma:/del?/}]) |  ( [{lemma:/al?/}] [{lemma:/menos/}])) ),
+  pattern: ( [{lemma:"a"} | {lemma:"al"} | {lemma:/del?/} | {lemma:"el"}]? (?$total ([{lemma:"casi"} | {lemma:"alrededor"} | {lemma:"apenas"} | {lemma:"aproximadamente"}] [{lemma:"de"}]?)? (([{lemma:/final(es)?/} | {lemma:/fin/}] [{lemma:/del?/}]) |  ([{lemma:"el"}]? [{lemma:/principio(s)?/} | {lemma:/comienzo(s)?/} | {lemma:/comenzar/}] [{lemma:/del?/}]) |  ([{lemma:"el"}]? [{lemma:/mediadio(s)?/} | {lemma:/mitad/}] [{lemma:/del?/}]) |  ( [{lemma:/m[á|a]s/} | {lemma:/menos/}] [{lemma:/del?/}]) |  ( [{lemma:/al?/}] [{lemma:/menos/}]) |  ( [{lemma:"todo"}]))) ),
 action: (Annotate($total, "myNER", "MOD"), Annotate($total, "myRule", "Rule$mod")),
   stage : 1  }
+  
+  { ruleType:   "tokens",
+  pattern: ( (?$total [{word:/[L|l][O|o]/}] [{lemma:"que"}] [{lemma:"quedar"} | {lemma:"restar"}]) [{lemma:/del?/}] (?$gran [{myNER:/DGRANULARITY/}]+) ),
+action: (Annotate($total, "myNER", "QUEDAR"), Annotate($total, "myRule", "Rule$loquequeda"), Annotate($total, "timexValue", Concat("Ranchor(+,",DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")")), Annotate($gran, "timexType", "DATE"), Annotate($gran, "timexValue", Concat("anchor(TODAY,x,", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")")), Annotate($gran, "myRule", "Rule$loquequedaGRAN")),
+  stage : 1000  }
+  
+  { ruleType:   "tokens",
+  pattern: ( (?$total [{word:/[L|l][O|o]/}] [{lemma:"que"}] [{lemma:"ir"} | {lemma:"lleva"}]) [{lemma:/del?/}] (?$gran [{myNER:/DGRANULARITY/}]+) ),
+action: (Annotate($total, "myNER", "QUEDAR"), Annotate($total, "myRule", "Rule$loquequeda"), Annotate($total, "timexValue", Concat("Ranchor(-,",DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")")), Annotate($gran, "timexType", "DATE"), Annotate($gran, "timexValue", Concat("anchor(TODAY,x,", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")")), Annotate($gran, "myRule", "Rule$loquequedaGRAN")),
+  stage : 1000  }
+  
+  { ruleType:   "tokens",
+  pattern: ( (?$total [{word:/[L|l][O|o]/}] [{lemma:"resto"}]) [{lemma:/del?/}] (?$gran [{myNER:/DGRANULARITY/}]+) ),
+action: (Annotate($total, "myNER", "QUEDAR"), Annotate($total, "myRule", "Rule$loquequeda"), Annotate($total, "timexValue", Concat("Ranchor(-,",DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")")), Annotate($gran, "timexType", "DATE"), Annotate($gran, "timexValue", Concat("anchor(TODAY,x,", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")")), Annotate($gran, "myRule", "Rule$loquequedaGRAN")),
+  stage : 1000  }
+  
+  { ruleType:   "tokens",
+  pattern: ( [{myRule:"Rule$loquequeda"}]+ ),
+result: ("DURATION", $0[0].timexValue, "", "","Rule$loquequeda"),
+  stage : 1001  }
+  
+  { ruleType:   "tokens",
+  pattern: ( [{myRule:"Rule$loquequedaGRAN"}]+ ),
+result: ("DATE", $0[0].timexValue, "", "","Rule$loquequedaGRAN"),
+  stage : 1001  }
   
   
 #

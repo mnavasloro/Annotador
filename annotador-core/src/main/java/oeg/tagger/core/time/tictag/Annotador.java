@@ -37,6 +37,7 @@ import oeg.tagger.core.time.annotationHandler.TIMEX2JSON;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import static org.joda.time.format.ISODateTimeFormat.dateTime;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -420,6 +421,37 @@ public class Annotador {
                     } else if (val.startsWith("Sanchor(-,") && anchorDate != null) {
                         String refDate = val.substring(10, val.length() - 1);
                         val = getLastSeason(anchorDate, refDate);
+                    } else if (val.startsWith("Ranchor(+,") && anchorDate != null) {
+                        String gran = val.substring(10, val.length() - 1);
+                        DateTime dat = new DateTime(anchorDate);
+                        if(gran.equalsIgnoreCase("M")){
+                            int day = dat.getDayOfMonth();
+                            int maxM = dat.dayOfMonth().getMaximumValue();
+                            val = (maxM - day) + "D";
+                        } else if(gran.equalsIgnoreCase("Y")){
+                            int day = dat.getDayOfMonth();
+                            int maxM = dat.dayOfMonth().getMaximumValue();
+                            if(dat.getMonthOfYear() != 12){
+                            val = (12 - dat.getMonthOfYear()) + "M" + (maxM - day) + "D";
+                            } else{
+                                val = (maxM - day) + "D";
+                            }
+                        }                       
+                    } else if (val.startsWith("Ranchor(-,") && anchorDate != null) {
+                        String gran = val.substring(10, val.length() - 1);
+                        DateTime dat = new DateTime(anchorDate);
+                        if(gran.equalsIgnoreCase("M")){
+                            int day = dat.getDayOfMonth();
+                            val = day + "D";
+                        } else if(gran.equalsIgnoreCase("Y")){
+                            int day = dat.getDayOfMonth();
+                            
+                            if(dat.getMonthOfYear() != 1){
+                           val = (dat.getMonthOfYear()-1) + "M" + (day-1) + "D";
+                            } else{
+                                val = (day -1) + "D";
+                            }
+                        }
                     } else if (val.startsWith("DWanchor(+,") && anchorDate != null) {
                         String refDate = val.substring(11, val.length() - 1);
                         val = getNextMonthS(new DateTime(anchorDate), refDate);
