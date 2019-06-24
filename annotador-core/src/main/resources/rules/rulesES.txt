@@ -922,7 +922,7 @@ ENV.defaults["ruleType"] = "tokens"
 # eg: References to the past (TODO: ese momento puede usarse en futuro, ver tiempos verbales...)
 
 { ruleType:   "tokens",
-  pattern: ([{lemma:"en"}]? (?$total ([{lemma:/d?el/}] [{word:/[P|p][A|a][S|s][A|a][D|d][O|o]/} & {pos:/N.*/}]) | ([{lemma:/d?el/}] [{lemma:"ayer"}]) | (([{lemma:"aquel"}]| [{lemma:"ese"}] ) ([{lemma:"momento"}]|[{lemma:"instante"}])) | ([{lemma:"antiguamente"}]) | ([{lemma:"antaño"}]) | (/[H|h][A|a][C|c][E|e]/ [{lemma:"tiempo"}]) | (/[H|h][A|a][C|c][E|e]/ /[M|m][U|u][C|c][H|h][O|o][S|s]/ /[A|a][Ñ|ñ][O|o][S|s]/))),
+  pattern: ([{lemma:"en"}]? (?$total ([{lemma:/d?el/}] [{word:/[P|p][A|a][S|s][A|a][D|d][O|o]/} & {pos:/N.*/}]) | ([{lemma:/d?el/}] [{lemma:"ayer"}]) | (([{lemma:"aquel"}]| [{lemma:"ese"}] ) ([{lemma:"momento"}]|[{lemma:"instante"}])) | ([{lemma:"antiguamente"}]) | ([{lemma:"antaño"}]) | (/[H|h][A|a][C|c][E|e]/ /[M|m][U|u][C|c][H|h][O|o][S|s]/ /[A|a][Ñ|ñ][O|o][S|s]/))),
   action: ( Annotate($total, "myRule", "Rule$PastRef"), Annotate($total, "timexType", "DATE"), Annotate($total, "timexValue", "PAST_REF") )  ,
   stage : 1  }  
 
@@ -1761,6 +1761,27 @@ priority: 3.0,
   annotate: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$haceDUR"), Annotate($0, "timexValue", $1[0].timexValue) ),
   result: ( "DURATION", $1[0].timexValue, "", "", "Rule$haceDUR")  ,
   stage : 200  }  
+  
+  
+{ ruleType: "tokens",
+  pattern: ( [{lemma:/hacer/} | {lemma:/quedar/} | {lemma:/pasar/} | {lemma:/faltar/}] [{pos:"RG"} | {pos:"D.*"} | {pos:"A.*"} | {word:"un"}]* [{lemma:"poco"}] ) ,
+  annotate: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$haceDUR"), Annotate($0, "timexValue", "PXM") ),
+  result: ( "DURATION", "PXM", "", "", "Rule$haceX")  ,
+  stage : 200  } 
+  
+  #note
+{ ruleType: "tokens",
+  pattern: ( [{lemma:/hacer/} | {lemma:/quedar/} | {lemma:/pasar/} | {lemma:/faltar/}] [{pos:"RG"} | {pos:"D.*"} | {pos:"A.*"} | {word:"un"}]* [{lemma:"tiempo"}] ) ,
+  annotate: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$haceDUR"), Annotate($0, "timexValue", "XM") ),
+  result: ( "DURATION", "XM", "", "", "Rule$haceX")  ,
+  stage : 200  } 
+
+  #note  
+{ ruleType: "tokens",
+  pattern: ( [{lemma:/hacer/} | {lemma:/quedar/} | {lemma:/pasar/} | {lemma:/faltar/}] [{pos:"RG"} | {pos:"D.*"} | {pos:"A.*"} | {word:"un"}]* [{lemma:"momento"} | {lemma:"rato"}] ) ,
+  annotate: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$haceDUR"), Annotate($0, "timexValue", "XMIN") ),
+  result: ( "DURATION", "XMIN", "", "", "Rule$haceX")  ,
+  stage : 200  } 
    
 
 
@@ -2256,6 +2277,16 @@ result: ("DATE", "XXXX-10-31", "", "","Rule$Halloween"),
     { ruleType:   "tokens",
   pattern: ( [{lemma:/[V|v]iernes/} | {lemma:/[J|j]ueves/}] [{word:/[S|a]anto/}] ),
 result: ("DATE", "XXXX-04-XX", "", "","Rule$JVSanto"),
+  stage : 1001  }
+  
+  { ruleType:   "tokens",
+  pattern: ( [{lemma:/hacer/}] [{pos:"RG"} | {pos:"D.*"} | {pos:"A.*"}]* [{lemma:/tiempo/}] ),
+result: ("DURATION", "PXM", "", "","Rule$haceTiempo"),
+  stage : 1001  }
+  
+  { ruleType:   "composite",
+  pattern: ( ([{timexType:"DATE"}]+) [{lemma:/del?/}] ([{timexType:"DATE"}]+) ),
+result: ("DATE", $1[0].timexValue, "", "","Rule$DatedeDate"),
   stage : 1001  }
   
   

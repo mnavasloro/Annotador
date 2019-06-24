@@ -444,10 +444,14 @@ public class Annotador {
                             int day = dat.getDayOfMonth();
                             val = day + "D";
                         } else if(gran.equalsIgnoreCase("Y")){
-                            int day = dat.getDayOfMonth();
-                            
-                            if(dat.getMonthOfYear() != 1){
-                           val = (dat.getMonthOfYear()-1) + "M" + (day-1) + "D";
+                            int day = dat.getDayOfMonth();                            
+                           if(dat.getMonthOfYear() != 1){
+                                if(day == 1){
+                                    val = (dat.getMonthOfYear()-1) + "M";
+                                }
+                                else{
+                                    val = (dat.getMonthOfYear()-1) + "M" + (day-1) + "D";
+                                }
                             } else{
                                 val = (day -1) + "D";
                             }
