@@ -1359,9 +1359,14 @@ result: ("TIME", Concat("T", :case{($2[0].timexValue == "AF") => PMHOUR_MAP[$1[0
  
 # eg: dos horas
 { ruleType:   "tokens",
-  pattern: ( ([{myNUM:"myNUMBER"}]+) (?$gran [{myNER:"TGRANULARITY"}]) (?$plus [{lemma:"y"}] (?$added [{lemma:"medio"}] || [{word:/[C|c][U|u][A|a][R|r][T|t][O|o]/}] || [{myNUM:"myNUMBER"} && {mySTValue:"03"}] [{word:/[C|c][U|u][A|a][R|r][T|t][O|o][S|s]/}]))? ),
-  action: ( Annotate($0, "myRule", "Rule$NUMTGranularity"), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue",  Concat($1[0].mySTValue, TGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized], :case{($plus != NIL) => :case{($added[0].lemma == "medio") => HALF_DURATION_MAP[$gran[0].myNERnormalized], ($added[0].lemma == "cuarto") => QUARTER_DURATION_MAP[$gran[0].myNERnormalized], :else => TQUARTER_DURATION_MAP[$gran[0].myNERnormalized]}, :else => ""})), Annotate($0, DURATION_MAP[$gran[0].myNERnormalized], $gran[0].timexValue), Annotate($0, "Period", "PT") ) , 
+  pattern: ( ([{myNUM:"myNUMBER"}]+) (?$gran [{myNER:"TGRANULARITY"}]+) (?$plus [{lemma:"y"}] (?$added [{lemma:"medio"}] || [{word:/[C|c][U|u][A|a][R|r][T|t][O|o]/}] || [{myNUM:"myNUMBER"} && {mySTValue:/0?3/}] [{word:/[C|c][U|u][A|a][R|r][T|t][O|o][S|s]/}]))? ),
+  action: ( Annotate($0, "myRule", "Rule$NUMTGranularity"), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue",  Concat($1[0].mySTValue, :case{($plus != NIL) => :case{($added[0].lemma == "medio") => ".5", ($added[0].mySTValue != "03" && $added[0].mySTValue != "3") => ".25", :else => ".75"}, :else => ""}, TGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized])), Annotate($0, DURATION_MAP[$gran[0].myNERnormalized], $gran[0].timexValue), Annotate($0, "Period", "PT") ) , 
   stage : 15  }
+  
+  
+  
+  
+  
   
  # eg: varias/algunas horas
 { ruleType:   "tokens",
@@ -1610,9 +1615,11 @@ result: ("DATE", Concat(:case{($$AC != NIL) => "BC", :else => ""},$num[0].mySTVa
  
   # eg: dos dias
 { ruleType:   "tokens",
-  pattern: ( ([{myNUM:"myNUMBER"}]+)  (?$gran [{myNER:"DGRANULARITY"}]+) (?$plus [{lemma:"y"}] (?$added [{lemma:"medio"}] | [{word:/[C|c][U|u][A|a][R|r][T|t][O|o]/}] | [{myNUM:"myNUMBER"} && {mySTValue:"03"}] [{word:/[C|c][U|u][A|a][R|r][T|t][O|o][S|s]/}]))? ),
-    action: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$DosDias"), Annotate($0, "timexValue",  Concat(Multiply(DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized], $1[0].myTValue), DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],  :case{($plus != NIL) => :case{($added[0].lemma == "medio") => HALF_DURATION_MAP[$gran[0].myNERnormalized], ($added[0].lemma == "cuarto") => QUARTER_DURATION_MAP[$gran[0].myNERnormalized], :else => TQUARTER_DURATION_MAP[$gran[0].myNERnormalized]}, :else => ""})), Annotate($0, DURATION_MAP[$gran[0].myNERnormalized], $gran[0].timexValue), Annotate($0, "Period", $gran[0].Period) ) , 
+  pattern: ( ([{myNUM:"myNUMBER"}]+)  (?$gran [{myNER:"DGRANULARITY"}]+) (?$plus [{lemma:"y"}] (?$added [{lemma:"medio"}] | [{word:/[C|c][U|u][A|a][R|r][T|t][O|o]/}] | [{myNUM:"myNUMBER"} && {mySTValue:/0?3/}] [{word:/[C|c][U|u][A|a][R|r][T|t][O|o][S|s]/}]))? ),
+    action: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$DosDias"), Annotate($0, "timexValue", :case{($plus != NIL) => :case{($added[0].lemma == "medio") => Concat(Add(Multiply(DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized], $1[0].myTValue), Multiply(DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized], 0.5)),DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized]), ($added[0].mySTValue != "03" && $added[0].mySTValue != "3") => Concat(Add(Multiply(DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized], $1[0].myTValue), Multiply(DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized], 0.25)),DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized]), :else => Concat(Add(Multiply(DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized], $1[0].myTValue), Multiply(DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized], 0.75)),DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized])}, :else => Concat(Multiply(DGRANULARITY_AMOUNT_MAP[$gran[0].myNERnormalized], $1[0].myTValue),DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized])}), Annotate($0, DURATION_MAP[$gran[0].myNERnormalized], $gran[0].timexValue), Annotate($0, "Period", $gran[0].Period) ) ,
   stage : 15  }
+
+  
  
  { ruleType:   "tokens",
   pattern: ( [{pos:/D[A|D]0.*P.*/} | {pos:/SPCM.*/}]? ([{myNER:"INDEF"}]+) ([{myNER:"DGRANULARITY"} & !{pos:/.*S.*/}]+) ),
