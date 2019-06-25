@@ -652,21 +652,21 @@ public class Annotador {
                         for (String gran : durString) {
                             if ((gran.equalsIgnoreCase("AF") || gran.equalsIgnoreCase("MO") || gran.equalsIgnoreCase("MI") || gran.equalsIgnoreCase("EV") || gran.equalsIgnoreCase("NI")) && flagT == 0) {
                                 flagT = 1;
-                                auxfin = auxfin + "T" + auxVal.get(gran) + gran;
+                                auxfin = auxfin + "T" + auxVal.get(gran).replaceFirst("\\.0", "") + gran;
                             } else if (gran.equalsIgnoreCase("H") && flagT == 0) {
                                 flagT = 1;
-                                auxfin = auxfin + "T" + auxVal.get(gran) + gran;
+                                auxfin = auxfin + "T" + auxVal.get(gran).replaceFirst("\\.0", "") + gran;
                             } else if (gran.equalsIgnoreCase("MIN") && flagT == 0) {
                                 flagT = 1;
-                                auxfin = auxfin + "T" + auxVal.get(gran) + "M";
+                                auxfin = auxfin + "T" + auxVal.get(gran).replaceFirst("\\.0", "") + "M";
                             } else if (gran.equalsIgnoreCase("HALF")) {
                                 flagT = 1;
-                                auxfin = auxfin + auxVal.get(gran) + "H";
+                                auxfin = auxfin + auxVal.get(gran).replaceFirst("\\.0", "") + "H";
                             } else if (gran.equalsIgnoreCase("S") && flagT == 0) {
                                 flagT = 1;
-                                auxfin = auxfin + "T" + auxVal.get(gran) + gran;
+                                auxfin = auxfin + "T" + auxVal.get(gran).replaceFirst("\\.0", "") + gran;
                             } else {
-                                auxfin = auxfin + auxVal.get(gran) + gran;
+                                auxfin = auxfin + auxVal.get(gran).replaceFirst("\\.0", "") + gran;
                             }
                         }
                         val = auxfin;
