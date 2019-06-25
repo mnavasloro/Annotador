@@ -25,7 +25,7 @@ import org.apache.commons.io.FileUtils;
  *
  * @author mnavas
  */
-public class HeidelTimeTempEval2 {
+public class HeidelSyntES {
 
     /**
      * Annotation of the files (in Spanish, just training) from TempEval3
@@ -33,49 +33,49 @@ public class HeidelTimeTempEval2 {
     public static void main(String[] args) { 
         FileOutputStream fos = null;
         try {
-            File finput = new File("C:\\Users\\mnavas\\CODE\\OLD_CODE\\data\\datasets\\timeEval\\tempeval2\\tempeval2plain\\");
-            String foutput = "C:\\Users\\mnavas\\CODE\\OLD_CODE\\data\\datasets\\timeEval\\tempeval2\\tempeval2Heidel.txt";
-            String foutput2 = "C:\\Users\\mnavas\\CODE\\OLD_CODE\\data\\datasets\\timeEval\\tempeval2\\tempeval2Heidel\\";
-//            String foutputHTML = "../annotador-core/src/main/resources/rules/output.html";
+            File finput = new File("../annotador-core/src/main/resources/rules/test_input/");
+            String foutput = "../annotador-core/src/main/resources/rules/test_output/";
+            String foutputHTML = "../annotador-core/src/main/resources/rules/output.html";
             File[] listF = finput.listFiles();
-            String outp = "";
-            Pattern pText = Pattern.compile("\\d+_(\\d{4})(\\d{2})(\\d{2})");
+            String total = "";
+            Annotador tt = new Annotador("ES");
             for (File f : listF){
                 try {
-//                    System.out.println(txt + "\n");
-                    Matcher mText = pText.matcher(f.getName());
-                    String date = "2019-12-20";
-                    if (mText.find()) {
-                        date = mText.group(1) + "-" + mText.group(2) + "-" + mText.group(3);
-                    }
-                    outp = outp + "java -jar C:\\heideltime-standalone-2.2.1\\heideltime-standalone\\de.unihd.dbs.heideltime.standalone.jar -l spanish -t news " + f.getAbsolutePath() + " -dct " + date + " > " + foutput2 + f.getName() + "\n";
+                    String txt = FileUtils.readFileToString(f, "UTF-8");
+                    System.out.println("\n************************");
+                    System.out.println(txt + "\n");
+                    String outp = tt.annotate(txt,"2019-12-20");
+                    System.out.println(outp);
                     
+                    total = total + outp;
                     
-//                    outp = "<?xml version=\"1.0\" ?>\n" +
-//"<TimeML xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd\">\n" +
-//"\n" +
-//"\n" +
-//"\n" +
-//"<TEXT>" + outp + "</TEXT>\n" +
-//"\n" +
-//"\n" +
-//"</TimeML>";
-                                        
-
-                    
-                } catch (Exception ex) {
-                    Logger.getLogger(HeidelTimeTempEval2.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }   
-            
-                    FileOutputStream fos1 = new FileOutputStream(foutput);
+                    FileOutputStream fos1 = new FileOutputStream(foutput + f.getName().replaceFirst("\\.txt", "_sol\\.txt"));
                     OutputStreamWriter w = new OutputStreamWriter(fos1, "UTF-8");
                     BufferedWriter bw = new BufferedWriter(w);
                     bw.write(outp);
                     bw.flush();
                     bw.close();
+                    
+                } catch (IOException ex) {
+                    Logger.getLogger(HeidelSyntES.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }   
+            
+            String htmlS = createHighlights(total);
+            FileOutputStream fos2 = new FileOutputStream(foutputHTML);
+            OutputStreamWriter w2 = new OutputStreamWriter(fos2, "UTF-8");
+            BufferedWriter bw2 = new BufferedWriter(w2);
+            bw2.write(htmlS);
+            bw2.flush();
+            bw2.close();
         } catch (Exception ex) {
-            Logger.getLogger(HeidelTimeTempEval2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HeidelSyntES.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException ex) {
+                Logger.getLogger(HeidelSyntES.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }

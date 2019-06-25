@@ -899,7 +899,7 @@ ENV.defaults["ruleType"] = "tokens"
   pattern: ( [{lemma:/$DGranularity/} & !{myNER:"DGRANULARITY"}  & !{ pos:/NP.*/ } & {pos:/.*P.*/}] ),
 #    pattern: ( [{lemma:/$DGranularity/} & !{myNER:"DGRANULARITY"}  & !{ pos:/NP.*/ } & !{pos:/.*s.*/}] ),
 
-  action: ( Annotate($0, "myRule", "Rule$Granularity"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP[$0[0].lemma] ), Annotate($0, "myTType", $$0.text ), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue", Concat("X",DGRANULARITY_UNIT_MAP[DGRANULARITY_MAP[$0[0].lemma]])), Annotate($0, "Period", PERIOD_MAP[DGRANULARITY_MAP[$0[0].lemma]])  ) ,
+  action: ( Annotate($0, "myRule", "Rule$GranularityP"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP[$0[0].lemma] ), Annotate($0, "myTType", $$0.text ), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue", Concat("X",DGRANULARITY_UNIT_MAP[DGRANULARITY_MAP[$0[0].lemma]])), Annotate($0, "Period", PERIOD_MAP[DGRANULARITY_MAP[$0[0].lemma]])  ) ,
   stage : 2  }
   
 { ruleType:   "tokens",
@@ -1617,6 +1617,7 @@ result: ("DATE", Concat(:case{($$AC != NIL) => "BC", :else => ""},$num[0].mySTVa
  { ruleType:   "tokens",
   pattern: ( [{pos:/D[A|D]0.*P.*/} | {pos:/SPCM.*/}]? ([{myNER:"INDEF"}]+) ([{myNER:"DGRANULARITY"} & !{pos:/.*S.*/}]+) ),
   action: ( Annotate($0, "myRule", "Rule$INDEFDGranularity"), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue",  Concat("X", DGRANULARITY_UNIT_MAP[$2[0].myNERnormalized])), Annotate($0, DURATION_MAP[$2[0].myNERnormalized], $2[0].timexValue), Annotate($0, "Period", $2[0].Period) ) , 
+  result: ("DURATION", Concat("X", DGRANULARITY_UNIT_MAP[$2[0].myNERnormalized]), "", "", "Rule$INDEFDGranularity"),
   stage : 15  }
  
 # eg: medio dia /cuarto de año
@@ -1924,6 +1925,11 @@ matchWithResults: TRUE,
   
    # duration
  { ruleType:   "composite",
+   pattern: ( [{myRule:"Rule$INDEFDGranularity"}]+  ),
+   result: ( "DURATION", $0[0].timexValue, "", "", "Rule$INDEFDGranularity" ) ,
+   stage : 600  } 
+   
+  { ruleType:   "composite",
    pattern: ( [{timexType:"DURATION"}]+  ),
    result: ( "DURATION", Concat("", $0[0].timexValue), "", "", $0[0].myRule ) ,
    stage : 500  } 

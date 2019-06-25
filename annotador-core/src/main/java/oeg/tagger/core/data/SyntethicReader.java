@@ -54,7 +54,7 @@ public class SyntethicReader {
             // Name
             String ev = ".txt";
             if (cell != null) {
-                ev = cell.toString() + ev;
+                ev = cell.toString().replaceAll("\\.0", "") + ev;
             }
             i++;
            

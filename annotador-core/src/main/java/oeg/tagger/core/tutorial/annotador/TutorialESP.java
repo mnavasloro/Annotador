@@ -85,7 +85,7 @@ public class TutorialESP {
 //String txt = "Lo hacían dos veces a la semana y 3 veces al mes.";
 //String txt = "El próximo mes. ";//String txt = "se fueron a las 10.";
 
-String txt = " Halloween , ";//String txt = "se fueron a las 10.";
+String txt = "  unos pocos días.";//String txt = "se fueron a las 10.";
 //String txt = " los años 1996 , 1998 , 2000 , 2002 y 2004 , según el COI , ";//String txt = "se fueron a las 10.";
 //String txt = "El 3 de marzo de 2019.";
 //String txt = "En el año dos mil.";
