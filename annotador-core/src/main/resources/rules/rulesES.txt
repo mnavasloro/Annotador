@@ -1636,7 +1636,7 @@ result: ("DATE", Concat(:case{($$AC != NIL) => "BC", :else => ""},$num[0].mySTVa
 # eg: dos veces
 { ruleType:   "tokens",
   pattern: ( ([{myNUM:"myNUMBER"}]+) ([{lemma:"vez"}]) ),
-  action: ( Annotate($0, "myRule", "Rule$numVeces"), Annotate($0, "myNER", "TIMES"), Annotate($0, "myNERnormalized", Concat($1[0].myNERnormalized,"X")) )  ,
+  action: ( Annotate($0, "myRule", "Rule$numVeces"), Annotate($0, "myNER", "TIMES"), Annotate($0, "myNERnormalized", Concat($1[0].mySTValue,"X")) )  ,
   stage : 5  }
   
 # eg: una vez
@@ -2204,10 +2204,10 @@ matchWithResults: TRUE,
 #  result: ( "DURATION","XH", "", "", "Rule$unmomento" ),
 #  stage : 5  }
     
-#{ ruleType:   "tokens",
-#  pattern: ( [{pos:/D.*S.*/} | {pos:/A.*S.*/} ]+ [{lemma:"momentito"} | {lemma:"momentín"}] [{pos:/A.*S.*/} ]*),
-#  result: ( "DURATION","XMIN", "", "", "Rule$unmomento" ),
-#  stage : 5  }
+{ ruleType:   "tokens",
+  pattern: ( [{pos:/D.*S.*/} | {pos:/A.*S.*/} ]+ [{lemma:"momentito"} | {lemma:"momentín"}] [{pos:/A.*S.*/} ]*),
+  result: ( "DURATION","XMIN", "", "", "Rule$unmomentito" ),
+  stage : 5  }
   
 
   
