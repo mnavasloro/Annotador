@@ -674,6 +674,9 @@ public class Annotador {
                         val = val.replaceFirst("HALF", "H");
 
                     }
+                    if (typ.equalsIgnoreCase("TIME") && val.startsWith("T")) {
+                        val = lastfullDATE + val;
+                    }
 
                     if (typ.equalsIgnoreCase("DATE") && val.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d")) {
                         lastfullDATE = val;

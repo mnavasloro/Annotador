@@ -32,8 +32,8 @@ public class TutorialAnnotadorSyntES {
     public static void main(String[] args) { 
         FileOutputStream fos = null;
         try {
-            File finput = new File("../annotador-core/src/main/resources/rules/test_input/");
-            String foutput = "../annotador-core/src/main/resources/rules/test_output/";
+            File finput = new File("../annotador-core/src/main/resources/rules/HOURGLASS_RESULTS/test_input_plain/");
+            String foutput = "../annotador-core/src/main/resources/rules/HOURGLASS_RESULTS/test_Annotador/";
             String foutputHTML = "../annotador-core/src/main/resources/rules/output.html";
             File[] listF = finput.listFiles();
             String total = "";
@@ -48,7 +48,16 @@ public class TutorialAnnotadorSyntES {
                     
                     total = total + outp;
                     
-                    FileOutputStream fos1 = new FileOutputStream(foutput + f.getName().replaceFirst("\\.txt", "_sol\\.txt"));
+                    outp = "<?xml version=\"1.0\" ?>\n" +
+"<TimeML xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd\">\n" +
+"\n" +
+                                                "\n" +
+"\n" +
+"<TEXT>" + outp + "</TEXT>\n" +
+"\n" +
+"</TimeML>";
+                    
+                    FileOutputStream fos1 = new FileOutputStream(foutput + f.getName().replaceFirst("\\.txt", "\\.tml"));
                     OutputStreamWriter w = new OutputStreamWriter(fos1, "UTF-8");
                     BufferedWriter bw = new BufferedWriter(w);
                     bw.write(outp);
@@ -69,14 +78,7 @@ public class TutorialAnnotadorSyntES {
             bw2.close();
         } catch (Exception ex) {
             Logger.getLogger(TutorialAnnotadorSyntES.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                fos.close();
-            } catch (IOException ex) {
-                Logger.getLogger(TutorialAnnotadorSyntES.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
-
     }
     
     static public String createHighlights(String input2) {
