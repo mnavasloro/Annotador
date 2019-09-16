@@ -1,0 +1,283 @@
+<head>
+	<!-- Mobile Specific Meta -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Favicon-->
+	<link rel="shortcut icon" href="img/añotador-logo2.jpg">
+	<!-- Author Meta -->
+	<meta name="author" content="María Navas">
+	<meta name="contibutor" content="Víctor Rodríguez-Doncel">
+	<!-- Meta Description -->
+	<meta name="description" content="">
+	<!-- Meta Keyword -->
+	<meta name="keywords" content="">
+	<!-- meta character set -->
+	<meta charset="UTF-8">
+	<!-- Site Title -->
+	<title>Añotador</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,500,600" rel="stylesheet">
+		<!--
+		CSS
+		============================================= -->
+		<link rel="stylesheet" href="css/linearicons.css">
+		<link rel="stylesheet" href="css/owl.carousel.css">
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/nice-select.css">
+		<link rel="stylesheet" href="css/magnific-popup.css">
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<link rel="stylesheet" href="css/main.css">
+                
+                
+
+	</head>
+	<body>
+		<div class="main-wrapper-first"><div class="container"><div class="header-wrap">
+						<div class="header-top d-flex justify-content-between align-items-center">
+							<div class="logo">
+							</div>
+							<div class="main-menubar d-flex align-items-center">
+								<nav>
+									<a href="index.html" style="text-decoration: none;outline: 0;color: white;">Home</a>
+									<a href="index.html#ref-demo" style="text-decoration: none;outline: 0;color: white;">Demo</a>
+									<a href="howtouse.html" style="text-decoration: none;outline: 0;color: white;">How to use Añotador</a>
+									<a href="hourglass.html" style="text-decoration: none;outline: 0;color: white;">Hourglass corpus</a>
+								</nav>
+								<div class="menu-bar"><span class="lnr lnr-menu"></span></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			<!-- <header style="height=50px;background-image: -webkit-linear-gradient(0deg, #3e69fe 0%, #4cd4e3 100%);"> 
+				<div class="container">
+					<div class="header-wrap">
+						<div class="header-top d-flex justify-content-between align-items-center">
+							<div class="logo">
+							</div>
+							<div class="main-menubar d-flex align-items-center" >
+								<nav>
+									<a href="index.html">Home</a>
+									<a href="#ref-demo">Demo</a>
+									<a href="hourglass.html">Hourglass corpus</a>
+								</nav>
+								<div class="menu-bar"><span class="lnr lnr-menu"></span></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</header>-->
+<!--div class="banner-area">
+				<div class="container">
+					<div class="row justify-content align-items-center">
+							<div class="banner-content">
+								<h1 style="font-size: 480%; font-family: Courier New; padding: 0px 0px 0px 30px;">   HOURGLASS</h1>
+							<h4 style="font-family: Courier New; padding: 0px 0px 0px 30px;">   Corpus of Time Expressions in Spanish</h4>
+								
+							</div>
+					</div>
+				</div>
+			</div -->
+			<!-- Start Sample Area -->
+			
+			<section class="story-area">
+				<div class="container">
+					<div class="row align-items-center">
+						<div class="col-lg-12">
+							<div class="story-box">
+							<h1 style="font-family: Garamond; font-weight: bold; font-size: 480%;text-align: center; ">   HOURGLASS</h1>
+							<h4 style="text-align: center;">   Corpus of Time Expressions in Spanish</h4>
+							
+								<br><br>
+								<p >The HourGlass corpus is collection of 348 documents (short texts) in Spanish tagged with temporal expressions following the TimeML standard. Since it was concieved as a test bed for temporal taggers, each document has an attached a tag and a registy as classification.</p>
+  <p>
+  The corpus is divided in two parts, depending of the source of the texts.
+  <ul style="list-style-type:disc;margin-left: 4em;">
+  <li>The <b>SYNTHETIC part</b> is a collection of 285 documents specifically designed to test some functionalities a temporal tagger should cover, such as detecting basic expressions like "It is five o'clock". Tags such as "Hour", "Dates" or "False" (this is, sentences where some confussing expression should not be tagged) were added to each document in order to facilitate their use (e.g., in the case the coverage of just a some type of expression needs to be tested).</li>
+  <li>The <b>PEOPLE part</b> is a collection of 67 documents (although just 63 were added to the final HourGlass corpus due to their ambiguity) proposed by people foreign to the temporal annotation task. They were asked to write sentences with what they considered to be temporal expressions, and these sentences were afterwards analyzed and annotated. Besides the tags, also the register of the sentence (e.g. "normal", "Latin American" or "colloquial") were added.</li>
+</ul>
+							<br><br> </div>  <div><br>
+					</div>
+							<div class="story-box">
+								<h3 class="text-uppercase" style="text-align: center;">Corpus download</h3><br>
+								<p >In the corpus zip you will find:
+  <ul style="list-style-type:circle;margin-left: 4em;">
+  <li> <b>annotated_TML</b>: a folder with 348 .tml files annotated with TIMEX3 tags following the TimeML standard. Docs starting with 0 are from the SYNTHATIC part of the corpus, while the ones starting with 9 are from the PEOPLE part.</li>
+  <li> <b>plain_TXT</b>: a folder with 348 .txt files with the raw text. Docs starting with 0 are from the SYNTHATIC part of the corpus, while the ones starting with 9 are from the PEOPLE part.</li>
+  <li> <b>plain_TML</b>: a folder with 348 .tml files in the TimeML standard format, but without annotations. Docs starting with 0 are from the SYNTHATIC part of the corpus, while the ones starting with 9 are from the PEOPLE part.</li>
+ </ul> 
+  <ul style="list-style-type:disc;margin-left: 4em;">
+  <li> <b>HOURGLASS-PEOPLE.xlsx</b>: Excel file with all the info (Id, Text, Tag, Register) about each document in the PEOPLE part of the corpus + the ones not added to the corpus (these have the tag "Ambiguous"). The id is also the name of the file in the corpus.</li>
+  <li> <b>HOURGLASS-SYNTHETIC.xlsx</b>: Excel file with all the info (Id, Text, Tag, Register) about each document in the SYNTHETIC part of the corpus. The id is also the name of the file in the corpus.</li>
+  <li> <b>HOURGLASS-TOTAL.xlsx</b>: Excel file with all the info (ID, TEXT, PROVENANCE, TAG, REGISTER, TEST, AMBIGUOUS VALUE) about the 348 files in the final corpus. The ID is also the name of the file in the corpus. PROVENANCE indicates whether the file comes from the SYNTHACTIC part of the corpus or from the PEOPLE part. TEST is the annotated text.</li>
+</ul>
+
+&nbsp  
+</ul> <br><br>
+ <center><input type="button" class="btn btn-info" value="Download Corpus" onclick="location.href = 'HOURGLASS_CORPUS.zip';"></center> 
+
+ &nbsp   
+ &nbsp   
+
+&nbsp  
+							<br><br> </div>  <div><br>
+					</div>
+							
+							<div class="story-box">
+								<h3 class="text-uppercase" style="text-align: center;">Results</h3><br>
+								Additionally, we make available the result of three different temporal taggers on this corpus. The metrics obtained by these taggers (calculated using the software <a href="https://gate.ac.uk/">GATE</a>) against the key set of annotations for each file and feature (extent, type and value of each tag) can be found next to each tagger below:
+  <ul style="list-style-type:disc;margin-left: 4em;">
+    <li><b>Annotador</b>: the output of <a href="http://annotador.oeg-upm.net/">Annotador</a>  - [ <a href="./test_Result-Annotador.html">extent</a> | <a href="./type_test_Result-Annotador.html">type</a> | <a href="./value_test_Result-Annotador.html">value</a> ]</li>
+    <li><b>HeidelTime</b>: the output of <a href="https://github.com/HeidelTime/heideltime">HeidelTime</a>  - [ <a href="./test_Result-Heidel.html">extent</a> | <a href="./type_test_Result-Heidel.html">type</a> | <a href="./value_test_Result-Heidel.html">value</a>]</li>
+    <li><b>SUTime</b>: the output of <a href="https://nlp.stanford.edu/software/sutime.html">SUTime</a>  - [ <a href="./test_Result-SUTime.html">extent</a> | <a href="./type_test_Result-SUTime.html">type</a> | <a href="./value_test_Result-SUTime.html">value</a> ]</li>
+</ul>
+In the .zip you will find tone folder for each tagger containing the annotated .tml, and also a folder containing the GATE XML file of each document in the corpus and sets of annotations:
+  <ul style="list-style-type:disc;margin-left: 4em;">
+    <li><b>Result</b>: the key annotations.</li>
+    <li><b>Annotador</b>: the annotations by Annotador.</li>
+    <li><b>HeidelTime</b>: the annotations by HeidelTime.</li>
+    <li><b>SUTime</b>: the annotations by SUTime</li>
+	<li><b>Original markups</b>: the original information of the document.</li>
+</ul>
+<p>These files can be loaded into GATE as a corpus to facilitate visualization and comparison. This was the software that generated the previous statistics.
+&nbsp  
+ &nbsp  
+</ul> <br><br>
+ <center><input type="button" class="btn btn-info" value="Download Results" onclick="location.href = 'HOURGLASS_RESULTS.zip';"></center>
+&nbsp  
+</div>
+  </div>
+					<br><br> </div>  <div><br>
+					</div>
+					<div class="story-box">
+								<h3 class="text-uppercase" style="text-align: center;">Authorship</h3><br>
+								<p>The corpus is freely downloadable under a <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" rel="license">GNU General Public License v3.0</a> license.
+	
+	<br>If you plan to publish a work using this resource please refer to this webpage and use its DOI: <a href="https://zenodo.org/deposit?page=1&size=20">https://zenodo.org/deposit?page=1&size=20</a>. This work has been accepted in the LKE conference, so we will have sson a paper to cite it!
+
+	
+	<br><br>We would also want to thank the contributors of the PEOPLE part of the corpus. 
+
+<br><br><br>
+							</div>
+							
+							
+							
+							
+							
+							
+							
+				</div>
+			</section>
+			
+			
+			<section class="footer-widget-area">
+				<!--div class="container">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="single-widget">
+								<div class="desc">
+									<h6 class="title">Address</h6>
+									<p>56/8, panthapath, west <br> dhanmondi, kalabagan</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="single-widget">
+								<div class="desc">
+									<h6 class="title">Email Address</h6>
+									<div class="contact">
+										<a href="mailto:info@dataarc.com">info@dataarc.com</a> <br>
+										<a href="mailto:support@dataarc.com">support@dataarc.com</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="single-widget">
+								<div class="desc">
+									<h6 class="title">Phone Number</h6>
+									<div class="contact">
+										<a href="tel:1545">012 4562 982 3612</a> <br>
+										<a href="tel:54512">012 6321 956 4587</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div-->
+				<footer><div class="item5" text-align="center" style="color: #fff">
+      
+	  <a href="https://github.com/mnavasloro/Annotador"><img src="img/aboutme3.png" width="80"  align="left"/></a>
+	  <center>
+	  <a href="http://www.oeg-upm.net/"><img src="img/oeg.png" width="80"  align="right"/></a>
+	  <p style="display: inline; vertical-align: middle">
+	  <br>This work is part of the PhD thesis by María Navas-Loro at the Ontology Engineering Group (Universidad Politécnica de Madrid). Please visit her <a href="http://marianavas.oeg-upm.net" ><b>website</b></a> or the <a href="https://github.com/mnavasloro/Annotador"><b>GitHub</b></a> repository for more information.
+	  <br/>
+	  </p>
+	  </center>
+	 
+
+</div>
+				</footer>				
+				<footer>
+					<div class="container">
+						<div class="footer-content d-flex justify-content-between align-items-center flex-wrap">
+							<div class="logo">
+								<a href="index.html"><img src="img/añotador-banner-tecla-azul-noshadow.png" width="115px" height="24px" alt=""></a>
+							</div>
+							<div class="copy-right-text">Copyright &copy; 2019  |  <div style="font-size:8px;">All rights of the design of the web are reserved to <a href="#">Dinomuz inc.</a> Website template designed by <a href="https://colorlib.com" target="_blank">Colorlib</a></div></div>
+							<!--div class="footer-social">
+								<a href="#"><i class="fa fa-facebook"></i></a>
+								<a href="#"><i class="fa fa-twitter"></i></a>
+								<a href="#"><i class="fa fa-dribbble"></i></a>
+								<a href="#"><i class="fa fa-behance"></i></a>
+							</div-->
+						</div>
+					</div>
+				</footer>
+			</section>
+			<!-- End Footer Widget Area -->
+
+		</div>
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-136128169-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-136128169-1');
+</script>
+
+		<script src="js/vendor/jquery-2.2.4.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+		<script src="js/vendor/bootstrap.min.js"></script>
+		<script src="js/jquery.ajaxchimp.min.js"></script>
+		<script src="js/owl.carousel.min.js"></script>
+		<script src="js/jquery.nice-select.min.js"></script>
+		<script src="js/jquery.magnific-popup.min.js"></script>
+		<script src="js/main.js"></script>
+                
+                <script type="text/javascript">
+                                // Loads a file with a sample into the textarea for the user to standard texts
+                                function samplejson()
+                                {
+                                    var v = document.getElementById("sample2json");
+                                    var archivo = v.options[v.selectedIndex].text;
+                                    console.log(archivo);
+                                    var client = new XMLHttpRequest();
+                                    client.open('GET', 'samples/' + archivo);
+                                    client.onreadystatechange = function () {
+//                                        alert(client.responseText);
+                                        document.getElementById('inputText').value = client.responseText;
+                                    }
+                                    client.send();
+                                }
+                    </script>
+                
+                
+                
+	</body>
+</html>

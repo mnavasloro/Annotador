@@ -23,7 +23,7 @@ public class Main {
 
         try {
 
-            String txt = "Eso será mañana por la mañana."; // Our test sentence
+            String txt = "En lo que va de año."; // Our test sentence
             System.out.println(txt);
             System.out.println("---------------------------------------------------------------");
             String parseLegalRef = parseAndTag(txt, "2019-02-19");  // We tag it

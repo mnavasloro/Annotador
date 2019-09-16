@@ -77,7 +77,9 @@ iframe {
 a, a:focus, a:hover {
   text-decoration: none;
   outline: 0;
-  color: #777777;
+  color: -webkit-link;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .btn.active.focus,
@@ -2356,7 +2358,7 @@ body {
 }
 
 .story-area {
-  padding: 90px 0;
+  padding: 20px 0;
   position: relative;
   position: relative;
 }
@@ -2379,7 +2381,7 @@ body {
 }
 
 .story-area .story-box {
-  padding: 60px 90px;
+  padding: 60px 90px 5px;
   background: #fff;
   border-radius: 3px;
   position: relative;
