@@ -86,7 +86,7 @@ public class TutorialESP {
 //String txt = "El próximo mes. ";//String txt = "se fueron a las 10.";
 
 
-String txt = "Quedaron a la 1 pm.";//String txt = "se fueron a las 10.";
+String txt = "Los años cuarenta fueron convulsos.";//String txt = "se fueron a las 10.";
 //String txt = " los años 1996 , 1998 , 2000 , 2002 y 2004 , según el COI , ";//String txt = "se fueron a las 10.";
 //String txt = "El 3 de marzo de 2019.";
 //String txt = "En el año dos mil.";

@@ -12,7 +12,7 @@ import oeg.tagger.core.time.tictag.TicTag;
  *
  * @author mnavas
  */
-public class TutorialAnnotadorES {
+public class TutorialAnnotadorES2NIF {
 
     /**
      * Annotation of the files (in Spanish, just training) from TempEval3
@@ -74,7 +74,7 @@ public class TutorialAnnotadorES {
 //String txt = "Surgida en plena campaña para las elecciones municipales del próximo domingo, ";
 //String txt = "Durante el cuatrimestre primero ocurrió ";
 
-String txt = "El año que viene.";//String txt = "se fueron a las 10.";
+String txt = "Welcome to Madrid in 2019, specifically Cercedilla, on May 1984.";//String txt = "se fueron a las 10.";
 //String txt = "durante los próximos 4 años jugará";//String txt = "se fueron a las 10.";
 //String txt = "los días 15 y 16 de marzo del 2001.";//String txt = "se fueron a las 10.";
 //String txt = "El 4 de julio, por la mañana hizo bueno, pero por la tarde hizo malo.";//String txt = "se fueron a las 10.";
@@ -93,8 +93,8 @@ String txt = "El año que viene.";//String txt = "se fueron a las 10.";
 //String txt = "hasta finales del pasado mayo .";
 //        String txt = "Al cumplirse hoy la segunda jornada de la protesta";
 //        String txt = "madrileños aseguró que el siglo XXI será el siglo de la ciencia y la tecnología";
-        Annotador tt = new Annotador("ES");
-        String outp = tt.annotate(txt,"2019-12-20");
+        Annotador tt = new Annotador("EN");
+        String outp = tt.annotateNIF(txt,"2019","http://sample.com/doc018");
         System.out.println(outp);
 
     }

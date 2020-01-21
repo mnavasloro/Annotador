@@ -14,9 +14,10 @@ public class NIFAnnotation {
     public String endIndex = "";
     public String isString = "";
     public String referenceContext = "";
+    public String annotationUnit = "";
 
     public String toString() {
-        return header + a + beginIndex + endIndex + isString + referenceContext + "\n\n";
+        return header + a + referenceContext + isString + beginIndex + endIndex + annotationUnit + "\n\n";
     }
 
 }

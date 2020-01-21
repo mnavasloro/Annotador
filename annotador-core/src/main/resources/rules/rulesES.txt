@@ -913,7 +913,7 @@ ENV.defaults["ruleType"] = "tokens"
 # eg: fin de semana / fines de semana
 { ruleType:   "tokens",
   pattern: ( ([{lemma:"fin"} & {pos:/.*S.*/}]) [{lemma:"de"}] [{lemma:"semana"}] ),
-  action: ( Annotate($0, "myRule", "Rule$FinDeSemana"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP["finsemana"] ), Annotate($0, "myTType", "finsemana" ), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue", Concat("2",DGRANULARITY_UNIT_MAP[DGRANULARITY_MAP["finsemana"]])), Annotate($0, "Period", PERIOD_MAP["WEEKEND"]) ) ,
+  action: ( Annotate($0, "myRule", "Rule$FinDeSemana"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP["finsemana"] ), Annotate($0, "myTType", "finsemana" ), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue", Concat("1",DGRANULARITY_UNIT_MAP[DGRANULARITY_MAP["finsemana"]])), Annotate($0, "Period", PERIOD_MAP["WEEKEND"]) ) ,
   stage : 1  }
   
 { ruleType:   "tokens",

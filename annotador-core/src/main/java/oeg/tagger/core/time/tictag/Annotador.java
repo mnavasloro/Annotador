@@ -34,6 +34,7 @@ import oeg.tagger.core.data.ManagerTempEval3ES;
 import oeg.tagger.core.data.ManagerTimeBank;
 import oeg.tagger.core.servlets.Salida;
 import oeg.tagger.core.time.annotationHandler.TIMEX2JSON;
+import oeg.tagger.core.time.annotationHandler.TIMEX2NIF;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -99,17 +100,17 @@ public class Annotador {
 
         if (lang.equalsIgnoreCase("ES")) {
             if (rules == null) {
-                rules = "../annotador-core/src/main/resources/rules/rulesES.txt";
+                rules = "./src/main/resources/rules/rulesES.txt";
             }
 
 //        out = new PrintWriter(System.out);
             properties = StringUtils.argsToProperties(new String[]{"-props", "StanfordCoreNLP-spanish.properties"});
 
             if (posModel == null) {
-                posModel = "../annotador-core/src/main/resources/ixa-pipes/morph-models-1.5.0/es/es-pos-perceptron-autodict01-ancora-2.0.bin";
+                posModel = "./src/main/resources/ixa-pipes/morph-models-1.5.0/es/es-pos-perceptron-autodict01-ancora-2.0.bin";
             }
             if (lemmaModel == null) {
-                lemmaModel = "../annotador-core/src/main/resources/ixa-pipes/morph-models-1.5.0/es/es-lemma-perceptron-ancora-2.0.bin";
+                lemmaModel = "./src/main/resources/ixa-pipes/morph-models-1.5.0/es/es-lemma-perceptron-ancora-2.0.bin";
             }
 
             properties.setProperty("annotators", "tokenize,ssplit,spanish,readability,ner,tokensregexdemo");
@@ -128,7 +129,7 @@ public class Annotador {
 //    properties.setProperty("regexner.verbose", "false");
         } else if (lang.equalsIgnoreCase("EN")) {
             if (rules == null) {
-                rules = "../annotador-core/src/main/resources/rules/rulesEN.txt";
+                rules = "./src/main/resources/rules/rulesEN.txt";
             }
 
 //        out = new PrintWriter(System.out);
@@ -814,6 +815,14 @@ public class Annotador {
         String out = annotate(input, anchorDate);
         TIMEX2JSON t2j = new TIMEX2JSON();
         return t2j.translateSentence(out);
+    }
+    
+    
+    public String annotateNIF(String input, String anchorDate, String reference) {
+
+        String out = annotate(input, anchorDate);
+        TIMEX2NIF t2n = new TIMEX2NIF();
+        return t2n.translateSentence(out, reference);
     }
 
     /* DEPRECATED */
