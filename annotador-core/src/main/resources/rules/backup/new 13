@@ -1,5 +1,0 @@
-
-{ ruleType:   "tokens",
-  pattern: ( ([{myNER:"myNUMBER"}]) ([{myNER:"DGRANULARITY"}]) ),
-  action: ( Annotate($0, "myNER", "DURATION"), Annotate($0, "myNERnormalized", Concat("PT",$1[0].myNERnormalized,DGranularityUnit_MAP[$2[0].myTType])) )  ,
-  stage : 5  }

@@ -56,7 +56,7 @@ public class NIFReader {
                     m = p.matcher(inp2);
                     sb = new StringBuffer(inp2.length());
                     if (m.find()) {
-                        if(m.group().contains("lkg:LynxDocument") && m.group().contains("nif:isString")){
+                        if((m.group().contains("lkg:LynxDocument") || m.group().contains("nif:Context")) && m.group().contains("nif:isString")){
                             String intpart = m.group();
                             String pattern2 = "\\s*nif:isString\\s*\\\"(.*)\\\"";
                             Pattern p2 = Pattern.compile(pattern2);

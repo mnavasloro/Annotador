@@ -115,6 +115,12 @@ $WEEKL = (
   [{lemma:/[S|s]unday/} & !{ pos:/PROPN.*/ }]    => 07
 ) 
 
+$SEASON = (
+  [{lemma:/fall|autumn/}]     => "FA" |
+  [{lemma:/winter/}]   => "WI" |
+  [{lemma:/spring/}]    => "SP" |
+  [{lemma:/summer/}]     => "SU" 
+)								  
 $DAYMONTHN = (
   /01|1/ => 01 |
   /02|2/   => 02 |
@@ -202,6 +208,9 @@ $ORDINALS = (
 DGRANULARITY_MAP = {
   "day" : "DAY",
   "days" : "DAY",
+
+  "journey" : "DAY",
+  "journeys" : "DAY",					
   "weekend"   : "WEEKEND",
   "week"    : "WEEK",
   "weeks"    : "WEEK",
@@ -241,6 +250,8 @@ DURATION_MAP = {
   "4_MONTH"     : "myDurationMonth" ,
   "6_MONTH"   : "myDurationMonth" ,
   "YEAR"   : "myDurationYear" ,
+  "2_YEAR"   : "myDurationYear" ,
+  "3_YEAR"   : "myDurationYear" ,
   "5_YEAR"   : "myDurationYear" ,
   "10_YEAR"   : "myDurationYear" ,
   "100_YEAR"   : "myDurationDecade" ,
@@ -251,51 +262,69 @@ DURATION_MAP = {
 }
 
 HALF_DURATION_MAP = {
-  "DAY" : "12H" ,
-  "WEEKEND"   : "01D" ,
-  "WEEK"    : "03D12H" ,
-  "FORNIGHT"     : "01W" ,
-  "MONTH"   : "02W" ,
-  "YEAR"   : "06M" ,
-  "5_YEAR"   : "02Y06M" ,
-  "10_YEAR"   : "05Y" ,
+  "DAY" : "0.5D" ,
+  "WEEKEND"   : "0.5WE" ,
+  "WEEK"    : "0.5W" ,
+  "FORNIGHT"     : "1W" ,
+  "MONTH"   : "0.5M" ,
+  "2_MONTH"	: "1M",
+  "3_MONTH"	: "0.5Q",
+  "4_MONTH"	: "0.5T",
+  "6_MONTH"	: "0.5HALF",
+  "YEAR"   : "0.5Y" ,
+  "2_YEAR"   : "1Y" ,
+  "3_YEAR"   : "1.5Y" ,
+  "5_YEAR"   : "2.5Y" ,
+  "10_YEAR"   : "5Y" ,
   "100_YEAR"   : "50Y" ,
   "1000_YEAR"   : "500Y",
-  "HOUR"	: "30M",
-  "MINUTE"	: "30S",
-  "SECOND"	: ""
+  "HOUR"	: "0.5H",
+  "MINUTE"	: "0.5MIN",
+  "SECOND"	: "0.5S"
 }
 
 QUARTER_DURATION_MAP = {
-  "DAY" : "06H" ,
-  "WEEKEND"   : "12H" ,
-  "WEEK"    : "01D18H" ,
-  "FORNIGHT"     : "03D12H" ,
-  "MONTH"   : "01W" ,
-  "YEAR"   : "03M" ,
-  "5_YEAR"   : "01Y06H" ,
-  "10_YEAR"   : "02Y06M" ,
+  "DAY" : "0.25D" ,
+  "WEEKEND"   : "0.25WE" ,
+  "WEEK"    : "0.25W" ,
+  "FORNIGHT"     : "0.5W" ,
+  "MONTH"   : "0.25M" ,
+  "2_MONTH"	: "0.5M",
+  "3_MONTH"	: "0.25Q",
+  "4_MONTH"	: "0.25T",
+  "6_MONTH"	: "0.25HALF",
+  "YEAR"   : "0.25Y" ,
+  "2_YEAR"   : "0.5Y" ,
+  "3_YEAR"   : "0.75Y" ,
+  "5_YEAR"   : "1.5Y" ,
+  "10_YEAR"   : "2.5Y" ,
   "100_YEAR"   : "25Y" ,
   "1000_YEAR"   : "250Y",
-  "HOUR"	: "15M",
-  "MINUTE"	: "15S",
-  "SECOND"	: ""
+  "HOUR"	: "0.25H",
+  "MINUTE"	: "0.25MIN",
+  "SECOND"	: "0.25S"
 }
 
 TQUARTER_DURATION_MAP = {
-  "DAY" : "18H" ,
-  "WEEKEND"   : "1D12H" ,
-  "WEEK"    : "04D06H" ,
-  "FORNIGHT"     : "01W03D12H" ,
-  "MONTH"   : "01W" ,
-  "YEAR"   : "03M" ,
-  "5_YEAR"   : "01Y06H" ,
-  "10_YEAR"   : "07Y06M" ,
+  "DAY" : "0.75D" ,
+  "WEEKEND"   : "0.75WE" ,
+  "WEEK"    : "0.75W" ,
+  "FORNIGHT"     : "1.5W" ,
+  "MONTH"   : "0.75M" ,
+  "2_MONTH"	: "1.5M",
+  "3_MONTH"	: "0.75Q",
+  "4_MONTH"	: "0.75T",
+  "6_MONTH"	: "0.75HALF",
+  "YEAR"   : "0.75Y" ,
+  "2_YEAR"   : "1.5Y" ,
+  "3_YEAR"   : "2.25Y" ,
+  "5_YEAR"   : "3.75Y" ,
+  "10_YEAR"   : "7.5Y" ,
   "100_YEAR"   : "75Y" ,
   "1000_YEAR"   : "750Y",
-  "HOUR"	: "45M",
-  "MINUTE"	: "45S",
-  "SECOND"	: ""
+  "HOUR"	: "0.75H",
+  "MINUTE"	: "0.75MIN",
+  "SECOND"	: "0.75S"
 }
 
 PERIODMENTE_MAP = {
@@ -457,6 +486,8 @@ DGRANULARITY_UNIT_MAP = {
   "4_MONTH"     : "M" ,
   "6_MONTH"   : "M" ,
   "YEAR"   : "Y" ,
+  "2_YEAR"   : "Y" ,
+  "3_YEAR"   : "Y" ,
   "5_YEAR"   : "Y" ,
   "10_YEAR"   : "Y" ,
   "100_YEAR"   : "Y" ,
@@ -474,6 +505,8 @@ DGRANULARITY_AMOUNT_MAP = {
   "3_MONTH"    : 3 ,
   "4_MONTH"     : 4 ,
   "6_MONTH"   : 6 ,
+  "2_YEAR"   : 2 ,
+  "3_YEAR"   : 3 ,
   "5_YEAR"   : 5 ,
   "10_YEAR"   : 10 ,
   "100_YEAR"   : 100  ,
@@ -514,7 +547,19 @@ PMHOUR_MAP = {
   "9"   : "21" ,
   "10"   : "22" ,
   "11"   : "23" ,
-  "12"   : "24" 
+  "12"   : "24" ,
+  "13" : "13" ,
+  "14"   : "14" ,
+  "15"    : "15" ,
+  "16"     : "16" ,
+  "17"   : "17" ,
+  "18"    : "18" ,  
+  "19"    : "19" ,
+  "20"     : "20" ,
+  "21"   : "21" ,
+  "22"   : "22" ,
+  "23"   : "23" ,
+  "0"   : "24"  
 }
 
 
@@ -530,7 +575,7 @@ $TGranularity = CreateRegex(Keys(TGRANULARITY_MAP))
 
 TGRANULARITY_UNIT_MAP = {
   "SECOND" : "S",
-  "MINUTE" : "M",
+  "MINUTE" : "MIN",
   "HOUR"   : "H"
 }
 
@@ -793,12 +838,12 @@ ENV.defaults["ruleType"] = "tokens"
 
 { ruleType:   "tokens",
   pattern: (([{lemma:"night"}] [{lemma:"before"}] [{lemma:"last"}])),
-  action: ( Annotate($0, "myRule", "Rule$antesdeanoche"), Annotate($0, "timexType", "TIME"), Annotate($0, "timexValue", "anchor(TODAY,-2,DAY)TNI"), Annotate($0, "myTimePartDay", "TNI") )  ,
+  action: ( Annotate($0, "myRule", "Rule$antesdeanoche"), Annotate($0, "timexType", "TIME"), Annotate($0, "timexValue", "anchor(TODAY,-,2D)TNI"), Annotate($0, "myTimePartDay", "TNI") )  ,   result: ("TIME", "anchor(TODAY,-,2D)TNI", "", "", "Rule$antesdeanoche"),
   stage : 1  }
   
 { ruleType:   "tokens",
   pattern: ([{lemma:"last"}] [{lemma:"night"}]),
-  action: ( Annotate($0, "myRule", "Rule$anoche"), Annotate($0, "timexType", "TIME"), Annotate($0, "timexValue", "anchor(TODAY,-1,DAY)TNI"), Annotate($0, "myTimePartDay", "TNI") )  ,
+  action: ( Annotate($0, "myRule", "Rule$anoche"), Annotate($0, "timexType", "TIME"), Annotate($0, "timexValue", "anchor(TODAY,-,1D)TNI"), Annotate($0, "myTimePartDay", "TNI") )  ,  result: ("TIME", "anchor(TODAY,-,1D)TNI", "", "", "Rule$antesdeanoche"),
   stage : 1  }
 
   
@@ -810,19 +855,19 @@ ENV.defaults["ruleType"] = "tokens"
 # eg: Pasado mañana / pasado
 { ruleType:   "tokens",
   pattern: ((?:(([{lemma:"the"}] [{lemma:"day"}] [{lemma:"after"}] [{lemma:"tomorrow"}])))),
-  action: ( Annotate($0, "myRule", "Rule$PasadoMañana"), Annotate($1, "timexType", "DATE"), Annotate($1, "timexValue", "anchor(TODAY,+2,DAY)"), Annotate($1, "myNERnormalized", "PASADO_MAÑANA") )  ,
+  action: ( Annotate($0, "myRule", "Rule$PasadoMañana"), Annotate($1, "timexType", "DATE"), Annotate($1, "timexValue", "anchor(TODAY,+,2D)"), Annotate($1, "myNERnormalized", "PASADO_MAÑANA") )  ,
   stage : 3  }
 
 # eg: mañana
 { ruleType:   "tokens",
   pattern: ([{lemma:"tomorrow"}]),
-  action: ( Annotate($0, "myRule", "Rule$Mañana"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,+1,DAY)"), Annotate($0, "myNERnormalized", "MAÑANA") )  ,
+  action: ( Annotate($0, "myRule", "Rule$Mañana"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,+,1D)"), Annotate($0, "myNERnormalized", "MAÑANA") )  ,
   stage : 2  }
   
 # eg: hoy
 { ruleType:   "tokens",
   pattern: ([{lemma:"today"}]),
-  action: ( Annotate($0, "myRule", "Rule$Hoy"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,0,DAY)"), Annotate($0, "myNERnormalized", "HOY") )  ,
+  action: ( Annotate($0, "myRule", "Rule$Hoy"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,+,0D)"), Annotate($0, "myNERnormalized", "HOY") )  ,
   stage : 2  }
   
   
@@ -830,13 +875,13 @@ ENV.defaults["ruleType"] = "tokens"
 # eg: References to the present
 { ruleType:   "tokens",
   pattern: ([{lemma:"the"}] [{lemma:"day"}] [{lemma:"before"}] [{lemma:"yesterday"}]),
-  action: ( Annotate($0, "myRule", "Rule$Anteayer"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,-2,DAY)"), Annotate($0, "myNERnormalized", "ANTEAYER") )  ,
+  action: ( Annotate($0, "myRule", "Rule$Anteayer"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,-,2,DAY)"), Annotate($0, "myNERnormalized", "ANTEAYER") )  ,
   stage : 2  }  
 
 # eg: References to the present
 { ruleType:   "tokens",
   pattern: ([{lemma:"yesterday"}]),
-  action: ( Annotate($0, "myRule", "Rule$ElAyer"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,-1,DAY)"), Annotate($0, "myNERnormalized", "AYER") )  ,
+  action: ( Annotate($0, "myRule", "Rule$ElAyer"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,-,1D)"), Annotate($0, "myNERnormalized", "AYER") )  ,
   stage : 2  }  
 
   
@@ -852,6 +897,7 @@ ENV.defaults["ruleType"] = "tokens"
 { ruleType:   "tokens",
   pattern: ([{pos:/IN/}]? [{pos:/DT/}]?  ([{lemma:"early"}]? [{lemma:"morning"} |  {lemma:"morning"}  | {lemma:"afternoon"} | {lemma:"evening"} | {lemma:"noon"} | {lemma:"midday"}  | {lemma:"night"} & !{timexValue:/.+/}] )),
   action: ( Annotate($0, "myRule", "Rule$PARTDAY"), Annotate($0, "timexType", "TIME"), Annotate($0, "timexValue", PARTDAY_MAP[$1[0].lemma]), Annotate($0, "myNERnormalized", "PARTDAY"), Annotate($0, "myTimePartDay", $0[0].timexValue) )  ,
+  result: ("TIME", Concat("anchor(TODAY,x,D)T",PARTDAY_MAP[$1[0].lemma]), "", "", "Rule$PARTDAY"),																																  
   stage : 4  }
   
   
@@ -1134,12 +1180,12 @@ result: ("TIME", Concat("T", :case{($2[0].timexValue == "AF") => PMHOUR_MAP[$1[0
  # eg: las próximas horas/decadas (indef)
 { ruleType:   "tokens",
   pattern: ( ([{myNER:"FUT_REF_Adj"} & {pos:/(JJ.*|DT)/}]+) (?$gran [{myNER:"[TD]GRANULARITY"}]) ),
-  action: ( Annotate($0, "myRule", "Rule$proximasGranularity"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  "FUTURE_REF") ) , 
+  action: ( Annotate($0, "myRule", "Rule$proximasGranularity"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,-,",DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")") ) ),  
   stage : 15  }
   
   { ruleType:   "tokens",
   pattern: ( ([{myNER:"PAS_REF_Adj"} & {pos:/(JJ.*|DT)/}]+) (?$gran [{myNER:"[TD]GRANULARITY"}]) ),
-  action: ( Annotate($0, "myRule", "Rule$anterioresGranularity"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  "PAST_REF") ) , 
+  action: ( Annotate($0, "myRule", "Rule$anterioresGranularity"), Annotate($0, "timexType", "DATE"), Concat("anchor(TODAY,-,",DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")") ) , #Annotate($0, "timexValue",  "PAST_REF") ) , 
   stage : 15  }
   
  # eg: las horas que vienen (indef)
@@ -1150,19 +1196,20 @@ result: ("TIME", Concat("T", :case{($2[0].timexValue == "AF") => PMHOUR_MAP[$1[0
   
  { ruleType:   "tokens",
   pattern: ( (?$gran [{myNER:"TGRANULARITY"}]) ([{myNER:"PAS_REF_Adj"} & {pos:/(JJ.*|DT)/}]+) ),
-  action: ( Annotate($0, "myRule", "Rule$Granularityanteriores"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  "PAST_REF") ) , 
+  action: ( Annotate($0, "myRule", "Rule$Granularityanteriores"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,-,",DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")") ) ),  #Annotate($0, "timexValue",  "PAST_REF") ) , 
   stage : 15  }
  
  #TODO: poco claro como habria que normalizar esto con horas...
  # eg: la próxima hora (anchor)
 { ruleType:   "tokens",
   pattern: ( ([{myNER:"FUT_REF_Adj"} & {pos:/(JJ.*|DT)/}]+) (?$gran [{myNER:"GRANULARITY"}]+) ),
-  action: ( Annotate($0, "myRule", "Rule$proximoGranularity"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,+1,", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")")) ) , 
+  action: ( Annotate($0, "myRule", "Rule$proximoGranularity"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("PT1", TGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized])) ) , 
   stage : 15  }
+  #Annotate($0, "timexValue",  Concat("anchor(TODAY,+,1,", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")")) ) , 
   
   { ruleType:   "tokens",
   pattern: ( ([{myNER:"PAS_REF_Adj"} & {pos:/(JJ.*|DT)/}]+) (?$gran [{myNER:"GRANULARITY"}]+) ),
-  action: ( Annotate($0, "myRule", "Rule$anteriorGranularity"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,-1,", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")")) ) , 
+  action: ( Annotate($0, "myRule", "Rule$anteriorGranularity"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue",  Concat("anchor(TODAY,-,1", DGRANULARITY_UNIT_MAP[$gran[0].myNERnormalized],")")) ) , 
   stage : 15  }
   
 # eg: una hora
@@ -1352,7 +1399,7 @@ priority: 3.0,
 { ruleType:   "composite",
   pattern: ( [{timexType:"TIME"}]+  ),
   result: ( "TIME", Concat($0[1].timexValue,""), "", "", $0[0].myRule ) ,
-  stage : 200  } 
+  stage : 200  } #TO CHECK
   
       # set
 { ruleType:   "composite",

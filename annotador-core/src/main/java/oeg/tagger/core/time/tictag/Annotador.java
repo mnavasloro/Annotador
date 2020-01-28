@@ -829,11 +829,11 @@ public class Annotador {
     }
     
     
-    public String annotateNIF(String input, String anchorDate, String reference) {
+    public String annotateNIF(String input, String anchorDate, String reference, String lang) {
 
         String out = annotate(input, anchorDate);
         TIMEX2NIF t2n = new TIMEX2NIF();
-        return t2n.translateSentence(out, reference);
+        return t2n.translateSentence(out, reference, lang);
     }
 
     /* DEPRECATED */
