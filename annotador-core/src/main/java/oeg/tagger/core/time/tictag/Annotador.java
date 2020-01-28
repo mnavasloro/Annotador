@@ -349,7 +349,7 @@ public class Annotador {
             String inp2 = input;
             int flagRN = 0;
 
-            inp2 = inp2.replaceAll("\\r\\n", "\\\\n");
+            inp2 = inp2.replaceAll("\\r\\n", "\n");
 
             int offsetdelay = 0;
             int numval = 0;
@@ -365,8 +365,8 @@ public class Annotador {
             System.out.println(annotation.toShorterString());
 
             List<CoreMap> sentences = annotation.get(CoreAnnotations.SentencesAnnotation.class);
-            for (CoreMap sentence : sentences) {
                 lastfullDATE = backupAnchor;
+            for (CoreMap sentence : sentences) {
                 lastDATE = backupAnchor;
                 CoreMapExpressionExtractor<MatchedExpression> extractor = CoreMapExpressionExtractor
                         .createExtractorFromFiles(TokenSequencePattern.getNewEnv(), rules);
@@ -394,13 +394,15 @@ public class Annotador {
 //        out.println(matched.getText() + " - " + matched.getCharOffsets());
 
                     // To adapt to TE3 format - news mode
-                    if (typ.equalsIgnoreCase("DATE") && val.startsWith("XXXX-XX") && anchorDate != null) {
-                        DateTime dt = new DateTime(anchorDate);
+                    if ((typ.equalsIgnoreCase("DATE") || typ.equalsIgnoreCase("TIME")) && val.startsWith("XXXX-XX") && anchorDate != null) {
+                        DateTime dt = new DateTime(lastfullDATE);
+//                        DateTime dt = new DateTime(anchorDate);
                         int month = dt.getMonthOfYear();
                         int year = dt.getYear();
                         val = year + "-" + String.format("%02d", month) + val.substring(7, val.length());
-                    } else if (typ.equalsIgnoreCase("DATE") && val.startsWith("XXXX") && anchorDate != null) {
-                        DateTime dt = new DateTime(anchorDate);
+                    } else if ((typ.equalsIgnoreCase("DATE") || typ.equalsIgnoreCase("TIME")) && val.startsWith("XXXX") && anchorDate != null) {
+                        DateTime dt = new DateTime(lastfullDATE);
+//                        DateTime dt = new DateTime(anchorDate);
                         int year = dt.getYear();
                         val = year + val.substring(4, val.length());
                     }
@@ -678,10 +680,19 @@ public class Annotador {
                     if (typ.equalsIgnoreCase("TIME") && val.startsWith("T")) {
                         val = lastfullDATE + val;
                     }
+                    if (typ.equalsIgnoreCase("TIME") && val.matches("....-..-..(Tanchor\\(.*,.*,.*\\))*.*")) { //for date + time anchorbug
+                        val = val.replaceAll("(anchor\\(.*,.*,.*\\))", "");
+                        val = val.replaceAll("T+", "T");
+                    }
 
                     if (typ.equalsIgnoreCase("DATE") && val.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d")) {
                         lastfullDATE = val;
                     }
+                    
+                    if (typ.equalsIgnoreCase("TIME") && val.startsWith("\\d\\d\\d\\d-\\d\\d-\\d\\d")) {
+                        lastfullDATE = val.substring(0,10);
+                    }
+                    
                     if (typ.equalsIgnoreCase("DATE")) {
                         lastDATE = val;
                     }
@@ -717,7 +728,7 @@ public class Annotador {
                 }
             }
 //            if(flagRN==1){
-            inp2 = inp2.replaceAll("\\\\n", "\r\n");
+            inp2 = inp2.replaceAll("\\n", "\r\n");
 //            }
             return inp2;
 
@@ -767,10 +778,10 @@ public class Annotador {
                 i++;
                 System.out.println("--------> Doc num: " + i + "/" + tot);
                 String input = f.getTextInput();
-                String input2 = input.replaceAll("\\r\\n", "\\\\n");
+                String input2 = input.replaceAll("\\r\\n", "\\n");
                 String output = annotate(input2, f.getDCTInput());
                 if (!input.equals(input2)) {
-                    output = output.replaceAll("\\\\n", "\r\n");
+                    output = output.replaceAll("\\n", "\r\n");
                 }
                 f.writeOutputFile(output);
             }

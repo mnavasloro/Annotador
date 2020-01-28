@@ -68,7 +68,7 @@ public class TutorialTicTag {
                 + "</TimeML>", "test.tml");
 
         TIMEX2NIF toNIF = new TIMEX2NIF();
-        String outNIF = toNIF.translateSentence(out);
+        String outNIF = toNIF.translateSentence(out,"URL");
         System.out.println("\n\n--------------\n\n" + outNIF);
 
     }

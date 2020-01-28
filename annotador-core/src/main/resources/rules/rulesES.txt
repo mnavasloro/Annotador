@@ -94,7 +94,7 @@ $MONTHS = (
   [{lemma:/[E|e]nero/} & !{ pos:/NP.*/ }]     => 01 |
   [{lemma:/[F|f]ebrero/} & !{ pos:/NP.*/ }]   => 02 |
   [{lemma:/[M|m]arzo/} & !{ pos:/NP.*/ }]    => 03 |
-  [{lemma:/[A|a]bril/} & !{ pos:/NP.*/ }]   => 04 | #TODO: Check this...
+  [{lemma:/[A|a]bril/} ]   => 04 | #TODO: Check this...
   [{lemma:/[M|m]ayo/} & !{ pos:/NP.*/ }]   => 05 |
   [{lemma:/[J|j]unio/} & !{ pos:/NP.*/ }]    => 06 |
   [{lemma:/[J|j]ulio/} & !{ pos:/NP.*/ }]    => 07 | #TODO: Check this...
@@ -875,14 +875,15 @@ ENV.defaults["ruleType"] = "tokens"
 
 # eg: en el año mil cuarenta y dos
 { ruleType:   "tokens",
-    pattern: ( (?: [{lemma:"de"}] | [{lemma:"del"}] | [{lemma:"en"}] | [{lemma:"a"}] | [{lemma:"el"} & !{pos:/D.*/}] | [{lemma:"para"}]) ( [{pos:/D.*S.*/}]? [{lemma:"año"}]? (?$year [{myNUM:"myNUMBER"} && {mySTValue:/[12]\d\d\d/}]+ (?$AC ([{word:/[A|a]\.?[C|c]\.?/}] | ([{lemma:"antes"}] [{lemma:"de"}] [{lemma:/[C|c]risto/}])))?))),
+    pattern: ( (?: [{lemma:"de"}] | [{lemma:"del"}] | [{lemma:"en"}] | [{lemma:"a"}] | [{lemma:"el"} & !{pos:/D.*/}] | [{lemma:"para"}]) ( [{pos:/D.*S.*/}]? [{lemma:"año"}]? (?$year [{myNUM:"myNUMBER"} && {mySTValue:/[12]\d\d\d/}]+ (?$AC ([{word:/[A|a]\.?[C|c]\.?/}] | ([{lemma:"antes"}] [{lemma:"de"}] [{lemma:/[C|c]risto/}])))?)) [!{pos:/NC.*/} && !{pos:/ZM.*/}]),
 	action: ( (Annotate($1, "myRule", "Rule$EnElAñoMyNumber"), Annotate($1, "myNER", "YEAR")), Annotate($1, "timexValue", Concat(:case{($$AC != NIL) => "BC", :else => ""}, $year[0].mySTValue)), Annotate($1, "myNERnormalized", $year[0].mySTValue), Annotate($1, "timexType", "DATE")),
-	stage : 5 }	
+	stage : 5 }	# Mejor como regla de filtrado lo de ZM (moneda), pero no va...
 	
 { ruleType:   "tokens",
     pattern: ( (?: [{lemma:"de"}] | [{lemma:"del"}] | [{lemma:"en"}] | [{lemma:"a"}] | [{lemma:"el"} & !{pos:/D.*/}] | [{lemma:"para"}]) ( [{pos:/D.*S.*/}]? [{lemma:"año"}] (?$year [{myNUM:"myNUMBER"} && {mySTValue:/[12]?\d?\d?\d/}]+ (?$AC ([{word:/[A|a]\.?[C|c]\.?/}] | ([{lemma:"antes"}] [{lemma:"de"}] [{lemma:/[C|c]risto/}])))?))),
 	action: ( (Annotate($1, "myRule", "Rule$EnElAñoMyNumber"), Annotate($1, "myNER", "YEAR")), Annotate($1, "timexValue", Concat(:case{($$AC != NIL) => "BC", :else => ""}, Format("%04d", $year[0].myTValue))), Annotate($1, "myNERnormalized", $year[0].mySTValue), Annotate($1, "timexType", "DATE")),
 	stage : 5 }	
+	
 	
 { ruleType:   "tokens",
     pattern: ( (?: [{lemma:"de"}] | [{lemma:"del"}] | [{lemma:"en"}] | [{lemma:"a"}] | [{lemma:"el"} & !{pos:/D.*/}] | [{lemma:"para"}]) ( [{pos:/D.*S.*/}]? [{lemma:"año"}] (?$year [{myNUM:"myNUMBER"} && {mySTValue:/[12]?\d?\d?\d/}]+ ((?$AC ([{word:/[A|a]\.?[C|c]\.?/}] | ([{lemma:"antes"}] [{lemma:"de"}] [{lemma:/[C|c]risto/}]))) | (?$dc ([{word:/[D|d]\.?[C|c]\.?/}] | ([{lemma:"después"}] [{lemma:"de"}] [{lemma:/[C|c]risto/}]))))))),
@@ -923,7 +924,8 @@ ENV.defaults["ruleType"] = "tokens"
 
 # eg: meses, dia...  
 { ruleType:   "tokens",
-  pattern: ( [{lemma:/$DGranularity/} & !{myNER:"DGRANULARITY"}  & !{ pos:/NP.*/ } & {pos:/.*P.*/}] ),
+  pattern: ( [{lemma:/$DGranularity/} & !{myNER:"DGRANULARITY"}  & {pos:/.*P.*/}] ),
+#  pattern: ( [{lemma:/$DGranularity/} & !{myNER:"DGRANULARITY"}  & !{ pos:/NP.*/ } & {pos:/.*P.*/}] ),
 #    pattern: ( [{lemma:/$DGranularity/} & !{myNER:"DGRANULARITY"}  & !{ pos:/NP.*/ } & !{pos:/.*s.*/}] ),
 
   action: ( Annotate($0, "myRule", "Rule$GranularityP"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP[$0[0].lemma] ), Annotate($0, "myTType", $$0.text ), Annotate($0, "timexType", "DURATION"), Annotate($0, "timexValue", Concat("X",DGRANULARITY_UNIT_MAP[DGRANULARITY_MAP[$0[0].lemma]])), Annotate($0, "Period", PERIOD_MAP[DGRANULARITY_MAP[$0[0].lemma]])  ) ,
@@ -1208,26 +1210,46 @@ ENV.defaults["ruleType"] = "tokens"
  #TODO: check normalization eu/EEUU, each part...
 { ruleType:   "tokens",
 matchWithResults: TRUE,
-pattern: (/(0?[1-9]|1[0-9]|2[0-9]|3[0-1])[\/|-]([1-9]|1[0-2])[\/|-]([1-2]\d\d\d)/),
+pattern: (/(1[0-9]|2[0-9]|3[0-1])[\/|-]0?([1-9])[\/|-]([1-2]\d\d\d)/),
 result: ("DATE", Concat($$0.matchResults[0].word.group(3), "-0", $$0.matchResults[0].word.group(2), "-", $$0.matchResults[0].word.group(1)), "", "","Rule$DD-MM-YYYY") }
 
 { ruleType:   "tokens",
 matchWithResults: TRUE,
-pattern: (/(0?[1-9]|1[0-9]|2[0-9]|3[0-1])[\/|-](0[1-9])[\/|-]([1-2]\d\d\d)/),
-result: ("DATE", Concat($$0.matchResults[0].word.group(3), "-", $$0.matchResults[0].word.group(2), "-", $$0.matchResults[0].word.group(1)), "", "", "Rule$DD-MM-YYYY") }
+pattern: (/(1[0-9]|2[0-9]|3[0-1])[\/|-](1[0-2])[\/|-]([1-2]\d\d\d)/),
+result: ("DATE", Concat($$0.matchResults[0].word.group(3), "-", $$0.matchResults[0].word.group(2), "-", $$0.matchResults[0].word.group(1)), "", "","Rule$DD-MM-YYYY") }
+
+{ ruleType:   "tokens",
+matchWithResults: TRUE,
+pattern: (/0?([1-9])[\/|-]0?([1-9])[\/|-]([1-2]\d\d\d)/),
+result: ("DATE", Concat($$0.matchResults[0].word.group(3), "-0", $$0.matchResults[0].word.group(2), "-0", $$0.matchResults[0].word.group(1)), "", "","Rule$DD-MM-YYYY") }
+
+{ ruleType:   "tokens",
+matchWithResults: TRUE,
+pattern: (/0?([1-9])[\/|-](1[0-2])[\/|-]([1-2]\d\d\d)/),
+result: ("DATE", Concat($$0.matchResults[0].word.group(3), "-", $$0.matchResults[0].word.group(2), "-0", $$0.matchResults[0].word.group(1)), "", "","Rule$DD-MM-YYYY") }
 
 
 # How to normalize?
-{ ruleType:   "tokens",
-matchWithResults: TRUE,
-pattern: (/(0?[1-9]|1[0-9]|2[0-9]|3[0-1])[\/|-]([1-9]|1[0-2])[\/|-](\d\d)/),
-result: ("DATE", Concat("XX", $$0.matchResults[0].word.group(3), "-0", $$0.matchResults[0].word.group(2), "-", $$0.matchResults[0].word.group(1)), "", "", "Rule$DD-MM-YYYY") }
 
 { ruleType:   "tokens",
 matchWithResults: TRUE,
-pattern: (/(0?[1-9]|1[0-9]|2[0-9]|3[0-1])[\/|-](0[1-9])[\/|-](\d\d)/),
+pattern: (/(1[0-9]|2[0-9]|3[0-1])[\/|-]0?([1-9])[\/|-](\d\d)/),
+result: ("DATE", Concat("XX", $$0.matchResults[0].word.group(3), "-0", $$0.matchResults[0].word.group(2), "-", $$0.matchResults[0].word.group(1)), "", "","Rule$DD-MM-YYYY") }
+
+{ ruleType:   "tokens",
+matchWithResults: TRUE,
+pattern: (/(1[0-9]|2[0-9]|3[0-1])[\/|-](1[0-2])[\/|-](\d\d)/),
 result: ("DATE", Concat("XX", $$0.matchResults[0].word.group(3), "-", $$0.matchResults[0].word.group(2), "-", $$0.matchResults[0].word.group(1)), "", "","Rule$DD-MM-YYYY") }
 
+{ ruleType:   "tokens",
+matchWithResults: TRUE,
+pattern: (/0?([1-9])[\/|-]0?([1-9])[\/|-](\d\d)/),
+result: ("DATE", Concat("XX", $$0.matchResults[0].word.group(3), "-0", $$0.matchResults[0].word.group(2), "-0", $$0.matchResults[0].word.group(1)), "", "","Rule$DD-MM-YYYY") }
+
+{ ruleType:   "tokens",
+matchWithResults: TRUE,
+pattern: (/0?([1-9])[\/|-](1[0-2])[\/|-](\d\d)/),
+result: ("DATE", Concat("XX", $$0.matchResults[0].word.group(3), "-", $$0.matchResults[0].word.group(2), "-0", $$0.matchResults[0].word.group(1)), "", "","Rule$DD-MM-YYYY") }
 
 
 
@@ -1821,20 +1843,21 @@ priority: 3.0,
   stage : 200  } 
    
 
+# NO USEFUL LEGAL DOMAIN
+# { ruleType: "tokens", 
+#matchWithResults: TRUE,
+#  pattern: ( /(\d\d\d\d)[-|\/](\d\d\d\d)/ ) ,
+#   annotate: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$yyyy-yyyy"), Annotate($0, "timexValue", Concat(Subtract({ type: "NUMBER", value: $$0.matchResults[0].word.group(2)},{ type: "NUMBER", value: $$0.matchResults[0].word.group(1) }),"Y")) ),
+#   result: ( "DURATION", Concat(Subtract({ type: "NUMBER", value: $$0.matchResults[0].word.group(2)},{ type: "NUMBER", value: $$0.matchResults[0].word.group(1) }),"Y"), "", "", "Rule$yyyy-yyyy")  ,
+#   stage : 200  } 
 
- { ruleType: "tokens", 
-matchWithResults: TRUE,
-   pattern: ( /(\d\d\d\d)[-|\/](\d\d\d\d)/ ) ,
-   annotate: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$yyyy-yyyy"), Annotate($0, "timexValue", Concat(Subtract({ type: "NUMBER", value: $$0.matchResults[0].word.group(2)},{ type: "NUMBER", value: $$0.matchResults[0].word.group(1) }),"Y")) ),
-   result: ( "DURATION", Concat(Subtract({ type: "NUMBER", value: $$0.matchResults[0].word.group(2)},{ type: "NUMBER", value: $$0.matchResults[0].word.group(1) }),"Y"), "", "", "Rule$yyyy-yyyy")  ,
-   stage : 200  } 
-
- { ruleType: "tokens", 
-matchWithResults: TRUE,
-   pattern: ( /\d?\d?(\d\d)[-|\/](\d\d)/ ) ,
-   annotate: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$yyyy-yyyy"), Annotate($0, "timexValue", "1Y") ),
-   result: ( "DURATION", Concat(Subtract({ type: "NUMBER", value: $$0.matchResults[0].word.group(2)},{ type: "NUMBER", value: $$0.matchResults[0].word.group(1) }),"Y"), "", "", "Rule$yyyy-yyyy")  ,
-   stage : 200  }     
+# NO USEFUL LEGAL DOMAIN
+# { ruleType: "tokens", 
+#matchWithResults: TRUE,
+#   pattern: ( /\d?\d?(\d\d)[-|\/](\d\d)/ ) ,
+#   annotate: ( Annotate($0, "timexType", "DURATION"), Annotate($0, "myRule", "Rule$yyyy-yyyy"), Annotate($0, "timexValue", "1Y") ),
+#   result: ( "DURATION", Concat(Subtract({ type: "NUMBER", value: $$0.matchResults[0].word.group(2)},{ type: "NUMBER", value: $$0.matchResults[0].word.group(1) }),"Y"), "", "", "Rule$yyyy-yyyy")  ,
+#   stage : 200  }     
 
   
 #TODO: maybe better "last date" instead of TODAY as ref
@@ -1955,7 +1978,8 @@ matchWithResults: TRUE,
   
     # anchored isolated
 { ruleType:   "composite",
-  pattern: ( [{timexValue:/anchor.*/}]+  ),
+  # pattern: ( [{timexValue:/anchor.*/}]+  ),  
+  pattern: ( [{timexValue:/anchor.*/} && !{timexType:"TIME"}]+  ),
   result: ( "DATE", Concat($0[0].timexValue,""), "", "", $0[0].myRule ) ,
   stage : 500  } 
   
@@ -1973,6 +1997,7 @@ matchWithResults: TRUE,
      # time
 { ruleType:   "tokens",
   pattern: ( /[L|l][A|a][S|s]?/? ([{timexType:"TIME"}]+) [{word:/[H|h][O|o][R|r][A|a][S|s]?/}]? [{word:/[L|l][O|o][C|c][A|a][L|l]/}]? ),
+  action: (Annotate($0, "timexType", "TIME"), Annotate($0, "timexValue", $1[0].timexValue)),
   #result: ( "TIME", $1[0].timexValue, "", "", $1[0].myRule ) ,
     result: ( "TIME", Concat("anchor(TODAY,x,D)",$1[0].timexValue), "", "", $1[0].myRule ) ,
   stage : 500  } 
@@ -2130,7 +2155,7 @@ matchWithResults: TRUE,
   
 # eg: References to the present
 { ruleType:   "tokens",
-  pattern: ([{lemma:"en"}] (?$total ( [{word:/[E|e][L|l]/}] [{lemma:"presente"}]) | ([{lemma:"el"}] [{lemma:"actualidad"}]))),
+  pattern: ([{lemma:"en"}] (?$total ( [{word:/[E|e][L|l]/}] [{lemma:"presente"} && !{pos:/A.*/}]) | ([{lemma:"el"}] [{lemma:"actualidad"}]))),
   action: ( Annotate($total, "myRule", "Rule$EnPresentRef"), Annotate($total, "timexType", "DATE"), Annotate($total, "timexValue", "PRESENT_REF") )  ,
   stage : 700  }
   
@@ -2268,6 +2293,17 @@ action: (Annotate($total, "myNER", "QUEDAR"), Annotate($total, "myRule", "Rule$l
   pattern: ( [{myRule:"Rule$loquequeda"}]+ ),
 result: ("DURATION", $0[0].timexValue, "", "","Rule$loquequeda"),
   stage : 1001  }
+  
+  
+  { ruleType:   "composite",
+  pattern: ( (?$timepart [{timexType:"TIME"}]+) [{lemma:/,/}]? [{lemma:/del?/}]? [{lemma:/el/}]? [{lemma:/día?/}]?  (?$datepart [{timexType:"DATE"}]+) ),
+result: ("TIME", Concat($datepart[0].timexValue, "T", $timepart[0].timexValue), "", "","Rule$TIMEdelDATE"),
+  stage : 1002  }
+
+
+
+
+
   
 
   
