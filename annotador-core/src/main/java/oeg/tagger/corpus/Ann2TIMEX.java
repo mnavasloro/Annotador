@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.codehaus.plexus.util.FileUtils;
+//import org.codehaus.plexus.util.FileUtils;
 
 /**
  * Tool to visualize event annotations in Excel
@@ -109,7 +109,7 @@ public class Ann2TIMEX {
  txt2               +
 "\n" +
 "</TimeML>";
-        FileUtils.fileWrite(tmlfile, "UTF-8", tmlOutput);
+//        FileUtils.fileWrite(tmlfile, "UTF-8", tmlOutput);
 
     }
 

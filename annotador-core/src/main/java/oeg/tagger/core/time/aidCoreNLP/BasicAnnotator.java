@@ -22,10 +22,8 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 /**
- * Help for injecting an Spanish tagger in CoreNLP Adapted from
- * https://github.com/dhfbk/spanish
+ * Adapted from https://github.com/dhfbk/spanish, code for injecting an Spanish tagger in CoreNLP (License GPLv3)
  *
- * @author mnavas
  */
 public class BasicAnnotator implements Annotator {
 
@@ -62,8 +60,6 @@ public class BasicAnnotator implements Annotator {
                 sentNo = term.getSent();
             }
 
-//            System.out.println(document);
-//            System.out.println(document.getNumSentences());
             List<CoreMap> sentences = new ArrayList<>();
             ArrayList<CoreLabel> tokens = new ArrayList<>();
             int tokenIndex = 0;
@@ -114,21 +110,10 @@ public class BasicAnnotator implements Annotator {
     @Override
     public Set<Class<? extends CoreAnnotation>> requirementsSatisfied() {
         return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
-                //          CoreAnnotations.TextAnnotation.class,
                 CoreAnnotations.TokensAnnotation.class,
                 CoreAnnotations.SentencesAnnotation.class,
-                //          CoreAnnotations.CharacterOffsetBeginAnnotation.class,
-                //          CoreAnnotations.CharacterOffsetEndAnnotation.class,
                 CoreAnnotations.PartOfSpeechAnnotation.class,
                 CoreAnnotations.LemmaAnnotation.class
-        //          CoreAnnotations.BeforeAnnotation.class,
-        //          CoreAnnotations.AfterAnnotation.class,
-        //          CoreAnnotations.TokenBeginAnnotation.class,
-        //          CoreAnnotations.TokenEndAnnotation.class,
-        //          CoreAnnotations.IndexAnnotation.class,
-        //          CoreAnnotations.OriginalTextAnnotation.class,
-        //          CoreAnnotations.SentenceIndexAnnotation.class,
-        //          CoreAnnotations.IsNewlineAnnotation.class
         )));
     }
 
@@ -137,11 +122,4 @@ public class BasicAnnotator implements Annotator {
         return Collections.emptySet();
     }
 
-//     @Override public Set<Requirement> requirementsSatisfied() {
-//        return TOKENIZE_SSPLIT_POS_LEMMA;
-//    }
-//
-//    @Override public Set<Requirement> requires() {
-//        return Collections.emptySet();
-//    }
 }

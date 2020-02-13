@@ -13,7 +13,11 @@ import edu.stanford.nlp.util.StringUtils;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -42,7 +46,7 @@ import static org.joda.time.format.ISODateTimeFormat.dateTime;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Annotador core class, where the rules are applied and the normalization algorithm is.
  *
  * @author mnavas
  */
@@ -340,6 +344,15 @@ public class Annotador {
     }
 
     public String annotate(String input, String anchorDate) {
+        
+        try{
+            DateTime a = new DateTime(anchorDate);
+        } catch(Exception e){
+            Date dct = Calendar.getInstance().getTime();
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            anchorDate = df.format(dct);
+        }
+        
         Pattern pAnchor = Pattern.compile("anchor\\((\\w+),(.),([^\\)]+)\\)");
         String lastfullDATE = anchorDate; // Where we keep the last full date, in case we have to normalize
         String backupAnchor = anchorDate;

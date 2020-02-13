@@ -1,7 +1,7 @@
 package oeg.tagger.core.time.annotationHandler;
 
 /**
- * Class that stores athe parts of a NIF input
+ * Class that stores the parts of a NIF input
  *
  * @author mnavas
  */

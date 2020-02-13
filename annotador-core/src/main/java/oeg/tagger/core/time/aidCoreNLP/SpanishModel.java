@@ -1,16 +1,19 @@
 package oeg.tagger.core.time.aidCoreNLP;
 
 import eus.ixa.ixa.pipe.pos.Annotate;
+import java.io.IOException;
 
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Class for injecting an Spanish tagger in CoreNLP Adapted from
- * https://github.com/dhfbk/spanish
+ * Adapted from https://github.com/dhfbk/spanish, code for injecting an Spanish tagger in CoreNLP (License GPLv3)
  *
- * @author mnavas
  */
 public class SpanishModel {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpanishModel.class);
 
     private static SpanishModel ourInstance = null;
 
@@ -34,18 +37,16 @@ public class SpanishModel {
             final Properties posProperties = new Properties();
             posProperties.setProperty("model", properties.getProperty("posModel"));
             posProperties.setProperty("lemmatizerModel", properties.getProperty("lemmaModel"));
-//            posProperties.setProperty("parserModel", properties.getProperty("parserModel"));
             posProperties.setProperty("language", "es");
             posProperties.setProperty("multiwords", "no");
             posProperties.setProperty("dictag", "false");
 
             try {
                 ourInstance = new SpanishModel(new Annotate(posProperties));
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
-//            Annotate annotator = new Annotate(br, tokProperties);
         }
         return ourInstance;
     }
