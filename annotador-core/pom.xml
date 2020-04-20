@@ -110,11 +110,11 @@
             <type>jar</type>
         </dependency>
         
-        <dependency>
+        <!--dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.21</version>
-        </dependency>
+        </dependency-->
         
         <!-- https://mvnrepository.com/artifact/edu.stanford.nlp/stanford-corenlp -->
         <dependency>
@@ -123,7 +123,7 @@
             <version>3.9.1</version>
         </dependency>
         
-        <dependency>
+        <!--dependency>
     <groupId>com.mashape.unirest</groupId>
     <artifactId>unirest-java</artifactId>
     <version>1.4.9</version>
@@ -143,7 +143,7 @@
   <groupId>org.apache.httpcomponents</groupId>
   <artifactId>httpmime</artifactId>
   <version>4.3.6</version>
-</dependency>
+</dependency-->
 <dependency>
   <groupId>org.json</groupId>
   <artifactId>json</artifactId>
@@ -184,12 +184,12 @@
         <artifactId>poi</artifactId>
         <version>3.11-beta2</version>
     </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
             <version>4.4.9</version>
             <type>jar</type>
-        </dependency>
+        </dependency-->
     </dependencies>
     
     
@@ -217,7 +217,32 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>         
+            </plugin>   
+            <!--plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <minimizeJar>true</minimizeJar>
+              <filters>
+                <filter>
+                   <artifact>edu.stanford.nlp:stanford-corenlp:models-spanish:3.9.1</artifact>
+                   <excludes>
+                        <exclude>edu/stanford/nlp/models/pos-tagger/spanish/**</exclude>
+                        <exclude>edu/stanford/nlp/models/lexparser/**</exclude>
+                   </excludes>
+                </filter>                
+              </filters>            
+            </configuration>
+          </execution>
+        </executions>
+      </plugin-->      
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>

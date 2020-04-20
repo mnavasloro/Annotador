@@ -72,7 +72,7 @@ public class TIMEX2NIF {
                             + "        ] .";
 
                     ann.header = "<" + reference + "#offset_" + m.start() + "_" + end + ">\n";
-                    ann.a = "        a                     nif:OffsetBasedString ;\n";
+                    ann.a = "        a                     nif:OffsetBasedString, lkg:LynxAnnotation ;\n";
                     ann.referenceContext = "";
 
 //                               item.put("anchorOf", m.group(4) );
@@ -140,7 +140,7 @@ public class TIMEX2NIF {
                             + "        ] .";
 
                     ann.header = "<" + reference + "#offset_" + m.start() + "_" + end + ">\n";
-                    ann.a = "        a                     nif:OffsetBasedString ;\n";
+                    ann.a = "        a                     nif:OffsetBasedString, lkg:LynxAnnotation ;\n";
                     ann.referenceContext = "";
 
                     listAnnotations.add(ann);

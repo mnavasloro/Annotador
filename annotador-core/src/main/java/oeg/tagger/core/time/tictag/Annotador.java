@@ -363,6 +363,9 @@ public class Annotador {
             int flagRN = 0;
 
             inp2 = inp2.replaceAll("\\r\\n", "\n");
+//            inp2 = inp2.replaceAll("\\n", "\n\n\n\n");
+//            inp2 = inp2.replaceAll("([^\\n])\\n([^\\n])", "$1\n\n\n\n$2");
+            inp2 = inp2.replaceAll("([^\\n])\\n([^\\n])", "$1\nxyyz128945shb\n$2");
 
             int offsetdelay = 0;
             int numval = 0;
@@ -375,7 +378,7 @@ public class Annotador {
             // The toString() method on an Annotation just prints the text of the Annotation
             // But you can see what is in it with other methods like toShorterString()
 //            out.println("The top level annotation");
-            System.out.println(annotation.toShorterString());
+//            System.out.println(annotation.toShorterString());
 
             List<CoreMap> sentences = annotation.get(CoreAnnotations.SentencesAnnotation.class);
                 lastfullDATE = backupAnchor;
@@ -741,6 +744,9 @@ public class Annotador {
                 }
             }
 //            if(flagRN==1){
+//            inp2 = inp2.replaceAll("\\n\\n\\n\\n", "\n");
+                        inp2 = inp2.replaceAll("\\nxyyz128945shb\\n", "\n");
+
             inp2 = inp2.replaceAll("\\n", "\r\n");
 //            }
             return inp2;

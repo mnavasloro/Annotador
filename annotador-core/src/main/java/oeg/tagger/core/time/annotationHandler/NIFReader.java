@@ -46,7 +46,7 @@ public class NIFReader {
                     m.appendTail(sb);
                     inp2 = sb.toString();
                 } else{
-                    pattern = "<([^>]*)>((\\s*[^<][^;.]+[;.])\\s*)*";
+                    pattern = "<([^>]*)>((\\s*[^<][^;.]*[;.])\\s*)*";
                     p = Pattern.compile(pattern);
                     m = p.matcher(inp2);
                     sb = new StringBuffer(inp2.length());

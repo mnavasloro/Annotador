@@ -83,6 +83,7 @@ public class BasicAnnotator implements Annotator {
                     sentTokens.add(token);
                 }
 
+                if(!sentTokens.isEmpty()){
                 int begin = sentTokens.get(0).beginPosition();
                 int end = sentTokens.get(sentTokens.size() - 1).endPosition();
 
@@ -99,6 +100,7 @@ public class BasicAnnotator implements Annotator {
 
                 sentences.add(sent);
                 tokens.addAll(sentTokens);
+                }
             }
 
             annotation.set(CoreAnnotations.TokensAnnotation.class, tokens);

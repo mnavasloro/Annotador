@@ -73,7 +73,8 @@ public class TutorialAnnotadorES {
 //String txt = "El primer trimestre del año";
 //String txt = "Surgida en plena campaña para las elecciones municipales del próximo domingo, ";
 //String txt = "Durante el cuatrimestre primero ocurrió ";
-String txt = "se fueron a las 10.";
+String txt = "sma fecha la Sra. Letrado de la Administración de Justicia señaló para el Juicio Oral para los días\n" +
+"19 y 20 de noviembre 2018";
 System.out.println(txt);
 //String txt = "El año que viene.";//String txt = "se fueron a las 10.";
 //String txt = "durante los próximos 4 años jugará";//String txt = "se fueron a las 10.";

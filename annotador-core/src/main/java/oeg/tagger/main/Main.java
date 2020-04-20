@@ -253,12 +253,12 @@ public class Main {
         RedwoodConfiguration.current().clear().apply();        
         
         // We turn off some inner IxaPipes loggers
-        ch.qos.logback.classic.Logger logger1 = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(SpanishReadabilityModel.class);
-        logger1.setLevel(ch.qos.logback.classic.Level.OFF);           
-        ch.qos.logback.classic.Logger logger2 = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Hyphenator.class);
-        logger2.setLevel(ch.qos.logback.classic.Level.OFF);
-        ch.qos.logback.classic.Logger logger3 = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(BasicAnnotator.class);
-        logger3.setLevel(ch.qos.logback.classic.Level.OFF);
+//        ch.qos.logback.classic.Logger logger1 = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(SpanishReadabilityModel.class);
+//        logger1.setLevel(ch.qos.logback.classic.Level.OFF);           
+//        ch.qos.logback.classic.Logger logger2 = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Hyphenator.class);
+//        logger2.setLevel(ch.qos.logback.classic.Level.OFF);
+//        ch.qos.logback.classic.Logger logger3 = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(BasicAnnotator.class);
+//        logger3.setLevel(ch.qos.logback.classic.Level.OFF);
         
         logger.setLevel(Level.OFF);
 
