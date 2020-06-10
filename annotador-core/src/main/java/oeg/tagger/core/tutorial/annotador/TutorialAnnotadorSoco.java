@@ -5,7 +5,7 @@
  */
 package oeg.tagger.core.tutorial.annotador;
 
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.*;
 
 /**
  *
@@ -17,7 +17,7 @@ public class TutorialAnnotadorSoco {
      * Annotation of the files (in Spanish, just training) from TempEval3
      */
     public static void main(String[] args) {
-        Annotador tt = new Annotador("ES");
+        AnnotadorStandard tt = new AnnotadorStandard("ES");
         tt.evaluateSoco();
 
     }

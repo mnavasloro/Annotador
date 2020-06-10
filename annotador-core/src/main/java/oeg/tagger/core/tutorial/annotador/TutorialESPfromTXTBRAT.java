@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import oeg.tagger.core.servlets.Salida;
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -23,7 +23,7 @@ public class TutorialESPfromTXTBRAT {
         File f = new File("../annotador-core/src/main/resources/rules/TEST.txt");
         File outputFile = new File("../annotador-core/src/main/resources/rules/OUT-TEST.txt");
         String input = FileUtils.readFileToString(f, "UTF-8");
-        Annotador tt = new Annotador("ES");
+        AnnotadorStandard tt = new AnnotadorStandard("ES");
         Salida outp = tt.annotateBRAT(input, null);
 
         FileOutputStream fos = new FileOutputStream(outputFile.getAbsolutePath());

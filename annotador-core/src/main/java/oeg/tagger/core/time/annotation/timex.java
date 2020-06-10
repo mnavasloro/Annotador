@@ -56,4 +56,12 @@ public class timex {
         }
     }
 
+    public static class Mod implements CoreAnnotation<String> {
+
+        @Override
+        public Class<String> getType() {
+            return ErasureUtils.<Class<String>>uncheckedCast(String.class);
+        }
+    }
+
 }

@@ -206,6 +206,7 @@ $ORDINALS = (
 )
 
 DGRANULARITY_MAP = {
+  "workday": "WORKDAY",
   "day" : "DAY",
   "days" : "DAY",
 
@@ -240,6 +241,7 @@ $DGranularity = CreateRegex(Keys(DGRANULARITY_MAP))
 
 
 DURATION_MAP = {
+  "WORKDAY" : "myDurationDay" ,  #ToChangeForCalculus
   "DAY" : "myDurationDay" ,
   "WEEKEND"   : "myDurationWeekend" ,
   "WEEK"    : "myDurationWeek" ,
@@ -262,6 +264,7 @@ DURATION_MAP = {
 }
 
 HALF_DURATION_MAP = {
+  "WORKDAY" : "0.5BD",
   "DAY" : "0.5D" ,
   "WEEKEND"   : "0.5WE" ,
   "WEEK"    : "0.5W" ,
@@ -284,6 +287,7 @@ HALF_DURATION_MAP = {
 }
 
 QUARTER_DURATION_MAP = {
+  "WORKDAY" : "0.25BD" , 
   "DAY" : "0.25D" ,
   "WEEKEND"   : "0.25WE" ,
   "WEEK"    : "0.25W" ,
@@ -306,6 +310,7 @@ QUARTER_DURATION_MAP = {
 }
 
 TQUARTER_DURATION_MAP = {
+  "WORKDAY" : "0.75BD" ,
   "DAY" : "0.75D" ,
   "WEEKEND"   : "0.75WE" ,
   "WEEK"    : "0.75W" ,
@@ -476,6 +481,7 @@ $PDGranularity = CreateRegex(Keys(PARTDAY_MAP))
 
 
 DGRANULARITY_UNIT_MAP = {
+  "WORKDAY" : "BD" ,
   "DAY" : "D" ,
   "WEEKEND"   : "WEEKEND" ,
   "WEEK"    : "W" ,
@@ -495,6 +501,7 @@ DGRANULARITY_UNIT_MAP = {
 }
 
 DGRANULARITY_AMOUNT_MAP = {
+  "WORKDAY" : 1 ,
   "DAY" : 1 ,
   "WEEKEND"   : 2 ,
   "WEEK"    : 1 ,
@@ -516,6 +523,7 @@ DGRANULARITY_AMOUNT_MAP = {
 
 
 PERIOD_MAP = {
+  "WORKDAY" : "P" ,
   "DAY" : "P" ,
   "WEEKEND"   : "P" ,
   "WEEK"    : "P" ,
@@ -782,6 +790,15 @@ ENV.defaults["ruleType"] = "tokens"
   pattern: ( [{lemma:"weekend"}] ),
   action: ( Annotate($0, "myRule", "Rule$FinDeSemana"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP["weekend"] ), Annotate($0, "myTType", "finsemana" ) ) ,
   stage : 1  }
+  
+  # eg: working day
+{ ruleType:   "tokens",
+  pattern: ( ([({lemma:"work"} & {pos:"VBG"}) | {lemma:"business"}] [{lemma:"day"}]) |  [{lemma:"weekday"}] |  [{lemma:"workday"}] ),
+  action: ( Annotate($0, "myRule", "Rule$WorkDay"), Annotate($0, "myNER", "DGRANULARITY"), Annotate($0, "myNERnormalized", DGRANULARITY_MAP["workday"] ), Annotate($0, "myTType", "workday" ) ) ,
+  stage : 1  }
+  
+  
+  
 
 # eg: quarter of  
 { ruleType:   "tokens",
@@ -1382,6 +1399,12 @@ priority: 3.0,
   pattern: ( [{myTType:"finsemana"}]+  ),
   result: ( "DATE", Concat($0[0].timexValue,""), "", "", "Rule$finsemana" ) ,
   stage : 200  } 
+  
+  # Workday isolated
+# { ruleType:   "composite",
+#   pattern: ( [{myTType:"workday"}]+  ),
+#   result: ( "DATE", Concat($0[0].timexValue,""), "", "", "Rule$workday" ) ,
+#   stage : 200  }
   
     # anchored isolated
 { ruleType:   "composite",

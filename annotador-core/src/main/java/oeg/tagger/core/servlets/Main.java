@@ -1,6 +1,6 @@
 package oeg.tagger.core.servlets;
 
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 
 /**
  * Test of the functionality of the servlets
@@ -31,7 +31,7 @@ public class Main {
     public static String parseAndTag(String txt) {
 
         try {
-            Annotador annotador = new Annotador("ES");   // We innitialize the tagger in Spanish
+            AnnotadorStandard annotador = new AnnotadorStandard("ES");   // We innitialize the tagger in Spanish
             String date = "2000-02-11"; // Our test anchor date
             if (date != null && !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) // Is it valid?
             {
