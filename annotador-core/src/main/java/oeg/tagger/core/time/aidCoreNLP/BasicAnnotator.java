@@ -12,14 +12,13 @@ import eu.fbk.utils.core.PropertiesUtils;
 import eus.ixa.ixa.pipe.tok.Annotate;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Term;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Adapted from https://github.com/dhfbk/spanish, code for injecting an Spanish tagger in CoreNLP (License GPLv3)
@@ -27,7 +26,7 @@ import java.util.*;
  */
 public class BasicAnnotator implements Annotator {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BasicAnnotator.class);
+    private static final Logger LOGGER = Logger.getLogger(BasicAnnotator.class.getName());
 
     Properties tokProperties = new Properties();
     SpanishModel model;

@@ -4,7 +4,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.slf4j.LoggerFactory;
 import org.json.simple.*;
 
 /**
@@ -14,8 +13,8 @@ import org.json.simple.*;
  */
 public class TIMEX2JSON {
 
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(TIMEX2JSON.class);
-    
+    private static final Logger LOGGER = Logger.getLogger(TIMEX2JSON.class.getName());
+
     /**
      * Initializes a instance of the converter
      *

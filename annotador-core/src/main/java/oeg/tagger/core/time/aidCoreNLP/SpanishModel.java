@@ -4,8 +4,7 @@ import eus.ixa.ixa.pipe.pos.Annotate;
 import java.io.IOException;
 
 import java.util.Properties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 /**
  * Adapted from https://github.com/dhfbk/spanish, code for injecting an Spanish tagger in CoreNLP (License GPLv3)
@@ -13,7 +12,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SpanishModel {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(SpanishModel.class);
+private static final Logger LOGGER = Logger.getLogger(SpanishModel.class.getName());
 
     private static SpanishModel ourInstance = null;
 

@@ -1,6 +1,5 @@
 package oeg.tagger.core.time.tictag;
 
-import oeg.tagger.core.time.annotationHandler.BRATAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.tokensregex.CoreMapExpressionExtractor;
 import edu.stanford.nlp.ling.tokensregex.MatchedExpression;
@@ -28,14 +27,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import oeg.tagger.core.servlets.Salida;
 import oeg.tagger.core.time.annotationHandler.TIMEX2JSON;
 import oeg.tagger.core.time.annotationHandler.TIMEX2NIF;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import static org.joda.time.format.ISODateTimeFormat.dateTime;
-import org.slf4j.LoggerFactory;
 
 /**
  * Annotador core class, where the rules are applied and the normalization algorithm is.
@@ -44,7 +38,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Annotador {
 
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(Annotador.class);
+    private static final Logger logger = Logger.getLogger(Annotador.class.getName());
 
 //    PrintWriter out;
     String rules;
@@ -394,10 +388,10 @@ public class Annotador {
                     String rul = (String) a.get(4).get();
                     
                     if(rul.equalsIgnoreCase("Rule$TGranularity") || rul.equalsIgnoreCase("Rule$Granularity") || val.equalsIgnoreCase("PAST_REF") || val.equalsIgnoreCase("PRESENT_REF") || val.equalsIgnoreCase("FUTURE_REF")){
-                        System.out.println("Ignore this one : " + typ + " | " + val + " | " + freq + " | " + mod + " | " + rul);
+                        logger.info("Ignore this one : " + typ + " | " + val + " | " + freq + " | " + mod + " | " + rul);
                     } else{
 
-                    System.out.println(typ + " | " + val + " | " + freq + " | " + mod + " | " + rul);
+                    logger.info(typ + " | " + val + " | " + freq + " | " + mod + " | " + rul);
 
                     // TO DO: el get? poner los values!
                     numval++;

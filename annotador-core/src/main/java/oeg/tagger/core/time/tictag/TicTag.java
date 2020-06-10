@@ -16,7 +16,6 @@ import oeg.tagger.core.data.FileTimeBank;
 import oeg.tagger.core.data.ManagerTempEval3;
 import oeg.tagger.core.data.ManagerTempEval3ES;
 import oeg.tagger.core.data.ManagerTimeBank;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +24,7 @@ import org.slf4j.LoggerFactory;
  */
 public class TicTag {
 
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(TicTag.class);
+    private static final Logger log = Logger.getLogger(TicTag.class.getName());
 
     Map<String, String> map = new HashMap<String, String>();
     Map<TicTagRule, Double> ruleSet = new LinkedHashMap<TicTagRule, Double>();

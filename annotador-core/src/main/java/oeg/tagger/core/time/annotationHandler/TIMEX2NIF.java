@@ -6,7 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.slf4j.LoggerFactory;
 
 /**
  * Class that converts a TIMEX annotation into a NIF annotation
@@ -15,7 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 public class TIMEX2NIF {
 
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(TIMEX2NIF.class);
+    private static final Logger log = Logger.getLogger(TIMEX2NIF.class.getName());
 
     List<NIFAnnotation> listAnnotations = new ArrayList<NIFAnnotation>();
 

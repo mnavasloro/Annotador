@@ -1,19 +1,17 @@
 package oeg.tagger.main;
 
-import com.itextpdf.layout.hyphenation.Hyphenator;
+import edu.stanford.nlp.util.logging.RedwoodConfiguration;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
 import oeg.tagger.core.time.tictag.Annotador;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
@@ -21,22 +19,19 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.io.FileUtils;
-import edu.stanford.nlp.util.logging.RedwoodConfiguration;
-import eu.fbk.dh.tint.readability.es.SpanishReadabilityModel;
-import java.io.OutputStream;
 import java.io.PrintStream;
-import oeg.tagger.core.time.aidCoreNLP.BasicAnnotator;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-import org.apache.log4j.varia.NullAppender;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+//import org.apache.log4j.BasicConfigurator;
+//import org.apache.log4j.ConsoleAppender;
+//import org.apache.log4j.FileAppender;
+//import org.apache.log4j.Level;
+//import org.apache.log4j.LogManager;
+//import org.apache.log4j.Logger;
+//import org.apache.log4j.PatternLayout;
+//import org.apache.log4j.varia.NullAppender;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
-import org.slf4j.LoggerFactory;
 
 /**
  * Main class of the jar.
@@ -46,7 +41,8 @@ import org.slf4j.LoggerFactory;
  */
 public class Main {
 
-    static Logger logger = null;
+//    static Logger logger = null;
+    static final Logger logger = Logger.getLogger(Main.class.getName());
     static boolean logs = false;
     static String lang = "es";
     static String date = "";
@@ -55,7 +51,7 @@ public class Main {
 
     public static void main(String[] args) {
         
-        BasicConfigurator.configure();
+//        BasicConfigurator.configure();
 
         // We do this to avoid the Ixa-Pipes debugging messages...
         PrintStream systemerr = System.err;
@@ -115,9 +111,9 @@ public class Main {
             if (cmd.hasOption("lang")) {
                 lang = cmd.getOptionValue("lang");
             }
-            if (!cmd.hasOption("logs")) {
-                initLoggerDisabled();
-            }
+//            if (!cmd.hasOption("logs")) {
+//                initLoggerDisabled();
+//            }
             if (cmd.hasOption("date")) {
                 date = cmd.getOptionValue("date");
             }
@@ -137,19 +133,23 @@ public class Main {
             if(cmd.hasOption("outf")){
                 outpfilename = cmd.getOptionValue("outf");
                 if(!writeFile(outp, outpfilename)){
-                    logger.error("Error while writing.");
+                    logger.warning("Error while writing."); // ERROR
                 } else{
                     logger.info("Output correctly written to " + outpfilename);
                 }
             }
             if(outp != null){                
-                System.out.println("\n----------------\n");
+                if(logs){
+                    System.out.println("\n----------------\n");
+                }
                 System.out.println(outp);
-                System.out.println("\n----------------\n");
+                if(logs){
+                    System.out.println("\n----------------\n");
+                }
             }
 
         } catch (Exception e) {
-
+System.out.println(e.toString());
         }
 
         return res.toString();
@@ -159,12 +159,12 @@ public class Main {
         String res = "";
         try {
             File f = new File(filename);
-            logger.debug("parsing the folder " + filename);
+            logger.info("parsing the folder " + filename); // DEBUG
             String input = FileUtils.readFileToString(f, "UTF-8");
             res = parseText(input);
                 
         } catch (Exception e) {
-            logger.error("error opening file");
+            logger.warning("error opening file"); // ERROR
             return "";
         }
         logger.info("Parsing correct\n\n");
@@ -193,7 +193,7 @@ public class Main {
             annotador = new Annotador("en");
         }
         else{
-            logger.error("error in language; for now, just available ES and EN");
+            logger.warning("error in language; for now, just available ES and EN"); // ERROR
             return res;
         }
         
@@ -204,17 +204,15 @@ public class Main {
         } else if(format.equalsIgnoreCase("json")){
             res = annotador.annotateJSON(txt, date);
         } else{
-            logger.error("Incorrect format; TimeML will be used.");
+            logger.warning("Incorrect format; TimeML will be used."); // ERROR
             res = annotador.annotate(txt, date);
         }
         
         } catch (Exception e) {
-            logger.info(res);
-            logger.error("error processing text");
+            logger.warning("error processing text:\n" + res); // ERROR
             return "";
         }
-       logger.info(res);
-        logger.info("Text processing correct\n\n");
+       logger.info("Text processing correct:\n" + res);
 
         return res;
     }
@@ -234,13 +232,14 @@ public class Main {
      * ajenos (de terceras librerías etc.)
      */
     private static void initLoggerDisabled() {
-        logger = Logger.getLogger(Main.class);
-        List<Logger> loggers = Collections.<Logger>list(LogManager.getCurrentLoggers());
-        loggers.add(LogManager.getRootLogger());
-        for (Logger log : loggers) {
-            log.setLevel(Level.OFF);
-        }
-        Logger.getRootLogger().setLevel(Level.OFF);
+        Logger.getLogger("").setLevel(Level.FINEST);
+//
+//        List<Logger> loggers = Collections.<Logger>list(LogManager.getCurrentLoggers());
+//        loggers.add(LogManager.getRootLogger());
+//        for (Logger log : loggers) {
+//            log.setLevel(Level.OFF);
+//        }
+//        Logger.getRootLogger().setLevel(Level.OFF);
         
         // We do this to void IxaPipes messages...
         PrintStream falseerr = new PrintStream(new OutputStream(){
@@ -259,11 +258,11 @@ public class Main {
 //        logger2.setLevel(ch.qos.logback.classic.Level.OFF);
 //        ch.qos.logback.classic.Logger logger3 = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(BasicAnnotator.class);
 //        logger3.setLevel(ch.qos.logback.classic.Level.OFF);
-        
-        logger.setLevel(Level.OFF);
+//        
+//        logger.setLevel(Level.OFF);
 
-        Logger.getRootLogger().removeAllAppenders();
-Logger.getRootLogger().addAppender(new NullAppender());
+//        Logger.getRootLogger().removeAllAppenders();
+//Logger.getRootLogger().addAppender(new NullAppender());
     }
 
     /**
@@ -272,47 +271,47 @@ Logger.getRootLogger().addAppender(new NullAppender());
      */
     private static void initLoggerDebug() {
 
-        Enumeration currentLoggers = LogManager.getCurrentLoggers();
-        List<Logger> loggers = Collections.<Logger>list(currentLoggers);
-        loggers.add(LogManager.getRootLogger());
-        for (Logger log : loggers) {
-            log.setLevel(Level.OFF);
-        }
-
-        Logger root = Logger.getRootLogger();
-        root.setLevel((Level) Level.DEBUG);
-
-        //APPENDER DE CONSOLA (INFO)%d{ABSOLUTE} 
-        PatternLayout layout = new PatternLayout("%d{HH:mm:ss} [%5p] %13.13C{1}:%-4L %m%n");
-        ConsoleAppender appenderconsole = new ConsoleAppender(); //create appender
-        appenderconsole.setLayout(layout);
-        appenderconsole.setThreshold(Level.INFO);
-        appenderconsole.activateOptions();
-        appenderconsole.setName("console");
-        root.addAppender(appenderconsole);
-
-        //APPENDER DE ARCHIVO (DEBUG)
-        PatternLayout layout2 = new PatternLayout("%d{ISO8601} [%5p] %13.13C{1}:%-4L %m%n");
-        FileAppender appenderfile = null;
-        String filename = "./logs/logs.txt";
-        try {
-            MavenXpp3Reader reader = new MavenXpp3Reader();
-            Model model = reader.read(new FileReader("pom.xml"));
-            filename = "./logs/" + model.getArtifactId() + ".txt";
-        } catch (Exception e) {
-        }
-        try {
-            appenderfile = new FileAppender(layout2, filename, false);
-            appenderfile.setName("file");
-            appenderfile.setThreshold(Level.DEBUG);
-            appenderfile.activateOptions();
-        } catch (Exception e) {
-        }
-
-        root.addAppender(appenderfile);
-
-
-        logger = Logger.getLogger(Main.class);
+//        Enumeration currentLoggers = LogManager.getCurrentLoggers();
+//        List<Logger> loggers = Collections.<Logger>list(currentLoggers);
+//        loggers.add(LogManager.getRootLogger());
+//        for (Logger log : loggers) {
+//            log.setLevel(Level.OFF);
+//        }
+//
+//        Logger root = Logger.getRootLogger();
+//        root.setLevel((Level) Level.DEBUG);
+//
+//        //APPENDER DE CONSOLA (INFO)%d{ABSOLUTE} 
+//        PatternLayout layout = new PatternLayout("%d{HH:mm:ss} [%5p] %13.13C{1}:%-4L %m%n");
+//        ConsoleAppender appenderconsole = new ConsoleAppender(); //create appender
+//        appenderconsole.setLayout(layout);
+//        appenderconsole.setThreshold(Level.INFO);
+//        appenderconsole.activateOptions();
+//        appenderconsole.setName("console");
+//        root.addAppender(appenderconsole);
+//
+//        //APPENDER DE ARCHIVO (DEBUG)
+//        PatternLayout layout2 = new PatternLayout("%d{ISO8601} [%5p] %13.13C{1}:%-4L %m%n");
+//        FileAppender appenderfile = null;
+//        String filename = "./logs/logs.txt";
+//        try {
+//            MavenXpp3Reader reader = new MavenXpp3Reader();
+//            Model model = reader.read(new FileReader("pom.xml"));
+//            filename = "./logs/" + model.getArtifactId() + ".txt";
+//        } catch (Exception e) {
+//        }
+//        try {
+//            appenderfile = new FileAppender(layout2, filename, false);
+//            appenderfile.setName("file");
+//            appenderfile.setThreshold(Level.DEBUG);
+//            appenderfile.activateOptions();
+//        } catch (Exception e) {
+//        }
+//
+//        root.addAppender(appenderfile);
+//
+//
+//        logger = Logger.getLogger(Main.class.getName());
     }
     public static boolean writeFile(String input, String path) {
         try {
