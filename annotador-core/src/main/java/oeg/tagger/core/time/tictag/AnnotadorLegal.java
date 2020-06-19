@@ -36,7 +36,7 @@ import org.joda.time.DateTime;
  *
  * @author mnavas
  */
-public class Annotador {
+public class AnnotadorLegal {
 
     private static final Logger logger = Logger.getLogger(Annotador.class.getName());
 
@@ -62,16 +62,16 @@ public class Annotador {
      * @param lang language (ES - Spanish, EN - English)
      * @return an instance of the tagger
      */
-    public Annotador() {
+    public AnnotadorLegal() {
         init();
     }
 
-    public Annotador(String language) {
+    public AnnotadorLegal(String language) {
         lang = language;
         init();
     }
 
-    public Annotador(String pos, String lemma, String rul, String language) {
+    public AnnotadorLegal(String pos, String lemma, String rul, String language) {
         posModel = pos;
         lemmaModel = lemma;
         rules = rul;
@@ -79,7 +79,7 @@ public class Annotador {
         init();
     }
 
-    public Annotador(String rul, String language) {
+    public AnnotadorLegal(String rul, String language) {
         rules = rul;
         lang = language;
         init();
@@ -116,7 +116,7 @@ public class Annotador {
             properties.setProperty("tokenize.verbose", "false");
             properties.setProperty("TokensRegexNERAnnotator.verbose", "false");
 //    properties.setProperty("regexner.verbose", "false");
-        } else if (lang.equalsIgnoreCase("EN")) {
+		        } else if (lang.equalsIgnoreCase("EN")) {
             if (rules == null) {
                 rules = "./src/main/resources/rules/rulesEN.txt";
             }
@@ -132,7 +132,7 @@ public class Annotador {
             properties.setProperty("tokensregexdemo.rules", rules);
             properties.setProperty("tokenize.verbose", "false");
             properties.setProperty("TokensRegexNERAnnotator.verbose", "false");
-//    properties.setProperty("regexner.verbose", "false");
+//    properties.setProperty("regexner.verbose", "false");																			  
         }
 
         try {
@@ -387,7 +387,7 @@ public class Annotador {
                     String mod = (String) a.get(3).get();
                     String rul = (String) a.get(4).get();
                     
-                    if(rul.equalsIgnoreCase("Rule$TGranularity") || rul.equalsIgnoreCase("Rule$Granularity")){// || val.equalsIgnoreCase("PAST_REF") || val.equalsIgnoreCase("PRESENT_REF") || val.equalsIgnoreCase("FUTURE_REF")){
+                    if(rul.equalsIgnoreCase("Rule$TGranularity") || rul.equalsIgnoreCase("Rule$Granularity") || val.equalsIgnoreCase("PAST_REF") || val.equalsIgnoreCase("PRESENT_REF") || val.equalsIgnoreCase("FUTURE_REF")){
                         logger.info("Ignore this one : " + typ + " | " + val + " | " + freq + " | " + mod + " | " + rul);
                     } else{
 

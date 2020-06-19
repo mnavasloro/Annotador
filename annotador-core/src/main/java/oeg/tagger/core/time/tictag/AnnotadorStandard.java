@@ -1,5 +1,6 @@
 package oeg.tagger.core.time.tictag;
 
+import oeg.tagger.core.time.annotationHandler.BRATAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.tokensregex.CoreMapExpressionExtractor;
 import edu.stanford.nlp.ling.tokensregex.MatchedExpression;
@@ -27,6 +28,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import oeg.tagger.core.data.FileSoco;
+import oeg.tagger.core.data.FileTempEval3;
+import oeg.tagger.core.data.FileTempEval3ES;
+import oeg.tagger.core.data.FileTimeBank;
+import oeg.tagger.core.data.ManagerSoco;
+import oeg.tagger.core.data.ManagerTempEval3;
+import oeg.tagger.core.data.ManagerTempEval3ES;
+import oeg.tagger.core.data.ManagerTimeBank;
+import oeg.tagger.core.servlets.Salida;
 import oeg.tagger.core.time.annotationHandler.TIMEX2JSON;
 import oeg.tagger.core.time.annotationHandler.TIMEX2NIF;
 import org.joda.time.DateTime;
@@ -36,7 +46,7 @@ import org.joda.time.DateTime;
  *
  * @author mnavas
  */
-public class Annotador {
+public class AnnotadorStandard {
 
     private static final Logger logger = Logger.getLogger(Annotador.class.getName());
 
@@ -48,6 +58,7 @@ public class Annotador {
     StanfordCoreNLP pipeline;
 
     Map<String, String> map = new HashMap<String, String>();
+    Map<TicTagRule, Double> ruleSet = new LinkedHashMap<TicTagRule, Double>();
 
     String lang = "es";
 
@@ -62,16 +73,16 @@ public class Annotador {
      * @param lang language (ES - Spanish, EN - English)
      * @return an instance of the tagger
      */
-    public Annotador() {
+    public AnnotadorStandard() {
         init();
     }
 
-    public Annotador(String language) {
+    public AnnotadorStandard(String language) {
         lang = language;
         init();
     }
 
-    public Annotador(String pos, String lemma, String rul, String language) {
+    public AnnotadorStandard(String pos, String lemma, String rul, String language) {
         posModel = pos;
         lemmaModel = lemma;
         rules = rul;
@@ -79,7 +90,7 @@ public class Annotador {
         init();
     }
 
-    public Annotador(String rul, String language) {
+    public AnnotadorStandard(String rul, String language) {
         rules = rul;
         lang = language;
         init();
@@ -384,14 +395,9 @@ public class Annotador {
                     String typ = (String) a.get(0).get();
                     String val = (String) a.get(1).get();
                     String freq = (String) a.get(2).get();
-                    String mod = (String) a.get(3).get();
                     String rul = (String) a.get(4).get();
-                    
-                    if(rul.equalsIgnoreCase("Rule$TGranularity") || rul.equalsIgnoreCase("Rule$Granularity")){// || val.equalsIgnoreCase("PAST_REF") || val.equalsIgnoreCase("PRESENT_REF") || val.equalsIgnoreCase("FUTURE_REF")){
-                        logger.info("Ignore this one : " + typ + " | " + val + " | " + freq + " | " + mod + " | " + rul);
-                    } else{
 
-                    logger.info(typ + " | " + val + " | " + freq + " | " + mod + " | " + rul);
+                    logger.info(typ + " | " + val + " | " + freq + " | " + rul);
 
                     // TO DO: el get? poner los values!
                     numval++;
@@ -418,21 +424,21 @@ public class Annotador {
 
                     // TODO: also, use the dependency parsing to find modifiers
                     // TODO: the ref can be other day...
-                    if (val.startsWith("Danchor(+,") && lastfullDATE != null) {
+                    if (val.startsWith("Danchor(+,") && anchorDate != null) {
                         String refDate = val.substring(10, val.length() - 1);
-                        val = getNextDate(lastfullDATE, refDate);
-                    } else if (val.startsWith("Danchor(-,") && lastfullDATE != null) {
+                        val = getNextDate(anchorDate, refDate);
+                    } else if (val.startsWith("Danchor(-,") && anchorDate != null) {
                         String refDate = val.substring(10, val.length() - 1);
-                        val = getLastDate(lastfullDATE, refDate);
-                    } else if (val.startsWith("Sanchor(+,") && lastfullDATE != null) {
+                        val = getLastDate(anchorDate, refDate);
+                    } else if (val.startsWith("Sanchor(+,") && anchorDate != null) {
                         String refDate = val.substring(10, val.length() - 1);
-                        val = getNextSeason(lastfullDATE, refDate);
-                    } else if (val.startsWith("Sanchor(-,") && lastfullDATE != null) {
+                        val = getNextSeason(anchorDate, refDate);
+                    } else if (val.startsWith("Sanchor(-,") && anchorDate != null) {
                         String refDate = val.substring(10, val.length() - 1);
-                        val = getLastSeason(lastfullDATE, refDate);
-                    } else if (val.startsWith("Ranchor(+,") && lastfullDATE != null) {
+                        val = getLastSeason(anchorDate, refDate);
+                    } else if (val.startsWith("Ranchor(+,") && anchorDate != null) {
                         String gran = val.substring(10, val.length() - 1);
-                        DateTime dat = new DateTime(lastfullDATE);
+                        DateTime dat = new DateTime(anchorDate);
                         if(gran.equalsIgnoreCase("M")){
                             int day = dat.getDayOfMonth();
                             int maxM = dat.dayOfMonth().getMaximumValue();
@@ -446,9 +452,9 @@ public class Annotador {
                                 val = (maxM - day) + "D";
                             }
                         }                       
-                    } else if (val.startsWith("Ranchor(-,") && lastfullDATE != null) {
+                    } else if (val.startsWith("Ranchor(-,") && anchorDate != null) {
                         String gran = val.substring(10, val.length() - 1);
-                        DateTime dat = new DateTime(lastfullDATE);
+                        DateTime dat = new DateTime(anchorDate);
                         if(gran.equalsIgnoreCase("M")){
                             int day = dat.getDayOfMonth();
                             val = day + "D";
@@ -465,14 +471,14 @@ public class Annotador {
                                 val = (day -1) + "D";
                             }
                         }
-                    } else if (val.startsWith("DWanchor(+,") && lastfullDATE != null) {
+                    } else if (val.startsWith("DWanchor(+,") && anchorDate != null) {
                         String refDate = val.substring(11, val.length() - 1);
-                        val = getNextMonthS(new DateTime(lastfullDATE), refDate);
-                    } else if (val.startsWith("DWanchor(-,") && lastfullDATE != null) {
+                        val = getNextMonthS(new DateTime(anchorDate), refDate);
+                    } else if (val.startsWith("DWanchor(-,") && anchorDate != null) {
                         String refDate = val.substring(11, val.length() - 1);
-                        val = getLastMonthS(new DateTime(lastfullDATE), refDate);
-                    } else if (val.startsWith("anchor") && lastfullDATE != null) {
-                        DateTime dt = new DateTime(lastfullDATE);
+                        val = getLastMonthS(new DateTime(anchorDate), refDate);
+                    } else if (val.startsWith("anchor") && anchorDate != null) {
+                        DateTime dt = new DateTime(anchorDate);
 
                         Matcher m = pAnchor.matcher(val);
                         m.find();
@@ -495,18 +501,7 @@ public class Annotador {
                             int plusI = Integer.valueOf(durations.get(gran));
 
                             // Needs to be more general, check if today, proceed otherwise if not
-                            // To do: BD should use real work calendar, not just a simple day, but...
-                            if (gran.equalsIgnoreCase("BD")) {
-                                if (plus.equalsIgnoreCase("+")) {
-                                    dt = dt.plusDays(plusI);
-                                } else if (plus.equalsIgnoreCase("-")) {
-                                    dt = dt.minusDays(plusI);
-                                } else {
-                                    dt = new DateTime(lastfullDATE);
-                                    val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
-
-                                }
-                            }else if (gran.equalsIgnoreCase("D")) {
+                            if (gran.equalsIgnoreCase("D")) {
                                 if (plus.equalsIgnoreCase("+")) {
                                     dt = dt.plusDays(plusI);
                                 } else if (plus.equalsIgnoreCase("-")) {
@@ -663,7 +658,7 @@ public class Annotador {
                         }
                     }
 
-                    if ((typ.equalsIgnoreCase("DURATION") || typ.equalsIgnoreCase("SET")) && !rul.equalsIgnoreCase("Rule$losWEEKL")) {
+                    if ((typ.equalsIgnoreCase("DURATION") || typ.equalsIgnoreCase("SET"))) {
                         LinkedHashMap<String, String> auxVal = parseDuration(val);
                         String auxfin = "P";
                         int flagT = 0;
@@ -706,24 +701,17 @@ public class Annotador {
                         lastfullDATE = val;
                     }
                     
-                    if (typ.equalsIgnoreCase("TIME") && val.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d.*")) {
+                    if (typ.equalsIgnoreCase("TIME") && val.startsWith("\\d\\d\\d\\d-\\d\\d-\\d\\d")) {
                         lastfullDATE = val.substring(0,10);
                     }
                     
                     if (typ.equalsIgnoreCase("DATE")) {
                         lastDATE = val;
                     }
-                    
-                    
-                    String addini = "<TIMEX3 tid=\"t" + numval + "\" type=\"" + typ + "\" value=\"" + val;
+                    String addini = "<TIMEX3 tid=\"t" + numval + "\" type=\"" + typ + "\" value=\"" + val + "\">";
                     if (!freq.isEmpty()) {
-                        addini = addini + "\" freq=\"" + freq;
+                        addini = "<TIMEX3 tid=\"t" + numval + "\" type=\"" + typ + "\" value=\"" + val + "\" freq=\"" + freq + "\">";
                     }
-                    if (!mod.isEmpty()) {
-                        addini = addini + "\" mod=\"" + mod;
-                    }
-                    addini = addini + "\">";
-                    
                     String addfin = "</TIMEX3>";
 
                     
@@ -748,7 +736,7 @@ public class Annotador {
                     inp2 = inp2.substring(0, ini + offsetdelay) + toAdd + inp2.substring(ini + text.length() + offsetdelay);
 
                     offsetdelay = offsetdelay + toAdd.length() - text.length();
-                    }
+
                 }
             }
 //            if(flagRN==1){
@@ -757,9 +745,6 @@ public class Annotador {
 
             inp2 = inp2.replaceAll("\\n", "\r\n");
 //            }
-
-// DO INTERVAL SEARCH
-inp2 = searchIntervals(inp2);
             return inp2;
 
         } catch (Exception ex) {
@@ -768,7 +753,73 @@ inp2 = searchIntervals(inp2);
         }
     }
 
-    
+    public boolean evaluateTE3() {
+        try {
+            ManagerTempEval3 mte3 = new ManagerTempEval3();
+            List<FileTempEval3> list = mte3.lista;
+            for (FileTempEval3 f : list) {
+                String input = f.getTextInput();
+                String output = annotate(input, f.getDCTInput());
+                f.writeOutputFile(output);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean evaluateSoco() {
+        try {
+            ManagerSoco mte3 = new ManagerSoco();
+            List<FileSoco> list = mte3.lista;
+            for (FileSoco f : list) {
+                String input = f.getTextInput();
+                String output = annotate(input, null);
+                f.writeOutputFile(output);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean evaluateTE3ES() {
+        try {
+            ManagerTempEval3ES mte3 = new ManagerTempEval3ES();
+            List<FileTempEval3ES> list = mte3.lista;
+            int tot = list.size();
+            int i = 0;
+            for (FileTempEval3ES f : list) {
+                i++;
+                logger.info("--------> Doc num: " + i + "/" + tot);
+                String input = f.getTextInput();
+                String input2 = input.replaceAll("\\r\\n", "\\n");
+                String output = annotate(input2, f.getDCTInput());
+                if (!input.equals(input2)) {
+                    output = output.replaceAll("\\n", "\r\n");
+                }
+                f.writeOutputFile(output);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean evaluateTimeBank() {
+        try {
+            ManagerTimeBank mtb = new ManagerTimeBank();
+            List<FileTimeBank> list = mtb.lista;
+            for (FileTimeBank f : list) {
+                String input = f.getTextInput();
+                String output = annotate(input, f.getDCTInput());
+                f.writeOutputFile(output);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
     public boolean writeFile(String input, String path) {
         try {
@@ -800,32 +851,193 @@ inp2 = searchIntervals(inp2);
         return t2n.translateSentence(out, reference, lang);
     }
 
-    public String searchIntervals(String input) {
-//        Pattern pAnchor = Pattern.compile("((?:[E|e][N|n][T|t][R|r][E|e]) |(?:[A|a] [P|p][a|a][R|r][T|t][I|i][R|r] ?[D|d]?[E|e]?) |(?:[D|d][E|e][S|s][D|d][E|e]) |(?:[D|d][E|e]) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>( (?:[Y|y]) | (?:[A|a]) | (?:[H|h][A|a][S|s][T|t][A|a]) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>");
-        Pattern pAnchor = Pattern.compile("((?:[E|e][N|n][T|t][R|r][E|e] ?[E|e]?[L|l]?) |(?:[A|a] [P|p][a|a][R|r][T|t][I|i][R|r] ?[D|d]?[E|e]?[L|l]?) |(?:[D|d][E|e][S|s][D|d][E|e] ?[E|e]?[L|l]?) |(?:[D|d][E|e][L|l]?) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>([^\\.<]*)((?:[Y|y] ?[E|e]?[L|l]?) |(?:[A|a][L|l]?) |(?:[H|h][A|a][S|s][T|t][A|a] ?[E|e]?[L|l]?) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>");
-////////        Pattern pAnchor = Pattern.compile("((?:[E|e][N|n][T|t][R|r][E|e]) |(?:[A|a] [P|p][a|a][R|r][T|t][I|i][R|r] ?[D|d]?[E|e]?) |(?:[D|d][E|e][S|s][D|d][E|e]) |(?:[D|d][E|e]) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>([^\\.<]*)((?:[Y|y]) |(?:[A|a]) |(?:[H|h][A|a][S|s][T|t][A|a]) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>");
-//    Pattern pAnchor = Pattern.compile("((?:[E|e][N|n][T|t][R|r][E|e] ?[E|e]?[L|l]?)|(?:[A|a] [P|p][a|a][R|r][T|t][I|i][R|r] ?[D|d]?[E|e]?[L|l]?) |(?:[D|d][E|e][S|s][D|d][E|e] ?[E|e]?[L|l]?) |(?:[D|d][E|e][L|l]?) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>([^\\.<]*)((?:[Y|y]) |(?:[A|a][L|l]?) |(?:[H|h][A|a][S|s][T|t][A|a] ?[E|e]?[L|l]?) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>");
+    /* DEPRECATED */
+    // tb con anchordate
+//   public String annotateBRAT(String input, String anchorDate) {
+    public Salida annotateBRAT(String input, String anchorDate) {
+        String outp = "var x = {\n"
+                + "    'text': '" + input + "',\n"
+                + "    'entities': [\n";
+        String format = "var y = {\n"
+                + "    entity_types: [";
+        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-]?\\d+),(\\w+)\\)");
+        try {
+            String inp2 = input;
+            int numval = 0;
+            Annotation annotation = new Annotation(inp2);
 
-        Matcher m = pAnchor.matcher(input);
-        StringBuffer sb = new StringBuffer();
-        int numid = 0;
-        while (m.find()) {
-            numid++;
-            String begin = m.group(1);
-            String info1 = m.group(2);
-            String info2 = m.group(6);
-            String interast = m.group(4);
-            String inter = m.group(5);
-            String in1 = m.group(3);
-            String in2 = m.group(7);
-            info1 = info1.replace("=", "Begin=");
-            info2 = info2.replace("=", "End=");
+            pipeline.annotate(annotation);
 
-            m.appendReplacement(sb, "<INTERVAL iid=\"i" + numid + "\" " + info1 + " " + info2 + ">" + begin + in1 + interast + inter + in2 + "</INTERVAL>");
+            // An Annotation is a Map and you can get and use the various analyses individually.
+//            out.println();
+            // The toString() method on an Annotation just prints the text of the Annotation
+            // But you can see what is in it with other methods like toShorterString()
+//            out.println("The top level annotation");
+//            out.println(annotation.toShorterString());
+            List<CoreMap> sentences = annotation.get(CoreAnnotations.SentencesAnnotation.class);
+            for (CoreMap sentence : sentences) {
+                CoreMapExpressionExtractor<MatchedExpression> extractor = CoreMapExpressionExtractor
+                        .createExtractorFromFiles(TokenSequencePattern.getNewEnv(), rules);
+                List<MatchedExpression> matchedExpressions = extractor.extractExpressions(sentence);
+//      out.println("Matched expressions\n----------\n");
+
+                for (MatchedExpression matched : matchedExpressions) {
+//        out.println("Matched expression: " + matched.getText() + " with value " + matched.getValue());
+                    CoreMap cm = matched.getAnnotation();
+
+                    Value v = matched.getValue();
+
+                    ArrayList<edu.stanford.nlp.ling.tokensregex.types.Expressions.PrimitiveValue> a = (ArrayList<edu.stanford.nlp.ling.tokensregex.types.Expressions.PrimitiveValue>) v.get();
+                    String typ = (String) a.get(0).get();
+                    String val = (String) a.get(1).get();
+                    String rul = (String) a.get(2).get();
+
+                    // TO DO: el get? poner los values!
+                    numval++;
+                    int ini = cm.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
+                    int fin = cm.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
+                    String text = cm.get(CoreAnnotations.TextAnnotation.class);
+//        out.println(matched.getText() + " - " + matched.getCharOffsets());
+
+                    // To adapt to TE3 format - news mode
+                    if (val.startsWith("XXXX-XX") && anchorDate != null) {
+                        DateTime dt = new DateTime(anchorDate);
+                        int month = dt.getMonthOfYear();
+                        int year = dt.getYear();
+                        val = year + "-" + String.format("%02d", month) + val.substring(7, val.length());
+                    } else if (val.startsWith("XXXX") && anchorDate != null) {
+                        DateTime dt = new DateTime(anchorDate);
+                        int year = dt.getYear();
+                        val = year + val.substring(4, val.length());
+                    }
+
+                    // To adapt to TE3 format
+                    val = val.replaceAll("-X+", "");
+
+                    // TODO: also, use the dependency parsing to find modifiers
+                    // TODO: the ref can be other day...
+                    if (val.startsWith("anchor") && anchorDate != null) {
+                        Matcher m = pAnchor.matcher(val);
+                        m.find();
+                        String ref = m.group(1);
+                        String plus = m.group(2);
+                        String gran = m.group(3);
+                        int plusI = Integer.valueOf(plus);
+
+                        // Needs to be more general, check if today, proceed otherwise if not
+                        DateTime dt = new DateTime(anchorDate);
+                        if (gran.equalsIgnoreCase("DAY")) {
+                            if (plusI > 0) {
+                                dt = dt.plusDays(plusI);
+                            } else {
+                                dt = dt.minusDays(plusI * -1);
+                            }
+                        } else if (gran.equalsIgnoreCase("MONTH")) {
+                            if (plusI > 0) {
+                                dt = dt.plusMonths(plusI);
+                            } else {
+                                dt = dt.minusMonths(plusI * -1);
+                            }
+                        } else if (gran.equalsIgnoreCase("YEAR")) {
+                            if (plusI > 0) {
+                                dt = dt.plusYears(plusI);
+                            } else {
+                                dt = dt.minusYears(plusI * -1);
+                            }
+                        } else if (gran.equalsIgnoreCase("10_YEAR")) {
+                            if (plusI > 0) {
+                                dt = dt.plusYears(plusI * 10);
+                            } else {
+                                dt = dt.minusYears(plusI * -10);
+                            }
+                        } else if (gran.equalsIgnoreCase("100_YEAR")) {
+                            if (plusI > 0) {
+                                dt = dt.plusYears(plusI * 100);
+                            } else {
+                                dt = dt.minusYears(plusI * -100);
+                            }
+                        } else if (gran.equalsIgnoreCase("1000_YEAR")) {
+                            if (plusI > 0) {
+                                dt = dt.plusYears(plusI * 1000);
+                            } else {
+                                dt = dt.minusYears(plusI * -1000);
+                            }
+                        } else if (gran.equalsIgnoreCase("WEEK")) {
+                            if (plusI > 0) {
+                                dt = dt.plusWeeks(plusI);
+                            } else {
+                                dt = dt.minusWeeks(plusI);
+                            }
+                        } else if (gran.equalsIgnoreCase("HOUR")) {
+                            if (plusI > 0) {
+                                dt = dt.plusHours(plusI);
+                            } else {
+                                dt = dt.minusHours(plusI * -1);
+                            }
+                        } else if (gran.equalsIgnoreCase("MINUTE")) {
+                            if (plusI > 0) {
+                                dt = dt.plusMinutes(plusI);
+                            } else {
+                                dt = dt.minusMinutes(plusI * -1);
+                            }
+                        } else if (gran.equalsIgnoreCase("SECOND")) {
+                            if (plusI > 0) {
+                                dt = dt.plusSeconds(plusI);
+                            } else {
+                                dt = dt.minusSeconds(plusI * -1);
+                            }
+
+                        }
+
+                        val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
+                    }
+
+                    BRATAnnotation ba = new BRATAnnotation();
+                    ba.id = String.valueOf(numval);
+                    ba.beginIndex = String.valueOf(ini);
+                    ba.endIndex = String.valueOf(fin);
+                    ba.type = typ;
+                    ba.value = val;
+
+                    outp = outp + ba.toString();
+                    format = format + ba.formatToString();
+
+                }
+            }
+
+            Salida s = new Salida();
+            s.txt = outp + "],\n}";
+            s.format = format + "{\n"
+                    + "            type   : 'DATE',\n"
+                    + "            labels : ['DATE'],\n"
+                    + "            bgColor: '#7fa2ff',\n"
+                    + "            borderColor: 'darken'\n"
+                    + "    },\n"
+                    + "{\n"
+                    + "            type   : 'TIME',\n"
+                    + "            labels : ['TIME'],\n"
+                    + "            bgColor: '#ffbb99',\n"
+                    + "            borderColor: 'darken'\n"
+                    + "    },\n"
+                    + "{\n"
+                    + "            type   : 'SET',\n"
+                    + "            labels : ['SET'],\n"
+                    + "            bgColor: '#ccb3ff',\n"
+                    + "            borderColor: 'darken'\n"
+                    + "    },\n"
+                    + "{\n"
+                    + "            type   : 'DURATION',\n"
+                    + "            labels : ['DURATION'],\n"
+                    + "            bgColor: '#99ffeb',\n"
+                    + "            borderColor: 'darken'\n"
+                    + "    }	]\n"
+                    + "};";
+            return s;
+
+        } catch (Exception ex) {
+            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-        m.appendTail(sb); // append the rest of the contents
-        
-        return sb.toString();
     }
 
 }
