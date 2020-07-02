@@ -427,6 +427,7 @@ MINUTES_MENOS_MAP = {
   "catorce": "46",
   "quince": "45",
   "dieciseis": "44",
+  "dieciséis": "44",
   "diecisiete": "43",
   "dieciocho": "42",
   "diecinueve": "41",
@@ -437,6 +438,7 @@ MINUTES_MENOS_MAP = {
   "veinticuatro": "36",
   "veinticinco": "35",
   "veintiseis": "34",
+  "veintiséis": "34",
   "veintisiete": "33",
   "veintiocho": "32",
   "veintinueve": "31",
@@ -701,6 +703,7 @@ SPECIALS_MAP = {
   "catorce": 14,
   "quince": 15,
   "dieciseis": 16,
+  "dieciséis": 16,
   "diecisiete": 17,
   "dieciocho": 18,
   "diecinueve": 19,
@@ -710,6 +713,7 @@ SPECIALS_MAP = {
   "veinticuatro": 24,
   "veinticinco": 25,
   "veintiseis": 26,
+  "veintiséis": 26,
   "veintisiete": 27,
   "veintiocho": 28,
   "veintinueve": 29
@@ -1061,7 +1065,7 @@ ENV.defaults["ruleType"] = "tokens"
 # eg: hoy
 { ruleType:   "tokens",
   pattern: (([{lemma:"a"} | {lemma:"el"} | {lemma:"al"}] [{lemma:"día"}] [{lemma:"de"}])? [{lemma:"hoy"}]),
-  action: ( Annotate($0, "myRule", "Rule$Hoy"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "PRESENT_REF"), Annotate($0, "myNERnormalized", "HOY") )  ,
+  action: ( Annotate($0, "myRule", "Rule$Hoy"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,+,0D)"), Annotate($0, "myNERnormalized", "HOY") )  ,
   stage : 2  }
 
   

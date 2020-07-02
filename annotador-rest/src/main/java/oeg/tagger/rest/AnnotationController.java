@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
+import oeg.tagger.core.time.tictag.AnnotadorLegal;
 import oeg.tagger.core.time.annotationHandler.*;
+import oeg.tagger.core.time.tictag.Annotador;
 
 import org.slf4j.LoggerFactory;
 
@@ -35,9 +37,10 @@ public class AnnotationController {
     public String temporalNIF2NIF(
             @ApiParam(value = "Text where temporal expressions are going to be found") @RequestBody String txtinput,
             @ApiParam(value = "Language", required = true, defaultValue = "en", allowableValues = "en, es", allowMultiple = false) @RequestParam("language") String lang,
-            @ApiParam(value = "Document Creation Time", required = false, defaultValue = "dd/MM/yyyy") @RequestParam(value = "dct", required = false) String sdate
+            @ApiParam(value = "Document Creation Time", required = false, defaultValue = "dd/MM/yyyy") @RequestParam(value = "dct", required = false) String sdate,           
+            @ApiParam(value = "Domain", required = true, defaultValue = "standard", allowableValues = "standard, legal", allowMultiple = false) @RequestParam(value = "domain") String domain
     ) {
-        return annotate(sdate, txtinput, lang, "nif", "nif");
+        return annotate(sdate, domain, txtinput, lang, "nif", "nif");
     }
 
     @ApiOperation(value = "Annotates every possible temporal entity", response = String.class, tags = "annotation")
@@ -48,9 +51,10 @@ public class AnnotationController {
     public String temporalTXT2NIF(
             @ApiParam(value = "Text where temporal expressions are going to be found") @RequestBody String txtinput,
             @ApiParam(value = "Language", required = true, defaultValue = "en", allowableValues = "en, es", allowMultiple = false) @RequestParam("language") String lang,
-            @ApiParam(value = "Document Creation Time", required = false, defaultValue = "dd/MM/yyyy") @RequestParam(value = "dct", required = false) String sdate
+            @ApiParam(value = "Document Creation Time", required = false, defaultValue = "dd/MM/yyyy") @RequestParam(value = "dct", required = false) String sdate,
+            @ApiParam(value = "Domain", required = true, defaultValue = "standard", allowableValues = "standard, legal", allowMultiple = false) @RequestParam(value = "domain") String domain
     ) {
-        return annotate(sdate, txtinput, lang, "text", "nif");
+        return annotate(sdate, domain, txtinput, lang, "text", "nif");
     }
 
     @ApiOperation(value = "Annotates every possible temporal entity", response = String.class, tags = "annotation")
@@ -61,9 +65,10 @@ public class AnnotationController {
     public String temporalNIF2TXT(
             @ApiParam(value = "Text where temporal expressions are going to be found") @RequestBody String txtinput,
             @ApiParam(value = "Language", required = true, defaultValue = "en", allowableValues = "en, es", allowMultiple = false) @RequestParam("language") String lang,
-            @ApiParam(value = "Document Creation Time", required = false, defaultValue = "dd/MM/yyyy") @RequestParam(value = "dct", required = false) String sdate
+            @ApiParam(value = "Document Creation Time", required = false, defaultValue = "dd/MM/yyyy") @RequestParam(value = "dct", required = false) String sdate,
+            @ApiParam(value = "Domain", required = true, defaultValue = "standard", allowableValues = "standard, legal", allowMultiple = false) @RequestParam(value = "domain") String domain
     ) {
-        return annotate(sdate, txtinput, lang, "nif", "text");
+        return annotate(sdate, domain, txtinput, lang, "nif", "text");
     }
 
     //ADD
@@ -75,9 +80,10 @@ public class AnnotationController {
     public String temporalTXT2JSON(
             @ApiParam(value = "Text where temporal expressions are going to be found") @RequestBody String txtinput,
             @ApiParam(value = "Language", required = true, defaultValue = "en", allowableValues = "en, es", allowMultiple = false) @RequestParam("language") String lang,
-            @ApiParam(value = "Document Creation Time", required = false, defaultValue = "dd/MM/yyyy") @RequestParam(value = "dct", required = false) String sdate
+            @ApiParam(value = "Document Creation Time", required = false, defaultValue = "dd/MM/yyyy") @RequestParam(value = "dct", required = false) String sdate,
+            @ApiParam(value = "Domain", required = true, defaultValue = "standard", allowableValues = "standard, legal", allowMultiple = false) @RequestParam(value = "domain") String domain
     ) {
-        return annotate(sdate, txtinput, lang, "text", "json");
+        return annotate(sdate, domain, txtinput, lang, "text", "json");
     }
 
     //ADD
@@ -89,10 +95,11 @@ public class AnnotationController {
     public String temporalTXT2TXT(
             @ApiParam(value = "Text where temporal expressions are going to be found") @RequestBody String txtinput,
             @ApiParam(value = "Language", required = true, defaultValue = "en", allowableValues = "en, es", allowMultiple = false) @RequestParam("language") String lang,
-            @ApiParam(value = "Document Creation Time", required = false, defaultValue = "dd/MM/yyyy") @RequestParam(value = "dct", required = false) String sdate
+            @ApiParam(value = "Document Creation Time", required = false, defaultValue = "dd/MM/yyyy") @RequestParam(value = "dct", required = false) String sdate,
+            @ApiParam(value = "Domain", required = true, defaultValue = "standard", allowableValues = "standard, legal", allowMultiple = false) @RequestParam(value = "domain") String domain
     ) {
 
-        return annotate(sdate, txtinput, lang, "text", "text");
+        return annotate(sdate, domain, txtinput, lang, "text", "text");
     }
 
     @ApiOperation(value = "Test method to show info about the deployed version", tags = "internal")
@@ -120,7 +127,7 @@ public class AnnotationController {
         return "Internal information";
     }
 
-    private String annotate(String sdate, String txtinput, String lang, String formatinput, String formatoutput) {
+    private String annotate(String sdate, String domain, String txtinput, String lang, String formatinput, String formatoutput) {
 
         Date dct = null;
 
@@ -150,7 +157,7 @@ public class AnnotationController {
             /* DATE HANDLING ENDS */
  /* TEXT HANDLING */
             String txt = "";
-            String reference = "http://annotador.oeg-upm.net/";
+            String reference = "http://annotador.oeg.fi.upm.es/";
             String originalNIF = txtinput;
 
             // If it is NIF, we read it and keep the text and the reference URL
@@ -171,21 +178,34 @@ public class AnnotationController {
             txt = txtinput;
 
             /* TEXT HANDLING */
-            
+            Annotador upm_timex;
             /* ANNOTATION */
             // We annotate the text with Annotador (EN,ES)
+            if(domain.equalsIgnoreCase("standard")){
             if (lang.equalsIgnoreCase("es")) {
-                Annotador upm_timex = new Annotador("es");   // We initialize the tagger in Spanish
+                upm_timex = new AnnotadorStandard("es");   // We initialize the tagger in Spanish
                 res = upm_timex.annotate(txt, date);
             } else if (lang.equalsIgnoreCase("en")) {
 
-                Annotador upm_timex = new Annotador("en");   // We initialize the tagger in English
+                upm_timex = new AnnotadorStandard("en");   // We initialize the tagger in English
                 res = upm_timex.annotate(txt, date);
 
             } else {
                 System.out.println("ERROW WITH LANGUAGES\n");
             }
+            } else  if(domain.equalsIgnoreCase("legal")){
+            if (lang.equalsIgnoreCase("es")) {
+                upm_timex = new AnnotadorLegal("es");   // We initialize the tagger in Spanish
+                res = upm_timex.annotate(txt, date);
+            } else if (lang.equalsIgnoreCase("en")) {
 
+                upm_timex = new AnnotadorLegal("en");   // We initialize the tagger in English
+                res = upm_timex.annotate(txt, date);
+
+            } else {
+                System.out.println("ERROW WITH DOMAIN\n");
+            }
+            }
             /* ANNOTATION */
             /* RETURN FORMAT */
 //            if (!input.equals(txtinput)) {

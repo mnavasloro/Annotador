@@ -22,6 +22,8 @@ import org.apache.commons.io.FileUtils;
 import java.io.PrintStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import oeg.tagger.core.time.tictag.AnnotadorLegal;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 //import org.apache.log4j.BasicConfigurator;
 //import org.apache.log4j.ConsoleAppender;
 //import org.apache.log4j.FileAppender;
@@ -45,6 +47,7 @@ public class Main {
     static final Logger logger = Logger.getLogger(Main.class.getName());
     static boolean logs = false;
     static String lang = "es";
+    static String domain = "standard";
     static String date = "";
     static String format = "timeml";
     static String outpfilename = null;
@@ -95,6 +98,7 @@ public class Main {
             options.addOption("nologs", false, "OPTION to disables logs");
             options.addOption("logs", false, "OPTION to enable logs");
             options.addOption("lang", true, "OPTION to change language [ES, EN] (Spanish by default)");
+            options.addOption("domain", true, "OPTION to change domain [standard, legal] (Standard by default)");
             options.addOption("date", true, "OPTION to add an anchor date in the format yyyy-mm-dd (today by default)");
             options.addOption("text", true, "COMMAND to parse a text");
             options.addOption("f", true, "COMMAND to parse a file");
@@ -110,6 +114,9 @@ public class Main {
             }
             if (cmd.hasOption("lang")) {
                 lang = cmd.getOptionValue("lang");
+            }
+            if (cmd.hasOption("domain")) {
+                domain = cmd.getOptionValue("domain");
             }
 //            if (!cmd.hasOption("logs")) {
 //                initLoggerDisabled();
@@ -185,16 +192,33 @@ System.out.println(e.toString());
         
         Annotador annotador;
         
-        if(lang.equalsIgnoreCase("ES")){
-               // We innitialize the tagger in Spanish        
-               annotador = new Annotador("es");
-        }
-        else if(lang.equalsIgnoreCase("EN")){
-            annotador = new Annotador("en");
-        }
-        else{
-            logger.warning("error in language; for now, just available ES and EN"); // ERROR
-            return res;
+        if(domain.equalsIgnoreCase("standard")){
+            if(lang.equalsIgnoreCase("ES")){
+                   // We innitialize the tagger in Spanish        
+                   annotador = new AnnotadorStandard("es");
+            }
+            else if(lang.equalsIgnoreCase("EN")){
+                annotador = new AnnotadorStandard("en");
+            }
+            else{
+                logger.warning("error in language; for now, just available ES and EN"); // ERROR
+                return res;
+            }
+        } else if(domain.equalsIgnoreCase("legal")){
+            if(lang.equalsIgnoreCase("ES")){
+                   // We innitialize the tagger in Spanish        
+                   annotador = new AnnotadorLegal("es");
+            }
+            else if(lang.equalsIgnoreCase("EN")){
+                annotador = new AnnotadorLegal("en");
+            }
+            else{
+                logger.warning("error in language; for now, just available ES and EN"); // ERROR
+                return res;
+            }
+        } else{
+            logger.warning("error in domain; for now, just available standard and legal"); // ERROR
+                return res;
         }
         
         if(format.equalsIgnoreCase("timeml")){

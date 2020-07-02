@@ -1,6 +1,6 @@
 package oeg.tagger.core.time.annotationHandler;
 
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 
 /**
  *
@@ -56,9 +56,9 @@ public class testNIF {
             
             /* ANNOTATION */
             
-            // We annotate the text with Annotador (EN,ES) or Heideltime (NL,IT,GE)
+            // We annotate the text with asdad (EN,ES) or Heideltime (NL,IT,GE)
             
-            Annotador upm_timex = new Annotador("es");   // We initialize the tagger in Spanish
+            AnnotadorStandard upm_timex = new AnnotadorStandard("es");   // We initialize the tagger in Spanish
             String res = upm_timex.annotate(txt, "2020-02-22");
             System.out.println("TEST I:\nTIMEX RESULT:\n" + res);
             

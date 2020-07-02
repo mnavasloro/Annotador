@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -31,7 +31,7 @@ public class TempCourtEval {
         String[] taggers = {"ANNOTADOR"};
         String[] corpora = {"ECHR", "ECJ", "USC"};
 
-        Annotador ann = new Annotador("EN");
+        AnnotadorStandard ann = new AnnotadorStandard("EN");
         for (String corpus : corpora) {
             System.out.println("***************************************************************");
             System.out.println("STARTING CORPUS " + corpus);

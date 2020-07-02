@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 import oeg.tagger.core.time.tictag.TicTag;
 import org.apache.commons.io.FileUtils;
 
@@ -37,7 +37,7 @@ public class TutorialAnnotadorTempEval2TRAIN {
 //            String foutputHTML = "../annotador-core/src/main/resources/rules/output.html";
             File[] listF = finput.listFiles();
             String total = "";
-            Annotador tt = new Annotador("ES");
+            AnnotadorStandard tt = new AnnotadorStandard("ES");
             Pattern pText = Pattern.compile("\\d+_(\\d{4})(\\d{2})(\\d{2})");
             for (File f : listF){
                 try {

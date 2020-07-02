@@ -11,7 +11,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 import oeg.tagger.core.tutorial.annotador.TutorialAnnotadorSyntES;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;

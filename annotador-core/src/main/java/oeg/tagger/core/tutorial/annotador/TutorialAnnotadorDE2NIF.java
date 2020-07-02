@@ -5,7 +5,7 @@
  */
 package oeg.tagger.core.tutorial.annotador;
 
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 import oeg.tagger.core.time.tictag.TicTag;
 
 /**
@@ -93,7 +93,7 @@ String txt = "Welcome to Madrid in 2019, specifically Cercedilla, on May 1984.";
 //String txt = "hasta finales del pasado mayo .";
 //        String txt = "Al cumplirse hoy la segunda jornada de la protesta";
 //        String txt = "madrileños aseguró que el siglo XXI será el siglo de la ciencia y la tecnología";
-        Annotador tt = new Annotador("EN");
+        AnnotadorStandard tt = new AnnotadorStandard("EN");
         String outp = tt.annotateNIF(txt,"2019","http://sample.com/doc018", "en");
         System.out.println(outp);
 

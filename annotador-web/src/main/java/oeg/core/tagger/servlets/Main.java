@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import oeg.tagger.core.time.tictag.Annotador;
 import oeg.tagger.core.servlets.Salida;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 
 /**
  * Test of the functionality of the servlets
@@ -46,7 +47,7 @@ public class Main {
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 date = df.format(dct);
             }
-            Annotador annotador = new Annotador("ES");   // We innitialize the tagger in Spanish
+            Annotador annotador = new AnnotadorStandard("ES");   // We innitialize the tagger in Spanish
 
             String output = annotador.annotate(txt, date); // We annotate in BRAT format
             return createHighlights(output); // We return the javascript with the values to evaluate

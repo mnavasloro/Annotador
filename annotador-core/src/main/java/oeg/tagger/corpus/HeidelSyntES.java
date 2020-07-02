@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 import oeg.tagger.core.time.tictag.TicTag;
 import org.apache.commons.io.FileUtils;
 
@@ -38,7 +38,7 @@ public class HeidelSyntES {
             String foutputHTML = "../annotador-core/src/main/resources/rules/output.html";
             File[] listF = finput.listFiles();
             String total = "";
-            Annotador tt = new Annotador("ES");
+            AnnotadorStandard tt = new AnnotadorStandard("ES");
             for (File f : listF){
                 try {
                     String txt = FileUtils.readFileToString(f, "UTF-8");

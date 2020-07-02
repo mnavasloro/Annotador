@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import oeg.tagger.core.data.FileCENDOJ;
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 import oeg.tagger.core.time.tictag.TicTag;
 import org.apache.commons.io.FileUtils;
 
@@ -37,7 +37,7 @@ public class TutorialAnnotadorCENDOJ {
             String foutput = "C:\\Users\\mnavas\\Nextcloud\\OTROS\\COLABORACIONES\\CENDOJ\\FASE_2\\output\\";
 //            String foutputHTML = "../annotador-core/src/main/resources/rules/output.html";
             File[] listF = finput.listFiles();
-            Annotador tt = new Annotador("ES");
+            AnnotadorStandard tt = new AnnotadorStandard("ES");
             for (File f : listF){
                     FileCENDOJ fc = new FileCENDOJ(f);
                     String cuerpo = fc.getCuerpo();

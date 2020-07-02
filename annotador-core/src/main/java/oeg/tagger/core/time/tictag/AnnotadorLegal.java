@@ -27,18 +27,26 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import oeg.tagger.core.data.FileSoco;
+import oeg.tagger.core.data.FileTempEval3;
+import oeg.tagger.core.data.FileTempEval3ES;
+import oeg.tagger.core.data.FileTimeBank;
+import oeg.tagger.core.data.ManagerSoco;
+import oeg.tagger.core.data.ManagerTempEval3;
+import oeg.tagger.core.data.ManagerTempEval3ES;
+import oeg.tagger.core.data.ManagerTimeBank;
 import oeg.tagger.core.time.annotationHandler.TIMEX2JSON;
 import oeg.tagger.core.time.annotationHandler.TIMEX2NIF;
 import org.joda.time.DateTime;
 
 /**
- * Annotador core class, where the rules are applied and the normalization algorithm is.
+ * AnnotadorLegal core class, where the rules are applied and the normalization algorithm is.
  *
  * @author mnavas
  */
-public class AnnotadorLegal {
+public class AnnotadorLegal implements Annotador {
 
-    private static final Logger logger = Logger.getLogger(Annotador.class.getName());
+    private static final Logger logger = Logger.getLogger(AnnotadorLegal.class.getName());
 
 //    PrintWriter out;
     String rules;
@@ -116,7 +124,7 @@ public class AnnotadorLegal {
             properties.setProperty("tokenize.verbose", "false");
             properties.setProperty("TokensRegexNERAnnotator.verbose", "false");
 //    properties.setProperty("regexner.verbose", "false");
-		        } else if (lang.equalsIgnoreCase("EN")) {
+        } else if (lang.equalsIgnoreCase("EN")) {
             if (rules == null) {
                 rules = "./src/main/resources/rules/rulesEN.txt";
             }
@@ -132,7 +140,7 @@ public class AnnotadorLegal {
             properties.setProperty("tokensregexdemo.rules", rules);
             properties.setProperty("tokenize.verbose", "false");
             properties.setProperty("TokensRegexNERAnnotator.verbose", "false");
-//    properties.setProperty("regexner.verbose", "false");																			  
+//    properties.setProperty("regexner.verbose", "false");
         }
 
         try {
@@ -387,7 +395,7 @@ public class AnnotadorLegal {
                     String mod = (String) a.get(3).get();
                     String rul = (String) a.get(4).get();
                     
-                    if(rul.equalsIgnoreCase("Rule$TGranularity") || rul.equalsIgnoreCase("Rule$Granularity") || val.equalsIgnoreCase("PAST_REF") || val.equalsIgnoreCase("PRESENT_REF") || val.equalsIgnoreCase("FUTURE_REF")){
+                    if(rul.equalsIgnoreCase("Rule$TGranularity") || rul.equalsIgnoreCase("Rule$Granularity")){// || val.equalsIgnoreCase("PAST_REF") || val.equalsIgnoreCase("PRESENT_REF") || val.equalsIgnoreCase("FUTURE_REF")){
                         logger.info("Ignore this one : " + typ + " | " + val + " | " + freq + " | " + mod + " | " + rul);
                     } else{
 
@@ -760,15 +768,85 @@ public class AnnotadorLegal {
 
 // DO INTERVAL SEARCH
 inp2 = searchIntervals(inp2);
+
+inp2 = uniformOutp(inp2,input);
             return inp2;
 
         } catch (Exception ex) {
-            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AnnotadorLegal.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
 
     
+
+ public boolean evaluateTE3() {
+        try {
+            ManagerTempEval3 mte3 = new ManagerTempEval3();
+            List<FileTempEval3> list = mte3.lista;
+            for (FileTempEval3 f : list) {
+                String input = f.getTextInput();
+                String output = annotate(input, f.getDCTInput());
+                f.writeOutputFile(output);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AnnotadorLegal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean evaluateSoco() {
+        try {
+            ManagerSoco mte3 = new ManagerSoco();
+            List<FileSoco> list = mte3.lista;
+            for (FileSoco f : list) {
+                String input = f.getTextInput();
+                String output = annotate(input, null);
+                f.writeOutputFile(output);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AnnotadorLegal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean evaluateTE3ES() {
+        try {
+            ManagerTempEval3ES mte3 = new ManagerTempEval3ES();
+            List<FileTempEval3ES> list = mte3.lista;
+            int tot = list.size();
+            int i = 0;
+            for (FileTempEval3ES f : list) {
+                i++;
+                logger.info("--------> Doc num: " + i + "/" + tot);
+                String input = f.getTextInput();
+                String input2 = input.replaceAll("\\r\\n", "\\n");
+                String output = annotate(input2, f.getDCTInput());
+                if (!input.equals(input2)) {
+                    output = output.replaceAll("\\n", "\r\n");
+                }
+                f.writeOutputFile(output);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AnnotadorLegal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean evaluateTimeBank() {
+        try {
+            ManagerTimeBank mtb = new ManagerTimeBank();
+            List<FileTimeBank> list = mtb.lista;
+            for (FileTimeBank f : list) {
+                String input = f.getTextInput();
+                String output = annotate(input, f.getDCTInput());
+                f.writeOutputFile(output);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AnnotadorLegal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
     public boolean writeFile(String input, String path) {
         try {
@@ -780,7 +858,7 @@ inp2 = searchIntervals(inp2);
             bw.close();
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AnnotadorLegal.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
@@ -827,5 +905,119 @@ inp2 = searchIntervals(inp2);
         
         return sb.toString();
     }
+    
+    
+    private String uniformOutp(String cuerpoAnnotated, String cuerpo) {
+        String cuerpoMerge = cuerpo;
+        try{
+        if (cuerpoAnnotated != null && cuerpo != null) {
+            int j = 0; //to iterate in cuerpoAnnotated
+            int i = 0; //to iterate in cuerpoMerge
+            while (i < cuerpoMerge.length()) {
+                while ((cuerpoMerge.charAt(i) == '\n' || cuerpoMerge.charAt(i) == '\r')){
+                    i++;
+                }
+                while ((cuerpoAnnotated.charAt(j) == '\n' || cuerpoAnnotated.charAt(j) == '\r')){
+                    j++;
+                }
+                if (j < cuerpoAnnotated.length() && cuerpoAnnotated.charAt(j) == '<' && cuerpoAnnotated.substring(j + 1, j + 7).equalsIgnoreCase("TIMEX3")) {
+                    int j1 = cuerpoAnnotated.indexOf(">", j) + 1;
+                    int j2 = cuerpoAnnotated.indexOf("</TIMEX3>", j) + "</TIMEX3>".length();
+                    int j3 = cuerpoAnnotated.indexOf("</TIMEX3>", j);
+                    int lengtnew = j3 - j1;
+                    // in TIMEX3
+                    String intimex = cuerpoAnnotated.substring(j1, j3);
+                    String pretimex = cuerpoAnnotated.substring(j, j1);
+                    if (!cuerpoMerge.substring(i, i + lengtnew).equalsIgnoreCase(intimex)) {
+                        int lengthint = intimex.length();
+                        int k = 0;
+                        int k2 = 0;
+                        while (k < lengthint) {
+                            while (cuerpoMerge.charAt(i + k2) != intimex.charAt(k)) {
+                                k2++;
+                            }
+                            k++;
+                            k2++;
+                        }
+                        
+                        // Add duplicates
+                        String intimexchanged = cuerpoMerge.substring(i, i + k2);
+//                        if(intimexchanged.contains("<")){
+//                            pretimex = pretimex.replaceFirst(">", " duplicated=\"true\">");                            
+//                            intimexchanged = intimexchanged.replaceAll("(<[^>]+>)", "</TIMEX3>" + "$1" + pretimex);
+//                        }
+                        
+                        
+                        //
+                        
+                        cuerpoMerge = cuerpoMerge.substring(0, i) + pretimex + intimexchanged + "</TIMEX3>" + cuerpoMerge.substring(i + k2);
+//                        cuerpoMerge = cuerpoMerge.substring(0,i) + cuerpoAnnotated.substring(j, j2)+ cuerpoMerge.substring(i+k2);
+
+//                        i = i + k2 + pretimex.length() + "</TIMEX3>".length();
+                        i = i + intimexchanged.length() + pretimex.length() + "</TIMEX3>".length();
+//                        i = i + j2 - j;
+                        j = j2;
+                    } else {
+
+                        cuerpoMerge = cuerpoMerge.substring(0, i) + cuerpoAnnotated.substring(j, j2) + cuerpoMerge.substring(i + lengtnew);
+                        i = i + j2 - j;
+                        j = j2;
+
+                    }
+//                    if (cuerpoMerge.charAt(i) == '<') {
+                        i--;
+                        j--;
+//                    }
+                } else if (j < cuerpoAnnotated.length() && cuerpoAnnotated.charAt(j) == '<' && cuerpoAnnotated.substring(j + 1, j + 9).equalsIgnoreCase("INTERVAL")) {
+                    int j1 = cuerpoAnnotated.indexOf(">", j) + 1;
+                    int j2 = cuerpoAnnotated.indexOf("</INTERVAL>", j) + "</INTERVAL>".length();
+                    int j3 = cuerpoAnnotated.indexOf("</INTERVAL>", j);
+                    int lengtnew = j3 - j1;
+                    // in TIMEX3
+                    String intimex = cuerpoAnnotated.substring(j1, j3);
+                    String pretimex = cuerpoAnnotated.substring(j, j1);
+                    if (!cuerpoMerge.substring(i, i + lengtnew).equalsIgnoreCase(intimex)) {
+                        int lengthint = intimex.length();
+                        int k = 0;
+                        int k2 = 0;
+                        while (k < lengthint) {
+                            while (cuerpoMerge.charAt(i + k2) != intimex.charAt(k)) {
+                                k2++;
+                            }
+                            k++;
+                            k2++;
+                        }
+                        cuerpoMerge = cuerpoMerge.substring(0, i) + pretimex + cuerpoMerge.substring(i, i + k2) + "</INTERVAL>" + cuerpoMerge.substring(i + k2);
+//                        cuerpoMerge = cuerpoMerge.substring(0,i) + cuerpoAnnotated.substring(j, j2)+ cuerpoMerge.substring(i+k2);
+
+                        i = i + k2 + pretimex.length() + "</INTERVAL>".length();
+//                        i = i + j2 - j;
+                        j = j2;
+                    } else {
+
+                        cuerpoMerge = cuerpoMerge.substring(0, i) + cuerpoAnnotated.substring(j, j2) + cuerpoMerge.substring(i + lengtnew);
+                        i = i + j2 - j;
+                        j = j2;
+
+                    }
+//                    if (cuerpoMerge.charAt(i) == '<') {
+                        i--;
+                        j--;
+//                    }
+                }
+                i++;
+                j++;
+            }
+            return cuerpoMerge;
+        }
+        } catch(Exception e){
+            System.err.println("Error while setting the text uniform");
+            System.err.println(e.toString());
+        }
+
+        return cuerpoAnnotated;
+    }
+
+
 
 }

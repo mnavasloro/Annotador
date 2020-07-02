@@ -5,7 +5,7 @@
  */
 package oeg.tagger.core.tutorial.annotador;
 
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 import oeg.tagger.core.time.tictag.TicTag;
 
 /**
@@ -22,7 +22,7 @@ public class TutorialAnnotadorEN {
 //        String txt = "una vez cada semana";
 //        String txt = "a los 2029 capítulos";
 //        String txt = "viene a finales de 2019";
-        Annotador tt = new Annotador("EN");
+        AnnotadorStandard tt = new AnnotadorStandard("EN");
         String outp = tt.annotate(txt,null);
         System.out.println(outp);
 

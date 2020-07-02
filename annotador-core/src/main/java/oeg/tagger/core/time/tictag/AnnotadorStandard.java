@@ -10,9 +10,6 @@ import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.StringUtils;
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,17 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import oeg.tagger.core.data.FileSoco;
-import oeg.tagger.core.data.FileTempEval3;
-import oeg.tagger.core.data.FileTempEval3ES;
-import oeg.tagger.core.data.FileTimeBank;
-import oeg.tagger.core.data.ManagerSoco;
-import oeg.tagger.core.data.ManagerTempEval3;
-import oeg.tagger.core.data.ManagerTempEval3ES;
-import oeg.tagger.core.data.ManagerTimeBank;
 import oeg.tagger.core.servlets.Salida;
-import oeg.tagger.core.time.annotationHandler.TIMEX2JSON;
-import oeg.tagger.core.time.annotationHandler.TIMEX2NIF;
 import org.joda.time.DateTime;
 
 /**
@@ -46,26 +33,10 @@ import org.joda.time.DateTime;
  *
  * @author mnavas
  */
-public class AnnotadorStandard {
+public class AnnotadorStandard  extends AnnotadorLegal  implements Annotador {
 
-    private static final Logger logger = Logger.getLogger(Annotador.class.getName());
+    private static final Logger logger = Logger.getLogger(AnnotadorStandard.class.getName());
 
-//    PrintWriter out;
-    String rules;
-    Properties properties = new Properties();
-    String posModel;
-    String lemmaModel;
-    StanfordCoreNLP pipeline;
-
-    Map<String, String> map = new HashMap<String, String>();
-    Map<TicTagRule, Double> ruleSet = new LinkedHashMap<TicTagRule, Double>();
-
-    String lang = "es";
-
-    String iniSP = "-03-20";
-    String iniSU = "-06-21";
-    String iniFA = "-09-22";
-    String iniWI = "-12-21";
 
     /**
      * Initializes a instance of the tagger
@@ -96,11 +67,12 @@ public class AnnotadorStandard {
         init();
     }
 
+    @Override
     public void init() {
 
         if (lang.equalsIgnoreCase("ES")) {
             if (rules == null) {
-                rules = "./src/main/resources/rules/rulesES.txt";
+                rules = "./src/main/resources/rules/rulesES-standard.txt";
             }
 
 //        out = new PrintWriter(System.out);
@@ -129,7 +101,7 @@ public class AnnotadorStandard {
 //    properties.setProperty("regexner.verbose", "false");
         } else if (lang.equalsIgnoreCase("EN")) {
             if (rules == null) {
-                rules = "./src/main/resources/rules/rulesEN.txt";
+                rules = "./src/main/resources/rules/rulesEN-standard.txt";
             }
 
 //        out = new PrintWriter(System.out);
@@ -154,191 +126,8 @@ public class AnnotadorStandard {
 
     }
 
-    public DateTime getNextMonth(DateTime dt, int monthS) {
-        int current = dt.getMonthOfYear();
-        if (monthS <= current) {
-            monthS += 12;
-        }
-        DateTime next = dt.plusMonths(monthS - current);
-        return next;
-    }
 
-    public DateTime getLastMonth(DateTime dt, int monthS) {
-        int current = dt.getMonthOfYear();
-        if (monthS < current) {
-            monthS = current - monthS;
-        } else {
-            monthS = 12 - monthS + current;
-        }
-        DateTime next = dt.minusMonths(monthS);
-        return next;
-    }
-
-    public DateTime getNextDayWeek(DateTime dt, int dayW) {
-        int current = dt.getDayOfWeek();
-        if (dayW <= current) {
-            dayW += 7;
-        }
-        DateTime next = dt.plusDays(dayW - current);
-        return next;
-    }
-
-    public DateTime getLastDayWeek(DateTime dt, int dayW) {
-        int current = dt.getDayOfWeek();
-        if (dayW < current) {
-            dayW = current - dayW;
-        } else {
-            dayW = 7 - dayW + current;
-        }
-        DateTime next = dt.minusDays(dayW);
-        return next;
-    }
-
-    public String getNextMonthS(DateTime dt, String monthSS) {
-        int current = dt.getMonthOfYear();
-        String a = monthSS.replaceAll("MONTHS", "");
-        int monthS = Integer.valueOf(a);
-        String next;
-        if (monthS <= current) {
-            next = (dt.getYear() + 1) + "-" + String.format("%02d", monthS);
-        } else {
-            next = dt.getYear() + "-" + String.format("%02d", monthS);
-        }
-        return next;
-    }
-
-    public String getLastMonthS(DateTime dt, String monthSS) {
-        int current = dt.getMonthOfYear();
-        String a = monthSS.replaceAll("MONTHS", "");
-        int monthS = Integer.valueOf(a);
-        String next;
-        if (monthS >= current) {
-            next = (dt.getYear() + 1) + "-" + String.format("%02d", monthS);
-        } else {
-            next = dt.getYear() + "-" + String.format("%02d", monthS);
-        }
-        return next;
-    }
-
-    public String getNextDate(String dt, String refD) {
-        DateTime dtDT = new DateTime(dt);
-        if (refD.matches("\\d\\d\\d\\d-\\d\\d(-\\d\\d)?")) {
-            return refD;
-        } else if (refD.matches("XXXX-\\d\\d-\\d\\d")) {
-            refD = refD.replaceAll("XXXX", dt.substring(0, 4));
-            DateTime refDDT = new DateTime(refD);
-            if (refDDT.isAfter(dtDT)) {
-                return refD;
-            } else {
-                return refDDT.plusYears(1).toString("YYYY-MM-dd");
-            }
-        } else if (refD.matches("XXXX-XX-\\d\\d")) {
-            refD = refD.replaceAll("XXXX", dt.substring(0, 4));
-            refD = refD.replaceAll("XX", dt.substring(5, 7));
-            DateTime refDDT = new DateTime(refD);
-            if (refDDT.isAfter(dtDT)) {
-                return refD;
-            } else {
-                return refDDT.plusMonths(1).toString("YYYY-MM-dd");
-            }
-        }
-        return refD;
-    }
-
-    public String getLastDate(String dt, String refD) {
-        DateTime dtDT = new DateTime(dt);
-        if (refD.matches("\\d\\d\\d\\d-\\d\\d(-\\d\\d)?")) {
-            return refD;
-        } else if (refD.matches("XXXX-\\d\\d-\\d\\d")) {
-            refD = refD.replaceAll("XXXX", dt.substring(0, 4));
-            DateTime refDDT = new DateTime(refD);
-            if (refDDT.isBefore(dtDT)) {
-                return refD;
-            } else {
-                return refDDT.minusYears(1).toString("YYYY-MM-dd");
-            }
-        } else if (refD.matches("XXXX-XX-\\d\\d")) {
-            refD = refD.replaceAll("XXXX", dt.substring(0, 4));
-            refD = refD.replaceAll("XX", dt.substring(5, 7));
-            DateTime refDDT = new DateTime(refD);
-            if (refDDT.isBefore(dtDT)) {
-                return refD;
-            } else {
-                return refDDT.minusMonths(1).toString("YYYY-MM-dd");
-            }
-        }
-
-        return refD;
-    }
-
-    public String getNextSeason(String dt, String refD) {
-        if (refD.matches("\\d\\d\\d\\d-[A-Z][A-Z]")) {
-            return refD;
-        }
-        String year = dt.substring(0, 4);
-        String season = refD.substring(4, 7);
-        String seasondate = year;
-        DateTime dtDT = new DateTime(dt);
-        if (season.equalsIgnoreCase("-SU")) {
-            seasondate = seasondate + iniSU;
-        } else if (season.equalsIgnoreCase("-SP")) {
-            seasondate = seasondate + iniSP;
-        } else if (season.equalsIgnoreCase("-WI")) {
-            seasondate = seasondate + iniWI;
-        } else if (season.equalsIgnoreCase("-FA")) {
-            seasondate = seasondate + iniFA;
-        }
-        DateTime refDDT = new DateTime(seasondate);
-
-        if (refDDT.isAfter(dtDT)) {
-            return year + season;
-        } else {
-            return refDDT.plusYears(1).toString("YYYY") + season;
-        }
-    }
-
-    public String getLastSeason(String dt, String refD) {
-        if (refD.matches("\\d\\d\\d\\d-[A-Z][A-Z]")) {
-            return refD;
-        }
-        String year = dt.substring(0, 4);
-        String season = refD.substring(4, 7);
-        String seasondate = year;
-        DateTime dtDT = new DateTime(dt);
-        if (season.equalsIgnoreCase("-SU")) {
-            seasondate = seasondate + iniSU;
-        } else if (season.equalsIgnoreCase("-SP")) {
-            seasondate = seasondate + iniSP;
-        } else if (season.equalsIgnoreCase("-WI")) {
-            seasondate = seasondate + iniWI;
-        } else if (season.equalsIgnoreCase("-FA")) {
-            seasondate = seasondate + iniFA;
-        }
-        DateTime refDDT = new DateTime(seasondate);
-
-        if (refDDT.isBefore(dtDT)) {
-            return year + season;
-        } else {
-            return refDDT.minusYears(1).toString("YYYY") + season;
-        }
-    }
-
-    public LinkedHashMap<String, String> parseDuration(String input) {
-        LinkedHashMap<String, String> durations = new LinkedHashMap<String, String>();
-        Pattern pAnchor = Pattern.compile("(\\d*\\.?\\d+|X)([a-zA-Z]+)");
-
-        Matcher m = pAnchor.matcher(input);
-        while (m.find()) {
-            String numb = m.group(1);
-            String unit = m.group(2);
-            durations.put(unit, numb);
-
-        }
-//        Pattern pAnchor = Pattern.compile("anchor\\((\\w+),([+-]?\\d+),(\\w+)\\)");
-
-        return durations;
-    }
-
+    @Override
     public String annotate(String input, String anchorDate) {
         
         try{
@@ -745,111 +534,17 @@ public class AnnotadorStandard {
 
             inp2 = inp2.replaceAll("\\n", "\r\n");
 //            }
+
+            inp2 = uniformOutp(inp2,input);
             return inp2;
 
         } catch (Exception ex) {
-            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AnnotadorStandard.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
 
-    public boolean evaluateTE3() {
-        try {
-            ManagerTempEval3 mte3 = new ManagerTempEval3();
-            List<FileTempEval3> list = mte3.lista;
-            for (FileTempEval3 f : list) {
-                String input = f.getTextInput();
-                String output = annotate(input, f.getDCTInput());
-                f.writeOutputFile(output);
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
-    public boolean evaluateSoco() {
-        try {
-            ManagerSoco mte3 = new ManagerSoco();
-            List<FileSoco> list = mte3.lista;
-            for (FileSoco f : list) {
-                String input = f.getTextInput();
-                String output = annotate(input, null);
-                f.writeOutputFile(output);
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
-    public boolean evaluateTE3ES() {
-        try {
-            ManagerTempEval3ES mte3 = new ManagerTempEval3ES();
-            List<FileTempEval3ES> list = mte3.lista;
-            int tot = list.size();
-            int i = 0;
-            for (FileTempEval3ES f : list) {
-                i++;
-                logger.info("--------> Doc num: " + i + "/" + tot);
-                String input = f.getTextInput();
-                String input2 = input.replaceAll("\\r\\n", "\\n");
-                String output = annotate(input2, f.getDCTInput());
-                if (!input.equals(input2)) {
-                    output = output.replaceAll("\\n", "\r\n");
-                }
-                f.writeOutputFile(output);
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
-    public boolean evaluateTimeBank() {
-        try {
-            ManagerTimeBank mtb = new ManagerTimeBank();
-            List<FileTimeBank> list = mtb.lista;
-            for (FileTimeBank f : list) {
-                String input = f.getTextInput();
-                String output = annotate(input, f.getDCTInput());
-                f.writeOutputFile(output);
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
-    public boolean writeFile(String input, String path) {
-        try {
-            FileOutputStream fos = new FileOutputStream(path);
-            OutputStreamWriter w = new OutputStreamWriter(fos, "UTF-8");
-            BufferedWriter bw = new BufferedWriter(w);
-            bw.write(input);
-            bw.flush();
-            bw.close();
-            return true;
-        } catch (Exception ex) {
-            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
-    public String annotateJSON(String input, String anchorDate) {
-
-        String out = annotate(input, anchorDate);
-        TIMEX2JSON t2j = new TIMEX2JSON();
-        return t2j.translateSentence(out);
-    }
-    
-    
-    public String annotateNIF(String input, String anchorDate, String reference, String lang) {
-
-        String out = annotate(input, anchorDate);
-        TIMEX2NIF t2n = new TIMEX2NIF();
-        return t2n.translateSentence(out, reference, lang);
-    }
+   
 
     /* DEPRECATED */
     // tb con anchordate
@@ -1035,9 +730,119 @@ public class AnnotadorStandard {
             return s;
 
         } catch (Exception ex) {
-            Logger.getLogger(Annotador.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AnnotadorStandard.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+    }
+
+    private String uniformOutp(String cuerpoAnnotated, String cuerpo) {
+        String cuerpoMerge = cuerpo;
+        try{
+        if (cuerpoAnnotated != null && cuerpo != null) {
+            int j = 0; //to iterate in cuerpoAnnotated
+            int i = 0; //to iterate in cuerpoMerge
+            while (i < cuerpoMerge.length()) {
+                while (i < cuerpoMerge.length() && (cuerpoMerge.charAt(i) == '\n' || cuerpoMerge.charAt(i) == '\r')){
+                    i++;
+                }
+                while (j < cuerpoAnnotated.length() && (cuerpoAnnotated.charAt(j) == '\n' || cuerpoAnnotated.charAt(j) == '\r')){
+                    j++;
+                }
+                if (j < cuerpoAnnotated.length() && cuerpoAnnotated.charAt(j) == '<' && cuerpoAnnotated.substring(j + 1, j + 7).equalsIgnoreCase("TIMEX3")) {
+                    int j1 = cuerpoAnnotated.indexOf(">", j) + 1;
+                    int j2 = cuerpoAnnotated.indexOf("</TIMEX3>", j) + "</TIMEX3>".length();
+                    int j3 = cuerpoAnnotated.indexOf("</TIMEX3>", j);
+                    int lengtnew = j3 - j1;
+                    // in TIMEX3
+                    String intimex = cuerpoAnnotated.substring(j1, j3);
+                    String pretimex = cuerpoAnnotated.substring(j, j1);
+                    if (!cuerpoMerge.substring(i, i + lengtnew).equalsIgnoreCase(intimex)) {
+                        int lengthint = intimex.length();
+                        int k = 0;
+                        int k2 = 0;
+                        while (k < lengthint) {
+                            while (cuerpoMerge.charAt(i + k2) != intimex.charAt(k)) {
+                                k2++;
+                            }
+                            k++;
+                            k2++;
+                        }
+                        
+                        // Add duplicates
+                        String intimexchanged = cuerpoMerge.substring(i, i + k2);
+//                        if(intimexchanged.contains("<")){
+//                            pretimex = pretimex.replaceFirst(">", " duplicated=\"true\">");                            
+//                            intimexchanged = intimexchanged.replaceAll("(<[^>]+>)", "</TIMEX3>" + "$1" + pretimex);
+//                        }
+                        
+                        
+                        //
+                        
+                        cuerpoMerge = cuerpoMerge.substring(0, i) + pretimex + intimexchanged + "</TIMEX3>" + cuerpoMerge.substring(i + k2);
+//                        cuerpoMerge = cuerpoMerge.substring(0,i) + cuerpoAnnotated.substring(j, j2)+ cuerpoMerge.substring(i+k2);
+
+//                        i = i + k2 + pretimex.length() + "</TIMEX3>".length();
+                        i = i + intimexchanged.length() + pretimex.length() + "</TIMEX3>".length();
+//                        i = i + j2 - j;
+                        j = j2;
+                    } else {
+
+                        cuerpoMerge = cuerpoMerge.substring(0, i) + cuerpoAnnotated.substring(j, j2) + cuerpoMerge.substring(i + lengtnew);
+                        i = i + j2 - j;
+                        j = j2;
+
+                    }
+//                    if (cuerpoMerge.charAt(i) == '<') {
+                        i--;
+                        j--;
+//                    }
+                } else if (j < cuerpoAnnotated.length() && cuerpoAnnotated.charAt(j) == '<' && cuerpoAnnotated.substring(j + 1, j + 9).equalsIgnoreCase("INTERVAL")) {
+                    int j1 = cuerpoAnnotated.indexOf(">", j) + 1;
+                    int j2 = cuerpoAnnotated.indexOf("</INTERVAL>", j) + "</INTERVAL>".length();
+                    int j3 = cuerpoAnnotated.indexOf("</INTERVAL>", j);
+                    int lengtnew = j3 - j1;
+                    // in TIMEX3
+                    String intimex = cuerpoAnnotated.substring(j1, j3);
+                    String pretimex = cuerpoAnnotated.substring(j, j1);
+                    if (!cuerpoMerge.substring(i, i + lengtnew).equalsIgnoreCase(intimex)) {
+                        int lengthint = intimex.length();
+                        int k = 0;
+                        int k2 = 0;
+                        while (k < lengthint) {
+                            while (cuerpoMerge.charAt(i + k2) != intimex.charAt(k)) {
+                                k2++;
+                            }
+                            k++;
+                            k2++;
+                        }
+                        cuerpoMerge = cuerpoMerge.substring(0, i) + pretimex + cuerpoMerge.substring(i, i + k2) + "</INTERVAL>" + cuerpoMerge.substring(i + k2);
+//                        cuerpoMerge = cuerpoMerge.substring(0,i) + cuerpoAnnotated.substring(j, j2)+ cuerpoMerge.substring(i+k2);
+
+                        i = i + k2 + pretimex.length() + "</INTERVAL>".length();
+//                        i = i + j2 - j;
+                        j = j2;
+                    } else {
+
+                        cuerpoMerge = cuerpoMerge.substring(0, i) + cuerpoAnnotated.substring(j, j2) + cuerpoMerge.substring(i + lengtnew);
+                        i = i + j2 - j;
+                        j = j2;
+
+                    }
+//                    if (cuerpoMerge.charAt(i) == '<') {
+                        i--;
+                        j--;
+//                    }
+                }
+                i++;
+                j++;
+            }
+            return cuerpoMerge;
+        }
+        } catch(Exception e){
+            System.err.println("Error while setting the text uniform");
+            System.err.println(e.toString());
+        }
+        return cuerpoAnnotated;
     }
 
 }

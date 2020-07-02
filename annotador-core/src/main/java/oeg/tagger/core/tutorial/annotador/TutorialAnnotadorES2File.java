@@ -13,7 +13,7 @@ import java.io.OutputStreamWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 import oeg.tagger.core.time.tictag.TicTag;
 import org.apache.commons.io.FileUtils;
 
@@ -34,7 +34,7 @@ public class TutorialAnnotadorES2File {
             String foutput = "C:\\Users\\mnavas\\Desktop\\CENDOJ\\output\\";
 //            String foutputHTML = "../annotador-core/src/main/resources/rules/output.html";
             File[] listF = finput.listFiles();
-            Annotador tt = new Annotador("ES");
+            AnnotadorStandard tt = new AnnotadorStandard("ES");
             for (File f : listF){
                     String txt = FileUtils.readFileToString(f, "UTF-8");
                     String date = f.getName().substring(10, 14);

@@ -89,7 +89,7 @@
 							<h3 style="text-align: center;">   How to use it</h3>
 								
 								<br><br>
-								<p >Añotador takes a text or a json as an input and returns it as a JSON or a TimeML document.</p>
+								<p >Añotador takes a json as an input and returns it as a JSON or a TimeML document. There are two different domains to choose: "General" (or Standard), that follows the TimeML standard, and "Legal", that includes specific domain considerations and tags, such as finding INTERVALS or normalizing differently some temporal expressions.</p>
 								
 								<p> The system only needs a text, but you can also provide the date to anchor (this means that if it finds “tomorrow” with “2019-10-20”, it will consider that its value is “2019-10-21”; if not provided, it considers the present day as anchor) and the language (default is Spanish). The system annotates text following the <a href="http://www.timeml.org/publications/specs.html">TimeML standard</a>, this is, using some “TIMEX3” tags like in the following examples:
 								<br><br>
@@ -140,11 +140,15 @@ We work <samp style="font-weight: bold; background-color:#d6f5f5">&lt;TIMEX3 tid
 </div>
 
 
-Probably the most important part for you is the field “value”, that appears in all kinds of temporal expression and follows the ISO 8601 standard. There are also other fields, like “freq” when talking about repetitive events, that just appear for some temporal expressions (in the example, “twice a week”). For now, the system detects dates (“May 10”), times (“at 2pm”, “two o’clock”…), sets (such as “monthly”, “once a week”, for instance) and durations (“two days and five hours”), and I plan to eventually add intervals. You can use the <a href="index.html#ref-demo">demo</a> for a more intuitive first annotation.
+Probably the most important part for you is the field “value”, that appears in all kinds of temporal expression and follows the ISO 8601 standard in the General version of Añotador. There are also other fields, like “freq” when talking about repetitive events, that just appear for some temporal expressions (in the example, “twice a week”). For now, the system detects dates (“May 10”), times (“at 2pm”, “two o’clock”…), sets (such as “monthly”, “once a week”, for instance) and durations (“two days and five hours”). In the "Legal" mode Añotador also finds intervals. You can use the <a href="index.html#ref-demo">demo</a> for a more intuitive first annotation.
 
 							<br><br>
 								
-								<p >Añotador is written in Java and available in several ways, detailed below. Please report any problem or question you have via GitHub issues or directly by email to mnavas@fi.upm.es</p>
+								<p >Añotador is written in Java and available in several ways, detailed below. Please report any problem or question you have via GitHub issues or directly by email to mnavas(at)fi(dot)upm(dot)es</p>
+								
+								<br>
+								
+								<p >If you want to use Añotador, please cite the paper <a href="https://doi.org/10.3233/JIFS-179865">Annotador: a temporal tagger for Spanish</a>. </p>
 							</div>
 						</div>
 					</div>

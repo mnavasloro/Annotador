@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 import oeg.tagger.core.tutorial.annotador.TutorialAnnotadorSyntES;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;

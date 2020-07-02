@@ -1,10 +1,15 @@
 package oeg.core.tagger.servlets;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.ServletContext;
@@ -12,9 +17,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 import oeg.tagger.core.servlets.Main;
 import oeg.tagger.core.servlets.Salida;
+import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorLegal;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONObject;
 
 /**
  * Servlet that returns the javascript needed for the BRAT visualization of the
@@ -24,7 +33,8 @@ import oeg.tagger.core.servlets.Salida;
  */
 public class annotateDoc extends HttpServlet {
 
-    static Annotador annotador;
+    static Annotador annotadorS;
+    static Annotador annotadorL;
     static String pathpos;
     static String pathlemma;
     static String pathrules;
@@ -41,7 +51,7 @@ public class annotateDoc extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8cd ..");
+        response.setContentType("text/html;charset=UTF-8");
             response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
             response.setHeader("Access-Control-Max-Age", "3600");
@@ -50,8 +60,25 @@ public class annotateDoc extends HttpServlet {
 
         // We get the parameters
         request.setCharacterEncoding("UTF-8");
-        String input = request.getParameter("inputText");
-        String inputDate = request.getParameter("inputDate");
+//        String input = request.getParameter("inputText");
+//        String inputDate = request.getParameter("inputDate");
+//        String domain = request.getParameter("domain");
+
+String jsonString = IOUtils.toString(request.getInputStream(), "UTF-8");
+
+
+        JSONObject json = new JSONObject(jsonString);
+        String input = (String) json.get("inputText");
+        String inputDate = (String) json.get("inputDate");
+        String domain = (String) json.get("domain");
+
+//        try {
+//            inputDate = URLDecoder.decode(inputDate, StandardCharsets.UTF_8.name());
+//            input = URLDecoder.decode(input, StandardCharsets.UTF_8.name());
+//        } catch (Exception ex) {
+//            Logger.getLogger(annotateDoc.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+
 
         response.setStatus(200);
         response.setContentType("text/html;charset=UTF-8");
@@ -60,11 +87,15 @@ public class annotateDoc extends HttpServlet {
 
         pathpos = context.getResource("/WEB-INF/classes/ixa-pipes/morph-models-1.5.0/es/es-pos-perceptron-autodict01-ancora-2.0.bin").getPath();
         pathlemma = context.getResource("/WEB-INF/classes/ixa-pipes/morph-models-1.5.0/es/es-lemma-perceptron-ancora-2.0.bin").getPath();
-        pathrules = context.getResource("/WEB-INF/classes/rules/rulesES.txt").getPath();
+        if(domain.equalsIgnoreCase("standard")){
+            pathrules = context.getResource("/WEB-INF/classes/rules/rulesES-standard.txt").getPath();
+        } else{
+            pathrules = context.getResource("/WEB-INF/classes/rules/rulesES.txt").getPath();
+        }
 
         // We call the tagger and return its output
         System.out.println("----------\n" + input);
-        String salida = parseAndTag(input, inputDate);
+        String salida = parseAndTag(input, inputDate, domain);
         response.setContentType("text/plain");
         response.getWriter().println(salida);
 
@@ -80,7 +111,7 @@ public class annotateDoc extends HttpServlet {
 //    public static String parseAndTagBRAT(String txt, String date) {
 //        try {
 //            if (annotador == null) {
-//                annotador = new Annotador(pathpos, pathlemma, pathrules, "ES"); // We innitialize the tagger in Spanish
+//                annotador = new asdad(pathpos, pathlemma, pathrules, "ES"); // We innitialize the tagger in Spanish
 //            }   // We innitialize the tagger in Spanish
 //            if (date != null && !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) // Is it valid?
 //            {
@@ -97,14 +128,24 @@ public class annotateDoc extends HttpServlet {
 //        return "";
 //    }
     
-    public static String parseAndTag(String txt, String date) {
+    public static String parseAndTag(String txt, String date, String domain) {
 
+        Annotador annotador;
+        
+        System.out.println("To tag: " + txt);
         Date dct = null;
          try {
-            if (annotador == null) {
-                annotador = new Annotador(pathpos, pathlemma, pathrules, "ES"); // We innitialize the tagger in Spanish
-            }   // We innitialize the tagger in Spanish
-            
+            if(domain.equalsIgnoreCase("standard")){
+            if (annotadorS == null) {
+                annotadorS = new AnnotadorStandard(pathpos, pathlemma, pathrules, "ES"); // We innitialize the tagger in Spanish
+            }
+            annotador = annotadorS;
+        } else{
+            if (annotadorL == null) {
+                annotadorL = new AnnotadorLegal(pathpos, pathlemma, pathrules, "ES"); // We innitialize the tagger in Spanish
+            }
+            annotador = annotadorL;
+        }
             if (date == null || date.isEmpty() || !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) {
                 dct = Calendar.getInstance().getTime();
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -126,6 +167,7 @@ public class annotateDoc extends HttpServlet {
 //        input2 = input2.replaceFirst(Pattern.quote("<?xml version=\"1.0\"?>\n" + "<!DOCTYPE TimeML SYSTEM \"TimeML.dtd\">\n" + "<TimeML>"), "");
         input2 = input2.replaceFirst(Pattern.quote("</TimeML>"), "");
         input2 = input2.replaceAll("</TIMEX3>", "</span>");
+        input2 = input2.replaceAll("</INTERVAL>", "</span>");
         input2 = input2.replaceAll("\\r?\\n", "<br>");
 
         String pattern = "(<TIMEX3 ([^>]*)>)";
@@ -158,6 +200,40 @@ public class annotateDoc extends HttpServlet {
         m.appendTail(sb); // append the rest of the contents
         
         String saux = sb.toString();
+        
+        
+        
+        // INTERVAL
+        
+        pattern = "(<INTERVAL ([^>]*)>)";
+        r = Pattern.compile(pattern);
+        m = r.matcher(saux);
+        sb = new StringBuffer();
+        while (m.find()) {
+            String color = "#9bd29b";//"Orange";
+//            String color = "rgba(255, 165, 0, 0.5)";//"Orange";
+            String contetRegex = m.group(2);
+            contetRegex = contetRegex.replaceAll("\"", "");
+            contetRegex = contetRegex.replaceAll(" ", "\n");            
+
+            String aux2 = m.group(0);
+            aux2 = aux2.replace(">", "");
+
+            m.appendReplacement(sb, aux2.replaceFirst(Pattern.quote(aux2), "<span style=\"background-color:"
+                    + color + "\" title=\"" + contetRegex + "\">"));
+        }
+        m.appendTail(sb); // append the rest of the contents
+        
+        saux = sb.toString();
+       
+        
+        
+        
+        
+        
+        
+        
+        
 
         return saux;
     }

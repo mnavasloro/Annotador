@@ -6,12 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 import org.apache.commons.io.FileUtils;
 
 /**
- * Tutorial of the Annotador tagger Tagging the content of a TEST.txt file with
- * detailed output in the TIMEX format
+ * Tutorial of the AnnotadorStandard tagger Tagging the content of a TEST.txt file with
+ detailed output in the TIMEX format
  *
  * @author mnavas
  */
@@ -22,7 +22,7 @@ public class TutorialESPfromTXTTIMEX {
         File f = new File("../annotador-core/src/main/resources/rules/TEST.txt");
         File outputFile = new File("../annotador-core/src/main/resources/rules/OUT-TEST.txt");
         String input = FileUtils.readFileToString(f, "UTF-8");
-        Annotador tt = new Annotador("ES");
+        AnnotadorStandard tt = new AnnotadorStandard("ES");
         String outp = tt.annotate(input, null);
 
         FileOutputStream fos = new FileOutputStream(outputFile.getAbsolutePath());

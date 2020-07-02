@@ -5,7 +5,7 @@
  */
 package oeg.tagger.core.tutorial.annotador;
 
-import oeg.tagger.core.time.tictag.Annotador;
+import oeg.tagger.core.time.tictag.AnnotadorStandard;
 import oeg.tagger.core.time.tictag.TicTag;
 
 /**
@@ -95,7 +95,7 @@ System.out.println(txt);
 //String txt = "hasta finales del pasado mayo .";
 //        String txt = "Al cumplirse hoy la segunda jornada de la protesta";
 //        String txt = "madrileños aseguró que el siglo XXI será el siglo de la ciencia y la tecnología";
-        Annotador tt = new Annotador("ES");
+        AnnotadorStandard tt = new AnnotadorStandard("ES");
         String outp = tt.annotate(txt,"2019-12-20");
         System.out.println(outp);
 
