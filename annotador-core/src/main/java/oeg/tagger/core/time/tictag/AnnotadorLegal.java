@@ -57,7 +57,7 @@ public class AnnotadorLegal implements Annotador {
 
     Map<String, String> map = new HashMap<String, String>();
 
-    String lang = "es";
+    String lang;
 
     String iniSP = "-03-20";
     String iniSU = "-06-21";
@@ -95,7 +95,7 @@ public class AnnotadorLegal implements Annotador {
 
     public void init() {
 
-        if (lang.equalsIgnoreCase("ES")) {
+        if (lang == null || lang.equalsIgnoreCase("ES")) {
             if (rules == null) {
                 rules = "./src/main/resources/rules/rulesES.txt";
             }

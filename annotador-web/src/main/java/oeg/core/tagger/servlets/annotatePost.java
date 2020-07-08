@@ -198,7 +198,7 @@ System.err.println("json got:\n" + jsonString);
             try {
                System.out.println("\n----------------\nProceeding to Spanish \n----------------");
                if (annotadorLES == null) {
-                   annotadorLES = new AnnotadorStandard(pathpos, pathlemma, pathrulesL, lan); // We innitialize the tagger in Spanish
+                   annotadorLES = new AnnotadorLegal(pathpos, pathlemma, pathrulesL, lan); // We innitialize the tagger in Spanish
                }   // We innitialize the tagger in Spanish
 
                if (date == null || date.isEmpty() || !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) {
@@ -219,7 +219,7 @@ System.err.println("json got:\n" + jsonString);
             try {
                 System.out.println("\n----------------\nProceeding to English \n----------------");
                if (annotadorLEN == null) {
-                   annotadorLEN = new AnnotadorStandard(pathrulesLEN, lan); // We innitialize the tagger in English
+                   annotadorLEN = new AnnotadorLegal(pathrulesLEN, lan); // We innitialize the tagger in English
                }
 
                if (date == null || date.isEmpty() || !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) {
@@ -287,7 +287,7 @@ System.err.println("json got:\n" + jsonString);
             try {
                System.out.println("\n----------------\nProceeding to Spanish \n----------------");
                if (annotadorLES == null) {
-                   annotadorLES = new AnnotadorStandard(pathpos, pathlemma, pathrulesL, lan); // We innitialize the tagger in Spanish
+                   annotadorLES = new AnnotadorLegal(pathpos, pathlemma, pathrulesL, lan); // We innitialize the tagger in Spanish
                }   // We innitialize the tagger in Spanish
 
                if (date == null || date.isEmpty() || !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) {
@@ -308,7 +308,7 @@ System.err.println("json got:\n" + jsonString);
             try {
                 System.out.println("\n----------------\nProceeding to English \n----------------");
                if (annotadorLEN == null) {
-                   annotadorLEN = new AnnotadorStandard(pathrulesLEN, lan); // We innitialize the tagger in English
+                   annotadorLEN = new AnnotadorLegal(pathrulesLEN, lan); // We innitialize the tagger in English
                }
 
                if (date == null || date.isEmpty() || !date.matches("\\d\\d\\d\\d-(1[012]|0\\d)-(3[01]|[012]\\d)")) {
