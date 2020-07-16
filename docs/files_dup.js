@@ -1,4 +1,4 @@
 var files_dup =
 [
-    [ "Users", "dir_d522931ffa1371640980b621734a4381.html", "dir_d522931ffa1371640980b621734a4381" ]
+    [ "annotador-core", "dir_b6487f53c97d40c4aedb76e11d180553.html", "dir_b6487f53c97d40c4aedb76e11d180553" ]
 ];

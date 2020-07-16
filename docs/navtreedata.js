@@ -51,7 +51,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_annotador_8java.html",
-"dir_f4913485e12c6583411c95ea6e1cc327.html"
+"duration_8java_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
