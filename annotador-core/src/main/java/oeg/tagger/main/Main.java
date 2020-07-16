@@ -24,14 +24,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import oeg.tagger.core.time.tictag.AnnotadorLegal;
 import oeg.tagger.core.time.tictag.AnnotadorStandard;
-//import org.apache.log4j.BasicConfigurator;
-//import org.apache.log4j.ConsoleAppender;
-//import org.apache.log4j.FileAppender;
-//import org.apache.log4j.Level;
-//import org.apache.log4j.LogManager;
-//import org.apache.log4j.Logger;
-//import org.apache.log4j.PatternLayout;
-//import org.apache.log4j.varia.NullAppender;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 
@@ -43,7 +35,6 @@ import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
  */
 public class Main {
 
-//    static Logger logger = null;
     static final Logger logger = Logger.getLogger(Main.class.getName());
     static boolean logs = false;
     static String lang = "es";
@@ -53,8 +44,6 @@ public class Main {
     static String outpfilename = null;
 
     public static void main(String[] args) {
-        
-//        BasicConfigurator.configure();
 
         // We do this to avoid the Ixa-Pipes debugging messages...
         PrintStream systemerr = System.err;
@@ -88,7 +77,7 @@ public class Main {
     }
 
     public static String parsear(String[] args) {
-        ///Respuesta
+        ///Response
         StringBuilder res = new StringBuilder();
         CommandLineParser parser = null;
         CommandLine cmd = null;
@@ -251,9 +240,8 @@ System.out.println(e.toString());
     }
 
     /**
-     * Silencia todos los loggers. Una vez invocada esta función, la función que
-     * arranca los logs normalmente queda anulada. Detiene también los logs
-     * ajenos (de terceras librerías etc.)
+     * Shuts up all the loggers. 
+     * Also the logs from third parties.
      */
     private static void initLoggerDisabled() {
         Logger.getLogger("").setLevel(Level.FINEST);

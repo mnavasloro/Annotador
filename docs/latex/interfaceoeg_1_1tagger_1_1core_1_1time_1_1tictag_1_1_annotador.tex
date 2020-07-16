@@ -1,0 +1,101 @@
+\hypertarget{interfaceoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador}{}\doxysection{oeg.\+tagger.\+core.\+time.\+tictag.\+Annotador Interface Reference}
+\label{interfaceoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador}\index{oeg.tagger.core.time.tictag.Annotador@{oeg.tagger.core.time.tictag.Annotador}}
+Inheritance diagram for oeg.\+tagger.\+core.\+time.\+tictag.\+Annotador\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.964912cm]{interfaceoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \mbox{\hyperlink{interfaceoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_a213eac6f7a3cf75dd2636c7c36d47124}{annotate}} (String input, String anchor\+Date)
+\item 
+String \mbox{\hyperlink{interfaceoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_aa860d218838cfa3bcd54adffd81584c0}{annotate\+N\+IF}} (String input, String anchor\+Date, String reference, String lang)
+\item 
+String \mbox{\hyperlink{interfaceoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_a7ded6bc501a7eb2a2b29a62892b419ee}{annotate\+J\+S\+ON}} (String input, String anchor\+Date)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Interface of \mbox{\hyperlink{interfaceoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador}{Annotador}}, implemented for each of the domains
+
+\begin{DoxyAuthor}{Author}
+mnavas 
+\end{DoxyAuthor}
+
+
+Definition at line 9 of file Annotador.\+java.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{interfaceoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_a213eac6f7a3cf75dd2636c7c36d47124}\label{interfaceoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_a213eac6f7a3cf75dd2636c7c36d47124}} 
+\index{oeg.tagger.core.time.tictag.Annotador@{oeg.tagger.core.time.tictag.Annotador}!annotate@{annotate}}
+\index{annotate@{annotate}!oeg.tagger.core.time.tictag.Annotador@{oeg.tagger.core.time.tictag.Annotador}}
+\doxysubsubsection{\texorpdfstring{annotate()}{annotate()}}
+{\footnotesize\ttfamily String oeg.\+tagger.\+core.\+time.\+tictag.\+Annotador.\+annotate (\begin{DoxyParamCaption}\item[{String}]{input,  }\item[{String}]{anchor\+Date }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & String text to annotate \\
+\hline
+{\em anchor\+Date} & String date of reference\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String text tagged 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal_ad5f1a35d08a63a1d1c49d4600698e6b3}{oeg.\+tagger.\+core.\+time.\+tictag.\+Annotador\+Legal}}, and \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_standard_a5f51603ed37dd1f99e678b93b6ede43e}{oeg.\+tagger.\+core.\+time.\+tictag.\+Annotador\+Standard}}.
+
+\mbox{\Hypertarget{interfaceoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_a7ded6bc501a7eb2a2b29a62892b419ee}\label{interfaceoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_a7ded6bc501a7eb2a2b29a62892b419ee}} 
+\index{oeg.tagger.core.time.tictag.Annotador@{oeg.tagger.core.time.tictag.Annotador}!annotateJSON@{annotateJSON}}
+\index{annotateJSON@{annotateJSON}!oeg.tagger.core.time.tictag.Annotador@{oeg.tagger.core.time.tictag.Annotador}}
+\doxysubsubsection{\texorpdfstring{annotateJSON()}{annotateJSON()}}
+{\footnotesize\ttfamily String oeg.\+tagger.\+core.\+time.\+tictag.\+Annotador.\+annotate\+J\+S\+ON (\begin{DoxyParamCaption}\item[{String}]{input,  }\item[{String}]{anchor\+Date }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & String text to annotate \\
+\hline
+{\em anchor\+Date} & String date of reference\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String text tagged in J\+S\+ON format 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_standard_a480559b44e2b45791f6c7a73983b2f93}{oeg.\+tagger.\+core.\+time.\+tictag.\+Annotador\+Standard}}, and \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal_a612106956430c51ab743f91e089a8004}{oeg.\+tagger.\+core.\+time.\+tictag.\+Annotador\+Legal}}.
+
+\mbox{\Hypertarget{interfaceoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_aa860d218838cfa3bcd54adffd81584c0}\label{interfaceoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_aa860d218838cfa3bcd54adffd81584c0}} 
+\index{oeg.tagger.core.time.tictag.Annotador@{oeg.tagger.core.time.tictag.Annotador}!annotateNIF@{annotateNIF}}
+\index{annotateNIF@{annotateNIF}!oeg.tagger.core.time.tictag.Annotador@{oeg.tagger.core.time.tictag.Annotador}}
+\doxysubsubsection{\texorpdfstring{annotateNIF()}{annotateNIF()}}
+{\footnotesize\ttfamily String oeg.\+tagger.\+core.\+time.\+tictag.\+Annotador.\+annotate\+N\+IF (\begin{DoxyParamCaption}\item[{String}]{input,  }\item[{String}]{anchor\+Date,  }\item[{String}]{reference,  }\item[{String}]{lang }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & String text to annotate \\
+\hline
+{\em anchor\+Date} & String date of reference \\
+\hline
+{\em reference} & String N\+IF U\+RI reference \\
+\hline
+{\em lang} & String language code label\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String text tagged as N\+IF 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_standard_a35a105e09844d24ca8e0312b3e1c828a}{oeg.\+tagger.\+core.\+time.\+tictag.\+Annotador\+Standard}}, and \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal_aae5836a7e3652d30318eb6b9434813f5}{oeg.\+tagger.\+core.\+time.\+tictag.\+Annotador\+Legal}}.
+
+
+
+The documentation for this interface was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/mnavas/\+C\+O\+D\+E/\+Annotador/annotador-\/core/src/main/java/oeg/tagger/core/time/tictag/\mbox{\hyperlink{_annotador_8java}{Annotador.\+java}}\end{DoxyCompactItemize}

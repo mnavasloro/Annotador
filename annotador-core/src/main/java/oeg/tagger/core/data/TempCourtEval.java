@@ -1,20 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Class that evaluates Annotador on the TempCourt corpus
+ *  
+ * 
  */
 package oeg.tagger.core.data;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import oeg.tagger.core.time.tictag.AnnotadorStandard;
-import org.apache.commons.io.FileUtils;
 
 /**
+ *  Main Class that evaluates Annotador on the TempCourt corpus
  *
  * @author mnavas
  */
@@ -24,7 +19,7 @@ public class TempCourtEval {
     public static final String ANSI_RED = "\u001B[31m";
 
     /**
-     * @param args the command line arguments
+     * @param args no need of command line arguments
      */
     public static void main(String[] args) {
 

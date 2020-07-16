@@ -1,7 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Class that reads the Synthetic part of the Hourglass corpus
+ *  
+ * 
  */
 package oeg.tagger.core.data;
 
@@ -27,13 +27,21 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
- *
+ * Reader the Synthetic part of the Hourglass corpus
+ * 
  * @author Maria
  */
 public class SyntethicReader {
 
     LinkedHashMap<String, String> files = new LinkedHashMap<String, String>();
 
+    /**
+     * 
+     * @param filename excel file to read
+     * @param outputFolder folder to output the documents read
+     * @return a map with the path to the files and their content
+     * @throws IOException 
+     */
     public LinkedHashMap<String, String> read(String filename, String outputFolder) throws IOException {
         File excelFile = new File(filename);
         FileInputStream fis = new FileInputStream(excelFile);
@@ -84,6 +92,10 @@ public class SyntethicReader {
     private static final String INPUTEXCEL = "C:\\Users\\mnavas\\CODE\\Annotador\\annotador-core\\src\\main\\resources\\rules\\TEST-ES2.xlsx";
     private static final String OUTPUTFOLDER = "C:\\Users\\mnavas\\CODE\\Annotador\\annotador-core\\src\\main\\resources\\rules\\test_input\\";
 
+    /**
+     * 
+     * @param args no args used, just an example on how to use the function read
+     */
     public static void main(String[] args){
         System.out.println("Test of the ExcelReader:");
         LinkedHashMap<String, String> outp = new LinkedHashMap<String, String>();

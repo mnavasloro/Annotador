@@ -64,21 +64,33 @@ String rules;
     String iniSU = "-06-21";
     String iniFA = "-09-22";
     String iniWI = "-12-21";
+    
     /**
      * Initializes a instance of the tagger
      *
-     * @param lang language (ES - Spanish, EN - English)
-     * @return an instance of the tagger
      */
     public AnnotadorStandard() {
         init();
     }
 
+    /**
+     * Initializes a instance of the tagger
+     *
+     * @param language language (ES - Spanish, EN - English)
+     */
     public AnnotadorStandard(String language) {
         lang = language;
         init();
     }
 
+    /**
+     * Initializes a instance of the tagger
+     *
+     * @param pos path to pos model
+     * @param lemma path to lemmatizer model
+     * @param rul path to rules
+     * @param language language (ES - Spanish, EN - English)
+     */
     public AnnotadorStandard(String pos, String lemma, String rul, String language) {
         posModel = pos;
         lemmaModel = lemma;
@@ -87,12 +99,21 @@ String rules;
         init();
     }
 
+    /**
+     * Initializes a instance of the tagger
+     *
+     * @param rul path to rules
+     * @param language language (ES - Spanish, EN - English)
+     */
     public AnnotadorStandard(String rul, String language) {
         rules = rul;
         lang = language;
         init();
     }
 
+    /**
+     * Initialization of the class
+     */
     public void init() {
 
         if (lang == null || lang.equalsIgnoreCase("ES")) {
@@ -151,6 +172,15 @@ String rules;
 
     }
 
+    /**
+     * Returns the next month monthS given a date dt and the rank of a month
+     * monthS
+     *
+     * @param dt DateTime of reference
+     * @param monthS int with the rank of a month
+     *
+     * @return DateTime with the new date
+     */
     public DateTime getNextMonth(DateTime dt, int monthS) {
         int current = dt.getMonthOfYear();
         if (monthS <= current) {
@@ -160,6 +190,15 @@ String rules;
         return next;
     }
 
+    /**
+     * Returns the last month monthS given a date dt and the rank of a month
+     * monthS
+     *
+     * @param dt DateTime of reference
+     * @param monthS int with the rank of a month
+     *
+     * @return DateTime with the new date
+     */
     public DateTime getLastMonth(DateTime dt, int monthS) {
         int current = dt.getMonthOfYear();
         if (monthS < current) {
@@ -171,6 +210,15 @@ String rules;
         return next;
     }
 
+    /**
+     * Returns the next day of the week dayW given a date dt and the rank of a
+     * day of the week dayW
+     *
+     * @param dt DateTime of reference
+     * @param dayW int with the rank of a day of the week
+     *
+     * @return DateTime with the new date
+     */
     public DateTime getNextDayWeek(DateTime dt, int dayW) {
         int current = dt.getDayOfWeek();
         if (dayW <= current) {
@@ -180,6 +228,15 @@ String rules;
         return next;
     }
 
+    /**
+     * Returns the last day of the week dayW given a date dt and the rank of a
+     * day of the week dayW
+     *
+     * @param dt DateTime of reference
+     * @param dayW int with the rank of a day of the week
+     *
+     * @return DateTime with the new date
+     */
     public DateTime getLastDayWeek(DateTime dt, int dayW) {
         int current = dt.getDayOfWeek();
         if (dayW < current) {
@@ -191,6 +248,14 @@ String rules;
         return next;
     }
 
+    /**
+     * Returns the next month given a date dt and the name of a month
+     *
+     * @param dt DateTime of reference
+     * @param monthSS int with the name of a month
+     *
+     * @return String with the new date
+     */
     public String getNextMonthS(DateTime dt, String monthSS) {
         int current = dt.getMonthOfYear();
         String a = monthSS.replaceAll("MONTHS", "");
@@ -204,6 +269,14 @@ String rules;
         return next;
     }
 
+    /**
+     * Returns the last month given a date dt and the name of a month
+     *
+     * @param dt DateTime of reference
+     * @param monthSS int with the name of a month
+     *
+     * @return String with the new date
+     */
     public String getLastMonthS(DateTime dt, String monthSS) {
         int current = dt.getMonthOfYear();
         String a = monthSS.replaceAll("MONTHS", "");
@@ -217,6 +290,14 @@ String rules;
         return next;
     }
 
+    /**
+     * Returns the next date given a referece date dt and a relative date refD
+     *
+     * @param dt DateTime of reference
+     * @param refD String with the relative date
+     *
+     * @return String with the new date
+     */
     public String getNextDate(String dt, String refD) {
         DateTime dtDT = new DateTime(dt);
         if (refD.matches("\\d\\d\\d\\d-\\d\\d(-\\d\\d)?")) {
@@ -242,6 +323,14 @@ String rules;
         return refD;
     }
 
+    /**
+     * Returns the last date given a referece date dt and a relative date refD
+     *
+     * @param dt DateTime of reference
+     * @param refD String with the relative date
+     *
+     * @return String with the new date
+     */
     public String getLastDate(String dt, String refD) {
         DateTime dtDT = new DateTime(dt);
         if (refD.matches("\\d\\d\\d\\d-\\d\\d(-\\d\\d)?")) {
@@ -268,6 +357,14 @@ String rules;
         return refD;
     }
 
+    /**
+     * Returns the next season given a referece date dt and a season
+     *
+     * @param dt DateTime of reference
+     * @param refD String with the season
+     *
+     * @return String with the new date
+     */
     public String getNextSeason(String dt, String refD) {
         if (refD.matches("\\d\\d\\d\\d-[A-Z][A-Z]")) {
             return refD;
@@ -294,6 +391,14 @@ String rules;
         }
     }
 
+    /**
+     * Returns the last season given a referece date dt and a season
+     *
+     * @param dt DateTime of reference
+     * @param refD String with the season
+     *
+     * @return String with the new date
+     */
     public String getLastSeason(String dt, String refD) {
         if (refD.matches("\\d\\d\\d\\d-[A-Z][A-Z]")) {
             return refD;
@@ -320,6 +425,13 @@ String rules;
         }
     }
 
+    /**
+     * Function that parses a String with several durations
+     *
+     * @param input String with concatenated durations
+     *
+     * @return Map with durations (granularity,amount)
+     */
     public LinkedHashMap<String, String> parseDuration(String input) {
         LinkedHashMap<String, String> durations = new LinkedHashMap<String, String>();
         Pattern pAnchor = Pattern.compile("(\\d*\\.?\\d+|X)([a-zA-Z]+)");
@@ -336,6 +448,14 @@ String rules;
         return durations;
     }
 
+    /**
+     *
+     * @param input String text to annotate
+     * @param anchorDate String date of reference
+     *
+     * @return String text tagged
+     */
+    @Override
     public String annotate(String input, String anchorDate) {
 
         try {
@@ -942,12 +1062,30 @@ String rules;
 
     }
 
+    /**
+     *
+     * @param input String text to annotate
+     * @param anchorDate String date of reference
+     *
+     * @return String text tagged in JSON format
+     */
+    @Override
     public String annotateJSON(String input, String anchorDate) {
         String out = annotate(input, anchorDate);
         TIMEX2JSON t2j = new TIMEX2JSON();
         return t2j.translateSentence(out);
     }
 
+    /**
+     *
+     * @param input String text to annotate
+     * @param anchorDate String date of reference
+     * @param reference String NIF URI reference
+     * @param lang String language code label
+     *
+     * @return String text tagged as NIF
+     */
+    @Override
     public String annotateNIF(String input, String anchorDate, String reference, String lang) {
 
         String out = annotate(input, anchorDate);
@@ -956,6 +1094,13 @@ String rules;
 
     }
 
+    /**
+     * Function that searches intervals in an already tagged text
+     *
+     * @param input String with the taggeed text
+     *
+     * @return String with the text tagged with intervals, if any
+     */
     public String searchIntervals(String input) {
 //        Pattern pAnchor = Pattern.compile("((?:[E|e][N|n][T|t][R|r][E|e]) |(?:[A|a] [P|p][a|a][R|r][T|t][I|i][R|r] ?[D|d]?[E|e]?) |(?:[D|d][E|e][S|s][D|d][E|e]) |(?:[D|d][E|e]) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>( (?:[Y|y]) | (?:[A|a]) | (?:[H|h][A|a][S|s][T|t][A|a]) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>");
         Pattern pAnchor = Pattern.compile("((?:[E|e][N|n][T|t][R|r][E|e] ?[E|e]?[L|l]?) |(?:[A|a] [P|p][a|a][R|r][T|t][I|i][R|r] ?[D|d]?[E|e]?[L|l]?) |(?:[D|d][E|e][S|s][D|d][E|e] ?[E|e]?[L|l]?) |(?:[D|d][E|e][L|l]?) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>([^\\.<]*)((?:[Y|y] ?[E|e]?[L|l]?) |(?:[A|a][L|l]?) |(?:[H|h][A|a][S|s][T|t][A|a] ?[E|e]?[L|l]?) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>");
@@ -985,6 +1130,15 @@ String rules;
         return sb.toString();
     }
 
+    /**
+     * Function that makes the input plain text and the tagged text uniform in
+     * case of differences
+     *
+     * @param cuerpoAnnotated String with the tagged text
+     * @param cuerpo String with the original plain text
+     *
+     * @return String with uniform tagged text
+     */
     private String uniformOutp(String cuerpoAnnotated, String cuerpo) {
         String cuerpoMerge = cuerpo;
         try {
@@ -1094,7 +1248,11 @@ String rules;
         return cuerpoAnnotated;
     }
 
-    
+    /**
+     * Outputs the tagging of Annotador against the TempEval3 corpus
+     *
+     * @return boolean TRUE (ended correctly) or FALSE (Exception)
+     */
  public boolean evaluateTE3() {
         try {
             ManagerTempEval3 mte3 = new ManagerTempEval3();
@@ -1110,6 +1268,11 @@ String rules;
         return false;
     }
 
+ /**
+     * Outputs the tagging of Annotador against the TempEval3 corpus
+     *
+     * @return boolean TRUE (ended correctly) or FALSE (Exception)
+     */
     public boolean evaluateSoco() {
         try {
             ManagerSoco mte3 = new ManagerSoco();
@@ -1125,6 +1288,11 @@ String rules;
         return false;
     }
 
+    /**
+     * Outputs the tagging of Annotador against the TempEval3 Spanish corpus
+     *
+     * @return boolean TRUE (ended correctly) or FALSE (Exception)
+     */
     public boolean evaluateTE3ES() {
         try {
             ManagerTempEval3ES mte3 = new ManagerTempEval3ES();
@@ -1148,6 +1316,11 @@ String rules;
         return false;
     }
 
+    /**
+     * Outputs the tagging of Annotador against the TimeBank corpus
+     *
+     * @return boolean TRUE (ended correctly) or FALSE (Exception)
+     */
     public boolean evaluateTimeBank() {
         try {
             ManagerTimeBank mtb = new ManagerTimeBank();

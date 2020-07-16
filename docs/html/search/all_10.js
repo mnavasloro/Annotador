@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['tempcourteval_128',['TempCourtEval',['../classoeg_1_1tagger_1_1core_1_1data_1_1_temp_court_eval.html',1,'oeg::tagger::core::data']]],
+  ['tempcourteval_2ejava_129',['TempCourtEval.java',['../_temp_court_eval_8java.html',1,'']]],
+  ['temporal_130',['temporal',['../classoeg_1_1tagger_1_1core_1_1time_1_1annotation_1_1temporal.html',1,'oeg::tagger::core::time::annotation']]],
+  ['temporal_2ejava_131',['temporal.java',['../temporal_8java.html',1,'']]],
+  ['testaid_132',['testAid',['../classoeg_1_1tagger_1_1core_1_1time_1_1aid_core_n_l_p_1_1test_aid.html',1,'oeg::tagger::core::time::aidCoreNLP']]],
+  ['testaid_2ejava_133',['testAid.java',['../test_aid_8java.html',1,'']]],
+  ['testnif_134',['testNIF',['../classoeg_1_1tagger_1_1core_1_1time_1_1annotation_handler_1_1test_n_i_f.html',1,'oeg::tagger::core::time::annotationHandler']]],
+  ['testnif_2ejava_135',['testNIF.java',['../test_n_i_f_8java.html',1,'']]],
+  ['text_136',['text',['../classoeg_1_1tagger_1_1core_1_1time_1_1annotation_handler_1_1_n_i_f_text.html#a450093eee4136e17f428f66ac72cecb5',1,'oeg::tagger::core::time::annotationHandler::NIFText']]],
+  ['time_137',['time',['../classoeg_1_1tagger_1_1core_1_1time_1_1annotation_1_1time.html',1,'oeg::tagger::core::time::annotation']]],
+  ['time_2ejava_138',['time.java',['../time_8java.html',1,'']]],
+  ['timex_139',['timex',['../classoeg_1_1tagger_1_1core_1_1time_1_1annotation_1_1timex.html',1,'oeg::tagger::core::time::annotation']]],
+  ['timex_2ejava_140',['timex.java',['../timex_8java.html',1,'']]],
+  ['timex2json_141',['TIMEX2JSON',['../classoeg_1_1tagger_1_1core_1_1time_1_1annotation_handler_1_1_t_i_m_e_x2_j_s_o_n.html',1,'oeg.tagger.core.time.annotationHandler.TIMEX2JSON'],['../classoeg_1_1tagger_1_1core_1_1time_1_1annotation_handler_1_1_t_i_m_e_x2_j_s_o_n.html#aa97408af981df7300dbf02bebfccdcf5',1,'oeg.tagger.core.time.annotationHandler.TIMEX2JSON.TIMEX2JSON()']]],
+  ['timex2json_2ejava_142',['TIMEX2JSON.java',['../_t_i_m_e_x2_j_s_o_n_8java.html',1,'']]],
+  ['timex2nif_143',['TIMEX2NIF',['../classoeg_1_1tagger_1_1core_1_1time_1_1annotation_handler_1_1_t_i_m_e_x2_n_i_f.html',1,'oeg.tagger.core.time.annotationHandler.TIMEX2NIF'],['../classoeg_1_1tagger_1_1core_1_1time_1_1annotation_handler_1_1_t_i_m_e_x2_n_i_f.html#a7c7e935cc739842a0c01ddfca3abf91c',1,'oeg.tagger.core.time.annotationHandler.TIMEX2NIF.TIMEX2NIF()']]],
+  ['timex2nif_2ejava_144',['TIMEX2NIF.java',['../_t_i_m_e_x2_n_i_f_8java.html',1,'']]],
+  ['tonif_145',['toNIF',['../classoeg_1_1tagger_1_1core_1_1time_1_1annotation_handler_1_1_t_i_m_e_x2_n_i_f.html#adc5aad1729fd509e30afdd656d06aeef',1,'oeg::tagger::core::time::annotationHandler::TIMEX2NIF']]],
+  ['tostring_146',['toString',['../classoeg_1_1tagger_1_1core_1_1time_1_1annotation_handler_1_1_b_r_a_t_annotation.html#ad14262f290b2250b9c2879de2518040a',1,'oeg.tagger.core.time.annotationHandler.BRATAnnotation.toString()'],['../classoeg_1_1tagger_1_1core_1_1time_1_1annotation_handler_1_1_n_i_f_annotation.html#a0636f9c52c775e81210dc0c8fec7ebb3',1,'oeg.tagger.core.time.annotationHandler.NIFAnnotation.toString()']]],
+  ['translatesentence_147',['translateSentence',['../classoeg_1_1tagger_1_1core_1_1time_1_1annotation_handler_1_1_t_i_m_e_x2_j_s_o_n.html#a7ca136367c04f7f65d627926a717a3ad',1,'oeg.tagger.core.time.annotationHandler.TIMEX2JSON.translateSentence()'],['../classoeg_1_1tagger_1_1core_1_1time_1_1annotation_handler_1_1_t_i_m_e_x2_n_i_f.html#a7005190adadf73c98c8ce7a8f79ad55d',1,'oeg.tagger.core.time.annotationHandler.TIMEX2NIF.translateSentence()']]],
+  ['txt_148',['txt',['../classoeg_1_1tagger_1_1core_1_1servlets_1_1_salida.html#a2de9be977bc6cb7694259177aea9934e',1,'oeg::tagger::core::servlets::Salida']]],
+  ['type_149',['type',['../classoeg_1_1tagger_1_1core_1_1time_1_1annotation_handler_1_1_b_r_a_t_annotation.html#a229cc68993243d5dcf2df2da3779fe78',1,'oeg::tagger::core::time::annotationHandler::BRATAnnotation']]]
+];

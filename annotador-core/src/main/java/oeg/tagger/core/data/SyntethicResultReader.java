@@ -1,25 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Class that reads the annotated version Synthetic part of the Hourglass corpus
+ *  
+ * 
  */
 package oeg.tagger.core.data;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.simple.JSONObject;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -27,6 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
+ * Class that reads the annotated version Synthetic part of the Hourglass corpus
  *
  * @author Maria
  */
@@ -36,6 +33,15 @@ public class SyntethicResultReader {
     static LinkedHashMap<String, String> filesXML = new LinkedHashMap<String, String>();
     static LinkedHashMap<String, String> filesResult = new LinkedHashMap<String, String>();
 
+    /**
+     * 
+     * @param filename excel file to read
+     * @param outputFolder folder to output the documents read in txt
+     * @param outputFolderXML folder to output the documents read in xml
+     * @param outputFolderResult folder to output the annotated documents read in xml
+     * @return a map with the path to the files and their content
+     * @throws IOException 
+     */
     public LinkedHashMap<String, String> read(String filename, String outputFolder, String outputFolderXML, String outputFolderResult) throws IOException {
         File excelFile = new File(filename);
         FileInputStream fis = new FileInputStream(excelFile);
@@ -138,6 +144,10 @@ public class SyntethicResultReader {
     private static final String OUTPUTFOLDERXML = "C:\\Users\\mnavas\\CODE\\Annotador\\annotador-core\\src\\main\\resources\\rules\\HOURGLASS_RESULTS\\test_input_XML\\";
     private static final String OUTPUTFOLDERRESULT = "C:\\Users\\mnavas\\CODE\\Annotador\\annotador-core\\src\\main\\resources\\rules\\HOURGLASS_RESULTS\\test_Result\\";
 
+    /**
+     * 
+     * @param args no args used, just an example on how to use the function read
+     */
     public static void main(String[] args){
         System.out.println("Test of the ExcelReader:");
         LinkedHashMap<String, String> outp = new LinkedHashMap<String, String>();

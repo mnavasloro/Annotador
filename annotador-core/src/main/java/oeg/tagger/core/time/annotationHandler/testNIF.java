@@ -3,7 +3,8 @@ package oeg.tagger.core.time.annotationHandler;
 import oeg.tagger.core.time.tictag.AnnotadorStandard;
 
 /**
- *
+ * Main Class to test the NIF conversion
+ * 
  * @author mnavas
  */
 public class testNIF {

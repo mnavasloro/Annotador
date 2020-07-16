@@ -40,7 +40,8 @@ import oeg.tagger.core.time.annotationHandler.TIMEX2NIF;
 import org.joda.time.DateTime;
 
 /**
- * AnnotadorLegal core class, where the rules are applied and the normalization algorithm is.
+ * AnnotadorLegal class, where the rules are applied and the normalization
+ * algorithm is.
  *
  * @author mnavas
  */
@@ -67,18 +68,29 @@ public class AnnotadorLegal implements Annotador {
     /**
      * Initializes a instance of the tagger
      *
-     * @param lang language (ES - Spanish, EN - English)
-     * @return an instance of the tagger
      */
     public AnnotadorLegal() {
         init();
     }
 
+    /**
+     * Initializes a instance of the tagger
+     *
+     * @param language language (ES - Spanish, EN - English)
+     */
     public AnnotadorLegal(String language) {
         lang = language;
         init();
     }
 
+    /**
+     * Initializes a instance of the tagger
+     *
+     * @param pos path to pos model
+     * @param lemma path to lemmatizer model
+     * @param rul path to rules
+     * @param language language (ES - Spanish, EN - English)
+     */
     public AnnotadorLegal(String pos, String lemma, String rul, String language) {
         posModel = pos;
         lemmaModel = lemma;
@@ -87,12 +99,21 @@ public class AnnotadorLegal implements Annotador {
         init();
     }
 
+    /**
+     * Initializes a instance of the tagger
+     *
+     * @param rul path to rules
+     * @param language language (ES - Spanish, EN - English)
+     */
     public AnnotadorLegal(String rul, String language) {
         rules = rul;
         lang = language;
         init();
     }
 
+    /**
+     * Initialization of the class
+     */
     public void init() {
 
         if (lang == null || lang.equalsIgnoreCase("ES")) {
@@ -151,6 +172,15 @@ public class AnnotadorLegal implements Annotador {
 
     }
 
+    /**
+     * Returns the next month monthS given a date dt and the rank of a month
+     * monthS
+     *
+     * @param dt DateTime of reference
+     * @param monthS int with the rank of a month
+     *
+     * @return DateTime with the new date
+     */
     public DateTime getNextMonth(DateTime dt, int monthS) {
         int current = dt.getMonthOfYear();
         if (monthS <= current) {
@@ -160,6 +190,15 @@ public class AnnotadorLegal implements Annotador {
         return next;
     }
 
+    /**
+     * Returns the last month monthS given a date dt and the rank of a month
+     * monthS
+     *
+     * @param dt DateTime of reference
+     * @param monthS int with the rank of a month
+     *
+     * @return DateTime with the new date
+     */
     public DateTime getLastMonth(DateTime dt, int monthS) {
         int current = dt.getMonthOfYear();
         if (monthS < current) {
@@ -171,6 +210,15 @@ public class AnnotadorLegal implements Annotador {
         return next;
     }
 
+    /**
+     * Returns the next day of the week dayW given a date dt and the rank of a
+     * day of the week dayW
+     *
+     * @param dt DateTime of reference
+     * @param dayW int with the rank of a day of the week
+     *
+     * @return DateTime with the new date
+     */
     public DateTime getNextDayWeek(DateTime dt, int dayW) {
         int current = dt.getDayOfWeek();
         if (dayW <= current) {
@@ -180,6 +228,15 @@ public class AnnotadorLegal implements Annotador {
         return next;
     }
 
+    /**
+     * Returns the last day of the week dayW given a date dt and the rank of a
+     * day of the week dayW
+     *
+     * @param dt DateTime of reference
+     * @param dayW int with the rank of a day of the week
+     *
+     * @return DateTime with the new date
+     */
     public DateTime getLastDayWeek(DateTime dt, int dayW) {
         int current = dt.getDayOfWeek();
         if (dayW < current) {
@@ -191,6 +248,14 @@ public class AnnotadorLegal implements Annotador {
         return next;
     }
 
+    /**
+     * Returns the next month given a date dt and the name of a month
+     *
+     * @param dt DateTime of reference
+     * @param monthSS int with the name of a month
+     *
+     * @return String with the new date
+     */
     public String getNextMonthS(DateTime dt, String monthSS) {
         int current = dt.getMonthOfYear();
         String a = monthSS.replaceAll("MONTHS", "");
@@ -204,6 +269,14 @@ public class AnnotadorLegal implements Annotador {
         return next;
     }
 
+    /**
+     * Returns the last month given a date dt and the name of a month
+     *
+     * @param dt DateTime of reference
+     * @param monthSS int with the name of a month
+     *
+     * @return String with the new date
+     */
     public String getLastMonthS(DateTime dt, String monthSS) {
         int current = dt.getMonthOfYear();
         String a = monthSS.replaceAll("MONTHS", "");
@@ -217,6 +290,14 @@ public class AnnotadorLegal implements Annotador {
         return next;
     }
 
+    /**
+     * Returns the next date given a referece date dt and a relative date refD
+     *
+     * @param dt DateTime of reference
+     * @param refD String with the relative date
+     *
+     * @return String with the new date
+     */
     public String getNextDate(String dt, String refD) {
         DateTime dtDT = new DateTime(dt);
         if (refD.matches("\\d\\d\\d\\d-\\d\\d(-\\d\\d)?")) {
@@ -242,6 +323,14 @@ public class AnnotadorLegal implements Annotador {
         return refD;
     }
 
+    /**
+     * Returns the last date given a referece date dt and a relative date refD
+     *
+     * @param dt DateTime of reference
+     * @param refD String with the relative date
+     *
+     * @return String with the new date
+     */
     public String getLastDate(String dt, String refD) {
         DateTime dtDT = new DateTime(dt);
         if (refD.matches("\\d\\d\\d\\d-\\d\\d(-\\d\\d)?")) {
@@ -268,6 +357,14 @@ public class AnnotadorLegal implements Annotador {
         return refD;
     }
 
+    /**
+     * Returns the next season given a referece date dt and a season
+     *
+     * @param dt DateTime of reference
+     * @param refD String with the season
+     *
+     * @return String with the new date
+     */
     public String getNextSeason(String dt, String refD) {
         if (refD.matches("\\d\\d\\d\\d-[A-Z][A-Z]")) {
             return refD;
@@ -294,6 +391,14 @@ public class AnnotadorLegal implements Annotador {
         }
     }
 
+    /**
+     * Returns the last season given a referece date dt and a season
+     *
+     * @param dt DateTime of reference
+     * @param refD String with the season
+     *
+     * @return String with the new date
+     */
     public String getLastSeason(String dt, String refD) {
         if (refD.matches("\\d\\d\\d\\d-[A-Z][A-Z]")) {
             return refD;
@@ -320,6 +425,13 @@ public class AnnotadorLegal implements Annotador {
         }
     }
 
+    /**
+     * Function that parses a String with several durations
+     *
+     * @param input String with concatenated durations
+     *
+     * @return Map with durations (granularity,amount)
+     */
     public LinkedHashMap<String, String> parseDuration(String input) {
         LinkedHashMap<String, String> durations = new LinkedHashMap<String, String>();
         Pattern pAnchor = Pattern.compile("(\\d*\\.?\\d+|X)([a-zA-Z]+)");
@@ -336,16 +448,24 @@ public class AnnotadorLegal implements Annotador {
         return durations;
     }
 
+    /**
+     *
+     * @param input String text to annotate
+     * @param anchorDate String date of reference
+     *
+     * @return String text tagged
+     */
+    @Override
     public String annotate(String input, String anchorDate) {
-        
-        try{
+
+        try {
             DateTime a = new DateTime(anchorDate);
-        } catch(Exception e){
+        } catch (Exception e) {
             Date dct = Calendar.getInstance().getTime();
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             anchorDate = df.format(dct);
         }
-        
+
         Pattern pAnchor = Pattern.compile("anchor\\((\\w+),(.),([^\\)]+)\\)");
         String lastfullDATE = anchorDate; // Where we keep the last full date, in case we have to normalize
         String backupAnchor = anchorDate;
@@ -372,9 +492,8 @@ public class AnnotadorLegal implements Annotador {
             // But you can see what is in it with other methods like toShorterString()
 //            out.println("The top level annotation");
 //            System.out.println(annotation.toShorterString());
-
             List<CoreMap> sentences = annotation.get(CoreAnnotations.SentencesAnnotation.class);
-                lastfullDATE = backupAnchor;
+            lastfullDATE = backupAnchor;
             for (CoreMap sentence : sentences) {
                 lastDATE = backupAnchor;
                 CoreMapExpressionExtractor<MatchedExpression> extractor = CoreMapExpressionExtractor
@@ -394,382 +513,376 @@ public class AnnotadorLegal implements Annotador {
                     String freq = (String) a.get(2).get();
                     String mod = (String) a.get(3).get();
                     String rul = (String) a.get(4).get();
-                    
-                    if(rul.equalsIgnoreCase("Rule$TGranularity") || rul.equalsIgnoreCase("Rule$Granularity")){// || val.equalsIgnoreCase("PAST_REF") || val.equalsIgnoreCase("PRESENT_REF") || val.equalsIgnoreCase("FUTURE_REF")){
+
+                    if (rul.equalsIgnoreCase("Rule$TGranularity") || rul.equalsIgnoreCase("Rule$Granularity")) {// || val.equalsIgnoreCase("PAST_REF") || val.equalsIgnoreCase("PRESENT_REF") || val.equalsIgnoreCase("FUTURE_REF")){
                         logger.info("Ignore this one : " + typ + " | " + val + " | " + freq + " | " + mod + " | " + rul);
-                    } else{
+                    } else {
 
-                    logger.info(typ + " | " + val + " | " + freq + " | " + mod + " | " + rul);
+                        logger.info(typ + " | " + val + " | " + freq + " | " + mod + " | " + rul);
 
-                    // TO DO: el get? poner los values!
-                    numval++;
-                    int ini = cm.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
-                    String text = cm.get(CoreAnnotations.TextAnnotation.class);
+                        // TO DO: el get? poner los values!
+                        numval++;
+                        int ini = cm.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
+                        String text = cm.get(CoreAnnotations.TextAnnotation.class);
 //        out.println(matched.getText() + " - " + matched.getCharOffsets());
 
-                    // To adapt to TE3 format - news mode
-                    if ((typ.equalsIgnoreCase("DATE") || typ.equalsIgnoreCase("TIME")) && val.startsWith("XXXX-XX") && anchorDate != null) {
-                        DateTime dt = new DateTime(lastfullDATE);
+                        // To adapt to TE3 format - news mode
+                        if ((typ.equalsIgnoreCase("DATE") || typ.equalsIgnoreCase("TIME")) && val.startsWith("XXXX-XX") && anchorDate != null) {
+                            DateTime dt = new DateTime(lastfullDATE);
 //                        DateTime dt = new DateTime(anchorDate);
-                        int month = dt.getMonthOfYear();
-                        int year = dt.getYear();
-                        val = year + "-" + String.format("%02d", month) + val.substring(7, val.length());
-                    } else if ((typ.equalsIgnoreCase("DATE") || typ.equalsIgnoreCase("TIME")) && val.startsWith("XXXX") && anchorDate != null) {
-                        DateTime dt = new DateTime(lastfullDATE);
+                            int month = dt.getMonthOfYear();
+                            int year = dt.getYear();
+                            val = year + "-" + String.format("%02d", month) + val.substring(7, val.length());
+                        } else if ((typ.equalsIgnoreCase("DATE") || typ.equalsIgnoreCase("TIME")) && val.startsWith("XXXX") && anchorDate != null) {
+                            DateTime dt = new DateTime(lastfullDATE);
 //                        DateTime dt = new DateTime(anchorDate);
-                        int year = dt.getYear();
-                        val = year + val.substring(4, val.length());
-                    }
+                            int year = dt.getYear();
+                            val = year + val.substring(4, val.length());
+                        }
 
-                    // To adapt to TE3 format
-                    val = val.replaceAll("-X+", "");
+                        // To adapt to TE3 format
+                        val = val.replaceAll("-X+", "");
 
-                    // TODO: also, use the dependency parsing to find modifiers
-                    // TODO: the ref can be other day...
-                    if (val.startsWith("Danchor(+,") && lastfullDATE != null) {
-                        String refDate = val.substring(10, val.length() - 1);
-                        val = getNextDate(lastfullDATE, refDate);
-                    } else if (val.startsWith("Danchor(-,") && lastfullDATE != null) {
-                        String refDate = val.substring(10, val.length() - 1);
-                        val = getLastDate(lastfullDATE, refDate);
-                    } else if (val.startsWith("Sanchor(+,") && lastfullDATE != null) {
-                        String refDate = val.substring(10, val.length() - 1);
-                        val = getNextSeason(lastfullDATE, refDate);
-                    } else if (val.startsWith("Sanchor(-,") && lastfullDATE != null) {
-                        String refDate = val.substring(10, val.length() - 1);
-                        val = getLastSeason(lastfullDATE, refDate);
-                    } else if (val.startsWith("Ranchor(+,") && lastfullDATE != null) {
-                        String gran = val.substring(10, val.length() - 1);
-                        DateTime dat = new DateTime(lastfullDATE);
-                        if(gran.equalsIgnoreCase("M")){
-                            int day = dat.getDayOfMonth();
-                            int maxM = dat.dayOfMonth().getMaximumValue();
-                            val = (maxM - day) + "D";
-                        } else if(gran.equalsIgnoreCase("Y")){
-                            int day = dat.getDayOfMonth();
-                            int maxM = dat.dayOfMonth().getMaximumValue();
-                            if(dat.getMonthOfYear() != 12){
-                            val = (12 - dat.getMonthOfYear()) + "M" + (maxM - day) + "D";
-                            } else{
+                        // TODO: also, use the dependency parsing to find modifiers
+                        // TODO: the ref can be other day...
+                        if (val.startsWith("Danchor(+,") && lastfullDATE != null) {
+                            String refDate = val.substring(10, val.length() - 1);
+                            val = getNextDate(lastfullDATE, refDate);
+                        } else if (val.startsWith("Danchor(-,") && lastfullDATE != null) {
+                            String refDate = val.substring(10, val.length() - 1);
+                            val = getLastDate(lastfullDATE, refDate);
+                        } else if (val.startsWith("Sanchor(+,") && lastfullDATE != null) {
+                            String refDate = val.substring(10, val.length() - 1);
+                            val = getNextSeason(lastfullDATE, refDate);
+                        } else if (val.startsWith("Sanchor(-,") && lastfullDATE != null) {
+                            String refDate = val.substring(10, val.length() - 1);
+                            val = getLastSeason(lastfullDATE, refDate);
+                        } else if (val.startsWith("Ranchor(+,") && lastfullDATE != null) {
+                            String gran = val.substring(10, val.length() - 1);
+                            DateTime dat = new DateTime(lastfullDATE);
+                            if (gran.equalsIgnoreCase("M")) {
+                                int day = dat.getDayOfMonth();
+                                int maxM = dat.dayOfMonth().getMaximumValue();
                                 val = (maxM - day) + "D";
-                            }
-                        }                       
-                    } else if (val.startsWith("Ranchor(-,") && lastfullDATE != null) {
-                        String gran = val.substring(10, val.length() - 1);
-                        DateTime dat = new DateTime(lastfullDATE);
-                        if(gran.equalsIgnoreCase("M")){
-                            int day = dat.getDayOfMonth();
-                            val = day + "D";
-                        } else if(gran.equalsIgnoreCase("Y")){
-                            int day = dat.getDayOfMonth();                            
-                           if(dat.getMonthOfYear() != 1){
-                                if(day == 1){
-                                    val = (dat.getMonthOfYear()-1) + "M";
-                                }
-                                else{
-                                    val = (dat.getMonthOfYear()-1) + "M" + (day-1) + "D";
-                                }
-                            } else{
-                                val = (day -1) + "D";
-                            }
-                        }
-                    } else if (val.startsWith("DWanchor(+,") && lastfullDATE != null) {
-                        String refDate = val.substring(11, val.length() - 1);
-                        val = getNextMonthS(new DateTime(lastfullDATE), refDate);
-                    } else if (val.startsWith("DWanchor(-,") && lastfullDATE != null) {
-                        String refDate = val.substring(11, val.length() - 1);
-                        val = getLastMonthS(new DateTime(lastfullDATE), refDate);
-                    } else if (val.startsWith("anchor") && lastfullDATE != null) {
-                        DateTime dt = new DateTime(lastfullDATE);
-
-                        Matcher m = pAnchor.matcher(val);
-                        m.find();
-                        String ref = m.group(1);
-                        String plus = m.group(2);
-                        String duration = m.group(3);
-
-                        LinkedHashMap<String, String> durations = new LinkedHashMap<String, String>();
-                        // If it is an anchor for a date (eg, "this month")
-                        if (plus.equalsIgnoreCase("x")) {
-                            durations.put(duration, "0");
-                        } else {
-                            durations = parseDuration(duration);
-                        }
-
-                        Set<String> durString = durations.keySet();
-
-                        for (String gran : durString) {
-
-                            int plusI = Integer.valueOf(durations.get(gran));
-
-                            // Needs to be more general, check if today, proceed otherwise if not
-                            // To do: BD should use real work calendar, not just a simple day, but...
-                            if (gran.equalsIgnoreCase("BD")) {
-                                if (plus.equalsIgnoreCase("+")) {
-                                    dt = dt.plusDays(plusI);
-                                } else if (plus.equalsIgnoreCase("-")) {
-                                    dt = dt.minusDays(plusI);
-                                } else {
-                                    dt = new DateTime(lastfullDATE);
-                                    val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
-
-                                }
-                            }else if (gran.equalsIgnoreCase("D")) {
-                                if (plus.equalsIgnoreCase("+")) {
-                                    dt = dt.plusDays(plusI);
-                                } else if (plus.equalsIgnoreCase("-")) {
-                                    dt = dt.minusDays(plusI);
-                                } else {
-                                    dt = new DateTime(lastfullDATE);
-                                    val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
-
-                                }
-                            } else if (gran.equalsIgnoreCase("M")) {
-                                if (plus.equalsIgnoreCase("+")) {
-                                    dt = dt.plusMonths(plusI);
-                                } else if (plus.equalsIgnoreCase("-")) {
-                                    dt = dt.minusMonths(plusI);
-                                } else {
-                                    dt = new DateTime(lastfullDATE);
-                                    val = dt.toString("YYYY-MM");
-                                }
                             } else if (gran.equalsIgnoreCase("Y")) {
-                                if (plus.equalsIgnoreCase("+")) {
-                                    dt = dt.plusYears(plusI);
-                                } else if (plus.equalsIgnoreCase("-")) {
-                                    dt = dt.minusYears(plusI);
+                                int day = dat.getDayOfMonth();
+                                int maxM = dat.dayOfMonth().getMaximumValue();
+                                if (dat.getMonthOfYear() != 12) {
+                                    val = (12 - dat.getMonthOfYear()) + "M" + (maxM - day) + "D";
                                 } else {
-                                    dt = new DateTime(lastfullDATE);
-                                    val = dt.toString("YYYY");
-                                }
-                            } else if (gran.equalsIgnoreCase("CENT")) {
-                                if (plus.equalsIgnoreCase("+")) {
-                                    dt = dt.plusYears(plusI * 100);
-                                } else if (plus.equalsIgnoreCase("-")) {
-                                    dt = dt.minusYears(plusI * 100);
-                                } else {
-                                    val = (dt.plusYears(100)).toString("YYYY");
-                                    if (val.length() == 4) {
-                                        val = val.substring(0, 2);
-                                    } else if (val.length() == 3) {
-                                        val = "0" + val.substring(0, 1);
-                                    } else {
-                                        val = "00";
-                                    }
-                                }
-                            } else if (gran.equalsIgnoreCase("W")) {
-                                if (plus.equalsIgnoreCase("+")) {
-                                    dt = dt.plusWeeks(plusI);
-                                } else if (plus.equalsIgnoreCase("-")) {
-                                    dt = dt.minusWeeks(plusI);
-                                } else {
-                                    val = dt.toString("YYYY") + "-W" + String.format("%02d",dt.getWeekOfWeekyear());
-                                }
-                            } else if (gran.equalsIgnoreCase("H")) {
-                                if (plus.equalsIgnoreCase("+")) {
-                                    dt = dt.plusHours(plusI);
-                                } else {
-                                    dt = dt.minusHours(plusI);
-                                }
-                            } else if (gran.equalsIgnoreCase("MIN")) {
-                                if (plus.equalsIgnoreCase("+")) {
-                                    dt = dt.plusMinutes(plusI);
-                                } else {
-                                    dt = dt.minusMinutes(plusI);
-                                }
-                            } else if (gran.equalsIgnoreCase("S")) {
-                                if (plus.equalsIgnoreCase("+")) {
-                                    dt = dt.plusSeconds(plusI);
-                                } else {
-                                    dt = dt.minusSeconds(plusI);
-                                }
-
-                            } else if (gran.equalsIgnoreCase("DAYW")) {
-                                if (plus.equalsIgnoreCase("+")) {
-                                    dt = getNextDayWeek(dt, plusI);
-                                } else if (plus.equalsIgnoreCase("-")) {
-                                    dt = getLastDayWeek(dt, plusI);
-                                } else if (plus.equalsIgnoreCase("z")) {
-                                    int current = dt.getDayOfWeek();
-                                    if (plusI <= current) {
-                                        dt = dt.minusDays(current - plusI);
-                                    } else {
-                                        dt = dt.plusDays(plusI - current);
-                                    }
-                                }
-                            } else if (gran.startsWith("Q")) {
-                                if (plus.equalsIgnoreCase("x") && plus.matches("Q\\d+")) {
-                                    val = dt.toString("YYYY") + "-" + gran;
-                                } else {
-                                    if (plus.equalsIgnoreCase("+")) {
-                                        dt = dt.plusMonths(3 * plusI);
-                                    } else if (plus.equalsIgnoreCase("-")) {
-                                        dt = dt.minusMonths(3 * plusI);
-                                    }
-                                    if (dt.getMonthOfYear() < 4) {
-                                        val = dt.toString("YYYY") + "-Q1";
-                                    } else if (dt.getMonthOfYear() < 7) {
-                                        val = dt.toString("YYYY") + "-Q2";
-                                    } else if (dt.getMonthOfYear() < 10) {
-                                        val = dt.toString("YYYY") + "-Q3";
-                                    } else {
-                                        val = dt.toString("YYYY") + "-Q4";
-                                    }
-                                }
-                            } else if (gran.startsWith("HALF")) {
-                                if (plus.equalsIgnoreCase("x") && plus.matches("HALF\\d+")) {
-                                    val = dt.toString("YYYY") + "-" + gran.replaceFirst("ALF", "");
-                                } else {
-                                    if (plus.equalsIgnoreCase("+")) {
-                                        dt = dt.plusMonths(6 * plusI);
-                                    } else if (plus.equalsIgnoreCase("-")) {
-                                        dt = dt.minusMonths(6 * plusI);
-                                    }
-                                    if (dt.getMonthOfYear() < 7) {
-                                        val = dt.toString("YYYY") + "-H1";
-                                    } else {
-                                        val = dt.toString("YYYY") + "-H2";
-                                    }
-                                }
-                            } else if (gran.startsWith("T")) {
-                                if (plus.equalsIgnoreCase("x") && plus.matches("T\\d+")) {
-                                    val = dt.toString("YYYY") + "-" + gran;
-                                } else {
-                                    if (plus.equalsIgnoreCase("+")) {
-                                        dt = dt.plusMonths(4 * plusI);
-                                    } else if (plus.equalsIgnoreCase("-")) {
-                                        dt = dt.minusMonths(4 * plusI);
-                                    }
-                                    if (dt.getMonthOfYear() < 5) {
-                                        val = dt.toString("YYYY") + "-T1";
-                                    } else if (dt.getMonthOfYear() < 9) {
-                                        val = dt.toString("YYYY") + "-T2";
-                                    } else {
-                                        val = dt.toString("YYYY") + "-T3";
-                                    }
-                                }
-                            } else if (gran.equalsIgnoreCase("MONTHS")) {
-                                if (plus.equalsIgnoreCase("+")) {
-                                    dt = getNextMonth(dt, plusI);
-                                } else {
-                                    dt = getLastMonth(dt, plusI);
+                                    val = (maxM - day) + "D";
                                 }
                             }
-                        }
+                        } else if (val.startsWith("Ranchor(-,") && lastfullDATE != null) {
+                            String gran = val.substring(10, val.length() - 1);
+                            DateTime dat = new DateTime(lastfullDATE);
+                            if (gran.equalsIgnoreCase("M")) {
+                                int day = dat.getDayOfMonth();
+                                val = day + "D";
+                            } else if (gran.equalsIgnoreCase("Y")) {
+                                int day = dat.getDayOfMonth();
+                                if (dat.getMonthOfYear() != 1) {
+                                    if (day == 1) {
+                                        val = (dat.getMonthOfYear() - 1) + "M";
+                                    } else {
+                                        val = (dat.getMonthOfYear() - 1) + "M" + (day - 1) + "D";
+                                    }
+                                } else {
+                                    val = (day - 1) + "D";
+                                }
+                            }
+                        } else if (val.startsWith("DWanchor(+,") && lastfullDATE != null) {
+                            String refDate = val.substring(11, val.length() - 1);
+                            val = getNextMonthS(new DateTime(lastfullDATE), refDate);
+                        } else if (val.startsWith("DWanchor(-,") && lastfullDATE != null) {
+                            String refDate = val.substring(11, val.length() - 1);
+                            val = getLastMonthS(new DateTime(lastfullDATE), refDate);
+                        } else if (val.startsWith("anchor") && lastfullDATE != null) {
+                            DateTime dt = new DateTime(lastfullDATE);
 
-                        if (val.matches("anchor\\([A-Z]+,.,.*(\\d+)W\\)")) {
-                            val = dt.getYear() + "-W" + String.format("%02d",dt.getWeekOfWeekyear());
-                        } else if (val.matches("anchor\\([A-Z]+,.,.*(\\d+)Y\\)")) {
-                            val = dt.toString("YYYY");
-                        } else if (val.matches("anchor\\([A-Z]+,.,.*(\\d+)M\\)")) {
-                            val = dt.toString("YYYY-MM");
-                        } else if (val.matches("\\d{0,4}-[H|T|Q]\\d")) {
-                        } else if (!plus.equalsIgnoreCase("x")) {
-                            val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
-                        } else {
+                            Matcher m = pAnchor.matcher(val);
+                            m.find();
+                            String ref = m.group(1);
+                            String plus = m.group(2);
+                            String duration = m.group(3);
 
-                        }
-                    }
-
-                    if ((typ.equalsIgnoreCase("DURATION") || typ.equalsIgnoreCase("SET")) && !rul.equalsIgnoreCase("Rule$losWEEKL")) {
-                        LinkedHashMap<String, String> auxVal = parseDuration(val);
-                        String auxfin = "P";
-                        int flagT = 0;
-                        int mins = 0;
-                        Set<String> durString = auxVal.keySet();
-                        for (String gran : durString) {
-                            if ((gran.equalsIgnoreCase("AF") || gran.equalsIgnoreCase("MO") || gran.equalsIgnoreCase("MI") || gran.equalsIgnoreCase("EV") || gran.equalsIgnoreCase("NI")) && flagT == 0) {
-                                flagT = 1;
-                                auxfin = auxfin + "T" + auxVal.get(gran).replaceFirst("\\.0", "") + gran;
-                            } else if (gran.equalsIgnoreCase("H") && flagT == 0) {
-                                flagT = 1;
-                                auxfin = auxfin + "T" + auxVal.get(gran).replaceFirst("\\.0", "") + gran;
-                            } else if (gran.equalsIgnoreCase("MIN") && flagT == 0) {
-                                flagT = 1;
-                                auxfin = auxfin + "T" + auxVal.get(gran).replaceFirst("\\.0", "") + "M";
-                            } else if (gran.equalsIgnoreCase("HALF")) {
-                                flagT = 1;
-                                auxfin = auxfin + auxVal.get(gran).replaceFirst("\\.0", "") + "H";
-                            } else if (gran.equalsIgnoreCase("S") && flagT == 0) {
-                                flagT = 1;
-                                auxfin = auxfin + "T" + auxVal.get(gran).replaceFirst("\\.0", "") + gran;
+                            LinkedHashMap<String, String> durations = new LinkedHashMap<String, String>();
+                            // If it is an anchor for a date (eg, "this month")
+                            if (plus.equalsIgnoreCase("x")) {
+                                durations.put(duration, "0");
                             } else {
-                                auxfin = auxfin + auxVal.get(gran).replaceFirst("\\.0", "") + gran;
+                                durations = parseDuration(duration);
+                            }
+
+                            Set<String> durString = durations.keySet();
+
+                            for (String gran : durString) {
+
+                                int plusI = Integer.valueOf(durations.get(gran));
+
+                                // Needs to be more general, check if today, proceed otherwise if not
+                                // To do: BD should use real work calendar, not just a simple day, but...
+                                if (gran.equalsIgnoreCase("BD")) {
+                                    if (plus.equalsIgnoreCase("+")) {
+                                        dt = dt.plusDays(plusI);
+                                    } else if (plus.equalsIgnoreCase("-")) {
+                                        dt = dt.minusDays(plusI);
+                                    } else {
+                                        dt = new DateTime(lastfullDATE);
+                                        val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
+
+                                    }
+                                } else if (gran.equalsIgnoreCase("D")) {
+                                    if (plus.equalsIgnoreCase("+")) {
+                                        dt = dt.plusDays(plusI);
+                                    } else if (plus.equalsIgnoreCase("-")) {
+                                        dt = dt.minusDays(plusI);
+                                    } else {
+                                        dt = new DateTime(lastfullDATE);
+                                        val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
+
+                                    }
+                                } else if (gran.equalsIgnoreCase("M")) {
+                                    if (plus.equalsIgnoreCase("+")) {
+                                        dt = dt.plusMonths(plusI);
+                                    } else if (plus.equalsIgnoreCase("-")) {
+                                        dt = dt.minusMonths(plusI);
+                                    } else {
+                                        dt = new DateTime(lastfullDATE);
+                                        val = dt.toString("YYYY-MM");
+                                    }
+                                } else if (gran.equalsIgnoreCase("Y")) {
+                                    if (plus.equalsIgnoreCase("+")) {
+                                        dt = dt.plusYears(plusI);
+                                    } else if (plus.equalsIgnoreCase("-")) {
+                                        dt = dt.minusYears(plusI);
+                                    } else {
+                                        dt = new DateTime(lastfullDATE);
+                                        val = dt.toString("YYYY");
+                                    }
+                                } else if (gran.equalsIgnoreCase("CENT")) {
+                                    if (plus.equalsIgnoreCase("+")) {
+                                        dt = dt.plusYears(plusI * 100);
+                                    } else if (plus.equalsIgnoreCase("-")) {
+                                        dt = dt.minusYears(plusI * 100);
+                                    } else {
+                                        val = (dt.plusYears(100)).toString("YYYY");
+                                        if (val.length() == 4) {
+                                            val = val.substring(0, 2);
+                                        } else if (val.length() == 3) {
+                                            val = "0" + val.substring(0, 1);
+                                        } else {
+                                            val = "00";
+                                        }
+                                    }
+                                } else if (gran.equalsIgnoreCase("W")) {
+                                    if (plus.equalsIgnoreCase("+")) {
+                                        dt = dt.plusWeeks(plusI);
+                                    } else if (plus.equalsIgnoreCase("-")) {
+                                        dt = dt.minusWeeks(plusI);
+                                    } else {
+                                        val = dt.toString("YYYY") + "-W" + String.format("%02d", dt.getWeekOfWeekyear());
+                                    }
+                                } else if (gran.equalsIgnoreCase("H")) {
+                                    if (plus.equalsIgnoreCase("+")) {
+                                        dt = dt.plusHours(plusI);
+                                    } else {
+                                        dt = dt.minusHours(plusI);
+                                    }
+                                } else if (gran.equalsIgnoreCase("MIN")) {
+                                    if (plus.equalsIgnoreCase("+")) {
+                                        dt = dt.plusMinutes(plusI);
+                                    } else {
+                                        dt = dt.minusMinutes(plusI);
+                                    }
+                                } else if (gran.equalsIgnoreCase("S")) {
+                                    if (plus.equalsIgnoreCase("+")) {
+                                        dt = dt.plusSeconds(plusI);
+                                    } else {
+                                        dt = dt.minusSeconds(plusI);
+                                    }
+
+                                } else if (gran.equalsIgnoreCase("DAYW")) {
+                                    if (plus.equalsIgnoreCase("+")) {
+                                        dt = getNextDayWeek(dt, plusI);
+                                    } else if (plus.equalsIgnoreCase("-")) {
+                                        dt = getLastDayWeek(dt, plusI);
+                                    } else if (plus.equalsIgnoreCase("z")) {
+                                        int current = dt.getDayOfWeek();
+                                        if (plusI <= current) {
+                                            dt = dt.minusDays(current - plusI);
+                                        } else {
+                                            dt = dt.plusDays(plusI - current);
+                                        }
+                                    }
+                                } else if (gran.startsWith("Q")) {
+                                    if (plus.equalsIgnoreCase("x") && plus.matches("Q\\d+")) {
+                                        val = dt.toString("YYYY") + "-" + gran;
+                                    } else {
+                                        if (plus.equalsIgnoreCase("+")) {
+                                            dt = dt.plusMonths(3 * plusI);
+                                        } else if (plus.equalsIgnoreCase("-")) {
+                                            dt = dt.minusMonths(3 * plusI);
+                                        }
+                                        if (dt.getMonthOfYear() < 4) {
+                                            val = dt.toString("YYYY") + "-Q1";
+                                        } else if (dt.getMonthOfYear() < 7) {
+                                            val = dt.toString("YYYY") + "-Q2";
+                                        } else if (dt.getMonthOfYear() < 10) {
+                                            val = dt.toString("YYYY") + "-Q3";
+                                        } else {
+                                            val = dt.toString("YYYY") + "-Q4";
+                                        }
+                                    }
+                                } else if (gran.startsWith("HALF")) {
+                                    if (plus.equalsIgnoreCase("x") && plus.matches("HALF\\d+")) {
+                                        val = dt.toString("YYYY") + "-" + gran.replaceFirst("ALF", "");
+                                    } else {
+                                        if (plus.equalsIgnoreCase("+")) {
+                                            dt = dt.plusMonths(6 * plusI);
+                                        } else if (plus.equalsIgnoreCase("-")) {
+                                            dt = dt.minusMonths(6 * plusI);
+                                        }
+                                        if (dt.getMonthOfYear() < 7) {
+                                            val = dt.toString("YYYY") + "-H1";
+                                        } else {
+                                            val = dt.toString("YYYY") + "-H2";
+                                        }
+                                    }
+                                } else if (gran.startsWith("T")) {
+                                    if (plus.equalsIgnoreCase("x") && plus.matches("T\\d+")) {
+                                        val = dt.toString("YYYY") + "-" + gran;
+                                    } else {
+                                        if (plus.equalsIgnoreCase("+")) {
+                                            dt = dt.plusMonths(4 * plusI);
+                                        } else if (plus.equalsIgnoreCase("-")) {
+                                            dt = dt.minusMonths(4 * plusI);
+                                        }
+                                        if (dt.getMonthOfYear() < 5) {
+                                            val = dt.toString("YYYY") + "-T1";
+                                        } else if (dt.getMonthOfYear() < 9) {
+                                            val = dt.toString("YYYY") + "-T2";
+                                        } else {
+                                            val = dt.toString("YYYY") + "-T3";
+                                        }
+                                    }
+                                } else if (gran.equalsIgnoreCase("MONTHS")) {
+                                    if (plus.equalsIgnoreCase("+")) {
+                                        dt = getNextMonth(dt, plusI);
+                                    } else {
+                                        dt = getLastMonth(dt, plusI);
+                                    }
+                                }
+                            }
+
+                            if (val.matches("anchor\\([A-Z]+,.,.*(\\d+)W\\)")) {
+                                val = dt.getYear() + "-W" + String.format("%02d", dt.getWeekOfWeekyear());
+                            } else if (val.matches("anchor\\([A-Z]+,.,.*(\\d+)Y\\)")) {
+                                val = dt.toString("YYYY");
+                            } else if (val.matches("anchor\\([A-Z]+,.,.*(\\d+)M\\)")) {
+                                val = dt.toString("YYYY-MM");
+                            } else if (val.matches("\\d{0,4}-[H|T|Q]\\d")) {
+                            } else if (!plus.equalsIgnoreCase("x")) {
+                                val = dt.toString("YYYY-MM-dd") + val.substring(val.lastIndexOf(")") + 1);
+                            } else {
+
                             }
                         }
-                        val = auxfin;
-                        val = val.replaceFirst("MIN", "M");
-                        val = val.replaceFirst("HALF", "H");
 
-                    }
-                    if (typ.equalsIgnoreCase("TIME") && val.startsWith("T")) {
-                        val = lastfullDATE + val;
-                    }
-                    if (typ.equalsIgnoreCase("TIME") && val.matches("....-..-..(Tanchor\\(.*,.*,.*\\))*.*")) { //for date + time anchorbug
-                        val = val.replaceAll("(anchor\\(.*,.*,.*\\))", "");
-                        val = val.replaceAll("T+", "T");
-                    }
+                        if ((typ.equalsIgnoreCase("DURATION") || typ.equalsIgnoreCase("SET")) && !rul.equalsIgnoreCase("Rule$losWEEKL")) {
+                            LinkedHashMap<String, String> auxVal = parseDuration(val);
+                            String auxfin = "P";
+                            int flagT = 0;
+                            int mins = 0;
+                            Set<String> durString = auxVal.keySet();
+                            for (String gran : durString) {
+                                if ((gran.equalsIgnoreCase("AF") || gran.equalsIgnoreCase("MO") || gran.equalsIgnoreCase("MI") || gran.equalsIgnoreCase("EV") || gran.equalsIgnoreCase("NI")) && flagT == 0) {
+                                    flagT = 1;
+                                    auxfin = auxfin + "T" + auxVal.get(gran).replaceFirst("\\.0", "") + gran;
+                                } else if (gran.equalsIgnoreCase("H") && flagT == 0) {
+                                    flagT = 1;
+                                    auxfin = auxfin + "T" + auxVal.get(gran).replaceFirst("\\.0", "") + gran;
+                                } else if (gran.equalsIgnoreCase("MIN") && flagT == 0) {
+                                    flagT = 1;
+                                    auxfin = auxfin + "T" + auxVal.get(gran).replaceFirst("\\.0", "") + "M";
+                                } else if (gran.equalsIgnoreCase("HALF")) {
+                                    flagT = 1;
+                                    auxfin = auxfin + auxVal.get(gran).replaceFirst("\\.0", "") + "H";
+                                } else if (gran.equalsIgnoreCase("S") && flagT == 0) {
+                                    flagT = 1;
+                                    auxfin = auxfin + "T" + auxVal.get(gran).replaceFirst("\\.0", "") + gran;
+                                } else {
+                                    auxfin = auxfin + auxVal.get(gran).replaceFirst("\\.0", "") + gran;
+                                }
+                            }
+                            val = auxfin;
+                            val = val.replaceFirst("MIN", "M");
+                            val = val.replaceFirst("HALF", "H");
 
-                    if (typ.equalsIgnoreCase("DATE") && val.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d")) {
-                        lastfullDATE = val;
-                    }
-                    
-                    if (typ.equalsIgnoreCase("TIME") && val.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d.*")) {
-                        lastfullDATE = val.substring(0,10);
-                    }
-                    
-                    if (typ.equalsIgnoreCase("DATE")) {
-                        lastDATE = val;
-                    }
-                    
-                    
-                    String addini = "<TIMEX3 tid=\"t" + numval + "\" type=\"" + typ + "\" value=\"" + val;
-                    if (!freq.isEmpty()) {
-                        addini = addini + "\" freq=\"" + freq;
-                    }
-                    if (!mod.isEmpty()) {
-                        addini = addini + "\" mod=\"" + mod;
-                    }
-                    addini = addini + "\">";
-                    
-                    String addfin = "</TIMEX3>";
+                        }
+                        if (typ.equalsIgnoreCase("TIME") && val.startsWith("T")) {
+                            val = lastfullDATE + val;
+                        }
+                        if (typ.equalsIgnoreCase("TIME") && val.matches("....-..-..(Tanchor\\(.*,.*,.*\\))*.*")) { //for date + time anchorbug
+                            val = val.replaceAll("(anchor\\(.*,.*,.*\\))", "");
+                            val = val.replaceAll("T+", "T");
+                        }
 
-                    
-                    String toAdd = addini + text + addfin;
-                    if(text.endsWith(" ,")){
-                        toAdd = addini + text.substring(0, text.length()-2) + addfin + " ,";
-                    }
-                    else if(text.endsWith(",")){
-                        toAdd = addini + text.substring(0, text.length()-1) + addfin + ",";
-                    } else if(text.endsWith(" .")){
-                        toAdd = addini + text.substring(0, text.length()-2) + addfin + " .";
-                    }
-                    else if(text.endsWith(".")){
-                        toAdd = addini + text.substring(0, text.length()-1) + addfin + ".";
-                    } else if(text.endsWith(" ;")){
-                        toAdd = addini + text.substring(0, text.length()-2) + addfin + " ;";
-                    }
-                    else if(text.endsWith(";")){
-                        toAdd = addini + text.substring(0, text.length()-1) + addfin + ";";
-                    }
-                    
-                    inp2 = inp2.substring(0, ini + offsetdelay) + toAdd + inp2.substring(ini + text.length() + offsetdelay);
+                        if (typ.equalsIgnoreCase("DATE") && val.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d")) {
+                            lastfullDATE = val;
+                        }
 
-                    offsetdelay = offsetdelay + toAdd.length() - text.length();
+                        if (typ.equalsIgnoreCase("TIME") && val.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d.*")) {
+                            lastfullDATE = val.substring(0, 10);
+                        }
+
+                        if (typ.equalsIgnoreCase("DATE")) {
+                            lastDATE = val;
+                        }
+
+                        String addini = "<TIMEX3 tid=\"t" + numval + "\" type=\"" + typ + "\" value=\"" + val;
+                        if (!freq.isEmpty()) {
+                            addini = addini + "\" freq=\"" + freq;
+                        }
+                        if (!mod.isEmpty()) {
+                            addini = addini + "\" mod=\"" + mod;
+                        }
+                        addini = addini + "\">";
+
+                        String addfin = "</TIMEX3>";
+
+                        String toAdd = addini + text + addfin;
+                        if (text.endsWith(" ,")) {
+                            toAdd = addini + text.substring(0, text.length() - 2) + addfin + " ,";
+                        } else if (text.endsWith(",")) {
+                            toAdd = addini + text.substring(0, text.length() - 1) + addfin + ",";
+                        } else if (text.endsWith(" .")) {
+                            toAdd = addini + text.substring(0, text.length() - 2) + addfin + " .";
+                        } else if (text.endsWith(".")) {
+                            toAdd = addini + text.substring(0, text.length() - 1) + addfin + ".";
+                        } else if (text.endsWith(" ;")) {
+                            toAdd = addini + text.substring(0, text.length() - 2) + addfin + " ;";
+                        } else if (text.endsWith(";")) {
+                            toAdd = addini + text.substring(0, text.length() - 1) + addfin + ";";
+                        }
+
+                        inp2 = inp2.substring(0, ini + offsetdelay) + toAdd + inp2.substring(ini + text.length() + offsetdelay);
+
+                        offsetdelay = offsetdelay + toAdd.length() - text.length();
                     }
                 }
             }
 //            if(flagRN==1){
 //            inp2 = inp2.replaceAll("\\n\\n\\n\\n", "\n");
-                        inp2 = inp2.replaceAll("\\nxyyz128945shb\\n", "\n");
+            inp2 = inp2.replaceAll("\\nxyyz128945shb\\n", "\n");
 
             inp2 = inp2.replaceAll("\\n", "\r\n");
 //            }
 
 // DO INTERVAL SEARCH
-inp2 = searchIntervals(inp2);
+            inp2 = searchIntervals(inp2);
 
-inp2 = uniformOutp(inp2,input);
+            inp2 = uniformOutp(inp2, input);
             return inp2;
 
         } catch (Exception ex) {
@@ -778,9 +891,12 @@ inp2 = uniformOutp(inp2,input);
         }
     }
 
-    
-
- public boolean evaluateTE3() {
+    /**
+     * Outputs the tagging of Annotador against the TempEval3 corpus
+     *
+     * @return boolean TRUE (ended correctly) or FALSE (Exception)
+     */
+    public boolean evaluateTE3() {
         try {
             ManagerTempEval3 mte3 = new ManagerTempEval3();
             List<FileTempEval3> list = mte3.lista;
@@ -795,6 +911,11 @@ inp2 = uniformOutp(inp2,input);
         return false;
     }
 
+    /**
+     * Outputs the tagging of Annotador against the TempEval3 corpus
+     *
+     * @return boolean TRUE (ended correctly) or FALSE (Exception)
+     */
     public boolean evaluateSoco() {
         try {
             ManagerSoco mte3 = new ManagerSoco();
@@ -810,6 +931,11 @@ inp2 = uniformOutp(inp2,input);
         return false;
     }
 
+    /**
+     * Outputs the tagging of Annotador against the TempEval3 Spanish corpus
+     *
+     * @return boolean TRUE (ended correctly) or FALSE (Exception)
+     */
     public boolean evaluateTE3ES() {
         try {
             ManagerTempEval3ES mte3 = new ManagerTempEval3ES();
@@ -833,6 +959,11 @@ inp2 = uniformOutp(inp2,input);
         return false;
     }
 
+    /**
+     * Outputs the tagging of Annotador against the TimeBank corpus
+     *
+     * @return boolean TRUE (ended correctly) or FALSE (Exception)
+     */
     public boolean evaluateTimeBank() {
         try {
             ManagerTimeBank mtb = new ManagerTimeBank();
@@ -848,6 +979,14 @@ inp2 = uniformOutp(inp2,input);
         return false;
     }
 
+    /**
+     * Writes an output file
+     *
+     * @param input String to save
+     * @param path String with the path to save the file
+     *
+     * @return boolean TRUE (ended correctly) or FALSE (Exception)
+     */
     public boolean writeFile(String input, String path) {
         try {
             FileOutputStream fos = new FileOutputStream(path);
@@ -863,14 +1002,31 @@ inp2 = uniformOutp(inp2,input);
         return false;
     }
 
+    /**
+     *
+     * @param input String text to annotate
+     * @param anchorDate String date of reference
+     *
+     * @return String text tagged in JSON format
+     */
+    @Override
     public String annotateJSON(String input, String anchorDate) {
 
         String out = annotate(input, anchorDate);
         TIMEX2JSON t2j = new TIMEX2JSON();
         return t2j.translateSentence(out);
     }
-    
-    
+
+    /**
+     *
+     * @param input String text to annotate
+     * @param anchorDate String date of reference
+     * @param reference String NIF URI reference
+     * @param lang String language code label
+     *
+     * @return String text tagged as NIF
+     */
+    @Override
     public String annotateNIF(String input, String anchorDate, String reference, String lang) {
 
         String out = annotate(input, anchorDate);
@@ -878,6 +1034,13 @@ inp2 = uniformOutp(inp2,input);
         return t2n.translateSentence(out, reference, lang);
     }
 
+    /**
+     * Function that searches intervals in an already tagged text
+     *
+     * @param input String with the taggeed text
+     *
+     * @return String with the text tagged with intervals, if any
+     */
     public String searchIntervals(String input) {
 //        Pattern pAnchor = Pattern.compile("((?:[E|e][N|n][T|t][R|r][E|e]) |(?:[A|a] [P|p][a|a][R|r][T|t][I|i][R|r] ?[D|d]?[E|e]?) |(?:[D|d][E|e][S|s][D|d][E|e]) |(?:[D|d][E|e]) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>( (?:[Y|y]) | (?:[A|a]) | (?:[H|h][A|a][S|s][T|t][A|a]) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>");
         Pattern pAnchor = Pattern.compile("((?:[E|e][N|n][T|t][R|r][E|e] ?[E|e]?[L|l]?) |(?:[A|a] [P|p][a|a][R|r][T|t][I|i][R|r] ?[D|d]?[E|e]?[L|l]?) |(?:[D|d][E|e][S|s][D|d][E|e] ?[E|e]?[L|l]?) |(?:[D|d][E|e][L|l]?) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>([^\\.<]*)((?:[Y|y] ?[E|e]?[L|l]?) |(?:[A|a][L|l]?) |(?:[H|h][A|a][S|s][T|t][A|a] ?[E|e]?[L|l]?) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>");
@@ -902,122 +1065,126 @@ inp2 = uniformOutp(inp2,input);
             m.appendReplacement(sb, "<INTERVAL iid=\"i" + numid + "\" " + info1 + " " + info2 + ">" + begin + in1 + interast + inter + in2 + "</INTERVAL>");
         }
         m.appendTail(sb); // append the rest of the contents
-        
+
         return sb.toString();
     }
-    
-    
+
+    /**
+     * Function that makes the input plain text and the tagged text uniform in
+     * case of differences
+     *
+     * @param cuerpoAnnotated String with the tagged text
+     * @param cuerpo String with the original plain text
+     *
+     * @return String with uniform tagged text
+     */
     private String uniformOutp(String cuerpoAnnotated, String cuerpo) {
         String cuerpoMerge = cuerpo;
-        try{
-        if (cuerpoAnnotated != null && cuerpo != null) {
-            int j = 0; //to iterate in cuerpoAnnotated
-            int i = 0; //to iterate in cuerpoMerge
-            while (i < cuerpoMerge.length()) {
-                while ((cuerpoMerge.charAt(i) == '\n' || cuerpoMerge.charAt(i) == '\r')){
-                    i++;
-                }
-                while ((cuerpoAnnotated.charAt(j) == '\n' || cuerpoAnnotated.charAt(j) == '\r')){
-                    j++;
-                }
-                if (j < cuerpoAnnotated.length() && cuerpoAnnotated.charAt(j) == '<' && cuerpoAnnotated.substring(j + 1, j + 7).equalsIgnoreCase("TIMEX3")) {
-                    int j1 = cuerpoAnnotated.indexOf(">", j) + 1;
-                    int j2 = cuerpoAnnotated.indexOf("</TIMEX3>", j) + "</TIMEX3>".length();
-                    int j3 = cuerpoAnnotated.indexOf("</TIMEX3>", j);
-                    int lengtnew = j3 - j1;
-                    // in TIMEX3
-                    String intimex = cuerpoAnnotated.substring(j1, j3);
-                    String pretimex = cuerpoAnnotated.substring(j, j1);
-                    if (!cuerpoMerge.substring(i, i + lengtnew).equalsIgnoreCase(intimex)) {
-                        int lengthint = intimex.length();
-                        int k = 0;
-                        int k2 = 0;
-                        while (k < lengthint) {
-                            while (cuerpoMerge.charAt(i + k2) != intimex.charAt(k)) {
+        try {
+            if (cuerpoAnnotated != null && cuerpo != null) {
+                int j = 0; //to iterate in cuerpoAnnotated
+                int i = 0; //to iterate in cuerpoMerge
+                while (i < cuerpoMerge.length()) {
+                    while ((cuerpoMerge.charAt(i) == '\n' || cuerpoMerge.charAt(i) == '\r')) {
+                        i++;
+                    }
+                    while ((cuerpoAnnotated.charAt(j) == '\n' || cuerpoAnnotated.charAt(j) == '\r')) {
+                        j++;
+                    }
+                    if (j < cuerpoAnnotated.length() && cuerpoAnnotated.charAt(j) == '<' && cuerpoAnnotated.substring(j + 1, j + 7).equalsIgnoreCase("TIMEX3")) {
+                        int j1 = cuerpoAnnotated.indexOf(">", j) + 1;
+                        int j2 = cuerpoAnnotated.indexOf("</TIMEX3>", j) + "</TIMEX3>".length();
+                        int j3 = cuerpoAnnotated.indexOf("</TIMEX3>", j);
+                        int lengtnew = j3 - j1;
+                        // in TIMEX3
+                        String intimex = cuerpoAnnotated.substring(j1, j3);
+                        String pretimex = cuerpoAnnotated.substring(j, j1);
+                        if (!cuerpoMerge.substring(i, i + lengtnew).equalsIgnoreCase(intimex)) {
+                            int lengthint = intimex.length();
+                            int k = 0;
+                            int k2 = 0;
+                            while (k < lengthint) {
+                                while (cuerpoMerge.charAt(i + k2) != intimex.charAt(k)) {
+                                    k2++;
+                                }
+                                k++;
                                 k2++;
                             }
-                            k++;
-                            k2++;
-                        }
-                        
-                        // Add duplicates
-                        String intimexchanged = cuerpoMerge.substring(i, i + k2);
+
+                            // Add duplicates
+                            String intimexchanged = cuerpoMerge.substring(i, i + k2);
 //                        if(intimexchanged.contains("<")){
 //                            pretimex = pretimex.replaceFirst(">", " duplicated=\"true\">");                            
 //                            intimexchanged = intimexchanged.replaceAll("(<[^>]+>)", "</TIMEX3>" + "$1" + pretimex);
 //                        }
-                        
-                        
-                        //
-                        
-                        cuerpoMerge = cuerpoMerge.substring(0, i) + pretimex + intimexchanged + "</TIMEX3>" + cuerpoMerge.substring(i + k2);
+
+                            //
+                            cuerpoMerge = cuerpoMerge.substring(0, i) + pretimex + intimexchanged + "</TIMEX3>" + cuerpoMerge.substring(i + k2);
 //                        cuerpoMerge = cuerpoMerge.substring(0,i) + cuerpoAnnotated.substring(j, j2)+ cuerpoMerge.substring(i+k2);
 
 //                        i = i + k2 + pretimex.length() + "</TIMEX3>".length();
-                        i = i + intimexchanged.length() + pretimex.length() + "</TIMEX3>".length();
+                            i = i + intimexchanged.length() + pretimex.length() + "</TIMEX3>".length();
 //                        i = i + j2 - j;
-                        j = j2;
-                    } else {
+                            j = j2;
+                        } else {
 
-                        cuerpoMerge = cuerpoMerge.substring(0, i) + cuerpoAnnotated.substring(j, j2) + cuerpoMerge.substring(i + lengtnew);
-                        i = i + j2 - j;
-                        j = j2;
+                            cuerpoMerge = cuerpoMerge.substring(0, i) + cuerpoAnnotated.substring(j, j2) + cuerpoMerge.substring(i + lengtnew);
+                            i = i + j2 - j;
+                            j = j2;
 
-                    }
+                        }
 //                    if (cuerpoMerge.charAt(i) == '<') {
                         i--;
                         j--;
 //                    }
-                } else if (j < cuerpoAnnotated.length() && cuerpoAnnotated.charAt(j) == '<' && cuerpoAnnotated.substring(j + 1, j + 9).equalsIgnoreCase("INTERVAL")) {
-                    int j1 = cuerpoAnnotated.indexOf(">", j) + 1;
-                    int j2 = cuerpoAnnotated.indexOf("</INTERVAL>", j) + "</INTERVAL>".length();
-                    int j3 = cuerpoAnnotated.indexOf("</INTERVAL>", j);
-                    int lengtnew = j3 - j1;
-                    // in TIMEX3
-                    String intimex = cuerpoAnnotated.substring(j1, j3);
-                    String pretimex = cuerpoAnnotated.substring(j, j1);
-                    if (!cuerpoMerge.substring(i, i + lengtnew).equalsIgnoreCase(intimex)) {
-                        int lengthint = intimex.length();
-                        int k = 0;
-                        int k2 = 0;
-                        while (k < lengthint) {
-                            while (cuerpoMerge.charAt(i + k2) != intimex.charAt(k)) {
+                    } else if (j < cuerpoAnnotated.length() && cuerpoAnnotated.charAt(j) == '<' && cuerpoAnnotated.substring(j + 1, j + 9).equalsIgnoreCase("INTERVAL")) {
+                        int j1 = cuerpoAnnotated.indexOf(">", j) + 1;
+                        int j2 = cuerpoAnnotated.indexOf("</INTERVAL>", j) + "</INTERVAL>".length();
+                        int j3 = cuerpoAnnotated.indexOf("</INTERVAL>", j);
+                        int lengtnew = j3 - j1;
+                        // in TIMEX3
+                        String intimex = cuerpoAnnotated.substring(j1, j3);
+                        String pretimex = cuerpoAnnotated.substring(j, j1);
+                        if (!cuerpoMerge.substring(i, i + lengtnew).equalsIgnoreCase(intimex)) {
+                            int lengthint = intimex.length();
+                            int k = 0;
+                            int k2 = 0;
+                            while (k < lengthint) {
+                                while (cuerpoMerge.charAt(i + k2) != intimex.charAt(k)) {
+                                    k2++;
+                                }
+                                k++;
                                 k2++;
                             }
-                            k++;
-                            k2++;
-                        }
-                        cuerpoMerge = cuerpoMerge.substring(0, i) + pretimex + cuerpoMerge.substring(i, i + k2) + "</INTERVAL>" + cuerpoMerge.substring(i + k2);
+                            cuerpoMerge = cuerpoMerge.substring(0, i) + pretimex + cuerpoMerge.substring(i, i + k2) + "</INTERVAL>" + cuerpoMerge.substring(i + k2);
 //                        cuerpoMerge = cuerpoMerge.substring(0,i) + cuerpoAnnotated.substring(j, j2)+ cuerpoMerge.substring(i+k2);
 
-                        i = i + k2 + pretimex.length() + "</INTERVAL>".length();
+                            i = i + k2 + pretimex.length() + "</INTERVAL>".length();
 //                        i = i + j2 - j;
-                        j = j2;
-                    } else {
+                            j = j2;
+                        } else {
 
-                        cuerpoMerge = cuerpoMerge.substring(0, i) + cuerpoAnnotated.substring(j, j2) + cuerpoMerge.substring(i + lengtnew);
-                        i = i + j2 - j;
-                        j = j2;
+                            cuerpoMerge = cuerpoMerge.substring(0, i) + cuerpoAnnotated.substring(j, j2) + cuerpoMerge.substring(i + lengtnew);
+                            i = i + j2 - j;
+                            j = j2;
 
-                    }
+                        }
 //                    if (cuerpoMerge.charAt(i) == '<') {
                         i--;
                         j--;
 //                    }
+                    }
+                    i++;
+                    j++;
                 }
-                i++;
-                j++;
+                return cuerpoMerge;
             }
-            return cuerpoMerge;
-        }
-        } catch(Exception e){
+        } catch (Exception e) {
             System.err.println("Error while setting the text uniform");
             System.err.println(e.toString());
         }
 
         return cuerpoAnnotated;
     }
-
-
 
 }

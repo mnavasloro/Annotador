@@ -1,0 +1,28 @@
+var classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal =
+[
+    [ "AnnotadorLegal", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a9cc9feca6f20b088553ea86dd5bd54c3", null ],
+    [ "AnnotadorLegal", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a81b780e150df30ce31619debd9633c40", null ],
+    [ "AnnotadorLegal", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a97ac07dc155a194bc9ec1e34e2739bff", null ],
+    [ "AnnotadorLegal", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#adfb0847d562fa4c2f7e8634257d8f3a4", null ],
+    [ "annotate", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#ad5f1a35d08a63a1d1c49d4600698e6b3", null ],
+    [ "annotateJSON", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a612106956430c51ab743f91e089a8004", null ],
+    [ "annotateNIF", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#aae5836a7e3652d30318eb6b9434813f5", null ],
+    [ "evaluateSoco", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a05e5716e1baff1235357c07adb11f659", null ],
+    [ "evaluateTE3", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a71ae813a96f9abfbf8e3f755e64c9883", null ],
+    [ "evaluateTE3ES", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a758178d5e8096d5930ff2936d0c99298", null ],
+    [ "evaluateTimeBank", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#ad16a792251d0d6e0d468819e7e1bdb73", null ],
+    [ "getLastDate", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#aea6ee3872ba3f19e47c14b25e2f23983", null ],
+    [ "getLastDayWeek", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a9a4d8a4444f85f798bf1b6fe49571e5c", null ],
+    [ "getLastMonth", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a320b318fd23dfb8d916929a343f54c23", null ],
+    [ "getLastMonthS", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a1f5ca030bff13d83540f8aa6115b84e8", null ],
+    [ "getLastSeason", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a56c1d25d7cededaa70c88459be52325d", null ],
+    [ "getNextDate", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a47cefda250f8dbbace8cac5081bca045", null ],
+    [ "getNextDayWeek", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a789d7d40f07249a47353e6c9456b07b7", null ],
+    [ "getNextMonth", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#afc9e2423e937fa08e6072b9f02000876", null ],
+    [ "getNextMonthS", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a1c2ea9050aaff924f6f03188185e570b", null ],
+    [ "getNextSeason", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a0f0f0c440c41ab454a5bf804d7f86bcb", null ],
+    [ "init", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#aed788477d0ad9c0bfc75c8aef17c7e3e", null ],
+    [ "parseDuration", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#accd088f90a514aafa862952341884e1e", null ],
+    [ "searchIntervals", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a16e453ed203c5c5967d6daf5856ab405", null ],
+    [ "writeFile", "classoeg_1_1tagger_1_1core_1_1time_1_1tictag_1_1_annotador_legal.html#a77fd6705aa87594e354441cea81e4001", null ]
+];

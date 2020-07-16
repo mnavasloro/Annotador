@@ -16,6 +16,11 @@ public class NIFAnnotation {
     public String referenceContext = "";
     public String annotationUnit = "";
 
+    /**
+     *
+     * @return String with the NIF format needed for the
+     * annotation
+     */
     public String toString() {
         return header + a + referenceContext + isString + beginIndex + endIndex + annotationUnit + "\n\n";
     }

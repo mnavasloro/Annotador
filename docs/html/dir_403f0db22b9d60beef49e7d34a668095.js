@@ -1,0 +1,4 @@
+var dir_403f0db22b9d60beef49e7d34a668095 =
+[
+    [ "annotador-core", "dir_f5481924062f7d52c07464a2903582f6.html", "dir_f5481924062f7d52c07464a2903582f6" ]
+];

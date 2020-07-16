@@ -1,3 +1,9 @@
+/**
+ * @class FileTimeBank
+ * 
+ * @brief Class to process TimeBank files
+ * 
+ */
 package oeg.tagger.core.data;
 
 import java.io.BufferedWriter;
@@ -24,6 +30,14 @@ public class FileTimeBank {
 
     String content = "";
 
+    /**
+     * Constructor of FileTimeBank
+     * 
+     * @param file Input file (cleaned of TimeML tags)
+     * @param test File to test against
+     * @param out File to write the output
+     *
+     */
     public FileTimeBank(File file, File test, File out) {
         inputFile = file;
         testFile = new File(test.getAbsolutePath() + file.getName());
@@ -94,7 +108,8 @@ public class FileTimeBank {
     /**
      * Returns the TEXT of string
      *
-     * @param input
+     * @param input String read in the input file
+     * 
      * @return the TEXT of a string
      */
     public static String getText(String input) {
@@ -111,7 +126,8 @@ public class FileTimeBank {
     /**
      * Returns the BODY of string
      *
-     * @param input
+     * @param input String read in the input file
+     * 
      * @return the BODY of a string
      */
     public static String getBody(String input) {
@@ -129,7 +145,8 @@ public class FileTimeBank {
     /**
      * Returns the DTC (Document Creation Time) of string input
      *
-     * @param input
+     * @param input String read in the input file
+     * 
      * @return the DCT of a string
      */
     public String getDCT(String input) {
@@ -146,7 +163,8 @@ public class FileTimeBank {
     /**
      * Writes an output file
      *
-     * @param tagged
+     * @param tagged Annotated String
+     * 
      * @return boolean TRUE (ended correctly) or FALSE (Exception)
      */
     public boolean writeOutputFile(String tagged) {

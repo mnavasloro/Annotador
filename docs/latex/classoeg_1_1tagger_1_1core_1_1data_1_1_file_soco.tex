@@ -1,0 +1,151 @@
+\hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco}{}\doxysection{oeg.\+tagger.\+core.\+data.\+File\+Soco Class Reference}
+\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco}\index{oeg.tagger.core.data.FileSoco@{oeg.tagger.core.data.FileSoco}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_a554790d27680d727f750ad6df574a760}{File\+Soco}} (File file, File test, File out)
+\item 
+String \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_a8b16223cb87a446011ae8e69fdfaef4a}{get\+Text\+Input}} ()
+\item 
+String \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_ace2a6e2d36710c8a8f26df6fef1377bf}{get\+Text\+Test}} ()
+\item 
+String \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_a7bb6101085a5cc6cff3ead87ab3ca1e8}{get\+Text}} (String input)
+\item 
+String \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_a2bfa256aeb95452b2d379cff2c9d153d}{get\+D\+CT}} (String input)
+\item 
+boolean \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_aaa8fb6675761f7c27446e5f0b0c25fd4}{write\+Output\+File}} (String tagged)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class File of the corpus of Soco
+
+\begin{DoxyAuthor}{Author}
+mnavas 
+\end{DoxyAuthor}
+
+
+Definition at line 23 of file File\+Soco.\+java.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_a554790d27680d727f750ad6df574a760}\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_a554790d27680d727f750ad6df574a760}} 
+\index{oeg.tagger.core.data.FileSoco@{oeg.tagger.core.data.FileSoco}!FileSoco@{FileSoco}}
+\index{FileSoco@{FileSoco}!oeg.tagger.core.data.FileSoco@{oeg.tagger.core.data.FileSoco}}
+\doxysubsubsection{\texorpdfstring{FileSoco()}{FileSoco()}}
+{\footnotesize\ttfamily oeg.\+tagger.\+core.\+data.\+File\+Soco.\+File\+Soco (\begin{DoxyParamCaption}\item[{File}]{file,  }\item[{File}]{test,  }\item[{File}]{out }\end{DoxyParamCaption})}
+
+Constructor of \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco}{File\+Soco}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & Plain text file \\
+\hline
+{\em test} & Path of the test folder \\
+\hline
+{\em out} & Path of the output folder \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 39 of file File\+Soco.\+java.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_a2bfa256aeb95452b2d379cff2c9d153d}\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_a2bfa256aeb95452b2d379cff2c9d153d}} 
+\index{oeg.tagger.core.data.FileSoco@{oeg.tagger.core.data.FileSoco}!getDCT@{getDCT}}
+\index{getDCT@{getDCT}!oeg.tagger.core.data.FileSoco@{oeg.tagger.core.data.FileSoco}}
+\doxysubsubsection{\texorpdfstring{getDCT()}{getDCT()}}
+{\footnotesize\ttfamily String oeg.\+tagger.\+core.\+data.\+File\+Soco.\+get\+D\+CT (\begin{DoxyParamCaption}\item[{String}]{input }\end{DoxyParamCaption})}
+
+Returns the D\+TC (Document Creation Time) of string input
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & String read in the input file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the D\+CT of a string 
+\end{DoxyReturn}
+
+
+Definition at line 131 of file File\+Soco.\+java.
+
+\mbox{\Hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_a7bb6101085a5cc6cff3ead87ab3ca1e8}\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_a7bb6101085a5cc6cff3ead87ab3ca1e8}} 
+\index{oeg.tagger.core.data.FileSoco@{oeg.tagger.core.data.FileSoco}!getText@{getText}}
+\index{getText@{getText}!oeg.tagger.core.data.FileSoco@{oeg.tagger.core.data.FileSoco}}
+\doxysubsubsection{\texorpdfstring{getText()}{getText()}}
+{\footnotesize\ttfamily String oeg.\+tagger.\+core.\+data.\+File\+Soco.\+get\+Text (\begin{DoxyParamCaption}\item[{String}]{input }\end{DoxyParamCaption})}
+
+Returns the T\+E\+XT of string
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & String read in the input file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the T\+E\+XT of a string 
+\end{DoxyReturn}
+
+
+Definition at line 113 of file File\+Soco.\+java.
+
+\mbox{\Hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_a8b16223cb87a446011ae8e69fdfaef4a}\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_a8b16223cb87a446011ae8e69fdfaef4a}} 
+\index{oeg.tagger.core.data.FileSoco@{oeg.tagger.core.data.FileSoco}!getTextInput@{getTextInput}}
+\index{getTextInput@{getTextInput}!oeg.tagger.core.data.FileSoco@{oeg.tagger.core.data.FileSoco}}
+\doxysubsubsection{\texorpdfstring{getTextInput()}{getTextInput()}}
+{\footnotesize\ttfamily String oeg.\+tagger.\+core.\+data.\+File\+Soco.\+get\+Text\+Input (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns the T\+E\+XT of the input file (cleaned of Time\+ML tags)
+
+\begin{DoxyReturn}{Returns}
+the T\+E\+XT of the input file (cleaned of Time\+ML tags) 
+\end{DoxyReturn}
+
+
+Definition at line 50 of file File\+Soco.\+java.
+
+\mbox{\Hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_ace2a6e2d36710c8a8f26df6fef1377bf}\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_ace2a6e2d36710c8a8f26df6fef1377bf}} 
+\index{oeg.tagger.core.data.FileSoco@{oeg.tagger.core.data.FileSoco}!getTextTest@{getTextTest}}
+\index{getTextTest@{getTextTest}!oeg.tagger.core.data.FileSoco@{oeg.tagger.core.data.FileSoco}}
+\doxysubsubsection{\texorpdfstring{getTextTest()}{getTextTest()}}
+{\footnotesize\ttfamily String oeg.\+tagger.\+core.\+data.\+File\+Soco.\+get\+Text\+Test (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns the T\+E\+XT of the test file
+
+\begin{DoxyReturn}{Returns}
+the T\+E\+XT of the test file 
+\end{DoxyReturn}
+
+
+Definition at line 81 of file File\+Soco.\+java.
+
+\mbox{\Hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_aaa8fb6675761f7c27446e5f0b0c25fd4}\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_soco_aaa8fb6675761f7c27446e5f0b0c25fd4}} 
+\index{oeg.tagger.core.data.FileSoco@{oeg.tagger.core.data.FileSoco}!writeOutputFile@{writeOutputFile}}
+\index{writeOutputFile@{writeOutputFile}!oeg.tagger.core.data.FileSoco@{oeg.tagger.core.data.FileSoco}}
+\doxysubsubsection{\texorpdfstring{writeOutputFile()}{writeOutputFile()}}
+{\footnotesize\ttfamily boolean oeg.\+tagger.\+core.\+data.\+File\+Soco.\+write\+Output\+File (\begin{DoxyParamCaption}\item[{String}]{tagged }\end{DoxyParamCaption})}
+
+Writes an output file
+
+
+\begin{DoxyParams}{Parameters}
+{\em tagged} & Annotated String\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean T\+R\+UE (ended correctly) or F\+A\+L\+SE (Exception) 
+\end{DoxyReturn}
+
+
+Definition at line 149 of file File\+Soco.\+java.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/mnavas/\+C\+O\+D\+E/\+Annotador/annotador-\/core/src/main/java/oeg/tagger/core/data/\mbox{\hyperlink{_file_soco_8java}{File\+Soco.\+java}}\end{DoxyCompactItemize}

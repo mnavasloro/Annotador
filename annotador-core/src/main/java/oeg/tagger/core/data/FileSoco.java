@@ -1,3 +1,7 @@
+/**
+ * Class to process Soco files
+ * 
+ */
 package oeg.tagger.core.data;
 
 import java.io.BufferedWriter;
@@ -24,6 +28,14 @@ public class FileSoco {
 
     String content = "";
 
+    /**
+     * Constructor of FileSoco
+     * 
+     * @param file Plain text file
+     * @param test Path of the test folder
+     * @param out Path of the output folder
+     *
+     */
     public FileSoco(File file, File test, File out) {
         inputFile = file;
         testFile = new File(test.getAbsolutePath() + "\\" + file.getName());//.replace("txt", "tml"));
@@ -94,7 +106,8 @@ public class FileSoco {
     /**
      * Returns the TEXT of string
      *
-     * @param input
+     * @param input String read in the input file
+     * 
      * @return the TEXT of a string
      */
     public String getText(String input) {
@@ -111,7 +124,8 @@ public class FileSoco {
     /**
      * Returns the DTC (Document Creation Time) of string input
      *
-     * @param input
+     * @param input String read in the input file
+     * 
      * @return the DCT of a string
      */
     public String getDCT(String input) {
@@ -128,7 +142,8 @@ public class FileSoco {
     /**
      * Writes an output file
      *
-     * @param tagged
+     * @param tagged Annotated String
+     * 
      * @return boolean TRUE (ended correctly) or FALSE (Exception)
      */
     public boolean writeOutputFile(String tagged) {

@@ -3,7 +3,6 @@ package oeg.tagger.core.time.annotation;
 import edu.stanford.nlp.ling.CoreAnnotation;
 import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.ErasureUtils;
-import edu.stanford.nlp.util.TypesafeMap;
 
 import java.util.List;
 

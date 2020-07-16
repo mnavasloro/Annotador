@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import org.json.simple.*;
 
 /**
- * Class that converts a TIMEX annotation into a NIF annotation
+ * Class that converts a TIMEX annotation into a JSON annotation
  *
  * @author mnavas
  */

@@ -1,0 +1,210 @@
+\hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank}{}\doxysection{oeg.\+tagger.\+core.\+data.\+File\+Time\+Bank Class Reference}
+\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank}\index{oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a92d2f1f7f568c5753a51a87555fd9bf6}{File\+Time\+Bank}} (File file, File test, File out)
+\item 
+String \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_ad81cf2cccfa483ba190499140dbdefea}{get\+Text\+Input}} ()
+\item 
+String \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a5bea2adbaf46dbd28ee3edfed3875f53}{get\+D\+C\+T\+Input}} ()
+\item 
+String \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a75c3bf7a436d47f06f79a300890c3018}{get\+Text\+Test}} ()
+\item 
+String \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a819e00d8a0b82a84b58851446122e8e2}{get\+D\+C\+T\+Test}} ()
+\item 
+String \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a68728b2eb1d5e6f0d0e6e5ed33486948}{get\+D\+CT}} (String input)
+\item 
+boolean \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_acfafa9df8e2e966f47a8a283bfaeefb7}{write\+Output\+File}} (String tagged)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static String \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_aa1b079d43ac62b4ac799c8391149035d}{get\+Text}} (String input)
+\item 
+static String \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a333f720708a0ee85cadbeb122c722ff1}{get\+Body}} (String input)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class File of the Time\+Bank corpus
+
+\begin{DoxyAuthor}{Author}
+mnavas 
+\end{DoxyAuthor}
+
+
+Definition at line 25 of file File\+Time\+Bank.\+java.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a92d2f1f7f568c5753a51a87555fd9bf6}\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a92d2f1f7f568c5753a51a87555fd9bf6}} 
+\index{oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}!FileTimeBank@{FileTimeBank}}
+\index{FileTimeBank@{FileTimeBank}!oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}}
+\doxysubsubsection{\texorpdfstring{FileTimeBank()}{FileTimeBank()}}
+{\footnotesize\ttfamily oeg.\+tagger.\+core.\+data.\+File\+Time\+Bank.\+File\+Time\+Bank (\begin{DoxyParamCaption}\item[{File}]{file,  }\item[{File}]{test,  }\item[{File}]{out }\end{DoxyParamCaption})}
+
+Constructor of \mbox{\hyperlink{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank}{File\+Time\+Bank}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & Input file (cleaned of Time\+ML tags) \\
+\hline
+{\em test} & File to test against \\
+\hline
+{\em out} & File to write the output \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 41 of file File\+Time\+Bank.\+java.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a333f720708a0ee85cadbeb122c722ff1}\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a333f720708a0ee85cadbeb122c722ff1}} 
+\index{oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}!getBody@{getBody}}
+\index{getBody@{getBody}!oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}}
+\doxysubsubsection{\texorpdfstring{getBody()}{getBody()}}
+{\footnotesize\ttfamily static String oeg.\+tagger.\+core.\+data.\+File\+Time\+Bank.\+get\+Body (\begin{DoxyParamCaption}\item[{String}]{input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Returns the B\+O\+DY of string
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & String read in the input file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the B\+O\+DY of a string 
+\end{DoxyReturn}
+
+
+Definition at line 133 of file File\+Time\+Bank.\+java.
+
+\mbox{\Hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a68728b2eb1d5e6f0d0e6e5ed33486948}\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a68728b2eb1d5e6f0d0e6e5ed33486948}} 
+\index{oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}!getDCT@{getDCT}}
+\index{getDCT@{getDCT}!oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}}
+\doxysubsubsection{\texorpdfstring{getDCT()}{getDCT()}}
+{\footnotesize\ttfamily String oeg.\+tagger.\+core.\+data.\+File\+Time\+Bank.\+get\+D\+CT (\begin{DoxyParamCaption}\item[{String}]{input }\end{DoxyParamCaption})}
+
+Returns the D\+TC (Document Creation Time) of string input
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & String read in the input file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the D\+CT of a string 
+\end{DoxyReturn}
+
+
+Definition at line 152 of file File\+Time\+Bank.\+java.
+
+\mbox{\Hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a5bea2adbaf46dbd28ee3edfed3875f53}\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a5bea2adbaf46dbd28ee3edfed3875f53}} 
+\index{oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}!getDCTInput@{getDCTInput}}
+\index{getDCTInput@{getDCTInput}!oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}}
+\doxysubsubsection{\texorpdfstring{getDCTInput()}{getDCTInput()}}
+{\footnotesize\ttfamily String oeg.\+tagger.\+core.\+data.\+File\+Time\+Bank.\+get\+D\+C\+T\+Input (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns the D\+TC (Document Creation Time) of the input file (cleaned of Time\+ML tags)
+
+\begin{DoxyReturn}{Returns}
+the D\+CT of the input file (cleaned of Time\+ML tags) 
+\end{DoxyReturn}
+
+
+Definition at line 68 of file File\+Time\+Bank.\+java.
+
+\mbox{\Hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a819e00d8a0b82a84b58851446122e8e2}\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a819e00d8a0b82a84b58851446122e8e2}} 
+\index{oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}!getDCTTest@{getDCTTest}}
+\index{getDCTTest@{getDCTTest}!oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}}
+\doxysubsubsection{\texorpdfstring{getDCTTest()}{getDCTTest()}}
+{\footnotesize\ttfamily String oeg.\+tagger.\+core.\+data.\+File\+Time\+Bank.\+get\+D\+C\+T\+Test (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns the D\+TC (Document Creation Time) of the test file
+
+\begin{DoxyReturn}{Returns}
+the D\+CT of the test file 
+\end{DoxyReturn}
+
+
+Definition at line 98 of file File\+Time\+Bank.\+java.
+
+\mbox{\Hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_aa1b079d43ac62b4ac799c8391149035d}\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_aa1b079d43ac62b4ac799c8391149035d}} 
+\index{oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}!getText@{getText}}
+\index{getText@{getText}!oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}}
+\doxysubsubsection{\texorpdfstring{getText()}{getText()}}
+{\footnotesize\ttfamily static String oeg.\+tagger.\+core.\+data.\+File\+Time\+Bank.\+get\+Text (\begin{DoxyParamCaption}\item[{String}]{input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Returns the T\+E\+XT of string
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & String read in the input file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the T\+E\+XT of a string 
+\end{DoxyReturn}
+
+
+Definition at line 115 of file File\+Time\+Bank.\+java.
+
+\mbox{\Hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_ad81cf2cccfa483ba190499140dbdefea}\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_ad81cf2cccfa483ba190499140dbdefea}} 
+\index{oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}!getTextInput@{getTextInput}}
+\index{getTextInput@{getTextInput}!oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}}
+\doxysubsubsection{\texorpdfstring{getTextInput()}{getTextInput()}}
+{\footnotesize\ttfamily String oeg.\+tagger.\+core.\+data.\+File\+Time\+Bank.\+get\+Text\+Input (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns the T\+E\+XT of the input file (cleaned of Time\+ML tags)
+
+\begin{DoxyReturn}{Returns}
+the T\+E\+XT of the input file (cleaned of Time\+ML tags) 
+\end{DoxyReturn}
+
+
+Definition at line 52 of file File\+Time\+Bank.\+java.
+
+\mbox{\Hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a75c3bf7a436d47f06f79a300890c3018}\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_a75c3bf7a436d47f06f79a300890c3018}} 
+\index{oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}!getTextTest@{getTextTest}}
+\index{getTextTest@{getTextTest}!oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}}
+\doxysubsubsection{\texorpdfstring{getTextTest()}{getTextTest()}}
+{\footnotesize\ttfamily String oeg.\+tagger.\+core.\+data.\+File\+Time\+Bank.\+get\+Text\+Test (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns the T\+E\+XT of the test file
+
+\begin{DoxyReturn}{Returns}
+the T\+E\+XT of the test file 
+\end{DoxyReturn}
+
+
+Definition at line 83 of file File\+Time\+Bank.\+java.
+
+\mbox{\Hypertarget{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_acfafa9df8e2e966f47a8a283bfaeefb7}\label{classoeg_1_1tagger_1_1core_1_1data_1_1_file_time_bank_acfafa9df8e2e966f47a8a283bfaeefb7}} 
+\index{oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}!writeOutputFile@{writeOutputFile}}
+\index{writeOutputFile@{writeOutputFile}!oeg.tagger.core.data.FileTimeBank@{oeg.tagger.core.data.FileTimeBank}}
+\doxysubsubsection{\texorpdfstring{writeOutputFile()}{writeOutputFile()}}
+{\footnotesize\ttfamily boolean oeg.\+tagger.\+core.\+data.\+File\+Time\+Bank.\+write\+Output\+File (\begin{DoxyParamCaption}\item[{String}]{tagged }\end{DoxyParamCaption})}
+
+Writes an output file
+
+
+\begin{DoxyParams}{Parameters}
+{\em tagged} & Annotated String\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean T\+R\+UE (ended correctly) or F\+A\+L\+SE (Exception) 
+\end{DoxyReturn}
+
+
+Definition at line 170 of file File\+Time\+Bank.\+java.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/mnavas/\+C\+O\+D\+E/\+Annotador/annotador-\/core/src/main/java/oeg/tagger/core/data/\mbox{\hyperlink{_file_time_bank_8java}{File\+Time\+Bank.\+java}}\end{DoxyCompactItemize}

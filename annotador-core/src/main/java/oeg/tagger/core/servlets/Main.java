@@ -28,6 +28,11 @@ public class Main {
 
     }
 
+    /**
+     * 
+     * @param txt plain
+     * @return String with the text tagged in BRAT format
+     */
     public static String parseAndTag(String txt) {
 
         try {

@@ -1,3 +1,10 @@
+/**
+ * Class that manages TimeBank files
+ *  
+ * See also
+ * @ref FileTimeBank
+ * 
+ */
 package oeg.tagger.core.data;
 
 import java.io.BufferedWriter;
@@ -25,6 +32,14 @@ public class ManagerTimeBank {
 
     public List<FileTimeBank> lista = new ArrayList<FileTimeBank>();
 
+    /**
+     * Constructor of ManagerTimeBank
+     * 
+     * @param fInput Path of the plain text files folder
+     * @param fTest Path of the test folder
+     * @param fOut Path of the output folder
+     *
+     */
     public ManagerTimeBank(String fInput, String fTest, String fOut) {
         cleanDocs = new File(fInput);
         testDocs = new File(fTest);
@@ -40,6 +55,10 @@ public class ManagerTimeBank {
         }
     }
 
+    /**
+     * Constructor of ManagerTimeBank
+     *
+     */
     public ManagerTimeBank() {
         File[] a = cleanDocs.listFiles();
         if (cleanDocs.listFiles().length != testDocs.listFiles().length) {
@@ -50,10 +69,6 @@ public class ManagerTimeBank {
             FileTimeBank ft3 = new FileTimeBank(f, testDocs, outDocs);
             lista.add(ft3);
         }
-    }
-
-    public void main() {
-
     }
 
     /**

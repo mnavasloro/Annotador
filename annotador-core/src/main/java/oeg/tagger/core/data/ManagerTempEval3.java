@@ -1,3 +1,10 @@
+/**
+ * Class that manages TempEval3 files
+ *  
+ * See also
+ * @ref FileTempEval3
+ * 
+ */
 package oeg.tagger.core.data;
 
 import java.io.File;
@@ -18,6 +25,14 @@ public class ManagerTempEval3 {
 
     public List<FileTempEval3> lista = new ArrayList<FileTempEval3>();
 
+    /**
+     * Constructor of ManagerTempEval3
+     * 
+     * @param fInput Path of the plain text files folder
+     * @param fTest Path of the test folder
+     * @param fOut Path of the output folder
+     *
+     */
     public ManagerTempEval3(String fInput, String fTest, String fOut) {
         cleanDocs = new File(fInput);
         testDocs = new File(fTest);
@@ -29,16 +44,16 @@ public class ManagerTempEval3 {
         }
     }
 
+    /**
+     * Constructor of ManagerTempEval3
+     *
+     */
     public ManagerTempEval3() {
 
         for (File f : cleanDocs.listFiles()) {
             FileTempEval3 ft3 = new FileTempEval3(f, testDocs, outDocs);
             lista.add(ft3);
         }
-    }
-
-    public void main() {
-
     }
 
 }

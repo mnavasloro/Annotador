@@ -5,7 +5,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
+ * Class that reads NIF
+ * 
  * @author mnavas
  */
 public class NIFReader {
