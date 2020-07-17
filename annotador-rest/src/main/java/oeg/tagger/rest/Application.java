@@ -5,9 +5,12 @@ import java.util.Arrays;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-//import org.springframework.boot.context.web.SpringBootServletInitializer; //ONLY IF WAR IS DESIRED
+//import org.springframework.boot.web.support.SpringBootServletInitializer;
+
+ //ONLY IF WAR IS DESIRED
 import org.springframework.context.ApplicationContext;
 import org.fusesource.jansi.AnsiConsole;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 /**
  * Main application
@@ -28,10 +31,10 @@ public class Application {
             System.out.println(beanName);
         }
     }
-    /* ONLY IF WAR IS DESIRED
-	@Override
+    /* ONLY IF WAR IS DESIRED*/
+	
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(Application.class);
 	}    
-    */
+    
 }

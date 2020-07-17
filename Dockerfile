@@ -12,8 +12,10 @@ RUN mkdir /app
 ADD pom.xml /app
 RUN cd /app && mkdir ./annotador-core && chmod -R 777 ./annotador-core
 RUN cd /app && mkdir ./annotador-rest && chmod -R 777 ./annotador-rest
+RUN cd /app && mkdir ./annotador-web && chmod -R 777 ./annotador-web
 ADD annotador-core /app/annotador-core
 ADD annotador-rest /app/annotador-rest
+ADD annotador-web /app/annotador-web
 
 WORKDIR /app
 

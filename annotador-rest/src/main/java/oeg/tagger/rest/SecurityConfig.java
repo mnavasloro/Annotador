@@ -6,9 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+
 
 
 /**
@@ -21,9 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-            UserDetails oeg = User.withDefaultPasswordEncoder().username("oeg").password("oeg").roles("ADMIN").build();
-            UserDetails guest = User.withDefaultPasswordEncoder().username("guest").password("guest").roles("USER").build();
-            auth.inMemoryAuthentication().withUser(oeg).withUser(guest);
+
 	}
     @Override
     protected void configure(HttpSecurity http) throws Exception {
