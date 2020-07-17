@@ -2,29 +2,42 @@
 
 ## Demo
 Please visit the demo (just for Spanish) in https://annotador.oeg.fi.upm.es/
+
 For documentation on the code, please visit https://mnavasloro.github.io/Annotador/
 
 ## CURL/Postman
 Here is also a curl example:
 
-`curl --location --request POST 'https://annotador.oeg.fi.upm.es/annotate' \
---header 'Content-Type: application/json;charset=utf-8' \
---data-raw '{
-    "inputText": "—Todos ustedes, Zombies— en el año dos mil narra la crónica de un hombre joven.",
-    "inputDate": "",
-    "domain": "standard",
-    "lan": "es"
-}'`
+`curl --location --request POST 'https://annotador.oeg.fi.upm.es/annotate' \`
+
+`--header 'Content-Type: application/json;charset=utf-8' \`
+
+`--data-raw '{`
+
+`    "inputText": "—Todos ustedes, Zombies— en el año dos mil narra la crónica de un hombre joven.",`
+    
+`    "inputDate": "",`
+    
+`    "domain": "standard",`
+    
+`    "lan": "es"`
+`}'`
 
 The structure of the expected json is the following:
 
-`{
-    "inputText": String with the text to tag,
-    "inputDate": (optional) Date of reference YYYY-MM-DD,
-    "domain": (optional) domain of the text, among "Standard" (default) or "Legal",
-    "lan": (optional) language, "es" (Spanish, default) or "en" (English).
-	"format": (optiona) "timex3" (default) or "json".
-}`
+`{`
+
+`    "inputText": String with the text to tag,`
+    
+`    "inputDate": (optional) Date of reference YYYY-MM-DD,`
+    
+`    "domain": (optional) domain of the text, among "Standard" (default) or "Legal",`
+    
+`    "lan": (optional) language, "es" (Spanish, default) or "en" (English),`
+    
+`	"format": (optiona) "timex3" (default) or "json"`
+	
+`}`
 
 
 
