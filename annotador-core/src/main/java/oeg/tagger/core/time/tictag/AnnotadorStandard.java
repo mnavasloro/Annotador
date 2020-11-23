@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
@@ -612,9 +613,10 @@ String rules;
 
                         Set<String> durString = durations.keySet();
 
-                        for (String gran : durString) {
-
-                            int plusI = Integer.valueOf(durations.get(gran));
+                        for (Entry<String,String> entry : durations.entrySet()) {
+//                        for (String gran : durString) {
+                            String gran = entry.getKey();
+                            int plusI = Integer.valueOf(entry.getValue());
 
                             // Needs to be more general, check if today, proceed otherwise if not
                             if (gran.equalsIgnoreCase("D")) {

@@ -118,7 +118,7 @@ public class AnnotadorLegal implements Annotador {
 
         if (lang == null || lang.equalsIgnoreCase("ES")) {
             if (rules == null) {
-                rules = "./src/main/resources/rules/rulesES.txt";
+                rules = "./src/main/resources/rules/rulesES-legal.txt";
             }
 
 //        out = new PrintWriter(System.out);
@@ -147,7 +147,7 @@ public class AnnotadorLegal implements Annotador {
 //    properties.setProperty("regexner.verbose", "false");
         } else if (lang.equalsIgnoreCase("EN")) {
             if (rules == null) {
-                rules = "./src/main/resources/rules/rulesEN.txt";
+                rules = "./src/main/resources/rules/rulesEN-legal.txt";
             }
 
 //        out = new PrintWriter(System.out);
@@ -1043,6 +1043,8 @@ public class AnnotadorLegal implements Annotador {
      */
     public String searchIntervals(String input) {
 //        Pattern pAnchor = Pattern.compile("((?:[E|e][N|n][T|t][R|r][E|e]) |(?:[A|a] [P|p][a|a][R|r][T|t][I|i][R|r] ?[D|d]?[E|e]?) |(?:[D|d][E|e][S|s][D|d][E|e]) |(?:[D|d][E|e]) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>( (?:[Y|y]) | (?:[A|a]) | (?:[H|h][A|a][S|s][T|t][A|a]) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>");
+        
+    if(lang.equalsIgnoreCase("ES")){
         Pattern pAnchor = Pattern.compile("((?:[E|e][N|n][T|t][R|r][E|e] ?[E|e]?[L|l]?) |(?:[A|a] [P|p][a|a][R|r][T|t][I|i][R|r] ?[D|d]?[E|e]?[L|l]?) |(?:[D|d][E|e][S|s][D|d][E|e] ?[E|e]?[L|l]?) |(?:[D|d][E|e][L|l]?) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>([^\\.<]*)((?:[Y|y] ?[E|e]?[L|l]?) |(?:[A|a][L|l]?) |(?:[H|h][A|a][S|s][T|t][A|a] ?[E|e]?[L|l]?) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>");
 ////////        Pattern pAnchor = Pattern.compile("((?:[E|e][N|n][T|t][R|r][E|e]) |(?:[A|a] [P|p][a|a][R|r][T|t][I|i][R|r] ?[D|d]?[E|e]?) |(?:[D|d][E|e][S|s][D|d][E|e]) |(?:[D|d][E|e]) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>([^\\.<]*)((?:[Y|y]) |(?:[A|a]) |(?:[H|h][A|a][S|s][T|t][A|a]) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>");
 //    Pattern pAnchor = Pattern.compile("((?:[E|e][N|n][T|t][R|r][E|e] ?[E|e]?[L|l]?)|(?:[A|a] [P|p][a|a][R|r][T|t][I|i][R|r] ?[D|d]?[E|e]?[L|l]?) |(?:[D|d][E|e][S|s][D|d][E|e] ?[E|e]?[L|l]?) |(?:[D|d][E|e][L|l]?) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>([^\\.<]*)((?:[Y|y]) |(?:[A|a][L|l]?) |(?:[H|h][A|a][S|s][T|t][A|a] ?[E|e]?[L|l]?) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>");
@@ -1066,7 +1068,32 @@ public class AnnotadorLegal implements Annotador {
         }
         m.appendTail(sb); // append the rest of the contents
 
-        return sb.toString();
+        return sb.toString();}
+    else{
+        Pattern pAnchor = Pattern.compile("((?:(?:[B|b][E|e][T|t][W|w][E|e][E|e][N|n] ?[T|t]?[H|h]?[E|e]?)|(?:[F|f][R|r][O|o][M|m] ?[T|t]?[H|h]?[E|e]?)) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>([^\\\\.<]*)((?:[T|t][O|o] ?[T|t]?[H|h]?[E|e]?) |[A|a][N|n][D|d] ?[T|t]?[H|h]?[E|e]? |(?:[U|u]?[N|n]?[T|t]?[I|i]?[L|l]? ?[T|t]?[H|h]?[E|e]?) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>");
+////////        Pattern pAnchor = Pattern.compile("((?:[E|e][N|n][T|t][R|r][E|e]) |(?:[A|a] [P|p][a|a][R|r][T|t][I|i][R|r] ?[D|d]?[E|e]?) |(?:[D|d][E|e][S|s][D|d][E|e]) |(?:[D|d][E|e]) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>([^\\.<]*)((?:[Y|y]) |(?:[A|a]) |(?:[H|h][A|a][S|s][T|t][A|a]) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>");
+//    Pattern pAnchor = Pattern.compile("((?:[E|e][N|n][T|t][R|r][E|e] ?[E|e]?[L|l]?)|(?:[A|a] [P|p][a|a][R|r][T|t][I|i][R|r] ?[D|d]?[E|e]?[L|l]?) |(?:[D|d][E|e][S|s][D|d][E|e] ?[E|e]?[L|l]?) |(?:[D|d][E|e][L|l]?) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>([^\\.<]*)((?:[Y|y]) |(?:[A|a][L|l]?) |(?:[H|h][A|a][S|s][T|t][A|a] ?[E|e]?[L|l]?) )<TIMEX3 ([^>]+)>([^<]+)<\\/TIMEX3>");
+
+        Matcher m = pAnchor.matcher(input);
+        StringBuffer sb = new StringBuffer();
+        int numid = 0;
+        while (m.find()) {
+            numid++;
+            String begin = m.group(1);
+            String info1 = m.group(2);
+            String info2 = m.group(6);
+            String interast = m.group(4);
+            String inter = m.group(5);
+            String in1 = m.group(3);
+            String in2 = m.group(7);
+            info1 = info1.replace("=", "Begin=");
+            info2 = info2.replace("=", "End=");
+
+            m.appendReplacement(sb, "<INTERVAL iid=\"i" + numid + "\" " + info1 + " " + info2 + ">" + begin + in1 + interast + inter + in2 + "</INTERVAL>");
+        }
+        m.appendTail(sb); // append the rest of the contents
+
+        return sb.toString();}
     }
 
     /**

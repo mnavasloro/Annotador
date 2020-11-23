@@ -41,7 +41,7 @@ public class FileTimeBank {
     public FileTimeBank(File file, File test, File out) {
         inputFile = file;
         testFile = new File(test.getAbsolutePath() + file.getName());
-        outputFile = new File(out.getAbsolutePath() + file.getName());
+        outputFile = new File(out.getAbsolutePath() + "\\" + file.getName());
     }
 
     /**

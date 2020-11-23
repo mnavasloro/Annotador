@@ -41,10 +41,10 @@ public class TIMEX2JSON {
             JSONObject json = new JSONObject();
 
             JSONArray array = new JSONArray();
-            
-            while (!inp2.isEmpty()) {
-                String pattern = "<TIMEX3 tid=\"([^\"]+)\" type=\"([^\"]+)\" value=\"([^\"]+)\"[^>]*>([^<]*)<\\/TIMEX3>";
+            String pattern = "<TIMEX3 tid=\"([^\"]+)\" type=\"([^\"]+)\" value=\"([^\"]+)\"[^>]*>([^<]*)<\\/TIMEX3>";
                 Pattern p = Pattern.compile(pattern);
+                
+            while (!inp2.isEmpty()) {
                 Matcher m = p.matcher(inp2);
                 StringBuffer sb = new StringBuffer(inp2.length());
                 if (m.find()) {

@@ -39,7 +39,7 @@ public class FileTempEval3 {
     public FileTempEval3(File file, File test, File out) {
         inputFile = file;
         testFile = new File(test.getAbsolutePath() + file.getName().replace(".TE3input", ""));
-        outputFile = new File(out.getAbsolutePath() + file.getName().replace(".TE3input", ""));
+        outputFile = new File(out.getAbsolutePath() + "\\" + file.getName().replace(".TE3input", ""));
     }
 
     /**
@@ -150,7 +150,9 @@ public class FileTempEval3 {
     public boolean writeOutputFile(String tagged) {
         try {
             String input = FileUtils.readFileToString(inputFile, "UTF-8");
-            input = input.replaceFirst("<TEXT>([^<]*?)<\\/TEXT>", "<TEXT>" + tagged + "<\\/TEXT>");
+            System.out.println(inputFile.getAbsolutePath());
+            input = input.replaceFirst("<TEXT>([\\s\\S]+)<\\/TEXT>", "<TEXT>" + "XA453yhgSDASDAeS456XA" + "<\\/TEXT>");
+            input = input.replace("<TEXT>" + "XA453yhgSDASDAeS456XA" + "</TEXT>", "<TEXT>" + tagged + "</TEXT>");
             FileOutputStream fos = new FileOutputStream(outputFile.getAbsolutePath());
             OutputStreamWriter w = new OutputStreamWriter(fos, "UTF-8");
             BufferedWriter bw = new BufferedWriter(w);

@@ -20,7 +20,7 @@ myRule = { type: "CLASS", value: "oeg.tagger.core.time.annotation.temporal$MyRul
  timexType = { type: "CLASS", value: "oeg.tagger.core.time.annotation.timex$Type" }
  timexValue = { type: "CLASS", value: "oeg.tagger.core.time.annotation.timex$Value" }
  timexFreq = { type: "CLASS", value: "oeg.tagger.core.time.annotation.timex$Freq" }
-# timexQuant = { type: "CLASS", value: "oeg.tagger.core.time.annotation.timex$Quant" }
+ timexQuant = { type: "CLASS", value: "oeg.tagger.core.time.annotation.timex$Quant" }
  timexMod = { type: "CLASS", value: "oeg.tagger.core.time.annotation.timex$Mod" }
  
 
@@ -145,6 +145,7 @@ $DAYMONTHN = (
   /17/   => 17 |
   /18/   => 18 |
   /19/   => 19 |
+  /20/   => 20 |
   /20/   => 20 |
   /21/   => 21 |
   /22/   => 22 |
@@ -538,15 +539,15 @@ DGRANULARITY_UNIT_MAP = {
 DGRANULARITY_AMOUNT_MAP = {
   "WORKDAY" : 1 ,
   "DAY" : 1 ,
-  "WEEKEND"   : 2 ,
+  "WEEKEND"   : 1 ,
   "WEEK"    : 1 ,
   "FORNIGHT"     : 15 ,
   "MONTH"   : 1 ,
   "YEAR"   : 1 ,
   "2_MONTH"    : 2 ,  
-  "3_MONTH"    : 3 ,
-  "4_MONTH"     : 4 ,
-  "6_MONTH"   : 6 ,
+  "3_MONTH"    : 1 ,
+  "4_MONTH"     : 1 ,
+  "6_MONTH"   : 1 ,
   "2_YEAR"   : 2 ,
   "3_YEAR"   : 3 ,
   "5_YEAR"   : 5 ,
@@ -1064,7 +1065,7 @@ ENV.defaults["ruleType"] = "tokens"
 # eg: hoy
 { ruleType:   "tokens",
   pattern: (([{lemma:"a"} | {lemma:"el"} | {lemma:"al"}] [{lemma:"día"}] [{lemma:"de"}])? [{lemma:"hoy"}]),
-  action: ( Annotate($0, "myRule", "Rule$Hoy"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "PRESENT_REF"), Annotate($0, "myNERnormalized", "HOY") )  ,
+  action: ( Annotate($0, "myRule", "Rule$Hoy"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "anchor(TODAY,+,0D)"), Annotate($0, "myNERnormalized", "HOY") )  ,
   stage : 2  }
 
   
@@ -2058,6 +2059,11 @@ priority: 3.0,
   result: ( "SET", Concat($0[1].timexValue,""), :case{($0[0].timexFreq != NIL) => Concat($0[0].timexFreq, ""), :else => ""} , "", $0[0].myRule ) ,
   stage : 499  } 
   
+        # dateRefs
+{ ruleType:   "composite",
+  pattern: ( [{timexType:"DATE"} && {timexValue:/.+_REF/}]+  ),
+  result: ( "DATE", Concat($0[0].timexValue,""), "", "", $0[0].myRule ) ,
+  stage : 500  } 				  
   
 # set -> quant version
 #{ ruleType:   "composite",
@@ -2240,6 +2246,74 @@ priority: 3.0,
   stage : 700  }   
  
 
+  # adj actual
+{ ruleType:   "tokens",
+  pattern: ( ([{pos:/AQ.*/} && {lemma:/actual/} && !{timexValue:/.*/}]+)  ),
+  result: ( "DATE", "PRESENT_REF", "", "", "Rule$AdjActual" ) ,
+  stage : 700  }  
+  
+    # adj presente
+ #{ ruleType:   "tokens",
+  # pattern: ( ([{pos:/AQ.*/} && {lemma:/presente/} && !{timexValue:/.*/}]+) [{pos:/AQ.*/ | }] ),
+  # result: ( "DATE", "PRESENT_REF", "", "", "Rule$AdjPresente" ) ,
+  # stage : 699  }  
+  
+  
+    # adv proximamente
+{ ruleType:   "tokens",
+  pattern: ( [{pos:/RG.*/} && {lemma:/próximamente/} && !{timexValue:/.*/}]+  ),
+  result: ( "DATE", "FUTURE_REF", "", "", "Rule$AdjProximo" ) ,
+  stage : 700  }   
+
+  # adj recientemente (quitamos previamente)
+{ ruleType:   "tokens",
+  pattern: ( [{pos:/RG.*/} && {lemma:/recientemente|antiguamente|antaño|[ú|u]ltimamente/} && !{timexValue:/.*/}]+  ),
+  result: ( "DATE", "PAST_REF", "", "", "Rule$AdjReciente" ) ,
+  stage : 700  }
+
+{ ruleType:   "tokens",
+  pattern: ( ([{pos:/RG.*/} && {lemma:/recién/} && !{timexValue:/.*/}]+) [!{lemma:nacer}]),
+  Annotate: ( $1, "myRule", "Rule$AdjReciente" ) ,
+  stage : 699  }  
+
+{ ruleType:   "tokens",
+  pattern: ( [{myRule:"Rule$AdjReciente"}]+),
+  result: ( "DATE", "PAST_REF", "", "", "Rule$AdjReciente" ) ,
+  stage : 700  }     
+
+  # adj actualmente
+{ ruleType:   "tokens",
+  pattern: ( [{pos:/RG.*/} && {lemma:/actualmente/} && !{timexValue:/.*/}]+  ),
+  result: ( "DATE", "PRESENT_REF", "", "", "Rule$AdjActual" ) ,
+  stage : 700  }  
+
+  
+# eg: References to the present
+{ ruleType:   "tokens",
+  pattern: ([{lemma:"en"}] (?$total ( [{word:/[E|e][L|l]/}] [{lemma:"presente"} && !{pos:/A.*/}]) | ([{lemma:"el"}] [{lemma:"actualidad"}]))),
+  action: ( Annotate($total, "myRule", "Rule$EnPresentRef"), Annotate($total, "timexType", "DATE"), Annotate($total, "timexValue", "PRESENT_REF") )  ,
+  stage : 700  }
+  
+{ ruleType:   "tokens",
+  pattern: ([{myRule:"Rule$EnPresentRef"}]+),
+  result: ( "DATE", "PRESENT_REF", "", "", "Rule$EnPresentRef" ) ,
+  stage : 700  }
+  
+  { ruleType:   "tokens",
+  pattern: (([{lemma:"ahora"}] [{lemma:"mismo"}]) | ([{lemma:"hoy"}] [{lemma:"en"}] [{lemma:"día"}]) | ([{lemma:"a"}] [{lemma:"día"}] [{lemma:"de"}] [{lemma:"hoy"}])),
+  action: ( Annotate($0, "myRule", "Rule$PresentRef"), Annotate($0, "timexType", "DATE"), Annotate($0, "timexValue", "PRESENT_REF") )  ,
+  result: ( "DATE", "PRESENT_REF", "", "", "Rule$PresentRef" ) ,
+  stage : 700  }
+  
+{ ruleType:   "tokens",
+  pattern: (([{lemma:"ahora"}]) [!{lemma:"bien"}]),
+  action: ( Annotate($1, "myRule", "Rule$PresentRefAHORA"), Annotate($1, "timexType", "DATE"), Annotate($1, "timexValue", "PRESENT_REF") )  ,
+  stage : 700  }
+  
+  { ruleType:   "tokens",
+  pattern: ([{myRule:"Rule$PresentRefAHORA"}]),
+  result: ( "DATE", "PRESENT_REF", "", "", "Rule$PresentRefAHORA" ) ,
+  stage : 701  }			  
   
   
 
