@@ -21,7 +21,7 @@ public class ManagerTempEval3 {
     String rootData = "C:/Users/mnavas/CODE/OLD_CODE/data";
     File cleanDocs = new File(rootData + "/datasets/timeEval/tempeval3/test/test-clean/"); // Path to the folder with the input (clean) files
     File testDocs = new File(rootData + "/datasets/timeEval/tempeval3/test/test/"); // Path to the folder with the test files
-    File outDocs = new File(rootData + "/datasets/timeEval/tempeval3/test/output/"); // Path to the folder to store the output files
+    public File outDocs = new File(rootData + "/datasets/timeEval/tempeval3/test/output/"); // Path to the folder to store the output files
 
     public List<FileTempEval3> lista = new ArrayList<FileTempEval3>();
 
@@ -37,6 +37,23 @@ public class ManagerTempEval3 {
         cleanDocs = new File(fInput);
         testDocs = new File(fTest);
         outDocs = new File(fOut);
+
+        for (File f : cleanDocs.listFiles()) {
+            FileTempEval3 ft3 = new FileTempEval3(f, testDocs, outDocs);
+            lista.add(ft3);
+        }
+    }
+    
+        /**
+     * Constructor of ManagerTempEval3
+     * 
+     * @param fInput Path of the plain text files folder
+     * @param fTest Path of the test folder
+     * @param fOut Path of the output folder
+     *
+     */
+    public ManagerTempEval3(String fOut) {
+        outDocs = new File(rootData + fOut);
 
         for (File f : cleanDocs.listFiles()) {
             FileTempEval3 ft3 = new FileTempEval3(f, testDocs, outDocs);

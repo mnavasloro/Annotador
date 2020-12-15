@@ -1092,7 +1092,7 @@ ENV.defaults["ruleType"] = "tokens"
 
 # eg: varios, algunos...
 { ruleType:   "tokens",
-  pattern: ( ([({pos:/(JJ|.?DT)/} & !{myNER:/.+_Adj/} & !{lemma:/\d.*/} & !{myNUM:"myNUMBER"}) | {lemma:/some|few|couple/}]+)), 
+  pattern: ( ([({pos:/(JJ|.?DT)/} & !{myNER:/(MOD.*|.+_Adj)/} & !{lemma:/\d.*/} & !{myNUM:"myNUMBER"}) | {lemma:/some|few|couple/}]+)), 
   action: ( Annotate($0, "myRule", "Rule$Indef"), Annotate($0, "myNER", "INDEF") )  ,
   stage : 10  }
 
@@ -1110,7 +1110,7 @@ ENV.defaults["ruleType"] = "tokens"
   
 # eg: demostrativo
 { ruleType:   "tokens",
-  pattern: ( [{pos:/(.?DT|JJ)/} & !{myNER:/.*_REF_Adj/} & !{lemma:/\d.*/}]+), 
+  pattern: ( [{pos:/(.?DT|JJ)/} & !{myNER:/.*_REF_Adj/} & !{lemma:/\d.*/} & !{myNER:/MOD.*/}]+), 
   action: ( Annotate($0, "myRule", "Rule$Dem"), Annotate($0, "myNER", "DEM") )  ,
   stage : 10  }
 
@@ -1777,20 +1777,21 @@ priority: 3.0,
   
 
   
+  # TWO RULES TO HANDLE DUR+AGO AND IN+DUR...
   
-  { ruleType: "composite",
-  priority: 1.0,
-   pattern: ( ([{timexType:"DURATION"} & !{timexValue:/.*X.*/}]+) [{lemma:/ago|before/}] ) ,
-   annotate: ( Annotate($0, "timexType", "DATE"), Annotate($0, "myRule", "Rule$haceDUR"), Annotate($0, "timexValue", Concat("anchor(TODAY,", "-,", $1[0].timexValue,")")) ),
-   result: ( "DATE", Concat("anchor(TODAY,", "-,", $1[0].timexValue,")"), "", "", "Rule$haceDUR")  ,
-   stage : 200  }  
+  #{ ruleType: "composite",
+  #priority: 1.0,
+   #pattern: ( ([{timexType:"DURATION"} & !{timexValue:/.*X.*/}]+) [{lemma:/ago|before/}] ) ,
+   #annotate: ( Annotate($0, "timexType", "DATE"), Annotate($0, "myRule", "Rule$haceDUR"), Annotate($0, "timexValue", Concat("anchor(TODAY,", "-,", $1[0].timexValue,")")) ),
+   #result: ( "DATE", Concat("anchor(TODAY,", "-,", $1[0].timexValue,")"), "", "", "Rule$haceDUR")  ,
+   #stage : 200  }  
   
- { ruleType: "composite",
-  priority: 1.0,
-   pattern: ( [{lemma:/in/}] ([{timexType:"DURATION"} & !{timexValue:/.*X.*/}]+) ) ,
-   annotate: ( Annotate($0, "timexType", "DATE"), Annotate($0, "myRule", "Rule$enDUR"), Annotate($0, "timexValue", Concat("anchor(TODAY,", "+,", $1[0].timexValue,")")) ),
-   result: ( "DATE", Concat("anchor(TODAY,", "+,", $1[0].timexValue,")"), "", "", "Rule$enDUR")  ,
-   stage : 200  }  
+ #{ ruleType: "composite",
+  #priority: 1.0,
+   #pattern: ( [{lemma:/in/}] ([{timexType:"DURATION"} & !{timexValue:/.*X.*/}]+) ) ,
+   #annotate: ( Annotate($0, "timexType", "DATE"), Annotate($0, "myRule", "Rule$enDUR"), Annotate($0, "timexValue", Concat("anchor(TODAY,", "+,", $1[0].timexValue,")")) ),
+   #result: ( "DATE", Concat("anchor(TODAY,", "+,", $1[0].timexValue,")"), "", "", "Rule$enDUR")  ,
+   #stage : 200  }  
  
 																						 
 
@@ -2196,14 +2197,14 @@ priority: 3.0,
 
 
 { ruleType:   "tokens",
-  pattern: ( [{lemma:"the"}]? (?$total ((([{lemma:/fin(al)?/} | {lemma:/end/}]) [{lemma:/of/}]?))) ),
+  pattern: ( [{lemma:"the"}]? (?$total ((([{lemma:/fin(al)?/} | {lemma:/end/} | {lemma:/late/}]) [{lemma:/of/}]?))) ),
 action: (Annotate($0, "myNER", "MODEND"), Annotate($0, "myRule", "Rule$mod")),
   stage : 1  }									
 				  
   
   { ruleType:   "tokens",
-  pattern: ( [{lemma:"the"}]? (?$total ([{lemma:/begin/} | {lemma:/start/}]) [{lemma:/of/}]?) ),
-action: (Annotate($0, "myNER", "MODSTART"), Annotate($0, "myRule", "Rule$modx")),
+  pattern: ( [{lemma:"the"}]? (?$total ([({lemma:/begin/} | {lemma:/start/} | {lemma:/early/}) & !{word:/.+([auAU][Nn]|[Dd])/}]) [{lemma:/of/}]?) ),
+action: (Annotate($0, "myNER", "MODSTART"), Annotate($0, "myRule", "Rule$mod")),
   stage : 1  }
   
   
@@ -2287,7 +2288,7 @@ result: ("DATE", "XXXX-10-31", "", "","Rule$Halloween"),
   
   { ruleType:   "composite",
   pattern: ( ([{timexType:"DATE"}]+) [{lemma:/of/}] [{lemma:/the/}]? ([{timexType:"DATE"}]+) ),
-result: ("DATE", $1[0].timexValue, "", "","Rule$DatedeDate"),
+result: ("DATE", Concat($2[0].timexValue,"-", $1[0].timexValue), "", "","Rule$DatedeDate"),
   stage : 1001  }
   
   

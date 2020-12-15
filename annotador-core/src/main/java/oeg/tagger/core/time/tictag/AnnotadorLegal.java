@@ -10,6 +10,7 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.StringUtils;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
@@ -898,7 +899,7 @@ public class AnnotadorLegal implements Annotador {
      */
     public boolean evaluateTE3() {
         try {
-            ManagerTempEval3 mte3 = new ManagerTempEval3();
+            ManagerTempEval3 mte3 = new ManagerTempEval3("/datasets/timeEval/tempeval3/test/outputLegal");
             List<FileTempEval3> list = mte3.lista;
             for (FileTempEval3 f : list) {
                 String input = f.getTextInput();

@@ -6,6 +6,7 @@
 package oeg.tagger.core.data;
 
 import java.io.File;
+import oeg.tagger.core.time.tictag.AnnotadorLegal;
 import oeg.tagger.core.time.tictag.AnnotadorStandard;
 
 /**
@@ -26,7 +27,7 @@ public class TempCourtEval {
         String[] taggers = {"ANNOTADOR"};
         String[] corpora = {"ECHR", "ECJ", "USC"};
 
-        AnnotadorStandard ann = new AnnotadorStandard("EN");
+        AnnotadorLegal ann = new AnnotadorLegal("EN");
         for (String corpus : corpora) {
             System.out.println("***************************************************************");
             System.out.println("STARTING CORPUS " + corpus);
